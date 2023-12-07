@@ -86,6 +86,12 @@ export default function Contact() {
           >
             <button type="submit">Delete</button>
           </Form>
+          <Form
+            action="custom"
+            method="post"
+          > 
+              <button type="submit">Custom</button>
+          </Form>
         </div>
       </div>
     </div>

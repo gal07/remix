@@ -124,12 +124,20 @@ export default function App() {
 
         <ScrollRestoration />
         <Scripts />
-        {/* <LiveReload /> */}
+        <LiveReload />
+        <div>
+          <NavLink 
+           to={`checkout/checkout`}
+          >
+            To Checkout
+          </NavLink>
+        </div>
         <div className={
             navigation.state === "loading" && !searching ? "loading" : ""
           } id="detail">
           <Outlet />
         </div>
+
       </body>
     </html>
   );
