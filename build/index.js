@@ -5160,7 +5160,6 @@ ListItemText.propTypes = {
 var ListItemText_default = ListItemText;
 
 // app/layout/Appbar.tsx
-import { NavLink } from "@remix-run/react";
 import { jsxDEV as jsxDEV2 } from "react/jsx-dev-runtime";
 function Appbar() {
   let [state, setState] = React26.useState({
@@ -5195,29 +5194,22 @@ function Appbar() {
       onClick: toggleDrawer(anchor, !1),
       onKeyDown: toggleDrawer(anchor, !1),
       children: /* @__PURE__ */ jsxDEV2(List_default, { children: ["Dashboard", "Sales", "Products", "Report"].map((text, index) => /* @__PURE__ */ jsxDEV2(ListItem_default, { disablePadding: !0, children: /* @__PURE__ */ jsxDEV2(ListItemButton_default, { children: [
-        /* @__PURE__ */ jsxDEV2(ListItemIcon_default, { children: [
-          /* @__PURE__ */ jsxDEV2(NavLink, {}, void 0, !1, {
-            fileName: "app/layout/Appbar.tsx",
-            lineNumber: 79,
-            columnNumber: 17
-          }, this),
-          index % 2 === 0 ? /* @__PURE__ */ jsxDEV2(Icon_default, { children: "dashboard" }, void 0, !1, {
-            fileName: "app/layout/Appbar.tsx",
-            lineNumber: 82,
-            columnNumber: 36
-          }, this) : /* @__PURE__ */ jsxDEV2(Icon_default, { children: "star" }, void 0, !1, {
-            fileName: "app/layout/Appbar.tsx",
-            lineNumber: 82,
-            columnNumber: 61
-          }, this)
-        ] }, void 0, !0, {
+        /* @__PURE__ */ jsxDEV2(ListItemIcon_default, { children: index % 2 === 0 ? /* @__PURE__ */ jsxDEV2(Icon_default, { children: "dashboard" }, void 0, !1, {
+          fileName: "app/layout/Appbar.tsx",
+          lineNumber: 79,
+          columnNumber: 36
+        }, this) : /* @__PURE__ */ jsxDEV2(Icon_default, { children: "star" }, void 0, !1, {
+          fileName: "app/layout/Appbar.tsx",
+          lineNumber: 79,
+          columnNumber: 61
+        }, this) }, void 0, !1, {
           fileName: "app/layout/Appbar.tsx",
           lineNumber: 78,
           columnNumber: 15
         }, this),
         /* @__PURE__ */ jsxDEV2(ListItemText_default, { primary: text }, void 0, !1, {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 84,
+          lineNumber: 81,
           columnNumber: 15
         }, this)
       ] }, void 0, !0, {
@@ -5255,7 +5247,7 @@ function Appbar() {
           sx: { mr: 2 },
           children: /* @__PURE__ */ jsxDEV2(Icon_default, { children: "menu" }, void 0, !1, {
             fileName: "app/layout/Appbar.tsx",
-            lineNumber: 99,
+            lineNumber: 96,
             columnNumber: 17
           }, this)
         },
@@ -5263,23 +5255,23 @@ function Appbar() {
         !1,
         {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 96,
+          lineNumber: 93,
           columnNumber: 15
         },
         this
       ),
       /* @__PURE__ */ jsxDEV2(Typography_default, { variant: "h6", color: "inherit", component: "div", children: "ECCS-POS" }, void 0, !1, {
         fileName: "app/layout/Appbar.tsx",
-        lineNumber: 101,
+        lineNumber: 98,
         columnNumber: 15
       }, this)
     ] }, void 0, !0, {
       fileName: "app/layout/Appbar.tsx",
-      lineNumber: 95,
+      lineNumber: 92,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/layout/Appbar.tsx",
-      lineNumber: 94,
+      lineNumber: 91,
       columnNumber: 11
     }, this),
     /* @__PURE__ */ jsxDEV2(
@@ -5294,14 +5286,14 @@ function Appbar() {
       !1,
       {
         fileName: "app/layout/Appbar.tsx",
-        lineNumber: 107,
+        lineNumber: 104,
         columnNumber: 11
       },
       this
     )
   ] }, void 0, !0, {
     fileName: "app/layout/Appbar.tsx",
-    lineNumber: 93,
+    lineNumber: 90,
     columnNumber: 9
   }, this);
 }
@@ -5999,10 +5991,10 @@ function Index4() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-ZWMP2WVX.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-HLH3FUQM.js", imports: ["/build/_shared/chunk-IRNCX6L2.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-HKAZETI4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-5ME6AAWP.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-65RUPGNC.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-DUKG5IWP.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 } }, version: "2b2644cc", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702026284676 }, url: "/build/manifest-2B2644CC.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-ZWMP2WVX.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-62PURVQ3.js", imports: ["/build/_shared/chunk-IRNCX6L2.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-HKAZETI4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-5ME6AAWP.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-65RUPGNC.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-DUKG5IWP.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 } }, version: "2d279b1b", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702027083611 }, url: "/build/manifest-2D279B1B.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,
