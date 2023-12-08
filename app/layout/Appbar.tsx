@@ -28,25 +28,12 @@ export default function Appbar() {
     right: false,
   });
 
-  const urls = {
-    "menu1":{
-      "title":"Dashboard",
-      "route":"/"
-    },
-    "menu2":{
-      "title":"Sales",
-      "route":"sales"
-    },
-    "menu3":{
-      "title":"Product",
-      "route":"product"
-    },
-    "menu4":{
-      "title":"Report",
-      "route":"report"
-    },
-
-  };
+  const urls = [
+    '/',
+    'sales',
+    'products',
+    'report',
+  ];
 
   // toggle Appbar drawer
   const toggleDrawer =
@@ -73,14 +60,16 @@ export default function Appbar() {
     >
       <List>
         {['Dashboard', 'Sales', 'Products', 'Report'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <Icon>dashboard</Icon> : <Icon>star</Icon>}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
+          <NavLink to={urls[index]}>
+            <ListItem key={text} disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <Icon>dashboard</Icon> : <Icon>star</Icon>}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItemButton>
+            </ListItem>
+          </NavLink>
         ))}
       </List>
     </Box>
