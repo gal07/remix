@@ -3640,6 +3640,10 @@ var isMuiElement_default = isMuiElement;
 import { unstable_ownerWindow as ownerWindow2 } from "@mui/utils";
 var ownerWindow_default = ownerWindow2;
 
+// node_modules/@mui/material/utils/requirePropFactory.js
+import { unstable_requirePropFactory as requirePropFactory } from "@mui/utils";
+var requirePropFactory_default = requirePropFactory;
+
 // node_modules/@mui/material/utils/useEnhancedEffect.js
 import { unstable_useEnhancedEffect as useEnhancedEffect2 } from "@mui/utils";
 var useEnhancedEffect_default = useEnhancedEffect2;
@@ -5502,6 +5506,11 @@ function App() {
         lineNumber: 29,
         columnNumber: 9
       }, this),
+      /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.googleapis.com" }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 30,
+        columnNumber: 9
+      }, this),
       /* @__PURE__ */ jsxDEV3(
         "link",
         {
@@ -5597,19 +5606,84 @@ __export(products_exports, {
   default: () => Index,
   meta: () => meta
 });
+import { DataGrid } from "@mui/x-data-grid";
 import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
 var meta = () => [
   { title: "ECCS POS - Products" },
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
 function Index() {
-  return /* @__PURE__ */ jsxDEV4("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: /* @__PURE__ */ jsxDEV4("p", { children: "This is Products" }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV4("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
+    /* @__PURE__ */ jsxDEV4(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: /* @__PURE__ */ jsxDEV4(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Product" }, void 0, !1, {
+      fileName: "app/routes/products.tsx",
+      lineNumber: 55,
+      columnNumber: 11
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/products.tsx",
+      lineNumber: 54,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV4(Box_default, { sx: { boxShadow: 1 }, children: /* @__PURE__ */ jsxDEV4("div", { style: { height: 500, width: "100%" }, children: /* @__PURE__ */ jsxDEV4(
+      DataGrid,
+      {
+        rows: [
+          { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+          { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+          { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
+          { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+          { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+          { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+          { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+          { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+          { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 }
+        ],
+        columns: [
+          { field: "id", headerName: "ID", width: 70 },
+          { field: "firstName", headerName: "First name", width: 130 },
+          { field: "lastName", headerName: "Last name", width: 130 },
+          {
+            field: "age",
+            headerName: "Age",
+            type: "number",
+            width: 90
+          },
+          {
+            field: "fullName",
+            headerName: "Full name",
+            description: "This column has a value getter and is not sortable.",
+            sortable: !1,
+            width: 160,
+            valueGetter: (params) => `${params.row.firstName || ""} ${params.row.lastName || ""}`
+          }
+        ],
+        initialState: {
+          pagination: {
+            paginationModel: { page: 0, pageSize: 10 }
+          }
+        },
+        pageSizeOptions: [5, 10],
+        checkboxSelection: !0
+      },
+      void 0,
+      !1,
+      {
+        fileName: "app/routes/products.tsx",
+        lineNumber: 62,
+        columnNumber: 13
+      },
+      this
+    ) }, void 0, !1, {
+      fileName: "app/routes/products.tsx",
+      lineNumber: 61,
+      columnNumber: 11
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/products.tsx",
+      lineNumber: 60,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
     fileName: "app/routes/products.tsx",
-    lineNumber: 17,
-    columnNumber: 9
-  }, this) }, void 0, !1, {
-    fileName: "app/routes/products.tsx",
-    lineNumber: 15,
+    lineNumber: 52,
     columnNumber: 7
   }, this);
 }
@@ -5914,6 +5988,477 @@ Stack.propTypes = {
 };
 var Stack_default = Stack;
 
+// node_modules/@mui/material/Grid/Grid.js
+import _objectWithoutPropertiesLoose25 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
+import _extends29 from "@babel/runtime/helpers/esm/extends";
+import * as React31 from "react";
+import PropTypes29 from "prop-types";
+import clsx20 from "clsx";
+import { unstable_extendSxProp as extendSxProp2, handleBreakpoints, unstable_resolveBreakpointValues as resolveBreakpointValues } from "@mui/system";
+
+// node_modules/@mui/material/Grid/GridContext.js
+import * as React30 from "react";
+var GridContext = /* @__PURE__ */ React30.createContext();
+GridContext.displayName = "GridContext";
+var GridContext_default = GridContext;
+
+// node_modules/@mui/material/Grid/gridClasses.js
+import { unstable_generateUtilityClasses as generateUtilityClasses20 } from "@mui/utils";
+function getGridUtilityClass(slot) {
+  return unstable_generateUtilityClass("MuiGrid", slot);
+}
+var SPACINGS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], DIRECTIONS = ["column-reverse", "column", "row-reverse", "row"], WRAPS = ["nowrap", "wrap-reverse", "wrap"], GRID_SIZES = ["auto", !0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], gridClasses = generateUtilityClasses20("MuiGrid", [
+  "root",
+  "container",
+  "item",
+  "zeroMinWidth",
+  // spacings
+  ...SPACINGS.map((spacing) => `spacing-xs-${spacing}`),
+  // direction values
+  ...DIRECTIONS.map((direction) => `direction-xs-${direction}`),
+  // wrap values
+  ...WRAPS.map((wrap) => `wrap-xs-${wrap}`),
+  // grid sizes for all breakpoints
+  ...GRID_SIZES.map((size) => `grid-xs-${size}`),
+  ...GRID_SIZES.map((size) => `grid-sm-${size}`),
+  ...GRID_SIZES.map((size) => `grid-md-${size}`),
+  ...GRID_SIZES.map((size) => `grid-lg-${size}`),
+  ...GRID_SIZES.map((size) => `grid-xl-${size}`)
+]), gridClasses_default = gridClasses;
+
+// node_modules/@mui/material/Grid/Grid.js
+import { jsx as _jsx26 } from "react/jsx-runtime";
+var _excluded27 = ["className", "columns", "columnSpacing", "component", "container", "direction", "item", "rowSpacing", "spacing", "wrap", "zeroMinWidth"];
+function getOffset(val) {
+  let parse = parseFloat(val);
+  return `${parse}${String(val).replace(String(parse), "") || "px"}`;
+}
+function generateGrid({
+  theme,
+  ownerState
+}) {
+  let size;
+  return theme.breakpoints.keys.reduce((globalStyles, breakpoint) => {
+    let styles3 = {};
+    if (ownerState[breakpoint] && (size = ownerState[breakpoint]), !size)
+      return globalStyles;
+    if (size === !0)
+      styles3 = {
+        flexBasis: 0,
+        flexGrow: 1,
+        maxWidth: "100%"
+      };
+    else if (size === "auto")
+      styles3 = {
+        flexBasis: "auto",
+        flexGrow: 0,
+        flexShrink: 0,
+        maxWidth: "none",
+        width: "auto"
+      };
+    else {
+      let columnsBreakpointValues = resolveBreakpointValues({
+        values: ownerState.columns,
+        breakpoints: theme.breakpoints.values
+      }), columnValue = typeof columnsBreakpointValues == "object" ? columnsBreakpointValues[breakpoint] : columnsBreakpointValues;
+      if (columnValue == null)
+        return globalStyles;
+      let width = `${Math.round(size / columnValue * 1e8) / 1e6}%`, more = {};
+      if (ownerState.container && ownerState.item && ownerState.columnSpacing !== 0) {
+        let themeSpacing = theme.spacing(ownerState.columnSpacing);
+        if (themeSpacing !== "0px") {
+          let fullWidth = `calc(${width} + ${getOffset(themeSpacing)})`;
+          more = {
+            flexBasis: fullWidth,
+            maxWidth: fullWidth
+          };
+        }
+      }
+      styles3 = _extends29({
+        flexBasis: width,
+        flexGrow: 0,
+        maxWidth: width
+      }, more);
+    }
+    return theme.breakpoints.values[breakpoint] === 0 ? Object.assign(globalStyles, styles3) : globalStyles[theme.breakpoints.up(breakpoint)] = styles3, globalStyles;
+  }, {});
+}
+function generateDirection({
+  theme,
+  ownerState
+}) {
+  let directionValues = resolveBreakpointValues({
+    values: ownerState.direction,
+    breakpoints: theme.breakpoints.values
+  });
+  return handleBreakpoints({
+    theme
+  }, directionValues, (propValue) => {
+    let output = {
+      flexDirection: propValue
+    };
+    return propValue.indexOf("column") === 0 && (output[`& > .${gridClasses_default.item}`] = {
+      maxWidth: "none"
+    }), output;
+  });
+}
+function extractZeroValueBreakpointKeys({
+  breakpoints,
+  values
+}) {
+  let nonZeroKey = "";
+  Object.keys(values).forEach((key) => {
+    nonZeroKey === "" && values[key] !== 0 && (nonZeroKey = key);
+  });
+  let sortedBreakpointKeysByValue = Object.keys(breakpoints).sort((a, b) => breakpoints[a] - breakpoints[b]);
+  return sortedBreakpointKeysByValue.slice(0, sortedBreakpointKeysByValue.indexOf(nonZeroKey));
+}
+function generateRowGap({
+  theme,
+  ownerState
+}) {
+  let {
+    container,
+    rowSpacing
+  } = ownerState, styles3 = {};
+  if (container && rowSpacing !== 0) {
+    let rowSpacingValues = resolveBreakpointValues({
+      values: rowSpacing,
+      breakpoints: theme.breakpoints.values
+    }), zeroValueBreakpointKeys;
+    typeof rowSpacingValues == "object" && (zeroValueBreakpointKeys = extractZeroValueBreakpointKeys({
+      breakpoints: theme.breakpoints.values,
+      values: rowSpacingValues
+    })), styles3 = handleBreakpoints({
+      theme
+    }, rowSpacingValues, (propValue, breakpoint) => {
+      var _zeroValueBreakpointK;
+      let themeSpacing = theme.spacing(propValue);
+      return themeSpacing !== "0px" ? {
+        marginTop: `-${getOffset(themeSpacing)}`,
+        [`& > .${gridClasses_default.item}`]: {
+          paddingTop: getOffset(themeSpacing)
+        }
+      } : (_zeroValueBreakpointK = zeroValueBreakpointKeys) != null && _zeroValueBreakpointK.includes(breakpoint) ? {} : {
+        marginTop: 0,
+        [`& > .${gridClasses_default.item}`]: {
+          paddingTop: 0
+        }
+      };
+    });
+  }
+  return styles3;
+}
+function generateColumnGap({
+  theme,
+  ownerState
+}) {
+  let {
+    container,
+    columnSpacing
+  } = ownerState, styles3 = {};
+  if (container && columnSpacing !== 0) {
+    let columnSpacingValues = resolveBreakpointValues({
+      values: columnSpacing,
+      breakpoints: theme.breakpoints.values
+    }), zeroValueBreakpointKeys;
+    typeof columnSpacingValues == "object" && (zeroValueBreakpointKeys = extractZeroValueBreakpointKeys({
+      breakpoints: theme.breakpoints.values,
+      values: columnSpacingValues
+    })), styles3 = handleBreakpoints({
+      theme
+    }, columnSpacingValues, (propValue, breakpoint) => {
+      var _zeroValueBreakpointK2;
+      let themeSpacing = theme.spacing(propValue);
+      return themeSpacing !== "0px" ? {
+        width: `calc(100% + ${getOffset(themeSpacing)})`,
+        marginLeft: `-${getOffset(themeSpacing)}`,
+        [`& > .${gridClasses_default.item}`]: {
+          paddingLeft: getOffset(themeSpacing)
+        }
+      } : (_zeroValueBreakpointK2 = zeroValueBreakpointKeys) != null && _zeroValueBreakpointK2.includes(breakpoint) ? {} : {
+        width: "100%",
+        marginLeft: 0,
+        [`& > .${gridClasses_default.item}`]: {
+          paddingLeft: 0
+        }
+      };
+    });
+  }
+  return styles3;
+}
+function resolveSpacingStyles(spacing, breakpoints, styles3 = {}) {
+  if (!spacing || spacing <= 0)
+    return [];
+  if (typeof spacing == "string" && !Number.isNaN(Number(spacing)) || typeof spacing == "number")
+    return [styles3[`spacing-xs-${String(spacing)}`]];
+  let spacingStyles = [];
+  return breakpoints.forEach((breakpoint) => {
+    let value = spacing[breakpoint];
+    Number(value) > 0 && spacingStyles.push(styles3[`spacing-${breakpoint}-${String(value)}`]);
+  }), spacingStyles;
+}
+var GridRoot = styled_default("div", {
+  name: "MuiGrid",
+  slot: "Root",
+  overridesResolver: (props, styles3) => {
+    let {
+      ownerState
+    } = props, {
+      container,
+      direction,
+      item,
+      spacing,
+      wrap,
+      zeroMinWidth,
+      breakpoints
+    } = ownerState, spacingStyles = [];
+    container && (spacingStyles = resolveSpacingStyles(spacing, breakpoints, styles3));
+    let breakpointsStyles = [];
+    return breakpoints.forEach((breakpoint) => {
+      let value = ownerState[breakpoint];
+      value && breakpointsStyles.push(styles3[`grid-${breakpoint}-${String(value)}`]);
+    }), [styles3.root, container && styles3.container, item && styles3.item, zeroMinWidth && styles3.zeroMinWidth, ...spacingStyles, direction !== "row" && styles3[`direction-xs-${String(direction)}`], wrap !== "wrap" && styles3[`wrap-xs-${String(wrap)}`], ...breakpointsStyles];
+  }
+})(({
+  ownerState
+}) => _extends29({
+  boxSizing: "border-box"
+}, ownerState.container && {
+  display: "flex",
+  flexWrap: "wrap",
+  width: "100%"
+}, ownerState.item && {
+  margin: 0
+  // For instance, it's useful when used with a `figure` element.
+}, ownerState.zeroMinWidth && {
+  minWidth: 0
+}, ownerState.wrap !== "wrap" && {
+  flexWrap: ownerState.wrap
+}), generateDirection, generateRowGap, generateColumnGap, generateGrid);
+function resolveSpacingClasses(spacing, breakpoints) {
+  if (!spacing || spacing <= 0)
+    return [];
+  if (typeof spacing == "string" && !Number.isNaN(Number(spacing)) || typeof spacing == "number")
+    return [`spacing-xs-${String(spacing)}`];
+  let classes = [];
+  return breakpoints.forEach((breakpoint) => {
+    let value = spacing[breakpoint];
+    if (Number(value) > 0) {
+      let className = `spacing-${breakpoint}-${String(value)}`;
+      classes.push(className);
+    }
+  }), classes;
+}
+var useUtilityClasses18 = (ownerState) => {
+  let {
+    classes,
+    container,
+    direction,
+    item,
+    spacing,
+    wrap,
+    zeroMinWidth,
+    breakpoints
+  } = ownerState, spacingClasses = [];
+  container && (spacingClasses = resolveSpacingClasses(spacing, breakpoints));
+  let breakpointsClasses = [];
+  breakpoints.forEach((breakpoint) => {
+    let value = ownerState[breakpoint];
+    value && breakpointsClasses.push(`grid-${breakpoint}-${String(value)}`);
+  });
+  let slots = {
+    root: ["root", container && "container", item && "item", zeroMinWidth && "zeroMinWidth", ...spacingClasses, direction !== "row" && `direction-xs-${String(direction)}`, wrap !== "wrap" && `wrap-xs-${String(wrap)}`, ...breakpointsClasses]
+  };
+  return unstable_composeClasses(slots, getGridUtilityClass, classes);
+}, Grid = /* @__PURE__ */ React31.forwardRef(function(inProps, ref) {
+  let themeProps = useThemeProps({
+    props: inProps,
+    name: "MuiGrid"
+  }), {
+    breakpoints
+  } = useTheme(), props = extendSxProp2(themeProps), {
+    className,
+    columns: columnsProp,
+    columnSpacing: columnSpacingProp,
+    component = "div",
+    container = !1,
+    direction = "row",
+    item = !1,
+    rowSpacing: rowSpacingProp,
+    spacing = 0,
+    wrap = "wrap",
+    zeroMinWidth = !1
+  } = props, other = _objectWithoutPropertiesLoose25(props, _excluded27), rowSpacing = rowSpacingProp || spacing, columnSpacing = columnSpacingProp || spacing, columnsContext = React31.useContext(GridContext_default), columns = container ? columnsProp || 12 : columnsContext, breakpointsValues = {}, otherFiltered = _extends29({}, other);
+  breakpoints.keys.forEach((breakpoint) => {
+    other[breakpoint] != null && (breakpointsValues[breakpoint] = other[breakpoint], delete otherFiltered[breakpoint]);
+  });
+  let ownerState = _extends29({}, props, {
+    columns,
+    container,
+    direction,
+    item,
+    rowSpacing,
+    columnSpacing,
+    wrap,
+    zeroMinWidth,
+    spacing
+  }, breakpointsValues, {
+    breakpoints: breakpoints.keys
+  }), classes = useUtilityClasses18(ownerState);
+  return /* @__PURE__ */ _jsx26(GridContext_default.Provider, {
+    value: columns,
+    children: /* @__PURE__ */ _jsx26(GridRoot, _extends29({
+      ownerState,
+      className: clsx20(classes.root, className),
+      as: component,
+      ref
+    }, otherFiltered))
+  });
+});
+Grid.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
+  /**
+   * The content of the component.
+   */
+  children: PropTypes29.node,
+  /**
+   * Override or extend the styles applied to the component.
+   */
+  classes: PropTypes29.object,
+  /**
+   * @ignore
+   */
+  className: PropTypes29.string,
+  /**
+   * The number of columns.
+   * @default 12
+   */
+  columns: PropTypes29.oneOfType([PropTypes29.arrayOf(PropTypes29.number), PropTypes29.number, PropTypes29.object]),
+  /**
+   * Defines the horizontal space between the type `item` components.
+   * It overrides the value of the `spacing` prop.
+   */
+  columnSpacing: PropTypes29.oneOfType([PropTypes29.arrayOf(PropTypes29.oneOfType([PropTypes29.number, PropTypes29.string])), PropTypes29.number, PropTypes29.object, PropTypes29.string]),
+  /**
+   * The component used for the root node.
+   * Either a string to use a HTML element or a component.
+   */
+  component: PropTypes29.elementType,
+  /**
+   * If `true`, the component will have the flex *container* behavior.
+   * You should be wrapping *items* with a *container*.
+   * @default false
+   */
+  container: PropTypes29.bool,
+  /**
+   * Defines the `flex-direction` style property.
+   * It is applied for all screen sizes.
+   * @default 'row'
+   */
+  direction: PropTypes29.oneOfType([PropTypes29.oneOf(["column-reverse", "column", "row-reverse", "row"]), PropTypes29.arrayOf(PropTypes29.oneOf(["column-reverse", "column", "row-reverse", "row"])), PropTypes29.object]),
+  /**
+   * If `true`, the component will have the flex *item* behavior.
+   * You should be wrapping *items* with a *container*.
+   * @default false
+   */
+  item: PropTypes29.bool,
+  /**
+   * If a number, it sets the number of columns the grid item uses.
+   * It can't be greater than the total number of columns of the container (12 by default).
+   * If 'auto', the grid item's width matches its content.
+   * If false, the prop is ignored.
+   * If true, the grid item's width grows to use the space available in the grid container.
+   * The value is applied for the `lg` breakpoint and wider screens if not overridden.
+   * @default false
+   */
+  lg: PropTypes29.oneOfType([PropTypes29.oneOf(["auto"]), PropTypes29.number, PropTypes29.bool]),
+  /**
+   * If a number, it sets the number of columns the grid item uses.
+   * It can't be greater than the total number of columns of the container (12 by default).
+   * If 'auto', the grid item's width matches its content.
+   * If false, the prop is ignored.
+   * If true, the grid item's width grows to use the space available in the grid container.
+   * The value is applied for the `md` breakpoint and wider screens if not overridden.
+   * @default false
+   */
+  md: PropTypes29.oneOfType([PropTypes29.oneOf(["auto"]), PropTypes29.number, PropTypes29.bool]),
+  /**
+   * Defines the vertical space between the type `item` components.
+   * It overrides the value of the `spacing` prop.
+   */
+  rowSpacing: PropTypes29.oneOfType([PropTypes29.arrayOf(PropTypes29.oneOfType([PropTypes29.number, PropTypes29.string])), PropTypes29.number, PropTypes29.object, PropTypes29.string]),
+  /**
+   * If a number, it sets the number of columns the grid item uses.
+   * It can't be greater than the total number of columns of the container (12 by default).
+   * If 'auto', the grid item's width matches its content.
+   * If false, the prop is ignored.
+   * If true, the grid item's width grows to use the space available in the grid container.
+   * The value is applied for the `sm` breakpoint and wider screens if not overridden.
+   * @default false
+   */
+  sm: PropTypes29.oneOfType([PropTypes29.oneOf(["auto"]), PropTypes29.number, PropTypes29.bool]),
+  /**
+   * Defines the space between the type `item` components.
+   * It can only be used on a type `container` component.
+   * @default 0
+   */
+  spacing: PropTypes29.oneOfType([PropTypes29.arrayOf(PropTypes29.oneOfType([PropTypes29.number, PropTypes29.string])), PropTypes29.number, PropTypes29.object, PropTypes29.string]),
+  /**
+   * The system prop that allows defining system overrides as well as additional CSS styles.
+   */
+  sx: PropTypes29.oneOfType([PropTypes29.arrayOf(PropTypes29.oneOfType([PropTypes29.func, PropTypes29.object, PropTypes29.bool])), PropTypes29.func, PropTypes29.object]),
+  /**
+   * Defines the `flex-wrap` style property.
+   * It's applied for all screen sizes.
+   * @default 'wrap'
+   */
+  wrap: PropTypes29.oneOf(["nowrap", "wrap-reverse", "wrap"]),
+  /**
+   * If a number, it sets the number of columns the grid item uses.
+   * It can't be greater than the total number of columns of the container (12 by default).
+   * If 'auto', the grid item's width matches its content.
+   * If false, the prop is ignored.
+   * If true, the grid item's width grows to use the space available in the grid container.
+   * The value is applied for the `xl` breakpoint and wider screens if not overridden.
+   * @default false
+   */
+  xl: PropTypes29.oneOfType([PropTypes29.oneOf(["auto"]), PropTypes29.number, PropTypes29.bool]),
+  /**
+   * If a number, it sets the number of columns the grid item uses.
+   * It can't be greater than the total number of columns of the container (12 by default).
+   * If 'auto', the grid item's width matches its content.
+   * If false, the prop is ignored.
+   * If true, the grid item's width grows to use the space available in the grid container.
+   * The value is applied for all the screen sizes with the lowest priority.
+   * @default false
+   */
+  xs: PropTypes29.oneOfType([PropTypes29.oneOf(["auto"]), PropTypes29.number, PropTypes29.bool]),
+  /**
+   * If `true`, it sets `min-width: 0` on the item.
+   * Refer to the limitations section of the documentation to better understand the use case.
+   * @default false
+   */
+  zeroMinWidth: PropTypes29.bool
+};
+{
+  let requireProp = requirePropFactory_default("Grid", Grid);
+  Grid["propTypes"] = _extends29({}, Grid.propTypes, {
+    direction: requireProp("container"),
+    lg: requireProp("item"),
+    md: requireProp("item"),
+    sm: requireProp("item"),
+    spacing: requireProp("container"),
+    wrap: requireProp("container"),
+    xs: requireProp("item"),
+    zeroMinWidth: requireProp("item")
+  });
+}
+var Grid_default = Grid;
+
 // app/routes/_index.tsx
 import { jsxDEV as jsxDEV6 } from "react/jsx-dev-runtime";
 var meta3 = () => [
@@ -5921,42 +6466,51 @@ var meta3 = () => [
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
 function Index3() {
-  return /* @__PURE__ */ jsxDEV6("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
-    /* @__PURE__ */ jsxDEV6("p", { children: "This is dashboard" }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV6("div", { children: /* @__PURE__ */ jsxDEV6(Box_default, { sx: { flexGrow: 1, marginTop: "1em" }, children: /* @__PURE__ */ jsxDEV6(Grid_default, { container: !0, spacing: 2, children: [0, 1, 2, 3, 4, 5, 6].map((ar2) => /* @__PURE__ */ jsxDEV6(Grid_default, { item: !0, xs: 12, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV6(Box_default, { sx: { bgcolor: "skyblue" }, children: /* @__PURE__ */ jsxDEV6(Stack_default, { sx: { margin: "0.6em" }, children: [
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "text", sx: { fontSize: "1rem" } }, void 0, !1, {
       fileName: "app/routes/_index.tsx",
-      lineNumber: 20,
-      columnNumber: 9
+      lineNumber: 31,
+      columnNumber: 25
     }, this),
-    /* @__PURE__ */ jsxDEV6(Stack_default, { spacing: 1, children: [
-      /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "text", sx: { fontSize: "1rem" } }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
-        lineNumber: 23,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "circular", width: 40, height: 40 }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
-        lineNumber: 26,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "rectangular", width: 210, height: 60 }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
-        lineNumber: 27,
-        columnNumber: 11
-      }, this),
-      /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "rounded", width: 210, height: 60 }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
-        lineNumber: 28,
-        columnNumber: 11
-      }, this)
-    ] }, void 0, !0, {
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "circular", width: 40, height: 40 }, void 0, !1, {
       fileName: "app/routes/_index.tsx",
-      lineNumber: 21,
-      columnNumber: 9
+      lineNumber: 34,
+      columnNumber: 25
+    }, this),
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "rectangular", width: 210, height: 60 }, void 0, !1, {
+      fileName: "app/routes/_index.tsx",
+      lineNumber: 35,
+      columnNumber: 25
+    }, this),
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "rounded", width: 500, height: 400 }, void 0, !1, {
+      fileName: "app/routes/_index.tsx",
+      lineNumber: 36,
+      columnNumber: 25
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/_index.tsx",
-    lineNumber: 18,
+    lineNumber: 29,
+    columnNumber: 23
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/_index.tsx",
+    lineNumber: 28,
+    columnNumber: 19
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/_index.tsx",
+    lineNumber: 27,
+    columnNumber: 17
+  }, this)) }, void 0, !1, {
+    fileName: "app/routes/_index.tsx",
+    lineNumber: 23,
+    columnNumber: 9
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/_index.tsx",
+    lineNumber: 22,
     columnNumber: 7
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/_index.tsx",
+    lineNumber: 21,
+    columnNumber: 5
   }, this);
 }
 
@@ -5972,22 +6526,91 @@ var meta4 = () => [
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
 function Index4() {
-  return /* @__PURE__ */ jsxDEV7("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: /* @__PURE__ */ jsxDEV7("p", { children: "This is Sales" }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV7("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: /* @__PURE__ */ jsxDEV7(Grid_default, { container: !0, spacing: 2, sx: { marginTop: "0.5em" }, children: [
+    /* @__PURE__ */ jsxDEV7(Grid_default, { item: !0, xs: 8, children: /* @__PURE__ */ jsxDEV7(Box_default, { sx: { bgcolor: "skyblue" }, children: /* @__PURE__ */ jsxDEV7(Stack_default, { sx: { margin: "0.6em" }, children: [
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "text", sx: { fontSize: "1rem" } }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 26,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "circular", width: 40, height: 40 }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 29,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "rectangular", width: 210, height: 60 }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 30,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "rounded", width: 500, height: 400 }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 31,
+        columnNumber: 17
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 24,
+      columnNumber: 15
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 23,
+      columnNumber: 11
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 22,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV7(Grid_default, { item: !0, xs: 4, children: /* @__PURE__ */ jsxDEV7(Box_default, { sx: { bgcolor: "skyblue" }, children: /* @__PURE__ */ jsxDEV7(Stack_default, { sx: { margin: "0.6em" }, children: [
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "text", sx: { fontSize: "1rem" } }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 40,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "circular", width: 40, height: 40 }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 43,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "rectangular", width: 210, height: 60 }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 44,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "rounded", width: 500, height: 400 }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 45,
+        columnNumber: 17
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 38,
+      columnNumber: 15
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 37,
+      columnNumber: 11
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 36,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 17,
-    columnNumber: 9
+    lineNumber: 21,
+    columnNumber: 7
   }, this) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 15,
+    lineNumber: 19,
     columnNumber: 7
   }, this);
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-X6EX7KLT.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-3QQJIBSH.js", imports: ["/build/_shared/chunk-IRNCX6L2.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-M27UQNQ6.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-RTTXBE6Z.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-WQD26KK3.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-5FAUIMAT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 } }, version: "cad3aeef", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702027786987 }, url: "/build/manifest-CAD3AEEF.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-HP2TSIFM.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-XVYXQTN5.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-YAKEP2ZL.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-GZ7PZNQS.js", imports: ["/build/_shared/chunk-LKMHJGQR.js", "/build/_shared/chunk-5QHZVHBB.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-7TDJQJ5M.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-GQ3L4R6W.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-FGKGQEQN.js", imports: ["/build/_shared/chunk-GQ3L4R6W.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-GY4EG4WK.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-DIDZKYAH.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-GQ3L4R6W.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 } }, version: "e4a45d42", hmr: { runtime: "/build/_shared\\chunk-YAKEP2ZL.js", timestamp: 1702227057662 }, url: "/build/manifest-E4A45D42.js" };
 
 // server-entry-module:@remix-run/dev/server-build
-var mode = "development", assetsBuildDirectory = "public\\build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,

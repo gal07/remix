@@ -1,10 +1,10 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 export default {
   ignoredRouteFiles: ["**/.*"],
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // publicPath: "/build/",
-  // serverBuildPath: "build/index.js",
+  appDirectory: "app",
+  assetsBuildDirectory: "public/build",
+  publicPath: "/build/",
+  serverBuildPath: "build/index.js",
   serverDependenciesToBundle: [
     /^rehype.*/,
     /^remark.*/,
@@ -38,6 +38,7 @@ export default {
     "@mui/material/ListItemIcon",
     "@mui/material/ListItemText",
     "@mui/material/Fab",
+    "@mui/material/Grid",
     
     "@mui/base/composeClasses",
     "@mui/base/Badge",
