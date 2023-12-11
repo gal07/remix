@@ -32,7 +32,8 @@ export default function Appbar() {
     '/',
     'sales',
     'products',
-    'report',
+    'users',
+    'report'
   ];
 
   // toggle Appbar drawer
@@ -59,7 +60,7 @@ export default function Appbar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Dashboard', 'Sales', 'Products', 'Report'].map((text, index) => (
+        {['Dashboard', 'Sales', 'Products', 'Users', 'Report'].map((text, index) => (
           <NavLink to={urls[index]}>
             <ListItem key={text} disablePadding>
               <ListItemButton>
@@ -77,7 +78,7 @@ export default function Appbar() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
+          <AppBar color={"primary"} position="static">
             <Toolbar variant="dense">
               <IconButton 
                 onClick={toggleDrawer("left", true)}

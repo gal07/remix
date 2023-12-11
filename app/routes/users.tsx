@@ -8,30 +8,36 @@ import type { LoaderFunctionArgs } from "@remix-run/node";
 import {
   useLoaderData,
 } from "@remix-run/react";
-import { getProduct } from '../data/sourceData'
+import { getUsers } from '../data/sourceData'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "ECCS POS - Products" },
+    { title: "ECCS POS - Users" },
     { name: "description", content: "Welcome to eccs-pos!" },
   ];
 };
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', flex: 1 },
-  { field: 'image', headerName: 'Image', flex: 1,    renderCell: (params) => <img style={{width:"25%"}} src={params.value} />},
-  { field: 'barcode', headerName: 'SKU', flex: 1 },
-  { field: 'product_name', headerName: 'Name', flex: 1 },
-  { field: 'category', headerName: 'Category', flex: 1 },
-  { field: 'price', headerName: 'Price',flex: 1 },
-  { field: 'stock', headerName: 'Stock',flex: 1 },
-  { field: 'weight', headerName: 'Weight',flex: 1 },
+  { field: 'email', headerName: 'Email', flex: 1 },
+  { field: 'nama_lengkap', headerName: 'Full Name',flex: 1 },
+  {
+    field: 'phone',
+    headerName: 'Phone',
+    type: 'number',
+    flex: 1,
+  },
+  {
+    field: 'action',
+    headerName: 'Action',
+    flex: 1,
+  },
 ];
 
 
 export const loader = async (args: LoaderFunctionArgs) => {
 
-  const result = await getProduct();
+  const result = await getUsers();
   return result;
  
 };
@@ -46,7 +52,7 @@ export default function Index() {
 
         <Box sx={{marginTop:"1em",textAlign:"center"}}>
           <Typography gutterBottom={true} variant="h5" component="h5">
-            List Product
+            List Users
           </Typography>
         </Box>
 
@@ -78,14 +84,4 @@ export default function Index() {
 
       
   );
-}
-
-function generateRandom() {
-  var length = 8,
-      charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-      retVal = "";
-  for (var i = 0, n = charset.length; i < length; ++i) {
-      retVal += charset.charAt(Math.floor(Math.random() * n));
-  }
-  return retVal;
 }
