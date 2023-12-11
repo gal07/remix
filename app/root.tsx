@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { LinksFunction } from "@remix-run/node";
 import { cssBundleHref } from "@remix-run/css-bundle";
-import Fab from '@mui/material/Fab';
 import Appbar from "./layout/Appbar";
 import {
   Links,
@@ -13,8 +12,6 @@ import {
 } from "@remix-run/react";
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import Icon from '@mui/material/Icon';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -48,14 +45,6 @@ export default function App() {
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
-
-          {/* FAB */}
-          {/* <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <Fab style={{"float":"right"}} color="primary" aria-label="add">
-              <Icon>shopping_cart</Icon>
-            </Fab>
-          </Box> */}
-
         </Container>
        
       </body>

@@ -5781,22 +5781,22 @@ function App() {
     /* @__PURE__ */ jsxDEV3("head", { children: [
       /* @__PURE__ */ jsxDEV3("meta", { charSet: "utf-8" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 27,
+        lineNumber: 24,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 28,
+        lineNumber: 25,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 29,
+        lineNumber: 26,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.googleapis.com" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 30,
+        lineNumber: 27,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(
@@ -5809,7 +5809,7 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 32,
+          lineNumber: 29,
           columnNumber: 9
         },
         this
@@ -5824,66 +5824,66 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 36,
+          lineNumber: 33,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 40,
+        lineNumber: 37,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 26,
+      lineNumber: 23,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDEV3("body", { children: [
       /* @__PURE__ */ jsxDEV3(Appbar, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 44,
+        lineNumber: 41,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Container_default, { maxWidth: "xl", children: [
         /* @__PURE__ */ jsxDEV3(CssBaseline_default, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 46,
+          lineNumber: 43,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Outlet, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 47,
+          lineNumber: 44,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(ScrollRestoration, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 48,
+          lineNumber: 45,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 49,
+          lineNumber: 46,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(LiveReload, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 50,
+          lineNumber: 47,
           columnNumber: 11
         }, this)
       ] }, void 0, !0, {
         fileName: "app/root.tsx",
-        lineNumber: 45,
+        lineNumber: 42,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 42,
+      lineNumber: 39,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/root.tsx",
-    lineNumber: 25,
+    lineNumber: 22,
     columnNumber: 5
   }, this);
 }
@@ -5896,29 +5896,19 @@ __export(products_exports, {
   meta: () => meta
 });
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import {
-  useLoaderData
-} from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 
 // app/data/sourceData.tsx
 import { json } from "@remix-run/node";
-var apiUrl = "http://localhost:4001/api/", key = { "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1hX2RlcGFuIjoiYm9yYWgiLCJuYW1hX2JlbGFrYW5nIjoiYW1kYW4iLCJlbWFpbCI6ImJvcmFoQGdtLmNvbSIsInBob25lIjoiNjI4NzcxMjM2MTIzIiwic3RhdHVzIjoxLCJyZWdfc291cmNlIjoiZWNjcy1pZCIsImlhdCI6MTcwMTA3OTE1OH0.mSOQEQTel5RI8HpcCc_G3Vc-mrun12V9UN8knyv3ltG_wJp6xk6LXU_ILZ0uMFNN-1Fyy1jEq_scK3rAjzUl0_yPSFoSVUIp6sAYsvWputS7mA9prmnJSjiGOPiCySiIngazVkGSsgxeMK_aDm8fzqYAmbmNSgttTbx3QoLRWxpvJJMgMBxVk9mNWVwTEi-yj3Ox_z-GYf3-a1Wyk-5MX9QqolP-hVqTbtqeMP5U0T08P07nNUGcVqCuCNnJpCS-rhsPoIJJB2DBN1iNJGv1YOMqkIEeAIzTOjzCOc45NHygJ2ePXSzUT0JMFclaCobJ1aib5ovSKb68vcxJ8O0xK1thRjJUs5p3vBidcttv_uw7e5pU_sythN5RpOFV0YrTACfvu2lYUCAeE6h_Yq_fkT_Pj62D_WtvR9W1a_Vem6nkZcQzWR4T7PSAXPecr2-d5SAhQDIlWFcEAJZEdpNdACRR6kt79h5ucYZyU3Sx5GCqYUAeEL9chyHY_xA-6FSov4oJjWvv3ESlj7TLJaTonaUImEqOZhABnShGtSqUqsBm69c3WoHeUs-UHNODaY7gfDLvSkGKAm4_9UG4WTr91k3APpaFFcSxA7vIqcgYqnprF-zYqKhV8D8Ae5Q_tvISY5WUAA_4Gm77LkoXJ8KEWwIAExSca-_BHFvl-NozGiQ" };
+var apiUrl = "http://localhost:4001/api/", key = {
+  "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1hX2RlcGFuIjoiYm9yYWgiLCJuYW1hX2JlbGFrYW5nIjoiYW1kYW4iLCJlbWFpbCI6ImJvcmFoQGdtLmNvbSIsInBob25lIjoiNjI4NzcxMjM2MTIzIiwic3RhdHVzIjoxLCJyZWdfc291cmNlIjoiZWNjcy1pZCIsImlhdCI6MTcwMTA3OTE1OH0.mSOQEQTel5RI8HpcCc_G3Vc-mrun12V9UN8knyv3ltG_wJp6xk6LXU_ILZ0uMFNN-1Fyy1jEq_scK3rAjzUl0_yPSFoSVUIp6sAYsvWputS7mA9prmnJSjiGOPiCySiIngazVkGSsgxeMK_aDm8fzqYAmbmNSgttTbx3QoLRWxpvJJMgMBxVk9mNWVwTEi-yj3Ox_z-GYf3-a1Wyk-5MX9QqolP-hVqTbtqeMP5U0T08P07nNUGcVqCuCNnJpCS-rhsPoIJJB2DBN1iNJGv1YOMqkIEeAIzTOjzCOc45NHygJ2ePXSzUT0JMFclaCobJ1aib5ovSKb68vcxJ8O0xK1thRjJUs5p3vBidcttv_uw7e5pU_sythN5RpOFV0YrTACfvu2lYUCAeE6h_Yq_fkT_Pj62D_WtvR9W1a_Vem6nkZcQzWR4T7PSAXPecr2-d5SAhQDIlWFcEAJZEdpNdACRR6kt79h5ucYZyU3Sx5GCqYUAeEL9chyHY_xA-6FSov4oJjWvv3ESlj7TLJaTonaUImEqOZhABnShGtSqUqsBm69c3WoHeUs-UHNODaY7gfDLvSkGKAm4_9UG4WTr91k3APpaFFcSxA7vIqcgYqnprF-zYqKhV8D8Ae5Q_tvISY5WUAA_4Gm77LkoXJ8KEWwIAExSca-_BHFvl-NozGiQ"
+};
 async function getUsers() {
-  let result = (await (await fetch(apiUrl + "customer?page=1&limit=1000", {
-    headers: key
-  })).json()).data.map((record) => ({
-    id: record.id,
-    alamat: record.alamat,
-    nama_lengkap: record.nama_lengkap,
-    phone: record.phone,
-    email: record.email
-  }));
+  let result = (await (await fetch(apiUrl + "customer?page=1&limit=1000", { headers: key })).json()).data.map((record) => ({ id: record.id, alamat: record.alamat, nama_lengkap: record.nama_lengkap, phone: record.phone, email: record.email }));
   return json({ result });
 }
 async function getProduct() {
-  let result = (await (await fetch(apiUrl + "product?page=1&limit=1000", {
-    headers: key
-  })).json()).data.map((record) => ({
+  let result = (await (await fetch(apiUrl + "product?page=1&limit=1000", { headers: key })).json()).data.map((record) => ({
     id: record.idproduk,
     image: record.imageList,
     barcode: record.barcode,
@@ -5934,75 +5924,171 @@ async function getProduct() {
 // app/routes/products.tsx
 import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
 var meta = () => [
-  { title: "ECCS POS - Products" },
-  { name: "description", content: "Welcome to eccs-pos!" }
+  {
+    title: "ECCS POS - Products"
+  },
+  {
+    name: "description",
+    content: "Welcome to eccs-pos!"
+  }
 ], columns = [
-  { field: "id", headerName: "ID", flex: 1 },
-  { field: "image", headerName: "Image", flex: 1, renderCell: (params) => /* @__PURE__ */ jsxDEV4("img", { style: { width: "25%" }, src: params.value }, void 0, !1, {
-    fileName: "app/routes/products.tsx",
-    lineNumber: 22,
-    columnNumber: 78
-  }, this) },
-  { field: "barcode", headerName: "SKU", flex: 1 },
-  { field: "product_name", headerName: "Name", flex: 1 },
-  { field: "category", headerName: "Category", flex: 1 },
-  { field: "price", headerName: "Price", flex: 1 },
-  { field: "stock", headerName: "Stock", flex: 1 },
-  { field: "weight", headerName: "Weight", flex: 1 }
-], loader = async (args) => await getProduct();
-function Index() {
-  let myusers = useLoaderData();
-  return /* @__PURE__ */ jsxDEV4("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
-    /* @__PURE__ */ jsxDEV4(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: /* @__PURE__ */ jsxDEV4(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Product" }, void 0, !1, {
-      fileName: "app/routes/products.tsx",
-      lineNumber: 48,
-      columnNumber: 11
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/products.tsx",
-      lineNumber: 47,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV4(Box_default, { sx: { boxShadow: 1 }, children: /* @__PURE__ */ jsxDEV4("div", { style: { height: "100%", width: "100%" }, children: /* @__PURE__ */ jsxDEV4(
-      DataGrid,
+  {
+    field: "id",
+    headerName: "ID",
+    flex: 1
+  },
+  {
+    field: "image",
+    headerName: "Image",
+    flex: 1,
+    renderCell: (params) => /* @__PURE__ */ jsxDEV4(
+      "img",
       {
-        rows: myusers.result,
-        columns,
-        initialState: {
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 }
-          },
-          filter: {}
+        style: {
+          width: "25%"
         },
-        slots: { toolbar: GridToolbar },
-        slotProps: {
-          toolbar: {
-            showQuickFilter: !0
-          }
-        },
-        pageSizeOptions: [10, 50]
+        src: params.value
       },
       void 0,
       !1,
       {
         fileName: "app/routes/products.tsx",
-        lineNumber: 55,
-        columnNumber: 13
+        lineNumber: 33,
+        columnNumber: 33
       },
       this
-    ) }, void 0, !1, {
+    )
+  },
+  {
+    field: "barcode",
+    headerName: "SKU",
+    flex: 1
+  },
+  {
+    field: "product_name",
+    headerName: "Name",
+    flex: 1
+  },
+  {
+    field: "category",
+    headerName: "Category",
+    flex: 1
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    flex: 1
+  },
+  {
+    field: "stock",
+    headerName: "Stock",
+    flex: 1
+  },
+  {
+    field: "weight",
+    headerName: "Weight",
+    flex: 1
+  }
+], loader = async (args) => await getProduct();
+function Index() {
+  let myusers = useLoaderData();
+  return /* @__PURE__ */ jsxDEV4(
+    "div",
+    {
+      style: {
+        fontFamily: "system-ui, sans-serif",
+        lineHeight: "1.8"
+      },
+      children: [
+        /* @__PURE__ */ jsxDEV4(
+          Box_default,
+          {
+            sx: {
+              marginTop: "1em",
+              textAlign: "center"
+            },
+            children: /* @__PURE__ */ jsxDEV4(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Product" }, void 0, !1, {
+              fileName: "app/routes/products.tsx",
+              lineNumber: 89,
+              columnNumber: 17
+            }, this)
+          },
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/products.tsx",
+            lineNumber: 84,
+            columnNumber: 13
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV4(Box_default, { sx: {
+          boxShadow: 1
+        }, children: /* @__PURE__ */ jsxDEV4(
+          "div",
+          {
+            style: {
+              height: "100%",
+              width: "100%"
+            },
+            children: /* @__PURE__ */ jsxDEV4(
+              DataGrid,
+              {
+                rows: myusers.result,
+                columns,
+                initialState: {
+                  pagination: {
+                    paginationModel: {
+                      page: 0,
+                      pageSize: 10
+                    }
+                  },
+                  filter: {}
+                },
+                slots: {
+                  toolbar: GridToolbar
+                },
+                slotProps: {
+                  toolbar: {
+                    showQuickFilter: !0
+                  }
+                },
+                pageSizeOptions: [10, 50]
+              },
+              void 0,
+              !1,
+              {
+                fileName: "app/routes/products.tsx",
+                lineNumber: 102,
+                columnNumber: 21
+              },
+              this
+            )
+          },
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/products.tsx",
+            lineNumber: 97,
+            columnNumber: 17
+          },
+          this
+        ) }, void 0, !1, {
+          fileName: "app/routes/products.tsx",
+          lineNumber: 94,
+          columnNumber: 13
+        }, this)
+      ]
+    },
+    void 0,
+    !0,
+    {
       fileName: "app/routes/products.tsx",
-      lineNumber: 54,
-      columnNumber: 11
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/products.tsx",
-      lineNumber: 53,
+      lineNumber: 78,
       columnNumber: 9
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/products.tsx",
-    lineNumber: 45,
-    columnNumber: 7
-  }, this);
+    },
+    this
+  );
 }
 
 // app/routes/report.tsx
@@ -14330,17 +14416,32 @@ __export(users_exports, {
   meta: () => meta5
 });
 import { DataGrid as DataGrid2, GridToolbar as GridToolbar2 } from "@mui/x-data-grid";
-import {
-  useLoaderData as useLoaderData2
-} from "@remix-run/react";
+import { useLoaderData as useLoaderData2 } from "@remix-run/react";
 import { jsxDEV as jsxDEV9 } from "react/jsx-dev-runtime";
 var meta5 = () => [
-  { title: "ECCS POS - Users" },
-  { name: "description", content: "Welcome to eccs-pos!" }
+  {
+    title: "ECCS POS - Users"
+  },
+  {
+    name: "description",
+    content: "Welcome to eccs-pos!"
+  }
 ], columns2 = [
-  { field: "id", headerName: "ID", flex: 1 },
-  { field: "email", headerName: "Email", flex: 1 },
-  { field: "nama_lengkap", headerName: "Full Name", flex: 1 },
+  {
+    field: "id",
+    headerName: "ID",
+    flex: 1
+  },
+  {
+    field: "email",
+    headerName: "Email",
+    flex: 1
+  },
+  {
+    field: "nama_lengkap",
+    headerName: "Full Name",
+    flex: 1
+  },
   {
     field: "phone",
     headerName: "Phone",
@@ -14355,61 +14456,107 @@ var meta5 = () => [
 ], loader2 = async (args) => await getUsers();
 function Index5() {
   let myusers = useLoaderData2();
-  return /* @__PURE__ */ jsxDEV9("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
-    /* @__PURE__ */ jsxDEV9(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: /* @__PURE__ */ jsxDEV9(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Users" }, void 0, !1, {
-      fileName: "app/routes/users.tsx",
-      lineNumber: 54,
-      columnNumber: 11
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/users.tsx",
-      lineNumber: 53,
-      columnNumber: 9
-    }, this),
-    /* @__PURE__ */ jsxDEV9(Box_default, { sx: { boxShadow: 1 }, children: /* @__PURE__ */ jsxDEV9("div", { style: { height: "100%", width: "100%" }, children: /* @__PURE__ */ jsxDEV9(
-      DataGrid2,
-      {
-        rows: myusers.result,
-        columns: columns2,
-        initialState: {
-          pagination: {
-            paginationModel: { page: 0, pageSize: 10 }
+  return /* @__PURE__ */ jsxDEV9(
+    "div",
+    {
+      style: {
+        fontFamily: "system-ui, sans-serif",
+        lineHeight: "1.8"
+      },
+      children: [
+        /* @__PURE__ */ jsxDEV9(
+          Box_default,
+          {
+            sx: {
+              marginTop: "1em",
+              textAlign: "center"
+            },
+            children: /* @__PURE__ */ jsxDEV9(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Users" }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 73,
+              columnNumber: 17
+            }, this)
           },
-          filter: {}
-        },
-        slots: { toolbar: GridToolbar2 },
-        slotProps: {
-          toolbar: {
-            showQuickFilter: !0
-          }
-        },
-        pageSizeOptions: [10, 50]
-      },
-      void 0,
-      !1,
-      {
-        fileName: "app/routes/users.tsx",
-        lineNumber: 61,
-        columnNumber: 13
-      },
-      this
-    ) }, void 0, !1, {
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 68,
+            columnNumber: 13
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV9(Box_default, { sx: {
+          boxShadow: 1
+        }, children: /* @__PURE__ */ jsxDEV9(
+          "div",
+          {
+            style: {
+              height: "100%",
+              width: "100%"
+            },
+            children: /* @__PURE__ */ jsxDEV9(
+              DataGrid2,
+              {
+                rows: myusers.result,
+                columns: columns2,
+                initialState: {
+                  pagination: {
+                    paginationModel: {
+                      page: 0,
+                      pageSize: 10
+                    }
+                  },
+                  filter: {}
+                },
+                slots: {
+                  toolbar: GridToolbar2
+                },
+                slotProps: {
+                  toolbar: {
+                    showQuickFilter: !0
+                  }
+                },
+                pageSizeOptions: [10, 50]
+              },
+              void 0,
+              !1,
+              {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 86,
+                columnNumber: 21
+              },
+              this
+            )
+          },
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 81,
+            columnNumber: 17
+          },
+          this
+        ) }, void 0, !1, {
+          fileName: "app/routes/users.tsx",
+          lineNumber: 78,
+          columnNumber: 13
+        }, this)
+      ]
+    },
+    void 0,
+    !0,
+    {
       fileName: "app/routes/users.tsx",
-      lineNumber: 60,
-      columnNumber: 11
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/users.tsx",
-      lineNumber: 59,
+      lineNumber: 62,
       columnNumber: 9
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/users.tsx",
-    lineNumber: 51,
-    columnNumber: 7
-  }, this);
+    },
+    this
+  );
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-PWLWKBYL.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-5UBEMQGH.js", imports: ["/build/_shared/chunk-ZH6CLX2V.js", "/build/_shared/chunk-LYKHMM2F.js", "/build/_shared/chunk-5QHZVHBB.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-47SPXIMZ.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-4FC3C27V.js", imports: ["/build/_shared/chunk-U6YZZEMC.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-SY37UZPN.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-DFHV4XCF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-6ISWHVPW.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-SY37UZPN.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-TH7VY4ZS.js", imports: ["/build/_shared/chunk-U6YZZEMC.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-SY37UZPN.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 } }, version: "83dc18f4", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702287677654 }, url: "/build/manifest-83DC18F4.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-PWLWKBYL.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-3YND6Z7E.js", imports: ["/build/_shared/chunk-ZH6CLX2V.js", "/build/_shared/chunk-LYKHMM2F.js", "/build/_shared/chunk-5QHZVHBB.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-47SPXIMZ.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-KISNLPWS.js", imports: ["/build/_shared/chunk-U6YZZEMC.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-SY37UZPN.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-DFHV4XCF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-6ISWHVPW.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-SY37UZPN.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-ARVC73JZ.js", imports: ["/build/_shared/chunk-U6YZZEMC.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-SY37UZPN.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 } }, version: "b8f58170", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702288200734 }, url: "/build/manifest-B8F58170.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
