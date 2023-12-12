@@ -22,6 +22,14 @@ type Productlist = {
     berat?: any;
 };
 
+type createUser = {
+    nama_depan?: any;
+    nama_belakang?: any;
+    email?: any;
+    phone?: any;
+    alamat?: any;
+};
+
 const apiUrl = "http://localhost:4001/api/";
 const key = {
     "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1hX2RlcGFuIjoiYm9yYWgiLCJuYW1hX2Jlb" +
@@ -70,4 +78,15 @@ export async function getProduct() {
         });
 
     return json({result})
+}
+
+export async function createUsers(body: any){
+    const path = 'customer/';
+    const res = await fetch(apiUrl + path, {
+        headers: key,
+        body: JSON.stringify(body),
+        method:"POST"
+    });
+    const data = await res.json();
+    return data;
 }

@@ -51,6 +51,14 @@ export default {
     "@mui/material/TextField",
     "@mui/material/Dialog",
     "@mui/material/Slide",
+    "@mui/material/DialogActions",
+    "@mui/material/DialogContent",
+    "@mui/material/DialogTitle",
+    "@mui/material/transitions",
+    "@mui/material/DialogContentText",
+    "@mui/material/Input",
+    "@mui/material/FormControl",
+    "@mui/material/Snackbar",
 
     
     "@mui/base/composeClasses",
