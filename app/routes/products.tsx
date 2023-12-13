@@ -8,7 +8,7 @@ import {json} from "@remix-run/node"; // or cloudflare/deno
 import type {LoaderFunctionArgs}
 from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import {getProduct} from '../data/sourceData'
+import { getProduct } from '../data/sourceData'
 
 export const meta: MetaFunction = () => {
     return [
@@ -126,4 +126,5 @@ export default function Index() {
         </div>
 
     );
+    
 }

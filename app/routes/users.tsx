@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import type {LoaderFunctionArgs}
 from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
-import {getUsers,createUsers} from '../data/sourceData'
+import {getUsers, createUsers} from '../data/sourceData'
 import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
 import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
 import Dialog from '@mui/material/Dialog';
@@ -20,12 +20,11 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Icon from '@mui/material/Icon';
 import Fab from '@mui/material/Fab';
-import { Form, useActionData } from "@remix-run/react";
+import { Form, useActionData, useSubmit } from "@remix-run/react";
 import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
-import customsnackBar from '../components/customsnackBar';
 
 export const meta: MetaFunction = () => {
     return [
@@ -37,53 +36,6 @@ export const meta: MetaFunction = () => {
         }
     ];
 };
-
-const columns: GridColDef[] = [
-    {
-        field: 'id',
-        headerName: 'ID',
-    }, {
-        field: 'email',
-        headerName: 'Email',
-        flex: 1,
-        align:'left',
-        headerAlign:'left'
-    }, {
-        field: 'nama_lengkap',
-        headerName: 'Full Name',
-        flex: 1,
-        align:'left',
-        headerAlign:'left'
-    }, {
-        field: 'phone',
-        headerName: 'Phone',
-        type: 'number',
-        flex: 1,
-        align:'left',
-        headerAlign:'left'
-    }, {
-        field: 'action',
-        headerName: 'Action',
-        flex: 1,
-        align:'center',
-        headerAlign:'center',
-        renderCell: (params) => {
-            return <Stack direction="row" spacing="1">
-                <Tooltip title="Edit this user" arrow placement="bottom-start">
-                    <Button size="small" variant="contained" color="success">
-                        Edit
-                    </Button>
-                </Tooltip>
-                <Tooltip title="Delete this user" arrow placement="bottom-start">
-                    <Button size="small" variant="contained" color="error">
-                    Delete
-                    </Button>
-                </Tooltip>
-        </Stack>
-        },
-        
-    }
-];
 
 // Action to handle form submission
 export async function action({ request }: ActionFunctionArgs) {
@@ -111,7 +63,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
     if(!email.match(mailformat))
     {
-        errors.email = "Invalid email alamat";
+        errors.email = "Invalid Email Address";
     }
     if(!nama_depan.match(onlychar))
     {
@@ -143,14 +95,262 @@ export async function action({ request }: ActionFunctionArgs) {
         }else{
 
             // Redirect to the user page
-            console.log(response.meta.message);
-            return redirect("/users");
+            return true;
 
         }
     }
 
 
 }
+
+function createUserComponent() {
+
+    // State for create form
+    const actionData = useActionData<typeof action>();
+    const [open, setOpen] = React.useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setTimeout(function () {
+            setOpen(false);
+        }, 1000);
+    };
+    const handleSubmit = () => {
+        handleClose()
+    }
+
+    return (
+
+        <div>
+            {/* Create */}
+            {/* FAB & modal create user*/}
+            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                    <Fab sx={{
+                            position: "fixed",
+                            bottom: (theme) => theme.spacing(2),
+                            right: (theme) => theme.spacing(2)
+                        }} 
+                        color="primary"
+                        aria-label="add"
+                        onClick={handleClickOpen}
+                        >
+                        <Icon>add</Icon>
+                    </Fab>
+            </Box>
+
+            <Dialog
+                open={open}
+                onClose={handleClose}
+            >
+                <DialogTitle id="alert-dialog-title">{"Create new user"}</DialogTitle>
+                <DialogContent>
+                    
+                <Form method="post" action="create" onSubmit={handleSubmit}>
+                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                            <FormControl variant="standard"> 
+                                <InputLabel htmlFor="nama_depan">First Name</InputLabel>
+                                <Input required size='small' name="nama_depan" id="nama_depan" defaultValue="" />
+                                {actionData?.errors?.nama_depan ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.nama_depan}</Typography>) : null}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="nama_belakang">Last Name</InputLabel>
+                                <Input required size='small' name="nama_belakang" id="nama_belakang" defaultValue="" />
+                                {actionData?.errors?.nama_belakang ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.nama_belakang}</Typography>) : null}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="email">Email</InputLabel>
+                                <Input required size='small' name="email" id="email" defaultValue="" />
+                                {actionData?.errors?.email ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.email}</Typography>) : null}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="phone">Phone</InputLabel>
+                                <Input required size='small' name="phone" id="phone" defaultValue="" />
+                                {actionData?.errors?.phone ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.phone}</Typography>) : null}
+                            </FormControl>
+                        </Grid>
+
+                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                            <FormControl variant="standard">
+                                <InputLabel htmlFor="alamat">Address</InputLabel>
+                                <Input v size='small' name="alamat" id="alamat" defaultValue="" />
+                                {actionData?.errors?.alamat ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.alamat}</Typography>) : null}
+                            </FormControl>
+                        </Grid>
+                
+                        <DialogActions>
+                            <Button type='submit'>Create</Button>
+                        </DialogActions>
+
+                </Form>
+
+                </DialogContent>
+            </Dialog>
+        </div>
+
+
+    );
+
+} 
+
+const columns: GridColDef[] = [
+    {
+        field: 'id',
+        headerName: 'ID',
+    }, {
+        field: 'email',
+        headerName: 'Email',
+        flex: 1,
+        align:'left',
+        headerAlign:'left'
+    }, {
+        field: 'nama_lengkap',
+        headerName: 'Full Name',
+        flex: 1,
+        align:'left',
+        headerAlign:'left'
+    }, {
+        field: 'phone',
+        headerName: 'Phone',
+        type: 'number',
+        flex: 1,
+        align:'left',
+        headerAlign:'left'
+    }, {
+        field: 'action',
+        headerName: 'Action',
+        flex: 1,
+        align:'center',
+        headerAlign:'center',
+        renderCell: (params) => {
+
+            let id = params.id;
+            
+            // State for delete form
+            const [openAlertDel, setAlertDel] = React.useState(false);
+            const handleClosedelete = () => {
+                setAlertDel(false)
+            }
+            const handleOpem = () => {
+                setAlertDel(true)                
+            }
+
+            // State for update form
+            const [openAlertUpd, setAlertUpd] = React.useState(false);
+            const handleCloseUpd = () => {
+                setAlertUpd(false)
+            }
+            const handleOpemUpd = (id: any) => {
+                setAlertUpd(true)    
+            }
+
+            return( 
+                <Stack direction="row" spacing="1">
+                    <Tooltip title="Edit this user" arrow placement="bottom-start">
+                        <Button onClick={handleOpemUpd} size="small" variant="contained" color="success">
+                            Edit
+                        </Button>
+                    </Tooltip>
+                    <Tooltip title="Delete this user" arrow placement="bottom-start">
+                        <Button onClick={handleOpem} size="small" variant="contained" color="error">
+                            Delete
+                        </Button>
+                    </Tooltip>
+
+                    {/* DELETE */}
+                    <Dialog
+                        open={openAlertDel}
+                        onClose={handleClosedelete}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                        {"Are you sure want delete this user ?"}
+                        </DialogTitle>
+                        <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            This action can't rollback after you agree to delete.
+                        </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                        <Button onClick={handleClosedelete}>Cancel</Button>
+                        <Form
+                            action="delete"
+                            method="post"
+                        >
+                        <input name="id" type="hidden" value={id}/>
+                        <Button type="submit" onClick={handleClosedelete} >Delete</Button>
+                        
+                        </Form>
+
+                        </DialogActions>
+                    </Dialog>
+
+                    {/* UPDATE */}
+                    <Dialog
+                        open={openAlertUpd}
+                        onClose={handleCloseUpd}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                    >
+                        <DialogTitle id="alert-dialog-title">
+                        {"Update Data Customer"}
+                        </DialogTitle>
+                        <DialogContent>
+                        <Form action="update" method="post">
+                            <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                                <input name="id" type="hidden" value={params.id}/>
+                                <FormControl variant="standard"> 
+                                    <InputLabel htmlFor="nama_depan">First Name</InputLabel>
+                                    <Input required size='small' name="nama_depan" id="nama_depan" defaultValue={params.row.nama_depan} />
+                                </FormControl>
+                            </Grid>
+
+                            <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                                <FormControl variant="standard"> 
+                                    <InputLabel htmlFor="nama_depan">Last Name</InputLabel>
+                                    <Input required size='small' name="nama_belakang" id="nama_belakang" defaultValue={params.row.nama_belakang} />
+                                </FormControl>
+                            </Grid>
+
+                            <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                                <FormControl variant="standard">
+                                    <InputLabel htmlFor="phone">Phone</InputLabel>
+                                    <Input required size='small' name="phone" id="phone" defaultValue={params.row.phone} />
+                                </FormControl>
+                            </Grid>
+
+                            <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
+                                <FormControl variant="standard">
+                                    <InputLabel htmlFor="alamat">Address</InputLabel>
+                                    <Input required size='small' name="alamat" id="alamat" defaultValue={params.row.alamat} />
+                                </FormControl>
+                            </Grid>
+
+                            <DialogActions>
+                                <Button type='submit' onClick={handleCloseUpd}>Update</Button>
+                            </DialogActions>
+
+                        </Form>
+
+                        </DialogContent>
+                    </Dialog>
+
+                </Stack>
+            )
+        },
+        
+    }
+];
 
 export const loader = async (args : LoaderFunctionArgs) => {
 
@@ -161,22 +361,7 @@ export const loader = async (args : LoaderFunctionArgs) => {
 
 export default function Index() {
 
-    const [open, setOpen] = React.useState(false);
-
     const myusers = useLoaderData < typeof loader > ();
-
-    const actionData = useActionData<typeof action>();
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-    
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-
-
     return (
 
         <div
@@ -229,89 +414,10 @@ export default function Index() {
                         pageSizeOptions={[10, 50]}/>
                 </div>
             </Box>
-
-            {/* FAB & modal create user*/}
-            <Box sx={{ '& > :not(style)': { m: 1 } }}>
-                    <Fab sx={{
-                            position: "fixed",
-                            bottom: (theme) => theme.spacing(2),
-                            right: (theme) => theme.spacing(2)
-                        }} 
-                        color="primary"
-                        aria-label="add"
-                        onClick={handleClickOpen}
-                        >
-                        <Icon>add</Icon>
-                    </Fab>
-            </Box>
-
-            <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-describedby="customized-dialog-title"
-                disableEscapeKeyDown
-            >
-                <DialogTitle>{"Create new user"}</DialogTitle>
-                <DialogContent>
-                <DialogContentText id="customized-dialog-title">
-
-                    <Form method="post">
-                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
-                            <FormControl variant="standard"> 
-                                <InputLabel htmlFor="nama_depan">First Name</InputLabel>
-                                <Input size='small' name="nama_depan" id="nama_depan" defaultValue="" />
-                                {actionData?.errors?.nama_depan ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.nama_depan}</Typography>) : null}
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
-                            <FormControl variant="standard">
-                                <InputLabel htmlFor="nama_belakang">Last Name</InputLabel>
-                                <Input size='small' name="nama_belakang" id="nama_belakang" defaultValue="" />
-                                {actionData?.errors?.nama_belakang ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.nama_belakang}</Typography>) : null}
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
-                            <FormControl variant="standard">
-                                <InputLabel htmlFor="email">Email</InputLabel>
-                                <Input size='small' name="email" id="email" defaultValue="" />
-                                {actionData?.errors?.email ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.email}</Typography>) : null}
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
-                            <FormControl variant="standard">
-                                <InputLabel htmlFor="phone">Phone</InputLabel>
-                                <Input size='small' name="phone" id="phone" defaultValue="" />
-                                {actionData?.errors?.phone ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.phone}</Typography>) : null}
-                            </FormControl>
-                        </Grid>
-
-                        <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
-                            <FormControl variant="standard">
-                                <InputLabel htmlFor="alamat">Address</InputLabel>
-                                <Input size='small' name="alamat" id="alamat" defaultValue="" />
-                                {actionData?.errors?.alamat ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.alamat}</Typography>) : null}
-                            </FormControl>
-                        </Grid>
-                
-
-                        <DialogActions>
-                            <Button type='submit'>Create</Button>
-                        </DialogActions>
-
-                    </Form>
-
-                </DialogContentText>
-                </DialogContent>
-                
-            </Dialog>
-
-            {customsnackBar(true)}
-
+            {createUserComponent()}
         </div>
 
     );
+
 }
 

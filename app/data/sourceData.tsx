@@ -3,12 +3,15 @@ from "@remix-run/node"; // or cloudflare/deno
 import {json} from "@remix-run/node"; // or cloudflare/deno
 // import escapeHtml from "escape-html";
 
-type Userslist = {
+export type Userslist = {
     id?: Number;
     alamat?: string;
     nama_lengkap?: string;
+    nama_depan?: string;
+    nama_belakang?: string;
     phone?: string;
     email?: string;
+    
 };
 
 type Productlist = {
@@ -43,11 +46,23 @@ const key = {
             "eE6h_Yq_fkT_Pj62D_WtvR9W1a_Vem6nkZcQzWR4T7PSAXPecr2-d5SAhQDIlWFcEAJZEdpNdACRR6" +
             "kt79h5ucYZyU3Sx5GCqYUAeEL9chyHY_xA-6FSov4oJjWvv3ESlj7TLJaTonaUImEqOZhABnShGtSq" +
             "UqsBm69c3WoHeUs-UHNODaY7gfDLvSkGKAm4_9UG4WTr91k3APpaFFcSxA7vIqcgYqnprF-zYqKhV8" +
-            "D8Ae5Q_tvISY5WUAA_4Gm77LkoXJ8KEWwIAExSca-_BHFvl-NozGiQ"
+            "D8Ae5Q_tvISY5WUAA_4Gm77LkoXJ8KEWwIAExSca-_BHFvl-NozGiQ",
 }
 
 export async function getUsers() {
     const path = 'customer?page=1&limit=1000';
+    const res = await fetch(apiUrl + path, {headers: key});
+    const data = await res.json();
+    const result = data
+        .data
+        .map((record : Userslist) => {
+            return {id: record.id, alamat: record.alamat, nama_lengkap: record.nama_lengkap, nama_depan: record.nama_depan, nama_belakang: record.nama_belakang, phone: record.phone, email: record.email}
+        });
+    return json({result})
+}
+
+export async function getUserDetail(id: number) {
+    const path = 'customer/detail/'+id;
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
     const result = data
@@ -81,11 +96,36 @@ export async function getProduct() {
 }
 
 export async function createUsers(body: any){
+    console.log(JSON.stringify(body));
+
     const path = 'customer/';
     const res = await fetch(apiUrl + path, {
         headers: key,
         body: JSON.stringify(body),
         method:"POST"
+    });
+    const data = await res.json();
+    return data;
+}
+
+export async function updateUsers(id: number,body: any){    
+    console.log(JSON.stringify(body));
+    const path = 'customer/update/'+id;
+    const res = await fetch(apiUrl + path, {
+        headers: key,
+        body: JSON.stringify(body),
+        method:"POST"
+    });
+    const data = await res.json();
+    return data;
+}
+
+
+export async function deleteUsers(id: number){
+    const path = 'customer/delete/'+id;
+    const res = await fetch(apiUrl + path, {
+        headers: key,
+        method:"DELETE"
     });
     const data = await res.json();
     return data;

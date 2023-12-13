@@ -1853,7 +1853,7 @@ var _excluded10 = ["action", "centerRipple", "children", "className", "component
     props: inProps,
     name: "MuiButtonBase"
   }), {
-    action: action2,
+    action: action5,
     centerRipple = !1,
     children,
     className,
@@ -1887,7 +1887,7 @@ var _excluded10 = ["action", "centerRipple", "children", "className", "component
     onBlur: handleBlurVisible,
     ref: focusVisibleRef
   } = useIsFocusVisible_default(), [focusVisible, setFocusVisible] = React8.useState(!1);
-  disabled && focusVisible && setFocusVisible(!1), React8.useImperativeHandle(action2, () => ({
+  disabled && focusVisible && setFocusVisible(!1), React8.useImperativeHandle(action5, () => ({
     focusVisible: () => {
       setFocusVisible(!0), buttonRef.current.focus();
     }
@@ -2599,7 +2599,7 @@ function ariaHiddenSiblings(container, mountElement, currentElement, elementsToE
 }
 function findIndexOf(items, callback) {
   let idx = -1;
-  return items.some((item, index2) => callback(item) ? (idx = index2, !0) : !1), idx;
+  return items.some((item, index) => callback(item) ? (idx = index, !0) : !1), idx;
 }
 function handleContainer(containerInfo, props) {
   let restoreStyle = [], container = containerInfo.container;
@@ -5491,8 +5491,8 @@ function Appbar() {
       role: "presentation",
       onClick: toggleDrawer(anchor, !1),
       onKeyDown: toggleDrawer(anchor, !1),
-      children: /* @__PURE__ */ jsxDEV2(List_default, { children: ["Dashboard", "Sales", "Products", "Users", "Report"].map((text, index2) => /* @__PURE__ */ jsxDEV2(NavLink, { to: urls[index2], children: /* @__PURE__ */ jsxDEV2(ListItem_default, { disablePadding: !0, children: /* @__PURE__ */ jsxDEV2(ListItemButton_default, { children: [
-        /* @__PURE__ */ jsxDEV2(ListItemIcon_default, { children: index2 % 2 === 0 ? /* @__PURE__ */ jsxDEV2(Icon_default, { children: "dashboard" }, void 0, !1, {
+      children: /* @__PURE__ */ jsxDEV2(List_default, { children: ["Dashboard", "Sales", "Products", "Users", "Report"].map((text, index) => /* @__PURE__ */ jsxDEV2(NavLink, { to: urls[index], children: /* @__PURE__ */ jsxDEV2(ListItem_default, { disablePadding: !0, children: /* @__PURE__ */ jsxDEV2(ListItemButton_default, { children: [
+        /* @__PURE__ */ jsxDEV2(ListItemIcon_default, { children: index % 2 === 0 ? /* @__PURE__ */ jsxDEV2(Icon_default, { children: "dashboard" }, void 0, !1, {
           fileName: "app/layout/Appbar.tsx",
           lineNumber: 68,
           columnNumber: 38
@@ -5905,33 +5905,12 @@ function App() {
   }, this);
 }
 
-// app/routes/users_.delete.tsx
-var users_delete_exports = {};
-__export(users_delete_exports, {
-  default: () => index
+// app/routes/users_.create.tsx
+var users_create_exports = {};
+__export(users_create_exports, {
+  action: () => action
 });
-import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
-function index() {
-  return /* @__PURE__ */ jsxDEV4("div", { children: /* @__PURE__ */ jsxDEV4("p", { children: "Delete" }, void 0, !1, {
-    fileName: "app/routes/users_.delete.tsx",
-    lineNumber: 4,
-    columnNumber: 13
-  }, this) }, void 0, !1, {
-    fileName: "app/routes/users_.delete.tsx",
-    lineNumber: 3,
-    columnNumber: 9
-  }, this);
-}
-
-// app/routes/products.tsx
-var products_exports = {};
-__export(products_exports, {
-  default: () => Index,
-  loader: () => loader,
-  meta: () => meta
-});
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useLoaderData } from "@remix-run/react";
+import { redirect } from "@remix-run/node";
 
 // app/data/sourceData.tsx
 import { json } from "@remix-run/node";
@@ -5939,7 +5918,7 @@ var apiUrl = "http://localhost:4001/api/", key = {
   "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1hX2RlcGFuIjoiYm9yYWgiLCJuYW1hX2JlbGFrYW5nIjoiYW1kYW4iLCJlbWFpbCI6ImJvcmFoQGdtLmNvbSIsInBob25lIjoiNjI4NzcxMjM2MTIzIiwic3RhdHVzIjoxLCJyZWdfc291cmNlIjoiZWNjcy1pZCIsImlhdCI6MTcwMTA3OTE1OH0.mSOQEQTel5RI8HpcCc_G3Vc-mrun12V9UN8knyv3ltG_wJp6xk6LXU_ILZ0uMFNN-1Fyy1jEq_scK3rAjzUl0_yPSFoSVUIp6sAYsvWputS7mA9prmnJSjiGOPiCySiIngazVkGSsgxeMK_aDm8fzqYAmbmNSgttTbx3QoLRWxpvJJMgMBxVk9mNWVwTEi-yj3Ox_z-GYf3-a1Wyk-5MX9QqolP-hVqTbtqeMP5U0T08P07nNUGcVqCuCNnJpCS-rhsPoIJJB2DBN1iNJGv1YOMqkIEeAIzTOjzCOc45NHygJ2ePXSzUT0JMFclaCobJ1aib5ovSKb68vcxJ8O0xK1thRjJUs5p3vBidcttv_uw7e5pU_sythN5RpOFV0YrTACfvu2lYUCAeE6h_Yq_fkT_Pj62D_WtvR9W1a_Vem6nkZcQzWR4T7PSAXPecr2-d5SAhQDIlWFcEAJZEdpNdACRR6kt79h5ucYZyU3Sx5GCqYUAeEL9chyHY_xA-6FSov4oJjWvv3ESlj7TLJaTonaUImEqOZhABnShGtSqUqsBm69c3WoHeUs-UHNODaY7gfDLvSkGKAm4_9UG4WTr91k3APpaFFcSxA7vIqcgYqnprF-zYqKhV8D8Ae5Q_tvISY5WUAA_4Gm77LkoXJ8KEWwIAExSca-_BHFvl-NozGiQ"
 };
 async function getUsers() {
-  let result = (await (await fetch(apiUrl + "customer?page=1&limit=1000", { headers: key })).json()).data.map((record) => ({ id: record.id, alamat: record.alamat, nama_lengkap: record.nama_lengkap, phone: record.phone, email: record.email }));
+  let result = (await (await fetch(apiUrl + "customer?page=1&limit=1000", { headers: key })).json()).data.map((record) => ({ id: record.id, alamat: record.alamat, nama_lengkap: record.nama_lengkap, nama_depan: record.nama_depan, nama_belakang: record.nama_belakang, phone: record.phone, email: record.email }));
   return json({ result });
 }
 async function getProduct() {
@@ -5956,15 +5935,83 @@ async function getProduct() {
   return json({ result });
 }
 async function createUsers(body2) {
-  return await (await fetch(apiUrl + "customer/", {
+  return console.log(JSON.stringify(body2)), await (await fetch(apiUrl + "customer/", {
     headers: key,
     body: JSON.stringify(body2),
     method: "POST"
   })).json();
 }
+async function updateUsers(id, body2) {
+  console.log(JSON.stringify(body2));
+  let path = "customer/update/" + id;
+  return await (await fetch(apiUrl + path, {
+    headers: key,
+    body: JSON.stringify(body2),
+    method: "POST"
+  })).json();
+}
+async function deleteUsers(id) {
+  let path = "customer/delete/" + id;
+  return await (await fetch(apiUrl + path, {
+    headers: key,
+    method: "DELETE"
+  })).json();
+}
+
+// app/routes/users_.create.tsx
+async function action({ request }) {
+  console.log("Masuk user_create");
+  let formData = await request.formData(), email = String(formData.get("email")), nama_depan = String(formData.get("nama_depan")), nama_belakang = String(formData.get("nama_belakang")), phone = String(formData.get("phone")), alamat = String(formData.get("alamat")), response = await createUsers({
+    email,
+    nama_depan,
+    nama_belakang,
+    phone,
+    alamat
+  });
+  return response.meta.code != 200 ? response.meta.message : redirect("/users");
+}
+
+// app/routes/users_.delete.tsx
+var users_delete_exports = {};
+__export(users_delete_exports, {
+  action: () => action2
+});
+import { redirect as redirect2 } from "@remix-run/node";
+async function action2({ request }) {
+  let formData = await request.formData(), id = String(formData.get("id")), response = await deleteUsers(parseInt(id));
+  if (response.meta.code != 200)
+    console.log(response.meta.message);
+  else
+    return console.log(response.meta.message), redirect2("/users");
+}
+
+// app/routes/users_.update.tsx
+var users_update_exports = {};
+__export(users_update_exports, {
+  action: () => action3
+});
+import { redirect as redirect3 } from "@remix-run/node";
+async function action3({ request }) {
+  let formData = await request.formData(), id = String(formData.get("id")), nama_depan = String(formData.get("nama_depan")), nama_belakang = String(formData.get("nama_belakang")), phone = String(formData.get("phone")), alamat = String(formData.get("alamat")), data = {
+    id,
+    nama_depan,
+    nama_belakang,
+    phone,
+    alamat
+  }, response = await updateUsers(parseInt(id), data);
+  return response.meta.code != 200 ? (console.log(data), console.log(response.meta.message), response.meta.message) : (console.log(response.meta.message), redirect3("/users"));
+}
 
 // app/routes/products.tsx
-import { jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
+var products_exports = {};
+__export(products_exports, {
+  default: () => Index,
+  loader: () => loader,
+  meta: () => meta
+});
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { useLoaderData } from "@remix-run/react";
+import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
 var meta = () => [
   {
     title: "ECCS POS - Products"
@@ -5983,7 +6030,7 @@ var meta = () => [
     field: "image",
     headerName: "Image",
     flex: 1,
-    renderCell: (params) => /* @__PURE__ */ jsxDEV5(
+    renderCell: (params) => /* @__PURE__ */ jsxDEV4(
       "img",
       {
         style: {
@@ -6034,7 +6081,7 @@ var meta = () => [
 ], loader = async (args) => await getProduct();
 function Index() {
   let myusers = useLoaderData();
-  return /* @__PURE__ */ jsxDEV5(
+  return /* @__PURE__ */ jsxDEV4(
     "div",
     {
       style: {
@@ -6042,14 +6089,14 @@ function Index() {
         lineHeight: "1.8"
       },
       children: [
-        /* @__PURE__ */ jsxDEV5(
+        /* @__PURE__ */ jsxDEV4(
           Box_default,
           {
             sx: {
               marginTop: "1em",
               textAlign: "center"
             },
-            children: /* @__PURE__ */ jsxDEV5(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Product" }, void 0, !1, {
+            children: /* @__PURE__ */ jsxDEV4(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Product" }, void 0, !1, {
               fileName: "app/routes/products.tsx",
               lineNumber: 89,
               columnNumber: 17
@@ -6064,16 +6111,16 @@ function Index() {
           },
           this
         ),
-        /* @__PURE__ */ jsxDEV5(Box_default, { sx: {
+        /* @__PURE__ */ jsxDEV4(Box_default, { sx: {
           boxShadow: 1
-        }, children: /* @__PURE__ */ jsxDEV5(
+        }, children: /* @__PURE__ */ jsxDEV4(
           "div",
           {
             style: {
               height: "100%",
               width: "100%"
             },
-            children: /* @__PURE__ */ jsxDEV5(
+            children: /* @__PURE__ */ jsxDEV4(
               DataGrid,
               {
                 rows: myusers.result,
@@ -6139,13 +6186,13 @@ __export(report_exports, {
   default: () => Index2,
   meta: () => meta2
 });
-import { jsxDEV as jsxDEV6 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
 var meta2 = () => [
   { title: "ECCS POS - Report" },
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
 function Index2() {
-  return /* @__PURE__ */ jsxDEV6("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: /* @__PURE__ */ jsxDEV6("p", { children: "This is Report" }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV5("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: /* @__PURE__ */ jsxDEV5("p", { children: "This is Report" }, void 0, !1, {
     fileName: "app/routes/report.tsx",
     lineNumber: 17,
     columnNumber: 9
@@ -6905,29 +6952,29 @@ Grid.propTypes = {
 var Grid_default = Grid;
 
 // app/routes/_index.tsx
-import { jsxDEV as jsxDEV7 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV6 } from "react/jsx-dev-runtime";
 var meta3 = () => [
   { title: "ECCS POS - Dashboard" },
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
 function Index3() {
-  return /* @__PURE__ */ jsxDEV7("div", { children: /* @__PURE__ */ jsxDEV7(Box_default, { sx: { flexGrow: 1, marginTop: "1em" }, children: /* @__PURE__ */ jsxDEV7(Grid_default, { container: !0, spacing: 2, children: [0, 1, 2, 3, 4, 5, 6].map((ar2) => /* @__PURE__ */ jsxDEV7(Grid_default, { item: !0, xs: 12, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV7(Box_default, { sx: { bgcolor: "skyblue" }, children: /* @__PURE__ */ jsxDEV7(Stack_default, { sx: { margin: "0.6em" }, children: [
-    /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "text", sx: { fontSize: "1rem" } }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV6("div", { children: /* @__PURE__ */ jsxDEV6(Box_default, { sx: { flexGrow: 1, marginTop: "1em" }, children: /* @__PURE__ */ jsxDEV6(Grid_default, { container: !0, spacing: 2, children: [0, 1, 2, 3, 4, 5, 6].map((ar2) => /* @__PURE__ */ jsxDEV6(Grid_default, { item: !0, xs: 12, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV6(Box_default, { sx: { bgcolor: "skyblue" }, children: /* @__PURE__ */ jsxDEV6(Stack_default, { sx: { margin: "0.6em" }, children: [
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "text", sx: { fontSize: "1rem" } }, void 0, !1, {
       fileName: "app/routes/_index.tsx",
       lineNumber: 31,
       columnNumber: 25
     }, this),
-    /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "circular", width: 40, height: 40 }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "circular", width: 40, height: 40 }, void 0, !1, {
       fileName: "app/routes/_index.tsx",
       lineNumber: 34,
       columnNumber: 25
     }, this),
-    /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "rectangular", width: 210, height: 60 }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "rectangular", width: 210, height: 60 }, void 0, !1, {
       fileName: "app/routes/_index.tsx",
       lineNumber: 35,
       columnNumber: 25
     }, this),
-    /* @__PURE__ */ jsxDEV7(Skeleton_default, { variant: "rounded", width: 500, height: 400 }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV6(Skeleton_default, { variant: "rounded", width: 500, height: 400 }, void 0, !1, {
       fileName: "app/routes/_index.tsx",
       lineNumber: 36,
       columnNumber: 25
@@ -8624,16 +8671,16 @@ var MenuList = /* @__PURE__ */ React49.forwardRef(function(props, ref) {
     }
     onKeyDown && onKeyDown(event);
   }, handleRef = useForkRef_default(listRef, ref), activeItemIndex = -1;
-  React49.Children.forEach(children, (child, index2) => {
+  React49.Children.forEach(children, (child, index) => {
     if (!/* @__PURE__ */ React49.isValidElement(child)) {
-      activeItemIndex === index2 && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
+      activeItemIndex === index && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
       return;
     }
     isFragment(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
-`)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index2), activeItemIndex === index2 && (child.props.disabled || child.props.muiSkipListHighlight || child.type.muiSkipListHighlight) && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
+`)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index), activeItemIndex === index && (child.props.disabled || child.props.muiSkipListHighlight || child.type.muiSkipListHighlight) && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
   });
-  let items = React49.Children.map(children, (child, index2) => {
-    if (index2 === activeItemIndex) {
+  let items = React49.Children.map(children, (child, index) => {
+    if (index === activeItemIndex) {
       let newChildProps = {};
       return autoFocusItem && (newChildProps.autoFocus = !0), child.props.tabIndex === void 0 && variant === "selectedMenu" && (newChildProps.tabIndex = 0), /* @__PURE__ */ React49.cloneElement(child, newChildProps);
     }
@@ -8952,7 +8999,7 @@ var useUtilityClasses30 = (ownerState) => {
     props: inProps,
     name: "MuiPopover"
   }), {
-    action: action2,
+    action: action5,
     anchorEl,
     anchorOrigin = {
       vertical: "top",
@@ -9052,7 +9099,7 @@ var useUtilityClasses30 = (ownerState) => {
   };
   React51.useEffect(() => {
     open && setPositioningStyles();
-  }), React51.useImperativeHandle(action2, () => open ? {
+  }), React51.useImperativeHandle(action5, () => open ? {
     updatePosition: () => {
       setPositioningStyles();
     }
@@ -9379,9 +9426,9 @@ var _excluded43 = ["onEntering"], _excluded211 = ["autoFocus", "children", "clas
   }, handleListKeyDown = (event) => {
     event.key === "Tab" && (event.preventDefault(), onClose && onClose(event, "tabKeyDown"));
   }, activeItemIndex = -1;
-  React52.Children.map(children, (child, index2) => {
+  React52.Children.map(children, (child, index) => {
     /* @__PURE__ */ React52.isValidElement(child) && (isFragment2(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
-`)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index2));
+`)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index));
   });
   let PaperSlot = (_slots$paper = slots.paper) != null ? _slots$paper : MenuPaper, paperExternalSlotProps = (_slotProps$paper = slotProps.paper) != null ? _slotProps$paper : PaperProps, rootSlotProps = useSlotProps({
     elementType: slots.root,
@@ -10001,7 +10048,7 @@ var useUtilityClasses33 = (ownerState) => {
       console.warn([`MUI: You have provided an out-of-range value \`${value}\` for the select ${name ? `(name="${name}") ` : ""}component.`, "Consider providing a value that matches one of the available options or ''.", `The available values are ${values.filter((x) => x != null).map((x) => `\`${x}\``).join(", ") || '""'}.`].join(`
 `));
     }
-  }, [foundMatch, childrenArray, multiple, name, value]), computeDisplay && (multiple ? displayMultiple.length === 0 ? display = null : display = displayMultiple.reduce((output, child, index2) => (output.push(child), index2 < displayMultiple.length - 1 && output.push(", "), output), []) : display = displaySingle);
+  }, [foundMatch, childrenArray, multiple, name, value]), computeDisplay && (multiple ? displayMultiple.length === 0 ? display = null : display = displayMultiple.reduce((output, child, index) => (output.push(child), index < displayMultiple.length - 1 && output.push(", "), output), []) : display = displaySingle);
   let menuMinWidth = menuMinWidthState;
   !autoWidth && isOpenControlled && displayNode && (menuMinWidth = anchorElement.clientWidth);
   let tabIndex;
@@ -13944,9 +13991,9 @@ Fab.propTypes = {
 var Fab_default = Fab;
 
 // app/components/chooseProduct.tsx
-import { jsxDEV as jsxDEV8 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV7 } from "react/jsx-dev-runtime";
 var Transition4 = React71.forwardRef(function(props, ref) {
-  return /* @__PURE__ */ jsxDEV8(Slide_default, { direction: "up", ref, ...props }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV7(Slide_default, { direction: "up", ref, ...props }, void 0, !1, {
     fileName: "app/components/chooseProduct.tsx",
     lineNumber: 25,
     columnNumber: 10
@@ -13958,8 +14005,8 @@ function FullScreenDialog(_show) {
   }, handleClose = () => {
     setOpen(!1);
   };
-  return /* @__PURE__ */ jsxDEV8(React71.Fragment, { children: [
-    /* @__PURE__ */ jsxDEV8(Box_default, { sx: { "& > :not(style)": { m: 1 } }, children: /* @__PURE__ */ jsxDEV8(
+  return /* @__PURE__ */ jsxDEV7(React71.Fragment, { children: [
+    /* @__PURE__ */ jsxDEV7(Box_default, { sx: { "& > :not(style)": { m: 1 } }, children: /* @__PURE__ */ jsxDEV7(
       Fab_default,
       {
         sx: {
@@ -13972,7 +14019,7 @@ function FullScreenDialog(_show) {
         onClick: () => {
           handleClickOpen();
         },
-        children: /* @__PURE__ */ jsxDEV8(Icon_default, { children: "shopping_cart" }, void 0, !1, {
+        children: /* @__PURE__ */ jsxDEV7(Icon_default, { children: "shopping_cart" }, void 0, !1, {
           fileName: "app/components/chooseProduct.tsx",
           lineNumber: 54,
           columnNumber: 13
@@ -13991,7 +14038,7 @@ function FullScreenDialog(_show) {
       lineNumber: 42,
       columnNumber: 7
     }, this),
-    /* @__PURE__ */ jsxDEV8(
+    /* @__PURE__ */ jsxDEV7(
       Dialog_default,
       {
         fullScreen: !0,
@@ -13999,15 +14046,15 @@ function FullScreenDialog(_show) {
         onClose: handleClose,
         TransitionComponent: Transition4,
         children: [
-          /* @__PURE__ */ jsxDEV8(AppBar_default, { sx: { position: "relative" }, children: /* @__PURE__ */ jsxDEV8(Toolbar_default, { children: [
-            /* @__PURE__ */ jsxDEV8(
+          /* @__PURE__ */ jsxDEV7(AppBar_default, { sx: { position: "relative" }, children: /* @__PURE__ */ jsxDEV7(Toolbar_default, { children: [
+            /* @__PURE__ */ jsxDEV7(
               IconButton_default,
               {
                 edge: "start",
                 color: "inherit",
                 onClick: handleClose,
                 "aria-label": "close",
-                children: /* @__PURE__ */ jsxDEV8(Icon_default, { children: "close" }, void 0, !1, {
+                children: /* @__PURE__ */ jsxDEV7(Icon_default, { children: "close" }, void 0, !1, {
                   fileName: "app/components/chooseProduct.tsx",
                   lineNumber: 71,
                   columnNumber: 15
@@ -14022,12 +14069,12 @@ function FullScreenDialog(_show) {
               },
               this
             ),
-            /* @__PURE__ */ jsxDEV8(Typography_default, { sx: { ml: 2, flex: 1 }, variant: "h6", component: "div", children: "Product List" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV7(Typography_default, { sx: { ml: 2, flex: 1 }, variant: "h6", component: "div", children: "Product List" }, void 0, !1, {
               fileName: "app/components/chooseProduct.tsx",
               lineNumber: 73,
               columnNumber: 13
             }, this),
-            /* @__PURE__ */ jsxDEV8(Button_default, { autoFocus: !0, color: "inherit", onClick: handleClose, children: "save" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV7(Button_default, { autoFocus: !0, color: "inherit", onClick: handleClose, children: "save" }, void 0, !1, {
               fileName: "app/components/chooseProduct.tsx",
               lineNumber: 76,
               columnNumber: 13
@@ -14041,8 +14088,8 @@ function FullScreenDialog(_show) {
             lineNumber: 63,
             columnNumber: 9
           }, this),
-          /* @__PURE__ */ jsxDEV8(List_default, { children: [
-            /* @__PURE__ */ jsxDEV8(ListItem_default, { button: !0, children: /* @__PURE__ */ jsxDEV8(ListItemText_default, { primary: "Phone ringtone", secondary: "Titania" }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV7(List_default, { children: [
+            /* @__PURE__ */ jsxDEV7(ListItem_default, { button: !0, children: /* @__PURE__ */ jsxDEV7(ListItemText_default, { primary: "Phone ringtone", secondary: "Titania" }, void 0, !1, {
               fileName: "app/components/chooseProduct.tsx",
               lineNumber: 83,
               columnNumber: 13
@@ -14051,12 +14098,12 @@ function FullScreenDialog(_show) {
               lineNumber: 82,
               columnNumber: 11
             }, this),
-            /* @__PURE__ */ jsxDEV8(Divider_default, {}, void 0, !1, {
+            /* @__PURE__ */ jsxDEV7(Divider_default, {}, void 0, !1, {
               fileName: "app/components/chooseProduct.tsx",
               lineNumber: 85,
               columnNumber: 11
             }, this),
-            /* @__PURE__ */ jsxDEV8(ListItem_default, { button: !0, children: /* @__PURE__ */ jsxDEV8(
+            /* @__PURE__ */ jsxDEV7(ListItem_default, { button: !0, children: /* @__PURE__ */ jsxDEV7(
               ListItemText_default,
               {
                 primary: "Default notification ringtone",
@@ -14099,7 +14146,7 @@ function FullScreenDialog(_show) {
 }
 
 // app/routes/sales.tsx
-import { jsxDEV as jsxDEV9 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV8 } from "react/jsx-dev-runtime";
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
@@ -14119,10 +14166,10 @@ function Index4() {
   }, triggerProductList = () => {
     product != !0 ? setProduct(!0) : setProduct(!1), console.log("sales product state : " + product);
   };
-  return /* @__PURE__ */ jsxDEV9("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
-    /* @__PURE__ */ jsxDEV9(Grid_default, { container: !0, spacing: 2, sx: { marginTop: "0.5em", width: "100%", height: "100%" }, children: [
-      /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 8, lg: 8, children: [
-        /* @__PURE__ */ jsxDEV9(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: /* @__PURE__ */ jsxDEV9(Typography_default, { gutterBottom: !0, variant: "h4", component: "h4", children: "Checkout" }, void 0, !1, {
+  return /* @__PURE__ */ jsxDEV8("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
+    /* @__PURE__ */ jsxDEV8(Grid_default, { container: !0, spacing: 2, sx: { marginTop: "0.5em", width: "100%", height: "100%" }, children: [
+      /* @__PURE__ */ jsxDEV8(Grid_default, { item: !0, xs: 12, md: 8, lg: 8, children: [
+        /* @__PURE__ */ jsxDEV8(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: /* @__PURE__ */ jsxDEV8(Typography_default, { gutterBottom: !0, variant: "h4", component: "h4", children: "Checkout" }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
           lineNumber: 71,
           columnNumber: 13
@@ -14131,25 +14178,25 @@ function Index4() {
           lineNumber: 70,
           columnNumber: 11
         }, this),
-        /* @__PURE__ */ jsxDEV9(Box_default, { children: [
-          /* @__PURE__ */ jsxDEV9(TableContainer_default, { component: Paper_default, children: /* @__PURE__ */ jsxDEV9(Table_default, { sx: { minWidth: 650, width: "100%" }, "aria-label": "simple table", children: [
-            /* @__PURE__ */ jsxDEV9(TableHead_default, { children: /* @__PURE__ */ jsxDEV9(TableRow_default, { children: [
-              /* @__PURE__ */ jsxDEV9(TableCell_default, { children: "List Item" }, void 0, !1, {
+        /* @__PURE__ */ jsxDEV8(Box_default, { children: [
+          /* @__PURE__ */ jsxDEV8(TableContainer_default, { component: Paper_default, children: /* @__PURE__ */ jsxDEV8(Table_default, { sx: { minWidth: 650, width: "100%" }, "aria-label": "simple table", children: [
+            /* @__PURE__ */ jsxDEV8(TableHead_default, { children: /* @__PURE__ */ jsxDEV8(TableRow_default, { children: [
+              /* @__PURE__ */ jsxDEV8(TableCell_default, { children: "List Item" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 82,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(TableCell_default, { align: "right", children: "Price" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(TableCell_default, { align: "right", children: "Price" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 83,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(TableCell_default, { align: "right", children: "Quantity" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(TableCell_default, { align: "right", children: "Quantity" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 84,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(TableCell_default, { align: "right", children: "Total" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(TableCell_default, { align: "right", children: "Total" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 85,
                 columnNumber: 21
@@ -14163,27 +14210,27 @@ function Index4() {
               lineNumber: 80,
               columnNumber: 17
             }, this),
-            /* @__PURE__ */ jsxDEV9(TableBody_default, { children: rows.map((row) => /* @__PURE__ */ jsxDEV9(
+            /* @__PURE__ */ jsxDEV8(TableBody_default, { children: rows.map((row) => /* @__PURE__ */ jsxDEV8(
               TableRow_default,
               {
                 sx: { "&:last-child td, &:last-child th": { border: 0 } },
                 children: [
-                  /* @__PURE__ */ jsxDEV9(TableCell_default, { component: "th", scope: "row", children: row.name }, void 0, !1, {
+                  /* @__PURE__ */ jsxDEV8(TableCell_default, { component: "th", scope: "row", children: row.name }, void 0, !1, {
                     fileName: "app/routes/sales.tsx",
                     lineNumber: 94,
                     columnNumber: 23
                   }, this),
-                  /* @__PURE__ */ jsxDEV9(TableCell_default, { align: "right", children: row.calories }, void 0, !1, {
+                  /* @__PURE__ */ jsxDEV8(TableCell_default, { align: "right", children: row.calories }, void 0, !1, {
                     fileName: "app/routes/sales.tsx",
                     lineNumber: 97,
                     columnNumber: 23
                   }, this),
-                  /* @__PURE__ */ jsxDEV9(TableCell_default, { align: "right", children: row.fat }, void 0, !1, {
+                  /* @__PURE__ */ jsxDEV8(TableCell_default, { align: "right", children: row.fat }, void 0, !1, {
                     fileName: "app/routes/sales.tsx",
                     lineNumber: 98,
                     columnNumber: 23
                   }, this),
-                  /* @__PURE__ */ jsxDEV9(TableCell_default, { align: "right", children: row.carbs }, void 0, !1, {
+                  /* @__PURE__ */ jsxDEV8(TableCell_default, { align: "right", children: row.carbs }, void 0, !1, {
                     fileName: "app/routes/sales.tsx",
                     lineNumber: 99,
                     columnNumber: 23
@@ -14212,19 +14259,19 @@ function Index4() {
             lineNumber: 78,
             columnNumber: 13
           }, this),
-          /* @__PURE__ */ jsxDEV9(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", sx: { bgcolor: "#1976d2", color: "white" }, children: [
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV9(Box_default, { children: [
-              /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: "Total Before Discount" }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV8(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", sx: { bgcolor: "#1976d2", color: "white" }, children: [
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV8(Box_default, { children: [
+              /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: "Total Before Discount" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 110,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: "Discount" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: "Discount" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 113,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: "Total" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: "Total" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 116,
                 columnNumber: 21
@@ -14238,18 +14285,18 @@ function Index4() {
               lineNumber: 108,
               columnNumber: 15
             }, this),
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV9(Box_default, { children: [
-              /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: "$ 14" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV8(Box_default, { children: [
+              /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: "$ 14" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 124,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: "$ 4" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: "$ 4" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 127,
                 columnNumber: 21
               }, this),
-              /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: "$ 10" }, void 0, !1, {
+              /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: "$ 10" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 130,
                 columnNumber: 21
@@ -14278,7 +14325,7 @@ function Index4() {
         lineNumber: 68,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 4, lg: 4, children: /* @__PURE__ */ jsxDEV9(
+      /* @__PURE__ */ jsxDEV8(Grid_default, { item: !0, xs: 12, md: 4, lg: 4, children: /* @__PURE__ */ jsxDEV8(
         Stack_default,
         {
           direction: "column",
@@ -14286,8 +14333,8 @@ function Index4() {
           alignItems: "stretch",
           spacing: 0.5,
           sx: { marginTop: "4.5em" },
-          children: /* @__PURE__ */ jsxDEV9(Box_default, { bgcolor: "#f7f7f7", children: /* @__PURE__ */ jsxDEV9(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV9(Box_default, { children: /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: "Total" }, void 0, !1, {
+          children: /* @__PURE__ */ jsxDEV8(Box_default, { bgcolor: "#f7f7f7", children: /* @__PURE__ */ jsxDEV8(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV8(Box_default, { children: /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: "Total" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
               lineNumber: 156,
               columnNumber: 25
@@ -14300,7 +14347,7 @@ function Index4() {
               lineNumber: 154,
               columnNumber: 19
             }, this),
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV9(Box_default, { children: /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: "$ 10" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV8(Box_default, { children: /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: "$ 10" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
               lineNumber: 164,
               columnNumber: 25
@@ -14313,13 +14360,13 @@ function Index4() {
               lineNumber: 162,
               columnNumber: 19
             }, this),
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV9(Box_default, { children: /* @__PURE__ */ jsxDEV9(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: [
-              /* @__PURE__ */ jsxDEV9(InputLabel_default, { id: "demo-simple-select-label", children: "Customer *" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV8(Box_default, { children: /* @__PURE__ */ jsxDEV8(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: [
+              /* @__PURE__ */ jsxDEV8(InputLabel_default, { id: "demo-simple-select-label", children: "Customer *" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
                 lineNumber: 173,
                 columnNumber: 25
               }, this),
-              /* @__PURE__ */ jsxDEV9(
+              /* @__PURE__ */ jsxDEV8(
                 Select_default,
                 {
                   labelId: "demo-simple-select-label",
@@ -14328,17 +14375,17 @@ function Index4() {
                   label: "Age",
                   onChange: handleChange,
                   children: [
-                    /* @__PURE__ */ jsxDEV9(MenuItem_default, { value: 10, children: "Abdul" }, void 0, !1, {
+                    /* @__PURE__ */ jsxDEV8(MenuItem_default, { value: 10, children: "Abdul" }, void 0, !1, {
                       fileName: "app/routes/sales.tsx",
                       lineNumber: 181,
                       columnNumber: 27
                     }, this),
-                    /* @__PURE__ */ jsxDEV9(MenuItem_default, { value: 20, children: "Ferry" }, void 0, !1, {
+                    /* @__PURE__ */ jsxDEV8(MenuItem_default, { value: 20, children: "Ferry" }, void 0, !1, {
                       fileName: "app/routes/sales.tsx",
                       lineNumber: 182,
                       columnNumber: 27
                     }, this),
-                    /* @__PURE__ */ jsxDEV9(MenuItem_default, { value: 30, children: "Manan" }, void 0, !1, {
+                    /* @__PURE__ */ jsxDEV8(MenuItem_default, { value: 30, children: "Manan" }, void 0, !1, {
                       fileName: "app/routes/sales.tsx",
                       lineNumber: 183,
                       columnNumber: 27
@@ -14367,7 +14414,7 @@ function Index4() {
               lineNumber: 170,
               columnNumber: 19
             }, this),
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV9(Box_default, { children: /* @__PURE__ */ jsxDEV9(
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV8(Box_default, { children: /* @__PURE__ */ jsxDEV8(
               TextField_default,
               {
                 variant: "outlined",
@@ -14396,12 +14443,12 @@ function Index4() {
               lineNumber: 189,
               columnNumber: 19
             }, this),
-            /* @__PURE__ */ jsxDEV9(Divider_default, { variant: "middle" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV8(Divider_default, { variant: "middle" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
               lineNumber: 204,
               columnNumber: 19
             }, this),
-            /* @__PURE__ */ jsxDEV9(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV9(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV9(Button_default, { size: "large", fullWidth: !0, variant: "contained", color: "success", children: "Pay" }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV8(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV8(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV8(Button_default, { size: "large", fullWidth: !0, variant: "contained", color: "success", children: "Pay" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
               lineNumber: 208,
               columnNumber: 23
@@ -14453,12 +14500,12 @@ function Index4() {
 // app/routes/users.tsx
 var users_exports = {};
 __export(users_exports, {
-  action: () => action,
+  action: () => action4,
   default: () => Index5,
   loader: () => loader2,
   meta: () => meta5
 });
-import * as React91 from "react";
+import * as React80 from "react";
 import { DataGrid as DataGrid2, GridToolbar as GridToolbar2 } from "@mui/x-data-grid";
 
 // node_modules/@mui/material/Tooltip/Tooltip.js
@@ -15556,7 +15603,7 @@ var Tooltip_default = Tooltip;
 
 // app/routes/users.tsx
 import { useLoaderData as useLoaderData2 } from "@remix-run/react";
-import { json as json2, redirect } from "@remix-run/node";
+import { json as json5 } from "@remix-run/node";
 
 // node_modules/@mui/material/DialogActions/DialogActions.js
 import _objectWithoutPropertiesLoose59 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -15890,966 +15937,7 @@ var DialogTitle_default = DialogTitle;
 
 // app/routes/users.tsx
 import { Form, useActionData } from "@remix-run/react";
-
-// app/components/customsnackBar.tsx
-import * as React90 from "react";
-
-// node_modules/@mui/material/Snackbar/Snackbar.js
-import _objectWithoutPropertiesLoose64 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import _extends75 from "@babel/runtime/helpers/esm/extends";
-import * as React83 from "react";
-import PropTypes68 from "prop-types";
-import { unstable_composeClasses as composeClasses5, useSlotProps as useSlotProps4 } from "@mui/base";
-
-// node_modules/@mui/base/ClickAwayListener/ClickAwayListener.js
-import * as React80 from "react";
-import PropTypes66 from "prop-types";
-import { elementAcceptingRef as elementAcceptingRef7, exactProp as exactProp3, unstable_ownerDocument as ownerDocument6, unstable_useForkRef as useForkRef7, unstable_useEventCallback as useEventCallback3 } from "@mui/utils";
-import { jsx as _jsx65 } from "react/jsx-runtime";
-function mapEventPropToEvent(eventProp) {
-  return eventProp.substring(2).toLowerCase();
-}
-function clickedRootScrollbar(event, doc) {
-  return doc.documentElement.clientWidth < event.clientX || doc.documentElement.clientHeight < event.clientY;
-}
-function ClickAwayListener(props) {
-  let {
-    children,
-    disableReactTree = !1,
-    mouseEvent = "onClick",
-    onClickAway,
-    touchEvent = "onTouchEnd"
-  } = props, movedRef = React80.useRef(!1), nodeRef = React80.useRef(null), activatedRef = React80.useRef(!1), syntheticEventRef = React80.useRef(!1);
-  React80.useEffect(() => (setTimeout(() => {
-    activatedRef.current = !0;
-  }, 0), () => {
-    activatedRef.current = !1;
-  }), []);
-  let handleRef = useForkRef7(
-    // @ts-expect-error TODO upstream fix
-    children.ref,
-    nodeRef
-  ), handleClickAway = useEventCallback3((event) => {
-    let insideReactTree = syntheticEventRef.current;
-    syntheticEventRef.current = !1;
-    let doc = ownerDocument6(nodeRef.current);
-    if (!activatedRef.current || !nodeRef.current || "clientX" in event && clickedRootScrollbar(event, doc))
-      return;
-    if (movedRef.current) {
-      movedRef.current = !1;
-      return;
-    }
-    let insideDOM;
-    event.composedPath ? insideDOM = event.composedPath().indexOf(nodeRef.current) > -1 : insideDOM = !doc.documentElement.contains(
-      // @ts-expect-error returns `false` as intended when not dispatched from a Node
-      event.target
-    ) || nodeRef.current.contains(
-      // @ts-expect-error returns `false` as intended when not dispatched from a Node
-      event.target
-    ), !insideDOM && (disableReactTree || !insideReactTree) && onClickAway(event);
-  }), createHandleSynthetic = (handlerName) => (event) => {
-    syntheticEventRef.current = !0;
-    let childrenPropsHandler = children.props[handlerName];
-    childrenPropsHandler && childrenPropsHandler(event);
-  }, childrenProps = {
-    ref: handleRef
-  };
-  return touchEvent !== !1 && (childrenProps[touchEvent] = createHandleSynthetic(touchEvent)), React80.useEffect(() => {
-    if (touchEvent !== !1) {
-      let mappedTouchEvent = mapEventPropToEvent(touchEvent), doc = ownerDocument6(nodeRef.current), handleTouchMove = () => {
-        movedRef.current = !0;
-      };
-      return doc.addEventListener(mappedTouchEvent, handleClickAway), doc.addEventListener("touchmove", handleTouchMove), () => {
-        doc.removeEventListener(mappedTouchEvent, handleClickAway), doc.removeEventListener("touchmove", handleTouchMove);
-      };
-    }
-  }, [handleClickAway, touchEvent]), mouseEvent !== !1 && (childrenProps[mouseEvent] = createHandleSynthetic(mouseEvent)), React80.useEffect(() => {
-    if (mouseEvent !== !1) {
-      let mappedMouseEvent = mapEventPropToEvent(mouseEvent), doc = ownerDocument6(nodeRef.current);
-      return doc.addEventListener(mappedMouseEvent, handleClickAway), () => {
-        doc.removeEventListener(mappedMouseEvent, handleClickAway);
-      };
-    }
-  }, [handleClickAway, mouseEvent]), /* @__PURE__ */ _jsx65(React80.Fragment, {
-    children: /* @__PURE__ */ React80.cloneElement(children, childrenProps)
-  });
-}
-ClickAwayListener.propTypes = {
-  // ----------------------------- Warning --------------------------------
-  // | These PropTypes are generated from the TypeScript type definitions |
-  // |     To update them edit TypeScript types and run "yarn proptypes"  |
-  // ----------------------------------------------------------------------
-  /**
-   * The wrapped element.
-   */
-  children: elementAcceptingRef7.isRequired,
-  /**
-   * If `true`, the React tree is ignored and only the DOM tree is considered.
-   * This prop changes how portaled elements are handled.
-   * @default false
-   */
-  disableReactTree: PropTypes66.bool,
-  /**
-   * The mouse event to listen to. You can disable the listener by providing `false`.
-   * @default 'onClick'
-   */
-  mouseEvent: PropTypes66.oneOf(["onClick", "onMouseDown", "onMouseUp", "onPointerDown", "onPointerUp", !1]),
-  /**
-   * Callback fired when a "click away" event is detected.
-   */
-  onClickAway: PropTypes66.func.isRequired,
-  /**
-   * The touch event to listen to. You can disable the listener by providing `false`.
-   * @default 'onTouchEnd'
-   */
-  touchEvent: PropTypes66.oneOf(["onTouchEnd", "onTouchStart", !1])
-};
-ClickAwayListener["propTypes"] = exactProp3(ClickAwayListener.propTypes);
-
-// node_modules/@mui/base/useSnackbar/useSnackbar.js
-import _extends73 from "@babel/runtime/helpers/esm/extends";
-import * as React81 from "react";
-import { unstable_useEventCallback as useEventCallback4 } from "@mui/utils";
-function useSnackbar(parameters = {}) {
-  let {
-    autoHideDuration = null,
-    disableWindowBlurListener = !1,
-    onClose,
-    open,
-    resumeHideDuration
-  } = parameters, timerAutoHide = React81.useRef();
-  React81.useEffect(() => {
-    if (!open)
-      return;
-    function handleKeyDown(nativeEvent) {
-      nativeEvent.defaultPrevented || (nativeEvent.key === "Escape" || nativeEvent.key === "Esc") && onClose?.(nativeEvent, "escapeKeyDown");
-    }
-    return document.addEventListener("keydown", handleKeyDown), () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [open, onClose]);
-  let handleClose = useEventCallback4((event, reason) => {
-    onClose?.(event, reason);
-  }), setAutoHideTimer = useEventCallback4((autoHideDurationParam) => {
-    !onClose || autoHideDurationParam == null || (clearTimeout(timerAutoHide.current), timerAutoHide.current = setTimeout(() => {
-      handleClose(null, "timeout");
-    }, autoHideDurationParam));
-  });
-  React81.useEffect(() => (open && setAutoHideTimer(autoHideDuration), () => {
-    clearTimeout(timerAutoHide.current);
-  }), [open, autoHideDuration, setAutoHideTimer]);
-  let handleClickAway = (event) => {
-    onClose?.(event, "clickaway");
-  }, handlePause = () => {
-    clearTimeout(timerAutoHide.current);
-  }, handleResume = React81.useCallback(() => {
-    autoHideDuration != null && setAutoHideTimer(resumeHideDuration ?? autoHideDuration * 0.5);
-  }, [autoHideDuration, resumeHideDuration, setAutoHideTimer]), createHandleBlur = (otherHandlers) => (event) => {
-    let onBlurCallback = otherHandlers.onBlur;
-    onBlurCallback?.(event), handleResume();
-  }, createHandleFocus = (otherHandlers) => (event) => {
-    let onFocusCallback = otherHandlers.onFocus;
-    onFocusCallback?.(event), handlePause();
-  }, createMouseEnter = (otherHandlers) => (event) => {
-    let onMouseEnterCallback = otherHandlers.onMouseEnter;
-    onMouseEnterCallback?.(event), handlePause();
-  }, createMouseLeave = (otherHandlers) => (event) => {
-    let onMouseLeaveCallback = otherHandlers.onMouseLeave;
-    onMouseLeaveCallback?.(event), handleResume();
-  };
-  return React81.useEffect(() => {
-    if (!disableWindowBlurListener && open)
-      return window.addEventListener("focus", handleResume), window.addEventListener("blur", handlePause), () => {
-        window.removeEventListener("focus", handleResume), window.removeEventListener("blur", handlePause);
-      };
-  }, [disableWindowBlurListener, handleResume, open]), {
-    getRootProps: (externalProps = {}) => {
-      let externalEventHandlers = _extends73({}, extractEventHandlers(parameters), extractEventHandlers(externalProps));
-      return _extends73({
-        // ClickAwayListener adds an `onClick` prop which results in the alert not being announced.
-        // See https://github.com/mui/material-ui/issues/29080
-        role: "presentation"
-      }, externalProps, externalEventHandlers, {
-        onBlur: createHandleBlur(externalEventHandlers),
-        onFocus: createHandleFocus(externalEventHandlers),
-        onMouseEnter: createMouseEnter(externalEventHandlers),
-        onMouseLeave: createMouseLeave(externalEventHandlers)
-      });
-    },
-    onClickAway: handleClickAway
-  };
-}
-
-// node_modules/@mui/material/SnackbarContent/SnackbarContent.js
-import _objectWithoutPropertiesLoose63 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import _extends74 from "@babel/runtime/helpers/esm/extends";
-import * as React82 from "react";
-import PropTypes67 from "prop-types";
-import clsx50 from "clsx";
-import { emphasize as emphasize2 } from "@mui/system";
-
-// node_modules/@mui/material/SnackbarContent/snackbarContentClasses.js
-import { unstable_generateUtilityClasses as generateUtilityClasses51 } from "@mui/utils";
-function getSnackbarContentUtilityClass(slot) {
-  return unstable_generateUtilityClass("MuiSnackbarContent", slot);
-}
-var snackbarContentClasses = generateUtilityClasses51("MuiSnackbarContent", ["root", "message", "action"]);
-
-// node_modules/@mui/material/SnackbarContent/SnackbarContent.js
-import { jsx as _jsx66 } from "react/jsx-runtime";
-import { jsxs as _jsxs17 } from "react/jsx-runtime";
-var _excluded65 = ["action", "className", "message", "role"], useUtilityClasses51 = (ownerState) => {
-  let {
-    classes
-  } = ownerState;
-  return unstable_composeClasses({
-    root: ["root"],
-    action: ["action"],
-    message: ["message"]
-  }, getSnackbarContentUtilityClass, classes);
-}, SnackbarContentRoot = styled_default(Paper_default, {
-  name: "MuiSnackbarContent",
-  slot: "Root",
-  overridesResolver: (props, styles4) => styles4.root
-})(({
-  theme
-}) => {
-  let emphasis = theme.palette.mode === "light" ? 0.8 : 0.98, backgroundColor = emphasize2(theme.palette.background.default, emphasis);
-  return _extends74({}, theme.typography.body2, {
-    color: theme.vars ? theme.vars.palette.SnackbarContent.color : theme.palette.getContrastText(backgroundColor),
-    backgroundColor: theme.vars ? theme.vars.palette.SnackbarContent.bg : backgroundColor,
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-    padding: "6px 16px",
-    borderRadius: (theme.vars || theme).shape.borderRadius,
-    flexGrow: 1,
-    [theme.breakpoints.up("sm")]: {
-      flexGrow: "initial",
-      minWidth: 288
-    }
-  });
-}), SnackbarContentMessage = styled_default("div", {
-  name: "MuiSnackbarContent",
-  slot: "Message",
-  overridesResolver: (props, styles4) => styles4.message
-})({
-  padding: "8px 0"
-}), SnackbarContentAction = styled_default("div", {
-  name: "MuiSnackbarContent",
-  slot: "Action",
-  overridesResolver: (props, styles4) => styles4.action
-})({
-  display: "flex",
-  alignItems: "center",
-  marginLeft: "auto",
-  paddingLeft: 16,
-  marginRight: -8
-}), SnackbarContent = /* @__PURE__ */ React82.forwardRef(function(inProps, ref) {
-  let props = useThemeProps({
-    props: inProps,
-    name: "MuiSnackbarContent"
-  }), {
-    action: action2,
-    className,
-    message,
-    role = "alert"
-  } = props, other = _objectWithoutPropertiesLoose63(props, _excluded65), ownerState = props, classes = useUtilityClasses51(ownerState);
-  return /* @__PURE__ */ _jsxs17(SnackbarContentRoot, _extends74({
-    role,
-    square: !0,
-    elevation: 6,
-    className: clsx50(classes.root, className),
-    ownerState,
-    ref
-  }, other, {
-    children: [/* @__PURE__ */ _jsx66(SnackbarContentMessage, {
-      className: classes.message,
-      ownerState,
-      children: message
-    }), action2 ? /* @__PURE__ */ _jsx66(SnackbarContentAction, {
-      className: classes.action,
-      ownerState,
-      children: action2
-    }) : null]
-  }));
-});
-SnackbarContent.propTypes = {
-  // ----------------------------- Warning --------------------------------
-  // | These PropTypes are generated from the TypeScript type definitions |
-  // |     To update them edit the d.ts file and run "yarn proptypes"     |
-  // ----------------------------------------------------------------------
-  /**
-   * The action to display. It renders after the message, at the end of the snackbar.
-   */
-  action: PropTypes67.node,
-  /**
-   * Override or extend the styles applied to the component.
-   */
-  classes: PropTypes67.object,
-  /**
-   * @ignore
-   */
-  className: PropTypes67.string,
-  /**
-   * The message to display.
-   */
-  message: PropTypes67.node,
-  /**
-   * The ARIA role attribute of the element.
-   * @default 'alert'
-   */
-  role: PropTypes67.string,
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: PropTypes67.oneOfType([PropTypes67.arrayOf(PropTypes67.oneOfType([PropTypes67.func, PropTypes67.object, PropTypes67.bool])), PropTypes67.func, PropTypes67.object])
-};
-var SnackbarContent_default = SnackbarContent;
-
-// node_modules/@mui/material/Snackbar/snackbarClasses.js
-import { unstable_generateUtilityClasses as generateUtilityClasses52 } from "@mui/utils";
-function getSnackbarUtilityClass(slot) {
-  return unstable_generateUtilityClass("MuiSnackbar", slot);
-}
-var snackbarClasses = generateUtilityClasses52("MuiSnackbar", ["root", "anchorOriginTopCenter", "anchorOriginBottomCenter", "anchorOriginTopRight", "anchorOriginBottomRight", "anchorOriginTopLeft", "anchorOriginBottomLeft"]);
-
-// node_modules/@mui/material/Snackbar/Snackbar.js
-import { jsx as _jsx67 } from "react/jsx-runtime";
-var _excluded66 = ["onEnter", "onExited"], _excluded214 = ["action", "anchorOrigin", "autoHideDuration", "children", "className", "ClickAwayListenerProps", "ContentProps", "disableWindowBlurListener", "message", "onBlur", "onClose", "onFocus", "onMouseEnter", "onMouseLeave", "open", "resumeHideDuration", "TransitionComponent", "transitionDuration", "TransitionProps"], useUtilityClasses52 = (ownerState) => {
-  let {
-    classes,
-    anchorOrigin
-  } = ownerState, slots = {
-    root: ["root", `anchorOrigin${capitalize_default(anchorOrigin.vertical)}${capitalize_default(anchorOrigin.horizontal)}`]
-  };
-  return composeClasses5(slots, getSnackbarUtilityClass, classes);
-}, SnackbarRoot = styled_default("div", {
-  name: "MuiSnackbar",
-  slot: "Root",
-  overridesResolver: (props, styles4) => {
-    let {
-      ownerState
-    } = props;
-    return [styles4.root, styles4[`anchorOrigin${capitalize_default(ownerState.anchorOrigin.vertical)}${capitalize_default(ownerState.anchorOrigin.horizontal)}`]];
-  }
-})(({
-  theme,
-  ownerState
-}) => {
-  let center = {
-    left: "50%",
-    right: "auto",
-    transform: "translateX(-50%)"
-  };
-  return _extends75({
-    zIndex: (theme.vars || theme).zIndex.snackbar,
-    position: "fixed",
-    display: "flex",
-    left: 8,
-    right: 8,
-    justifyContent: "center",
-    alignItems: "center"
-  }, ownerState.anchorOrigin.vertical === "top" ? {
-    top: 8
-  } : {
-    bottom: 8
-  }, ownerState.anchorOrigin.horizontal === "left" && {
-    justifyContent: "flex-start"
-  }, ownerState.anchorOrigin.horizontal === "right" && {
-    justifyContent: "flex-end"
-  }, {
-    [theme.breakpoints.up("sm")]: _extends75({}, ownerState.anchorOrigin.vertical === "top" ? {
-      top: 24
-    } : {
-      bottom: 24
-    }, ownerState.anchorOrigin.horizontal === "center" && center, ownerState.anchorOrigin.horizontal === "left" && {
-      left: 24,
-      right: "auto"
-    }, ownerState.anchorOrigin.horizontal === "right" && {
-      right: 24,
-      left: "auto"
-    })
-  });
-}), Snackbar = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
-  let props = useThemeProps({
-    props: inProps,
-    name: "MuiSnackbar"
-  }), theme = useTheme(), defaultTransitionDuration = {
-    enter: theme.transitions.duration.enteringScreen,
-    exit: theme.transitions.duration.leavingScreen
-  }, {
-    action: action2,
-    anchorOrigin: {
-      vertical,
-      horizontal
-    } = {
-      vertical: "bottom",
-      horizontal: "left"
-    },
-    autoHideDuration = null,
-    children,
-    className,
-    ClickAwayListenerProps,
-    ContentProps,
-    disableWindowBlurListener = !1,
-    message,
-    open,
-    TransitionComponent = Grow_default,
-    transitionDuration = defaultTransitionDuration,
-    TransitionProps: {
-      onEnter,
-      onExited
-    } = {}
-  } = props, TransitionProps = _objectWithoutPropertiesLoose64(props.TransitionProps, _excluded66), other = _objectWithoutPropertiesLoose64(props, _excluded214), ownerState = _extends75({}, props, {
-    anchorOrigin: {
-      vertical,
-      horizontal
-    },
-    autoHideDuration,
-    disableWindowBlurListener,
-    TransitionComponent,
-    transitionDuration
-  }), classes = useUtilityClasses52(ownerState), {
-    getRootProps,
-    onClickAway
-  } = useSnackbar(_extends75({}, ownerState)), [exited, setExited] = React83.useState(!0), rootProps = useSlotProps4({
-    elementType: SnackbarRoot,
-    getSlotProps: getRootProps,
-    externalForwardedProps: other,
-    ownerState,
-    additionalProps: {
-      ref
-    },
-    className: [classes.root, className]
-  }), handleExited = (node) => {
-    setExited(!0), onExited && onExited(node);
-  }, handleEnter = (node, isAppearing) => {
-    setExited(!1), onEnter && onEnter(node, isAppearing);
-  };
-  return !open && exited ? null : /* @__PURE__ */ _jsx67(ClickAwayListener, _extends75({
-    onClickAway
-  }, ClickAwayListenerProps, {
-    children: /* @__PURE__ */ _jsx67(SnackbarRoot, _extends75({}, rootProps, {
-      children: /* @__PURE__ */ _jsx67(TransitionComponent, _extends75({
-        appear: !0,
-        in: open,
-        timeout: transitionDuration,
-        direction: vertical === "top" ? "down" : "up",
-        onEnter: handleEnter,
-        onExited: handleExited
-      }, TransitionProps, {
-        children: children || /* @__PURE__ */ _jsx67(SnackbarContent_default, _extends75({
-          message,
-          action: action2
-        }, ContentProps))
-      }))
-    }))
-  }));
-});
-Snackbar.propTypes = {
-  // ----------------------------- Warning --------------------------------
-  // | These PropTypes are generated from the TypeScript type definitions |
-  // |     To update them edit the d.ts file and run "yarn proptypes"     |
-  // ----------------------------------------------------------------------
-  /**
-   * The action to display. It renders after the message, at the end of the snackbar.
-   */
-  action: PropTypes68.node,
-  /**
-   * The anchor of the `Snackbar`.
-   * On smaller screens, the component grows to occupy all the available width,
-   * the horizontal alignment is ignored.
-   * @default { vertical: 'bottom', horizontal: 'left' }
-   */
-  anchorOrigin: PropTypes68.shape({
-    horizontal: PropTypes68.oneOf(["center", "left", "right"]).isRequired,
-    vertical: PropTypes68.oneOf(["bottom", "top"]).isRequired
-  }),
-  /**
-   * The number of milliseconds to wait before automatically calling the
-   * `onClose` function. `onClose` should then set the state of the `open`
-   * prop to hide the Snackbar. This behavior is disabled by default with
-   * the `null` value.
-   * @default null
-   */
-  autoHideDuration: PropTypes68.number,
-  /**
-   * Replace the `SnackbarContent` component.
-   */
-  children: PropTypes68.element,
-  /**
-   * Override or extend the styles applied to the component.
-   */
-  classes: PropTypes68.object,
-  /**
-   * @ignore
-   */
-  className: PropTypes68.string,
-  /**
-   * Props applied to the `ClickAwayListener` element.
-   */
-  ClickAwayListenerProps: PropTypes68.object,
-  /**
-   * Props applied to the [`SnackbarContent`](/material-ui/api/snackbar-content/) element.
-   */
-  ContentProps: PropTypes68.object,
-  /**
-   * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.
-   * @default false
-   */
-  disableWindowBlurListener: PropTypes68.bool,
-  /**
-   * When displaying multiple consecutive snackbars using a single parent-rendered
-   * `<Snackbar/>`, add the `key` prop to ensure independent treatment of each message.
-   * For instance, use `<Snackbar key={message} />`. Otherwise, messages might update
-   * in place, and features like `autoHideDuration` could be affected.
-   */
-  key: () => null,
-  /**
-   * The message to display.
-   */
-  message: PropTypes68.node,
-  /**
-   * @ignore
-   */
-  onBlur: PropTypes68.func,
-  /**
-   * Callback fired when the component requests to be closed.
-   * Typically `onClose` is used to set state in the parent component,
-   * which is used to control the `Snackbar` `open` prop.
-   * The `reason` parameter can optionally be used to control the response to `onClose`,
-   * for example ignoring `clickaway`.
-   *
-   * @param {React.SyntheticEvent<any> | Event} event The event source of the callback.
-   * @param {string} reason Can be: `"timeout"` (`autoHideDuration` expired), `"clickaway"`, or `"escapeKeyDown"`.
-   */
-  onClose: PropTypes68.func,
-  /**
-   * @ignore
-   */
-  onFocus: PropTypes68.func,
-  /**
-   * @ignore
-   */
-  onMouseEnter: PropTypes68.func,
-  /**
-   * @ignore
-   */
-  onMouseLeave: PropTypes68.func,
-  /**
-   * If `true`, the component is shown.
-   */
-  open: PropTypes68.bool,
-  /**
-   * The number of milliseconds to wait before dismissing after user interaction.
-   * If `autoHideDuration` prop isn't specified, it does nothing.
-   * If `autoHideDuration` prop is specified but `resumeHideDuration` isn't,
-   * we default to `autoHideDuration / 2` ms.
-   */
-  resumeHideDuration: PropTypes68.number,
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: PropTypes68.oneOfType([PropTypes68.arrayOf(PropTypes68.oneOfType([PropTypes68.func, PropTypes68.object, PropTypes68.bool])), PropTypes68.func, PropTypes68.object]),
-  /**
-   * The component used for the transition.
-   * [Follow this guide](/material-ui/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
-   * @default Grow
-   */
-  TransitionComponent: PropTypes68.elementType,
-  /**
-   * The duration for the transition, in milliseconds.
-   * You may specify a single timeout for all transitions, or individually with an object.
-   * @default {
-   *   enter: theme.transitions.duration.enteringScreen,
-   *   exit: theme.transitions.duration.leavingScreen,
-   * }
-   */
-  transitionDuration: PropTypes68.oneOfType([PropTypes68.number, PropTypes68.shape({
-    appear: PropTypes68.number,
-    enter: PropTypes68.number,
-    exit: PropTypes68.number
-  })]),
-  /**
-   * Props applied to the transition element.
-   * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition/) component.
-   * @default {}
-   */
-  TransitionProps: PropTypes68.object
-};
-var Snackbar_default = Snackbar;
-
-// node_modules/@mui/material/Alert/Alert.js
-import _objectWithoutPropertiesLoose65 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import _extends76 from "@babel/runtime/helpers/esm/extends";
-import * as React89 from "react";
-import PropTypes69 from "prop-types";
-import clsx51 from "clsx";
-import { darken as darken4, lighten as lighten4 } from "@mui/system";
-
-// node_modules/@mui/material/Alert/alertClasses.js
-import { unstable_generateUtilityClasses as generateUtilityClasses53 } from "@mui/utils";
-function getAlertUtilityClass(slot) {
-  return unstable_generateUtilityClass("MuiAlert", slot);
-}
-var alertClasses = generateUtilityClasses53("MuiAlert", ["root", "action", "icon", "message", "filled", "filledSuccess", "filledInfo", "filledWarning", "filledError", "outlined", "outlinedSuccess", "outlinedInfo", "outlinedWarning", "outlinedError", "standard", "standardSuccess", "standardInfo", "standardWarning", "standardError"]), alertClasses_default = alertClasses;
-
-// node_modules/@mui/material/internal/svg-icons/SuccessOutlined.js
-import "react";
-import { jsx as _jsx68 } from "react/jsx-runtime";
-var SuccessOutlined_default = createSvgIcon(/* @__PURE__ */ _jsx68("path", {
-  d: "M20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4C12.76,4 13.5,4.11 14.2, 4.31L15.77,2.74C14.61,2.26 13.34,2 12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0, 0 22,12M7.91,10.08L6.5,11.5L11,16L21,6L19.59,4.58L11,13.17L7.91,10.08Z"
-}), "SuccessOutlined");
-
-// node_modules/@mui/material/internal/svg-icons/ReportProblemOutlined.js
-import "react";
-import { jsx as _jsx69 } from "react/jsx-runtime";
-var ReportProblemOutlined_default = createSvgIcon(/* @__PURE__ */ _jsx69("path", {
-  d: "M12 5.99L19.53 19H4.47L12 5.99M12 2L1 21h22L12 2zm1 14h-2v2h2v-2zm0-6h-2v4h2v-4z"
-}), "ReportProblemOutlined");
-
-// node_modules/@mui/material/internal/svg-icons/ErrorOutline.js
-import "react";
-import { jsx as _jsx70 } from "react/jsx-runtime";
-var ErrorOutline_default = createSvgIcon(/* @__PURE__ */ _jsx70("path", {
-  d: "M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
-}), "ErrorOutline");
-
-// node_modules/@mui/material/internal/svg-icons/InfoOutlined.js
-import "react";
-import { jsx as _jsx71 } from "react/jsx-runtime";
-var InfoOutlined_default = createSvgIcon(/* @__PURE__ */ _jsx71("path", {
-  d: "M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20, 12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10, 10 0 0,0 12,2M11,17H13V11H11V17Z"
-}), "InfoOutlined");
-
-// node_modules/@mui/material/internal/svg-icons/Close.js
-import "react";
-import { jsx as _jsx72 } from "react/jsx-runtime";
-var Close_default = createSvgIcon(/* @__PURE__ */ _jsx72("path", {
-  d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-}), "Close");
-
-// node_modules/@mui/material/Alert/Alert.js
-import { jsx as _jsx73 } from "react/jsx-runtime";
-import { jsxs as _jsxs18 } from "react/jsx-runtime";
-var _excluded67 = ["action", "children", "className", "closeText", "color", "components", "componentsProps", "icon", "iconMapping", "onClose", "role", "severity", "slotProps", "slots", "variant"], useUtilityClasses53 = (ownerState) => {
-  let {
-    variant,
-    color,
-    severity,
-    classes
-  } = ownerState, slots = {
-    root: ["root", `${variant}${capitalize_default(color || severity)}`, `${variant}`],
-    icon: ["icon"],
-    message: ["message"],
-    action: ["action"]
-  };
-  return unstable_composeClasses(slots, getAlertUtilityClass, classes);
-}, AlertRoot = styled_default(Paper_default, {
-  name: "MuiAlert",
-  slot: "Root",
-  overridesResolver: (props, styles4) => {
-    let {
-      ownerState
-    } = props;
-    return [styles4.root, styles4[ownerState.variant], styles4[`${ownerState.variant}${capitalize_default(ownerState.color || ownerState.severity)}`]];
-  }
-})(({
-  theme,
-  ownerState
-}) => {
-  let getColor = theme.palette.mode === "light" ? darken4 : lighten4, getBackgroundColor = theme.palette.mode === "light" ? lighten4 : darken4, color = ownerState.color || ownerState.severity;
-  return _extends76({}, theme.typography.body2, {
-    backgroundColor: "transparent",
-    display: "flex",
-    padding: "6px 16px"
-  }, color && ownerState.variant === "standard" && {
-    color: theme.vars ? theme.vars.palette.Alert[`${color}Color`] : getColor(theme.palette[color].light, 0.6),
-    backgroundColor: theme.vars ? theme.vars.palette.Alert[`${color}StandardBg`] : getBackgroundColor(theme.palette[color].light, 0.9),
-    [`& .${alertClasses_default.icon}`]: theme.vars ? {
-      color: theme.vars.palette.Alert[`${color}IconColor`]
-    } : {
-      color: theme.palette[color].main
-    }
-  }, color && ownerState.variant === "outlined" && {
-    color: theme.vars ? theme.vars.palette.Alert[`${color}Color`] : getColor(theme.palette[color].light, 0.6),
-    border: `1px solid ${(theme.vars || theme).palette[color].light}`,
-    [`& .${alertClasses_default.icon}`]: theme.vars ? {
-      color: theme.vars.palette.Alert[`${color}IconColor`]
-    } : {
-      color: theme.palette[color].main
-    }
-  }, color && ownerState.variant === "filled" && _extends76({
-    fontWeight: theme.typography.fontWeightMedium
-  }, theme.vars ? {
-    color: theme.vars.palette.Alert[`${color}FilledColor`],
-    backgroundColor: theme.vars.palette.Alert[`${color}FilledBg`]
-  } : {
-    backgroundColor: theme.palette.mode === "dark" ? theme.palette[color].dark : theme.palette[color].main,
-    color: theme.palette.getContrastText(theme.palette[color].main)
-  }));
-}), AlertIcon = styled_default("div", {
-  name: "MuiAlert",
-  slot: "Icon",
-  overridesResolver: (props, styles4) => styles4.icon
-})({
-  marginRight: 12,
-  padding: "7px 0",
-  display: "flex",
-  fontSize: 22,
-  opacity: 0.9
-}), AlertMessage = styled_default("div", {
-  name: "MuiAlert",
-  slot: "Message",
-  overridesResolver: (props, styles4) => styles4.message
-})({
-  padding: "8px 0",
-  minWidth: 0,
-  overflow: "auto"
-}), AlertAction = styled_default("div", {
-  name: "MuiAlert",
-  slot: "Action",
-  overridesResolver: (props, styles4) => styles4.action
-})({
-  display: "flex",
-  alignItems: "flex-start",
-  padding: "4px 0 0 16px",
-  marginLeft: "auto",
-  marginRight: -8
-}), defaultIconMapping = {
-  success: /* @__PURE__ */ _jsx73(SuccessOutlined_default, {
-    fontSize: "inherit"
-  }),
-  warning: /* @__PURE__ */ _jsx73(ReportProblemOutlined_default, {
-    fontSize: "inherit"
-  }),
-  error: /* @__PURE__ */ _jsx73(ErrorOutline_default, {
-    fontSize: "inherit"
-  }),
-  info: /* @__PURE__ */ _jsx73(InfoOutlined_default, {
-    fontSize: "inherit"
-  })
-}, Alert = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
-  var _ref, _slots$closeButton, _ref2, _slots$closeIcon, _slotProps$closeButto, _slotProps$closeIcon;
-  let props = useThemeProps({
-    props: inProps,
-    name: "MuiAlert"
-  }), {
-    action: action2,
-    children,
-    className,
-    closeText = "Close",
-    color,
-    components = {},
-    componentsProps = {},
-    icon,
-    iconMapping = defaultIconMapping,
-    onClose,
-    role = "alert",
-    severity = "success",
-    slotProps = {},
-    slots = {},
-    variant = "standard"
-  } = props, other = _objectWithoutPropertiesLoose65(props, _excluded67), ownerState = _extends76({}, props, {
-    color,
-    severity,
-    variant
-  }), classes = useUtilityClasses53(ownerState), AlertCloseButton = (_ref = (_slots$closeButton = slots.closeButton) != null ? _slots$closeButton : components.CloseButton) != null ? _ref : IconButton_default, AlertCloseIcon = (_ref2 = (_slots$closeIcon = slots.closeIcon) != null ? _slots$closeIcon : components.CloseIcon) != null ? _ref2 : Close_default, closeButtonProps = (_slotProps$closeButto = slotProps.closeButton) != null ? _slotProps$closeButto : componentsProps.closeButton, closeIconProps = (_slotProps$closeIcon = slotProps.closeIcon) != null ? _slotProps$closeIcon : componentsProps.closeIcon;
-  return /* @__PURE__ */ _jsxs18(AlertRoot, _extends76({
-    role,
-    elevation: 0,
-    ownerState,
-    className: clsx51(classes.root, className),
-    ref
-  }, other, {
-    children: [icon !== !1 ? /* @__PURE__ */ _jsx73(AlertIcon, {
-      ownerState,
-      className: classes.icon,
-      children: icon || iconMapping[severity] || defaultIconMapping[severity]
-    }) : null, /* @__PURE__ */ _jsx73(AlertMessage, {
-      ownerState,
-      className: classes.message,
-      children
-    }), action2 != null ? /* @__PURE__ */ _jsx73(AlertAction, {
-      ownerState,
-      className: classes.action,
-      children: action2
-    }) : null, action2 == null && onClose ? /* @__PURE__ */ _jsx73(AlertAction, {
-      ownerState,
-      className: classes.action,
-      children: /* @__PURE__ */ _jsx73(AlertCloseButton, _extends76({
-        size: "small",
-        "aria-label": closeText,
-        title: closeText,
-        color: "inherit",
-        onClick: onClose
-      }, closeButtonProps, {
-        children: /* @__PURE__ */ _jsx73(AlertCloseIcon, _extends76({
-          fontSize: "small"
-        }, closeIconProps))
-      }))
-    }) : null]
-  }));
-});
-Alert.propTypes = {
-  // ----------------------------- Warning --------------------------------
-  // | These PropTypes are generated from the TypeScript type definitions |
-  // |     To update them edit the d.ts file and run "yarn proptypes"     |
-  // ----------------------------------------------------------------------
-  /**
-   * The action to display. It renders after the message, at the end of the alert.
-   */
-  action: PropTypes69.node,
-  /**
-   * The content of the component.
-   */
-  children: PropTypes69.node,
-  /**
-   * Override or extend the styles applied to the component.
-   */
-  classes: PropTypes69.object,
-  /**
-   * @ignore
-   */
-  className: PropTypes69.string,
-  /**
-   * Override the default label for the *close popup* icon button.
-   *
-   * For localization purposes, you can use the provided [translations](/material-ui/guides/localization/).
-   * @default 'Close'
-   */
-  closeText: PropTypes69.string,
-  /**
-   * The color of the component. Unless provided, the value is taken from the `severity` prop.
-   * It supports both default and custom theme colors, which can be added as shown in the
-   * [palette customization guide](https://mui.com/material-ui/customization/palette/#custom-colors).
-   */
-  color: PropTypes69.oneOfType([PropTypes69.oneOf(["error", "info", "success", "warning"]), PropTypes69.string]),
-  /**
-   * The components used for each slot inside.
-   *
-   * This prop is an alias for the `slots` prop.
-   * It's recommended to use the `slots` prop instead.
-   *
-   * @default {}
-   */
-  components: PropTypes69.shape({
-    CloseButton: PropTypes69.elementType,
-    CloseIcon: PropTypes69.elementType
-  }),
-  /**
-   * The extra props for the slot components.
-   * You can override the existing props or add new ones.
-   *
-   * This prop is an alias for the `slotProps` prop.
-   * It's recommended to use the `slotProps` prop instead, as `componentsProps` will be deprecated in the future.
-   *
-   * @default {}
-   */
-  componentsProps: PropTypes69.shape({
-    closeButton: PropTypes69.object,
-    closeIcon: PropTypes69.object
-  }),
-  /**
-   * Override the icon displayed before the children.
-   * Unless provided, the icon is mapped to the value of the `severity` prop.
-   * Set to `false` to remove the `icon`.
-   */
-  icon: PropTypes69.node,
-  /**
-   * The component maps the `severity` prop to a range of different icons,
-   * for instance success to `<SuccessOutlined>`.
-   * If you wish to change this mapping, you can provide your own.
-   * Alternatively, you can use the `icon` prop to override the icon displayed.
-   */
-  iconMapping: PropTypes69.shape({
-    error: PropTypes69.node,
-    info: PropTypes69.node,
-    success: PropTypes69.node,
-    warning: PropTypes69.node
-  }),
-  /**
-   * Callback fired when the component requests to be closed.
-   * When provided and no `action` prop is set, a close icon button is displayed that triggers the callback when clicked.
-   * @param {React.SyntheticEvent} event The event source of the callback.
-   */
-  onClose: PropTypes69.func,
-  /**
-   * The ARIA role attribute of the element.
-   * @default 'alert'
-   */
-  role: PropTypes69.string,
-  /**
-   * The severity of the alert. This defines the color and icon used.
-   * @default 'success'
-   */
-  severity: PropTypes69.oneOf(["error", "info", "success", "warning"]),
-  /**
-   * The extra props for the slot components.
-   * You can override the existing props or add new ones.
-   *
-   * This prop is an alias for the `componentsProps` prop, which will be deprecated in the future.
-   *
-   * @default {}
-   */
-  slotProps: PropTypes69.shape({
-    closeButton: PropTypes69.object,
-    closeIcon: PropTypes69.object
-  }),
-  /**
-   * The components used for each slot inside.
-   *
-   * This prop is an alias for the `components` prop, which will be deprecated in the future.
-   *
-   * @default {}
-   */
-  slots: PropTypes69.shape({
-    closeButton: PropTypes69.elementType,
-    closeIcon: PropTypes69.elementType
-  }),
-  /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
-   */
-  sx: PropTypes69.oneOfType([PropTypes69.arrayOf(PropTypes69.oneOfType([PropTypes69.func, PropTypes69.object, PropTypes69.bool])), PropTypes69.func, PropTypes69.object]),
-  /**
-   * The variant to use.
-   * @default 'standard'
-   */
-  variant: PropTypes69.oneOfType([PropTypes69.oneOf(["filled", "outlined", "standard"]), PropTypes69.string])
-};
-var Alert_default = Alert;
-
-// app/components/customsnackBar.tsx
-import { jsxDEV as jsxDEV10 } from "react/jsx-dev-runtime";
-var Alert3 = React90.forwardRef(function(props, ref) {
-  return /* @__PURE__ */ jsxDEV10(Alert_default, { elevation: 6, ref, variant: "filled", ...props }, void 0, !1, {
-    fileName: "app/components/customsnackBar.tsx",
-    lineNumber: 11,
-    columnNumber: 10
-  }, this);
-});
-function customsnackBar(OpenSnack) {
-  let [open, setOpen] = React90.useState(OpenSnack), handleClose = (event, reason) => {
-    reason !== "clickaway" && setOpen(!1);
-  };
-  return /* @__PURE__ */ jsxDEV10(Stack_default, { spacing: 2, sx: { width: "100%" }, children: /* @__PURE__ */ jsxDEV10(Snackbar_default, { open, autoHideDuration: 6e3, onClose: handleClose, children: /* @__PURE__ */ jsxDEV10(Alert3, { onClose: handleClose, severity: "success", sx: { width: "100%" }, children: "This is a success message!" }, void 0, !1, {
-    fileName: "app/components/customsnackBar.tsx",
-    lineNumber: 33,
-    columnNumber: 9
-  }, this) }, void 0, !1, {
-    fileName: "app/components/customsnackBar.tsx",
-    lineNumber: 32,
-    columnNumber: 7
-  }, this) }, void 0, !1, {
-    fileName: "app/components/customsnackBar.tsx",
-    lineNumber: 31,
-    columnNumber: 5
-  }, this);
-}
-
-// app/routes/users.tsx
-import { jsxDEV as jsxDEV11 } from "react/jsx-dev-runtime";
+import { jsxDEV as jsxDEV9 } from "react/jsx-dev-runtime";
 var meta5 = () => [
   {
     title: "ECCS POS - Users"
@@ -16858,7 +15946,239 @@ var meta5 = () => [
     name: "description",
     content: "Welcome to eccs-pos!"
   }
-], columns2 = [
+];
+async function action4({ request }) {
+  let formData = await request.formData(), email = String(formData.get("email")), nama_depan = String(formData.get("nama_depan")), nama_belakang = String(formData.get("nama_belakang")), phone = String(formData.get("phone")), alamat = String(formData.get("alamat")), mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, onlychar = /^[a-zA-Z]+$/, onlynumber = /^\d+$/, data = {
+    email,
+    nama_depan,
+    nama_belakang,
+    phone,
+    alamat
+  }, errors = {};
+  if (email.match(mailformat) || (errors.email = "Invalid Email Address"), nama_depan.match(onlychar) || (errors.nama_depan = "Only Character"), nama_belakang.match(onlychar) || (errors.nama_belakang = "Only Character"), phone.match(onlynumber) || (errors.phone = "Only Number"), alamat.length < 10 && (errors.alamat = "Minimum 10 Character"), Object.keys(errors).length > 0)
+    return json5({ errors });
+  {
+    let response = await createUsers(data);
+    if (response.meta.code != 200)
+      console.log(response.meta.message);
+    else
+      return !0;
+  }
+}
+function createUserComponent() {
+  let actionData = useActionData(), [open, setOpen] = React80.useState(!1), handleClickOpen = () => {
+    setOpen(!0);
+  }, handleClose = () => {
+    setTimeout(function() {
+      setOpen(!1);
+    }, 1e3);
+  };
+  return /* @__PURE__ */ jsxDEV9("div", { children: [
+    /* @__PURE__ */ jsxDEV9(Box_default, { sx: { "& > :not(style)": { m: 1 } }, children: /* @__PURE__ */ jsxDEV9(
+      Fab_default,
+      {
+        sx: {
+          position: "fixed",
+          bottom: (theme) => theme.spacing(2),
+          right: (theme) => theme.spacing(2)
+        },
+        color: "primary",
+        "aria-label": "add",
+        onClick: handleClickOpen,
+        children: /* @__PURE__ */ jsxDEV9(Icon_default, { children: "add" }, void 0, !1, {
+          fileName: "app/routes/users.tsx",
+          lineNumber: 138,
+          columnNumber: 25
+        }, this)
+      },
+      void 0,
+      !1,
+      {
+        fileName: "app/routes/users.tsx",
+        lineNumber: 129,
+        columnNumber: 21
+      },
+      this
+    ) }, void 0, !1, {
+      fileName: "app/routes/users.tsx",
+      lineNumber: 128,
+      columnNumber: 13
+    }, this),
+    /* @__PURE__ */ jsxDEV9(
+      Dialog_default,
+      {
+        open,
+        onClose: handleClose,
+        children: [
+          /* @__PURE__ */ jsxDEV9(DialogTitle_default, { id: "alert-dialog-title", children: "Create new user" }, void 0, !1, {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 146,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV9(DialogContent_default, { children: /* @__PURE__ */ jsxDEV9(Form, { method: "post", action: "create", onSubmit: () => {
+            handleClose();
+          }, children: [
+            /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+              /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "nama_depan", children: "First Name" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 152,
+                columnNumber: 33
+              }, this),
+              /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "nama_depan", id: "nama_depan", defaultValue: "" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 153,
+                columnNumber: 33
+              }, this),
+              actionData?.errors?.nama_depan ? /* @__PURE__ */ jsxDEV9(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.nama_depan }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 154,
+                columnNumber: 68
+              }, this) : null
+            ] }, void 0, !0, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 151,
+              columnNumber: 29
+            }, this) }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 150,
+              columnNumber: 25
+            }, this),
+            /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+              /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "nama_belakang", children: "Last Name" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 160,
+                columnNumber: 33
+              }, this),
+              /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "nama_belakang", id: "nama_belakang", defaultValue: "" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 161,
+                columnNumber: 33
+              }, this),
+              actionData?.errors?.nama_belakang ? /* @__PURE__ */ jsxDEV9(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.nama_belakang }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 162,
+                columnNumber: 71
+              }, this) : null
+            ] }, void 0, !0, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 159,
+              columnNumber: 29
+            }, this) }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 158,
+              columnNumber: 25
+            }, this),
+            /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+              /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "email", children: "Email" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 168,
+                columnNumber: 33
+              }, this),
+              /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "email", id: "email", defaultValue: "" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 169,
+                columnNumber: 33
+              }, this),
+              actionData?.errors?.email ? /* @__PURE__ */ jsxDEV9(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.email }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 170,
+                columnNumber: 63
+              }, this) : null
+            ] }, void 0, !0, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 167,
+              columnNumber: 29
+            }, this) }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 166,
+              columnNumber: 25
+            }, this),
+            /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+              /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "phone", children: "Phone" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 176,
+                columnNumber: 33
+              }, this),
+              /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "phone", id: "phone", defaultValue: "" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 177,
+                columnNumber: 33
+              }, this),
+              actionData?.errors?.phone ? /* @__PURE__ */ jsxDEV9(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.phone }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 178,
+                columnNumber: 63
+              }, this) : null
+            ] }, void 0, !0, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 175,
+              columnNumber: 29
+            }, this) }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 174,
+              columnNumber: 25
+            }, this),
+            /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+              /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "alamat", children: "Address" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 184,
+                columnNumber: 33
+              }, this),
+              /* @__PURE__ */ jsxDEV9(Input_default, { v: !0, size: "small", name: "alamat", id: "alamat", defaultValue: "" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 185,
+                columnNumber: 33
+              }, this),
+              actionData?.errors?.alamat ? /* @__PURE__ */ jsxDEV9(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.alamat }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 186,
+                columnNumber: 64
+              }, this) : null
+            ] }, void 0, !0, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 183,
+              columnNumber: 29
+            }, this) }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 182,
+              columnNumber: 25
+            }, this),
+            /* @__PURE__ */ jsxDEV9(DialogActions_default, { children: /* @__PURE__ */ jsxDEV9(Button_default, { type: "submit", children: "Create" }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 191,
+              columnNumber: 29
+            }, this) }, void 0, !1, {
+              fileName: "app/routes/users.tsx",
+              lineNumber: 190,
+              columnNumber: 25
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 149,
+            columnNumber: 17
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 147,
+            columnNumber: 17
+          }, this)
+        ]
+      },
+      void 0,
+      !0,
+      {
+        fileName: "app/routes/users.tsx",
+        lineNumber: 142,
+        columnNumber: 13
+      },
+      this
+    )
+  ] }, void 0, !0, {
+    fileName: "app/routes/users.tsx",
+    lineNumber: 125,
+    columnNumber: 9
+  }, this);
+}
+var columns2 = [
   {
     field: "id",
     headerName: "ID"
@@ -16891,58 +16211,247 @@ var meta5 = () => [
     flex: 1,
     align: "center",
     headerAlign: "center",
-    renderCell: (params) => /* @__PURE__ */ jsxDEV11(Stack_default, { direction: "row", spacing: "1", children: [
-      /* @__PURE__ */ jsxDEV11(Tooltip_default, { title: "Edit this user", arrow: !0, placement: "bottom-start", children: /* @__PURE__ */ jsxDEV11(Button_default, { size: "small", variant: "contained", color: "success", children: "Edit" }, void 0, !1, {
+    renderCell: (params) => {
+      let id = params.id, [openAlertDel, setAlertDel] = React80.useState(!1), handleClosedelete = () => {
+        setAlertDel(!1);
+      }, handleOpem = () => {
+        setAlertDel(!0);
+      }, [openAlertUpd, setAlertUpd] = React80.useState(!1), handleCloseUpd = () => {
+        setAlertUpd(!1);
+      };
+      return /* @__PURE__ */ jsxDEV9(Stack_default, { direction: "row", spacing: "1", children: [
+        /* @__PURE__ */ jsxDEV9(Tooltip_default, { title: "Edit this user", arrow: !0, placement: "bottom-start", children: /* @__PURE__ */ jsxDEV9(Button_default, { onClick: (id2) => {
+          setAlertUpd(!0);
+        }, size: "small", variant: "contained", color: "success", children: "Edit" }, void 0, !1, {
+          fileName: "app/routes/users.tsx",
+          lineNumber: 259,
+          columnNumber: 25
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/users.tsx",
+          lineNumber: 258,
+          columnNumber: 21
+        }, this),
+        /* @__PURE__ */ jsxDEV9(Tooltip_default, { title: "Delete this user", arrow: !0, placement: "bottom-start", children: /* @__PURE__ */ jsxDEV9(Button_default, { onClick: handleOpem, size: "small", variant: "contained", color: "error", children: "Delete" }, void 0, !1, {
+          fileName: "app/routes/users.tsx",
+          lineNumber: 264,
+          columnNumber: 25
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/users.tsx",
+          lineNumber: 263,
+          columnNumber: 21
+        }, this),
+        /* @__PURE__ */ jsxDEV9(
+          Dialog_default,
+          {
+            open: openAlertDel,
+            onClose: handleClosedelete,
+            "aria-labelledby": "alert-dialog-title",
+            "aria-describedby": "alert-dialog-description",
+            children: [
+              /* @__PURE__ */ jsxDEV9(DialogTitle_default, { id: "alert-dialog-title", children: "Are you sure want delete this user ?" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 276,
+                columnNumber: 25
+              }, this),
+              /* @__PURE__ */ jsxDEV9(DialogContent_default, { children: /* @__PURE__ */ jsxDEV9(DialogContentText_default, { id: "alert-dialog-description", children: "This action can't rollback after you agree to delete." }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 280,
+                columnNumber: 25
+              }, this) }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 279,
+                columnNumber: 25
+              }, this),
+              /* @__PURE__ */ jsxDEV9(DialogActions_default, { children: [
+                /* @__PURE__ */ jsxDEV9(Button_default, { onClick: handleClosedelete, children: "Cancel" }, void 0, !1, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 285,
+                  columnNumber: 25
+                }, this),
+                /* @__PURE__ */ jsxDEV9(
+                  Form,
+                  {
+                    action: "delete",
+                    method: "post",
+                    children: [
+                      /* @__PURE__ */ jsxDEV9("input", { name: "id", type: "hidden", value: id }, void 0, !1, {
+                        fileName: "app/routes/users.tsx",
+                        lineNumber: 290,
+                        columnNumber: 25
+                      }, this),
+                      /* @__PURE__ */ jsxDEV9(Button_default, { type: "submit", onClick: handleClosedelete, children: "Delete" }, void 0, !1, {
+                        fileName: "app/routes/users.tsx",
+                        lineNumber: 291,
+                        columnNumber: 25
+                      }, this)
+                    ]
+                  },
+                  void 0,
+                  !0,
+                  {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 286,
+                    columnNumber: 25
+                  },
+                  this
+                )
+              ] }, void 0, !0, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 284,
+                columnNumber: 25
+              }, this)
+            ]
+          },
+          void 0,
+          !0,
+          {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 270,
+            columnNumber: 21
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV9(
+          Dialog_default,
+          {
+            open: openAlertUpd,
+            onClose: handleCloseUpd,
+            "aria-labelledby": "alert-dialog-title",
+            "aria-describedby": "alert-dialog-description",
+            children: [
+              /* @__PURE__ */ jsxDEV9(DialogTitle_default, { id: "alert-dialog-title", children: "Update Data Customer" }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 305,
+                columnNumber: 25
+              }, this),
+              /* @__PURE__ */ jsxDEV9(DialogContent_default, { children: /* @__PURE__ */ jsxDEV9(Form, { action: "update", method: "post", children: [
+                /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: [
+                  /* @__PURE__ */ jsxDEV9("input", { name: "id", type: "hidden", value: params.id }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 311,
+                    columnNumber: 33
+                  }, this),
+                  /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+                    /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "nama_depan", children: "First Name" }, void 0, !1, {
+                      fileName: "app/routes/users.tsx",
+                      lineNumber: 313,
+                      columnNumber: 37
+                    }, this),
+                    /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "nama_depan", id: "nama_depan", defaultValue: params.row.nama_depan }, void 0, !1, {
+                      fileName: "app/routes/users.tsx",
+                      lineNumber: 314,
+                      columnNumber: 37
+                    }, this)
+                  ] }, void 0, !0, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 312,
+                    columnNumber: 33
+                  }, this)
+                ] }, void 0, !0, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 310,
+                  columnNumber: 29
+                }, this),
+                /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+                  /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "nama_depan", children: "Last Name" }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 320,
+                    columnNumber: 37
+                  }, this),
+                  /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "nama_belakang", id: "nama_belakang", defaultValue: params.row.nama_belakang }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 321,
+                    columnNumber: 37
+                  }, this)
+                ] }, void 0, !0, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 319,
+                  columnNumber: 33
+                }, this) }, void 0, !1, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 318,
+                  columnNumber: 29
+                }, this),
+                /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+                  /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "phone", children: "Phone" }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 327,
+                    columnNumber: 37
+                  }, this),
+                  /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "phone", id: "phone", defaultValue: params.row.phone }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 328,
+                    columnNumber: 37
+                  }, this)
+                ] }, void 0, !0, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 326,
+                  columnNumber: 33
+                }, this) }, void 0, !1, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 325,
+                  columnNumber: 29
+                }, this),
+                /* @__PURE__ */ jsxDEV9(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV9(FormControl_default, { variant: "standard", children: [
+                  /* @__PURE__ */ jsxDEV9(InputLabel_default, { htmlFor: "alamat", children: "Address" }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 334,
+                    columnNumber: 37
+                  }, this),
+                  /* @__PURE__ */ jsxDEV9(Input_default, { required: !0, size: "small", name: "alamat", id: "alamat", defaultValue: params.row.alamat }, void 0, !1, {
+                    fileName: "app/routes/users.tsx",
+                    lineNumber: 335,
+                    columnNumber: 37
+                  }, this)
+                ] }, void 0, !0, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 333,
+                  columnNumber: 33
+                }, this) }, void 0, !1, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 332,
+                  columnNumber: 29
+                }, this),
+                /* @__PURE__ */ jsxDEV9(DialogActions_default, { children: /* @__PURE__ */ jsxDEV9(Button_default, { type: "submit", onClick: handleCloseUpd, children: "Update" }, void 0, !1, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 340,
+                  columnNumber: 33
+                }, this) }, void 0, !1, {
+                  fileName: "app/routes/users.tsx",
+                  lineNumber: 339,
+                  columnNumber: 29
+                }, this)
+              ] }, void 0, !0, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 309,
+                columnNumber: 25
+              }, this) }, void 0, !1, {
+                fileName: "app/routes/users.tsx",
+                lineNumber: 308,
+                columnNumber: 25
+              }, this)
+            ]
+          },
+          void 0,
+          !0,
+          {
+            fileName: "app/routes/users.tsx",
+            lineNumber: 299,
+            columnNumber: 21
+          },
+          this
+        )
+      ] }, void 0, !0, {
         fileName: "app/routes/users.tsx",
-        lineNumber: 73,
-        columnNumber: 21
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/users.tsx",
-        lineNumber: 72,
+        lineNumber: 257,
         columnNumber: 17
-      }, this),
-      /* @__PURE__ */ jsxDEV11(Tooltip_default, { title: "Delete this user", arrow: !0, placement: "bottom-start", children: /* @__PURE__ */ jsxDEV11(Button_default, { size: "small", variant: "contained", color: "error", children: "Delete" }, void 0, !1, {
-        fileName: "app/routes/users.tsx",
-        lineNumber: 78,
-        columnNumber: 21
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/users.tsx",
-        lineNumber: 77,
-        columnNumber: 17
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/users.tsx",
-      lineNumber: 71,
-      columnNumber: 20
-    }, this)
+      }, this);
+    }
   }
-];
-async function action({ request }) {
-  let formData = await request.formData(), email = String(formData.get("email")), nama_depan = String(formData.get("nama_depan")), nama_belakang = String(formData.get("nama_belakang")), phone = String(formData.get("phone")), alamat = String(formData.get("alamat")), mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, onlychar = /^[a-zA-Z]+$/, onlynumber = /^\d+$/, data = {
-    email,
-    nama_depan,
-    nama_belakang,
-    phone,
-    alamat
-  }, errors = {};
-  if (email.match(mailformat) || (errors.email = "Invalid email alamat"), nama_depan.match(onlychar) || (errors.nama_depan = "Only Character"), nama_belakang.match(onlychar) || (errors.nama_belakang = "Only Character"), phone.match(onlynumber) || (errors.phone = "Only Number"), alamat.length < 10 && (errors.alamat = "Minimum 10 Character"), Object.keys(errors).length > 0)
-    return json2({ errors });
-  {
-    let response = await createUsers(data);
-    if (response.meta.code != 200)
-      console.log(response.meta.message);
-    else
-      return console.log(response.meta.message), redirect("/users");
-  }
-}
-var loader2 = async (args) => await getUsers();
+], loader2 = async (args) => await getUsers();
 function Index5() {
-  let [open, setOpen] = React91.useState(!1), myusers = useLoaderData2(), actionData = useActionData(), handleClickOpen = () => {
-    setOpen(!0);
-  }, handleClose = () => {
-    setOpen(!1);
-  };
-  return /* @__PURE__ */ jsxDEV11(
+  let myusers = useLoaderData2();
+  return /* @__PURE__ */ jsxDEV9(
     "div",
     {
       style: {
@@ -16950,16 +16459,16 @@ function Index5() {
         lineHeight: "1.8"
       },
       children: [
-        /* @__PURE__ */ jsxDEV11(
+        /* @__PURE__ */ jsxDEV9(
           Box_default,
           {
             sx: {
               marginTop: "1em",
               textAlign: "center"
             },
-            children: /* @__PURE__ */ jsxDEV11(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Users" }, void 0, !1, {
+            children: /* @__PURE__ */ jsxDEV9(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Users" }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 194,
+              lineNumber: 379,
               columnNumber: 17
             }, this)
           },
@@ -16967,14 +16476,14 @@ function Index5() {
           !1,
           {
             fileName: "app/routes/users.tsx",
-            lineNumber: 189,
+            lineNumber: 374,
             columnNumber: 13
           },
           this
         ),
-        /* @__PURE__ */ jsxDEV11(Box_default, { sx: {
+        /* @__PURE__ */ jsxDEV9(Box_default, { sx: {
           boxShadow: 1
-        }, children: /* @__PURE__ */ jsxDEV11(
+        }, children: /* @__PURE__ */ jsxDEV9(
           "div",
           {
             className: "custom-toolbar",
@@ -16982,7 +16491,7 @@ function Index5() {
               height: "100%",
               width: "100%"
             },
-            children: /* @__PURE__ */ jsxDEV11(
+            children: /* @__PURE__ */ jsxDEV9(
               DataGrid2,
               {
                 rows: myusers.result,
@@ -17010,7 +16519,7 @@ function Index5() {
               !1,
               {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 209,
+                lineNumber: 394,
                 columnNumber: 21
               },
               this
@@ -17020,225 +16529,23 @@ function Index5() {
           !1,
           {
             fileName: "app/routes/users.tsx",
-            lineNumber: 202,
+            lineNumber: 387,
             columnNumber: 17
           },
           this
         ) }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 199,
+          lineNumber: 384,
           columnNumber: 13
         }, this),
-        /* @__PURE__ */ jsxDEV11(Box_default, { sx: { "& > :not(style)": { m: 1 } }, children: /* @__PURE__ */ jsxDEV11(
-          Fab_default,
-          {
-            sx: {
-              position: "fixed",
-              bottom: (theme) => theme.spacing(2),
-              right: (theme) => theme.spacing(2)
-            },
-            color: "primary",
-            "aria-label": "add",
-            onClick: handleClickOpen,
-            children: /* @__PURE__ */ jsxDEV11(Icon_default, { children: "add" }, void 0, !1, {
-              fileName: "app/routes/users.tsx",
-              lineNumber: 244,
-              columnNumber: 25
-            }, this)
-          },
-          void 0,
-          !1,
-          {
-            fileName: "app/routes/users.tsx",
-            lineNumber: 235,
-            columnNumber: 21
-          },
-          this
-        ) }, void 0, !1, {
-          fileName: "app/routes/users.tsx",
-          lineNumber: 234,
-          columnNumber: 13
-        }, this),
-        /* @__PURE__ */ jsxDEV11(
-          Dialog_default,
-          {
-            open,
-            onClose: handleClose,
-            "aria-describedby": "customized-dialog-title",
-            disableEscapeKeyDown: !0,
-            children: [
-              /* @__PURE__ */ jsxDEV11(DialogTitle_default, { children: "Create new user" }, void 0, !1, {
-                fileName: "app/routes/users.tsx",
-                lineNumber: 254,
-                columnNumber: 17
-              }, this),
-              /* @__PURE__ */ jsxDEV11(DialogContent_default, { children: /* @__PURE__ */ jsxDEV11(DialogContentText_default, { id: "customized-dialog-title", children: /* @__PURE__ */ jsxDEV11(Form, { method: "post", children: [
-                /* @__PURE__ */ jsxDEV11(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV11(FormControl_default, { variant: "standard", children: [
-                  /* @__PURE__ */ jsxDEV11(InputLabel_default, { htmlFor: "nama_depan", children: "First Name" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 261,
-                    columnNumber: 33
-                  }, this),
-                  /* @__PURE__ */ jsxDEV11(Input_default, { size: "small", name: "nama_depan", id: "nama_depan", defaultValue: "" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 262,
-                    columnNumber: 33
-                  }, this),
-                  actionData?.errors?.nama_depan ? /* @__PURE__ */ jsxDEV11(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.nama_depan }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 263,
-                    columnNumber: 68
-                  }, this) : null
-                ] }, void 0, !0, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 260,
-                  columnNumber: 29
-                }, this) }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 259,
-                  columnNumber: 25
-                }, this),
-                /* @__PURE__ */ jsxDEV11(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV11(FormControl_default, { variant: "standard", children: [
-                  /* @__PURE__ */ jsxDEV11(InputLabel_default, { htmlFor: "nama_belakang", children: "Last Name" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 269,
-                    columnNumber: 33
-                  }, this),
-                  /* @__PURE__ */ jsxDEV11(Input_default, { size: "small", name: "nama_belakang", id: "nama_belakang", defaultValue: "" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 270,
-                    columnNumber: 33
-                  }, this),
-                  actionData?.errors?.nama_belakang ? /* @__PURE__ */ jsxDEV11(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.nama_belakang }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 271,
-                    columnNumber: 71
-                  }, this) : null
-                ] }, void 0, !0, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 268,
-                  columnNumber: 29
-                }, this) }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 267,
-                  columnNumber: 25
-                }, this),
-                /* @__PURE__ */ jsxDEV11(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV11(FormControl_default, { variant: "standard", children: [
-                  /* @__PURE__ */ jsxDEV11(InputLabel_default, { htmlFor: "email", children: "Email" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 277,
-                    columnNumber: 33
-                  }, this),
-                  /* @__PURE__ */ jsxDEV11(Input_default, { size: "small", name: "email", id: "email", defaultValue: "" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 278,
-                    columnNumber: 33
-                  }, this),
-                  actionData?.errors?.email ? /* @__PURE__ */ jsxDEV11(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.email }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 279,
-                    columnNumber: 63
-                  }, this) : null
-                ] }, void 0, !0, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 276,
-                  columnNumber: 29
-                }, this) }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 275,
-                  columnNumber: 25
-                }, this),
-                /* @__PURE__ */ jsxDEV11(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV11(FormControl_default, { variant: "standard", children: [
-                  /* @__PURE__ */ jsxDEV11(InputLabel_default, { htmlFor: "phone", children: "Phone" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 285,
-                    columnNumber: 33
-                  }, this),
-                  /* @__PURE__ */ jsxDEV11(Input_default, { size: "small", name: "phone", id: "phone", defaultValue: "" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 286,
-                    columnNumber: 33
-                  }, this),
-                  actionData?.errors?.phone ? /* @__PURE__ */ jsxDEV11(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.phone }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 287,
-                    columnNumber: 63
-                  }, this) : null
-                ] }, void 0, !0, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 284,
-                  columnNumber: 29
-                }, this) }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 283,
-                  columnNumber: 25
-                }, this),
-                /* @__PURE__ */ jsxDEV11(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV11(FormControl_default, { variant: "standard", children: [
-                  /* @__PURE__ */ jsxDEV11(InputLabel_default, { htmlFor: "alamat", children: "Address" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 293,
-                    columnNumber: 33
-                  }, this),
-                  /* @__PURE__ */ jsxDEV11(Input_default, { size: "small", name: "alamat", id: "alamat", defaultValue: "" }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 294,
-                    columnNumber: 33
-                  }, this),
-                  actionData?.errors?.alamat ? /* @__PURE__ */ jsxDEV11(Typography_default, { color: "red", variant: "caption", children: actionData?.errors.alamat }, void 0, !1, {
-                    fileName: "app/routes/users.tsx",
-                    lineNumber: 295,
-                    columnNumber: 64
-                  }, this) : null
-                ] }, void 0, !0, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 292,
-                  columnNumber: 29
-                }, this) }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 291,
-                  columnNumber: 25
-                }, this),
-                /* @__PURE__ */ jsxDEV11(DialogActions_default, { children: /* @__PURE__ */ jsxDEV11(Button_default, { type: "submit", children: "Create" }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 301,
-                  columnNumber: 29
-                }, this) }, void 0, !1, {
-                  fileName: "app/routes/users.tsx",
-                  lineNumber: 300,
-                  columnNumber: 25
-                }, this)
-              ] }, void 0, !0, {
-                fileName: "app/routes/users.tsx",
-                lineNumber: 258,
-                columnNumber: 21
-              }, this) }, void 0, !1, {
-                fileName: "app/routes/users.tsx",
-                lineNumber: 256,
-                columnNumber: 17
-              }, this) }, void 0, !1, {
-                fileName: "app/routes/users.tsx",
-                lineNumber: 255,
-                columnNumber: 17
-              }, this)
-            ]
-          },
-          void 0,
-          !0,
-          {
-            fileName: "app/routes/users.tsx",
-            lineNumber: 248,
-            columnNumber: 13
-          },
-          this
-        ),
-        customsnackBar(!0)
+        createUserComponent()
       ]
     },
     void 0,
     !0,
     {
       fileName: "app/routes/users.tsx",
-      lineNumber: 182,
+      lineNumber: 367,
       columnNumber: 9
     },
     this
@@ -17246,7 +16553,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-PWLWKBYL.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-KJFLXSUD.js", imports: ["/build/_shared/chunk-AF57OK6C.js", "/build/_shared/chunk-SFU4VHCW.js", "/build/_shared/chunk-A4UOKGAQ.js", "/build/_shared/chunk-IHJKXZDG.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-ZDY2EDWP.js", imports: ["/build/_shared/chunk-ZZDB4OPX.js", "/build/_shared/chunk-GOGM4OWJ.js", "/build/_shared/chunk-SWO5TJQ7.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-F5WS2YMK.js", imports: ["/build/_shared/chunk-JAKRK3QV.js", "/build/_shared/chunk-ZZDB4OPX.js", "/build/_shared/chunk-CYJSAZMJ.js", "/build/_shared/chunk-SWO5TJQ7.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-DFHV4XCF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-XY3UVC6P.js", imports: ["/build/_shared/chunk-6YXOVBZL.js", "/build/_shared/chunk-CYJSAZMJ.js", "/build/_shared/chunk-GOGM4OWJ.js", "/build/_shared/chunk-SWO5TJQ7.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-XSULVEVW.js", imports: ["/build/_shared/chunk-JAKRK3QV.js", "/build/_shared/chunk-ZZDB4OPX.js", "/build/_shared/chunk-6YXOVBZL.js", "/build/_shared/chunk-CYJSAZMJ.js", "/build/_shared/chunk-GOGM4OWJ.js", "/build/_shared/chunk-SWO5TJQ7.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-EC56L63I.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 } }, version: "572537da", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702375263292 }, url: "/build/manifest-572537DA.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-C5XFTCYF.js", imports: ["/build/_shared/chunk-KT3C7SEF.js", "/build/_shared/chunk-SBBGHBI3.js", "/build/_shared/chunk-URYPDVA2.js", "/build/_shared/chunk-5QHZVHBB.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-DXYCZB2O.js", imports: ["/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-TGQOFJNJ.js", imports: ["/build/_shared/chunk-K4XN2GAE.js", "/build/_shared/chunk-JGYHAY6O.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-4I3ZOGKL.js", imports: ["/build/_shared/chunk-I3XVQ62J.js", "/build/_shared/chunk-JGYHAY6O.js", "/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-JPSPRPJR.js", imports: ["/build/_shared/chunk-I3XVQ62J.js", "/build/_shared/chunk-K4XN2GAE.js", "/build/_shared/chunk-JGYHAY6O.js", "/build/_shared/chunk-HLAXTVOG.js", "/build/_shared/chunk-M66MLHNC.js", "/build/_shared/chunk-4WPMXPLR.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "10962b21", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1702460429256 }, url: "/build/manifest-10962B21.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
@@ -17258,6 +16565,14 @@ var mode = "development", assetsBuildDirectory = "public/build", future = { v3_f
     caseSensitive: void 0,
     module: root_exports
   },
+  "routes/users_.create": {
+    id: "routes/users_.create",
+    parentId: "root",
+    path: "users/create",
+    index: void 0,
+    caseSensitive: void 0,
+    module: users_create_exports
+  },
   "routes/users_.delete": {
     id: "routes/users_.delete",
     parentId: "root",
@@ -17265,6 +16580,14 @@ var mode = "development", assetsBuildDirectory = "public/build", future = { v3_f
     index: void 0,
     caseSensitive: void 0,
     module: users_delete_exports
+  },
+  "routes/users_.update": {
+    id: "routes/users_.update",
+    parentId: "root",
+    path: "users/update",
+    index: void 0,
+    caseSensitive: void 0,
+    module: users_update_exports
   },
   "routes/products": {
     id: "routes/products",
