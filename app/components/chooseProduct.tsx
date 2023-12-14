@@ -4,17 +4,17 @@ import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import Icon from '@mui/material/Icon';
 import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
+
+
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -25,8 +25,9 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export function FullScreenDialog(_show :boolean) {
-  const [open, setOpen] = React.useState(false);
+
+export function chooseProduct(_show :boolean,data: any) {
+  const [open, setOpen] = React.useState(false);  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,6 +36,10 @@ export function FullScreenDialog(_show :boolean) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  data.map((e: any)=>{
+    console.log(e.product_name);
+  })
 
   return (
     <React.Fragment>
@@ -78,18 +83,13 @@ export function FullScreenDialog(_show :boolean) {
             </Button>
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItem button>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItem>
-          <Divider />
-          <ListItem button>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItem>
-        </List>
+        {
+          data.map((product: any)=>{
+
+            <p>product.product_name</p>
+
+          })
+        }
       </Dialog>
     </React.Fragment>
   );

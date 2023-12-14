@@ -59,6 +59,9 @@ export default {
     "@mui/material/Input",
     "@mui/material/FormControl",
     "@mui/material/Snackbar",
+    "@mui/material/Autocomplete",
+
+    "@mui/utils/generateUtilityClasses",
 
     
     "@mui/base/composeClasses",

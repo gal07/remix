@@ -306,7 +306,7 @@ const columns: GridColDef[] = [
                         {"Update Data Customer"}
                         </DialogTitle>
                         <DialogContent>
-                        <Form action="update" method="post">
+                        <Form action="update" method="post" onSubmit={handleCloseUpd}>
                             <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
                                 <input name="id" type="hidden" value={params.id}/>
                                 <FormControl variant="standard"> 
@@ -337,7 +337,7 @@ const columns: GridColDef[] = [
                             </Grid>
 
                             <DialogActions>
-                                <Button type='submit' onClick={handleCloseUpd}>Update</Button>
+                                <Button type='submit'>Update</Button>
                             </DialogActions>
 
                         </Form>

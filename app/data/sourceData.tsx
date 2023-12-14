@@ -14,6 +14,11 @@ export type Userslist = {
     
 };
 
+type UserListCheckout = {
+    id?: Number;
+    nama_lengkap?: string;
+}
+
 type Productlist = {
     idproduk?: any;
     imageList?: any;
@@ -120,8 +125,17 @@ export async function updateUsers(id: number,body: any){
     return data;
 }
 
-
 export async function deleteUsers(id: number){
+    const path = 'customer/delete/'+id;
+    const res = await fetch(apiUrl + path, {
+        headers: key,
+        method:"DELETE"
+    });
+    const data = await res.json();
+    return data;
+}
+
+export async function getTransaction(id: number){
     const path = 'customer/delete/'+id;
     const res = await fetch(apiUrl + path, {
         headers: key,
