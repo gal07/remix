@@ -60,7 +60,16 @@ export default {
     "@mui/material/FormControl",
     "@mui/material/Snackbar",
     "@mui/material/Autocomplete",
-
+    "@mui/material/Card",
+    "@mui/material/CardHeader",
+    "@mui/material/CardMedia",
+    "@mui/material/CardContent",
+    "@mui/material/CardActions",
+    "@mui/material/Collapse",
+    "@mui/material/Avatar",
+    "@mui/material/colors",
+    "@mui/material/Pagination",
+    
     "@mui/utils/generateUtilityClasses",
 
     

@@ -100,6 +100,14 @@ export async function getProduct() {
     return json({result})
 }
 
+export async function getProducts(page=1) {
+    const path = 'product?page='+page+'&limit=8';
+    const res = await fetch(apiUrl + path, {headers: key});
+    const data = await res.json();
+    const result = data.data ? data:{}
+    return json({result})
+}
+
 export async function createUsers(body: any){
     console.log(JSON.stringify(body));
 

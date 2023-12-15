@@ -65,10 +65,13 @@ export default function App() {
         
         <Appbar />
         <Container maxWidth="xl">
-          <LiveReload />
           <CssBaseline />
           <Outlet context={loginSession} />
-          <ScrollRestoration />
+          <ScrollRestoration getKey={(location, matches) => {
+            // default behavior
+            return location.key;
+          }}/>
+          <LiveReload />
           <Scripts />
         </Container>
 

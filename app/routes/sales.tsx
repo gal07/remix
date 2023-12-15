@@ -1,9 +1,8 @@
 import * as React from 'react';
 import {redirect, type LoaderFunctionArgs, json}
 from "@remix-run/node";
-import {useLoaderData, Outlet} from "@remix-run/react";
+import {useLoaderData, Outlet,useNavigate} from "@remix-run/react";
 import { getUsers, getProduct } from '~/data/sourceData';
-import { chooseProduct } from '~/components/chooseProduct'
 import type { MetaFunction } from "@remix-run/node";
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box';
@@ -16,13 +15,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Fab from '@mui/material/Fab';
+import Icon from '@mui/material/Icon';
+import { SelectChangeEvent } from '@mui/material/Select';
 // import { getSession, commitSession } from "~/utils/session";
 
 
@@ -62,8 +61,8 @@ export default function index() {
         <Grid item xs={12} md={4} lg={4}>
           {TableTotalCheckout()}
         </Grid>
+          {AddProduct()}
       </Grid>
-      { chooseProduct(true,myusers.product.result) }
     </div>
   );
   
@@ -275,6 +274,36 @@ const UserList = () => {
       renderInput={(params) => <TextField sx={{margin:"0.5em" }} {...params} label="Customer *" />}
       onChange={onTagsChange}
     />
+
+  );
+
+}
+
+const AddProduct = () => {
+  const navigate = useNavigate();
+  const handleClickOpen = () => {
+    navigate("add");
+  };
+
+  return (
+
+    <div>
+
+    <Box sx={{ '& > :not(style)': { m: 1 } }}>
+        <Fab sx={{
+              position: "fixed",
+              bottom: (theme) => theme.spacing(2),
+              right: (theme) => theme.spacing(2)
+            }} 
+            color="primary"
+            aria-label="add"
+            onClick={handleClickOpen}
+            >
+          <Icon>add</Icon>
+        </Fab>
+    </Box>
+
+    </div>
 
   );
 

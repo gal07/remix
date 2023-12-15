@@ -56,9 +56,9 @@ export function chooseProduct(_show :boolean,data: any) {
                 handleClickOpen()
               }}
               >
-            <Icon>shopping_cart</Icon>
+            <Icon>add</Icon>
           </Fab>
-        </Box>
+      </Box>
       <Dialog
         fullScreen
         open={open}
@@ -73,23 +73,28 @@ export function chooseProduct(_show :boolean,data: any) {
               onClick={handleClose}
               aria-label="close"
             >
-              <Icon>close</Icon>
+            <Icon>close</Icon>
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Product List
+              Sound
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               save
             </Button>
           </Toolbar>
         </AppBar>
-        {
-          data.map((product: any)=>{
-
-            <p>product.product_name</p>
-
-          })
-        }
+        <List>
+          <ListItem button>
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
+          </ListItem>
+          <Divider />
+          <ListItem button>
+            <ListItemText
+              primary="Default notification ringtone"
+              secondary="Tethys"
+            />
+          </ListItem>
+        </List>
       </Dialog>
     </React.Fragment>
   );
