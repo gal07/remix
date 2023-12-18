@@ -61,26 +61,6 @@ export async function action({ request }: ActionFunctionArgs) {
         
     };
 
-    if(!email.match(mailformat))
-    {
-        errors.email = "Invalid Email Address";
-    }
-    if(!nama_depan.match(onlychar))
-    {
-        errors.nama_depan = "Only Character";
-    }
-    if(!nama_belakang.match(onlychar))
-    {
-        errors.nama_belakang = "Only Character";
-    }
-    if(!phone.match(onlynumber))
-    {
-        errors.phone = "Only Number";
-    }
-    if(alamat.length < 10)
-    {
-        errors.alamat = "Minimum 10 Character";
-    }
     if (Object.keys(errors).length > 0) {
         return json({ errors });
     }else{
@@ -117,6 +97,7 @@ function createUserComponent() {
         }, 1000);
     };
     const handleSubmit = () => {
+        
         handleClose()
     }
 
@@ -151,7 +132,6 @@ function createUserComponent() {
                             <FormControl variant="standard"> 
                                 <InputLabel htmlFor="nama_depan">First Name</InputLabel>
                                 <Input required size='small' name="nama_depan" id="nama_depan" defaultValue="" />
-                                {actionData?.errors?.nama_depan ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.nama_depan}</Typography>) : null}
                             </FormControl>
                         </Grid>
 
@@ -159,7 +139,6 @@ function createUserComponent() {
                             <FormControl variant="standard">
                                 <InputLabel htmlFor="nama_belakang">Last Name</InputLabel>
                                 <Input required size='small' name="nama_belakang" id="nama_belakang" defaultValue="" />
-                                {actionData?.errors?.nama_belakang ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.nama_belakang}</Typography>) : null}
                             </FormControl>
                         </Grid>
 
@@ -167,7 +146,6 @@ function createUserComponent() {
                             <FormControl variant="standard">
                                 <InputLabel htmlFor="email">Email</InputLabel>
                                 <Input required size='small' name="email" id="email" defaultValue="" />
-                                {actionData?.errors?.email ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.email}</Typography>) : null}
                             </FormControl>
                         </Grid>
 
@@ -175,15 +153,13 @@ function createUserComponent() {
                             <FormControl variant="standard">
                                 <InputLabel htmlFor="phone">Phone</InputLabel>
                                 <Input required size='small' name="phone" id="phone" defaultValue="" />
-                                {actionData?.errors?.phone ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.phone}</Typography>) : null}
                             </FormControl>
                         </Grid>
 
                         <Grid item xs={12} md={12} style={{marginBottom:"0.3em"}}>
                             <FormControl variant="standard">
                                 <InputLabel htmlFor="alamat">Address</InputLabel>
-                                <Input v size='small' name="alamat" id="alamat" defaultValue="" />
-                                {actionData?.errors?.alamat ? (<Typography color={"red"} variant={"caption"}>{actionData?.errors.alamat}</Typography>) : null}
+                                <Input size='small' name="alamat" id="alamat" defaultValue="" />
                             </FormControl>
                         </Grid>
                 

@@ -11,7 +11,7 @@ export type Userslist = {
     nama_belakang?: string;
     phone?: string;
     email?: string;
-    
+
 };
 
 type UserListCheckout = {
@@ -40,18 +40,19 @@ type createUser = {
 
 const apiUrl = "http://localhost:4001/api/";
 const key = {
-    "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1hX2RlcGFuIjoiYm9yYWgiLCJuYW1hX2Jlb" +
-            "GFrYW5nIjoiYW1kYW4iLCJlbWFpbCI6ImJvcmFoQGdtLmNvbSIsInBob25lIjoiNjI4NzcxMjM2MTI" +
-            "zIiwic3RhdHVzIjoxLCJyZWdfc291cmNlIjoiZWNjcy1pZCIsImlhdCI6MTcwMTA3OTE1OH0.mSOQE" +
-            "QTel5RI8HpcCc_G3Vc-mrun12V9UN8knyv3ltG_wJp6xk6LXU_ILZ0uMFNN-1Fyy1jEq_scK3rAjzU" +
-            "l0_yPSFoSVUIp6sAYsvWputS7mA9prmnJSjiGOPiCySiIngazVkGSsgxeMK_aDm8fzqYAmbmNSgttT" +
-            "bx3QoLRWxpvJJMgMBxVk9mNWVwTEi-yj3Ox_z-GYf3-a1Wyk-5MX9QqolP-hVqTbtqeMP5U0T08P07" +
-            "nNUGcVqCuCNnJpCS-rhsPoIJJB2DBN1iNJGv1YOMqkIEeAIzTOjzCOc45NHygJ2ePXSzUT0JMFclaC" +
-            "obJ1aib5ovSKb68vcxJ8O0xK1thRjJUs5p3vBidcttv_uw7e5pU_sythN5RpOFV0YrTACfvu2lYUCA" +
-            "eE6h_Yq_fkT_Pj62D_WtvR9W1a_Vem6nkZcQzWR4T7PSAXPecr2-d5SAhQDIlWFcEAJZEdpNdACRR6" +
-            "kt79h5ucYZyU3Sx5GCqYUAeEL9chyHY_xA-6FSov4oJjWvv3ESlj7TLJaTonaUImEqOZhABnShGtSq" +
-            "UqsBm69c3WoHeUs-UHNODaY7gfDLvSkGKAm4_9UG4WTr91k3APpaFFcSxA7vIqcgYqnprF-zYqKhV8" +
-            "D8Ae5Q_tvISY5WUAA_4Gm77LkoXJ8KEWwIAExSca-_BHFvl-NozGiQ",
+    "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY4LCJuYW1hX2RlcGFuIjoiU29kaWsiL" +
+            "CJuYW1hX2JlbGFrYW5nIjoiSmF5YW1hbnMiLCJlbWFpbCI6InNvamF5QGdtLmNvbSIsInBob25lIjo" +
+            "iNjI4NzcxMjYzNjEyMyIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X" +
+            "2lkIjoyMTcsImlhdCI6MTcwMjg5MzQwNX0.o0QadIloGprWBWDFqJUsIEQQgewR0XzH4-40IwrxeFx" +
+            "dO3sqg9AhJWpZPS8l2VAih2vt2gbkJHEmRNs1ePipXU4SwFf4a_TA7zR9xkXim_LejVghkUa8KAh_q" +
+            "TUOJ2x34Y4K1Qd6HKN3F-LOU6dtUyIovPjhor8VGZtUrAmz2eTTsYrFkrRc7KZg_rxf0-KQNs7FxjQ" +
+            "ADebMuVunvmFi2Iehi64aNQZyCzMFGNbSvAdLEeJ3mH6SnNVzZFA1tUGH1GbiDPe-7U8XPOsDIRJVO" +
+            "u1Dw2a2Lh4Jz81F5kHYTGIVvluRdGPbt4HTcyr-ek6iJa7kERFL3Q842q6Ej7pKEoKadfVzYgoWccw" +
+            "cwNGrtHl5mgdYmu2b6t65ShvnSYN43pqk6IqbAmySDqEu6qAu9Yq5nhQgU6LA69kfNuJDiiixJ5PS8" +
+            "y0zS6kFTtU309YwJg4oDmTXZRPT9ccTjiETQ_0HOIXR2LzgnUYByJLrAXv84lafl4ZStAVZGnw0Li6" +
+            "xyHgy0_dYM7FZgXMKer00Dn-bJPWaH8dhuztP5HpN6wRYw4XLtAEYEJFGSj038vMrlDtbSPLFC31_d" +
+            "2YcwU_Wyp-FQmJeJKD88Sd3g7ruYht3Q25qVraFK2K1jcd5BNKjVfImnSwXdMt99qSLn9xkfiYiDt7" +
+            "4lu416ol_0nrfWwM"
 }
 
 export async function getUsers() {
@@ -61,13 +62,21 @@ export async function getUsers() {
     const result = data
         .data
         .map((record : Userslist) => {
-            return {id: record.id, alamat: record.alamat, nama_lengkap: record.nama_lengkap, nama_depan: record.nama_depan, nama_belakang: record.nama_belakang, phone: record.phone, email: record.email}
+            return {
+                id: record.id,
+                alamat: record.alamat,
+                nama_lengkap: record.nama_lengkap,
+                nama_depan: record.nama_depan,
+                nama_belakang: record.nama_belakang,
+                phone: record.phone,
+                email: record.email
+            }
         });
     return json({result})
 }
 
-export async function getUserDetail(id: number) {
-    const path = 'customer/detail/'+id;
+export async function getUserDetail(id : number) {
+    const path = 'customer/detail/' + id;
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
     const result = data
@@ -100,54 +109,66 @@ export async function getProduct() {
     return json({result})
 }
 
-export async function getProducts(page=1) {
-    const path = 'product?page='+page+'&limit=8';
+export async function getProducts(page = 1) {
+    const path = 'product?page=' + page + '&limit=8';
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
-    const result = data.data ? data:{}
+    const result = data.data
+        ? data
+        : {}
     return json({result})
 }
 
-export async function createUsers(body: any){
-    console.log(JSON.stringify(body));
+export async function createUsers(body : any) {
 
     const path = 'customer/';
     const res = await fetch(apiUrl + path, {
         headers: key,
         body: JSON.stringify(body),
-        method:"POST"
+        method: "POST"
     });
     const data = await res.json();
     return data;
 }
 
-export async function updateUsers(id: number,body: any){    
+export async function updateUsers(id : number, body : any) {
     console.log(JSON.stringify(body));
-    const path = 'customer/update/'+id;
+    const path = 'customer/update/' + id;
     const res = await fetch(apiUrl + path, {
         headers: key,
         body: JSON.stringify(body),
-        method:"POST"
+        method: "POST"
     });
     const data = await res.json();
     return data;
 }
 
-export async function deleteUsers(id: number){
-    const path = 'customer/delete/'+id;
+export async function deleteUsers(id : number) {
+    const path = 'customer/delete/' + id;
     const res = await fetch(apiUrl + path, {
         headers: key,
-        method:"DELETE"
+        method: "DELETE"
     });
     const data = await res.json();
     return data;
 }
 
-export async function getTransaction(id: number){
-    const path = 'customer/delete/'+id;
+export async function getTransaction(id : number) {
+    const path = 'customer/delete/' + id;
     const res = await fetch(apiUrl + path, {
         headers: key,
-        method:"DELETE"
+        method: "DELETE"
+    });
+    const data = await res.json();
+    return data;
+}
+
+export async function createTransaction(body : any) {
+    const path = 'order/create';
+    const res = await fetch(apiUrl + path, {
+        headers: key,
+        body: body,
+        method: "POST"
     });
     const data = await res.json();
     return data;

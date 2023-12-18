@@ -15,10 +15,12 @@ import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node';
 import { getProducts } from '~/data/sourceData';
 import { useLoaderData, useNavigate, useRevalidator} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
-import { Box, Fab, InputBase, alpha } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, alpha } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Search } from '@mui/icons-material';
+import { userPrefs } from "~/cookies.server";
+import { getSession, commitSession } from "../sessions";
 
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -36,12 +38,17 @@ export const meta: MetaFunction = () => {
 
 export async function loader({
     params,
+    request
   }: LoaderFunctionArgs) {
-  
-    const product = await getProducts(params.page);
-    console.log("ke load");
-    console.log(params);
-    
+
+    const session = await getSession(
+      request.headers.get("Cookie")
+    );
+
+    session.set("userId", "90000");
+
+    let page = params.page as string;
+    const product = await getProducts(parseInt(page));    
     return product;
   
   }
@@ -123,6 +130,97 @@ export default function Productadd() {
     },
   }));
 
+  React.useEffect(()=>{
+    console.log("use effect in sales add");
+  })
+
+  const [open, setOpen] = React.useState(false);
+  const [openProduct, setOpenProduct] = React.useState({});
+  const [qty, setQty] = React.useState(1);
+
+  const AddToCart = async (item :any) => {
+    
+    let oldcart = JSON.parse(localStorage.getItem('cart') || '{}');
+    let cart = [];
+
+    if (oldcart?.length > 0) {
+
+        oldcart.map((e:any)=>{
+          cart.push(e);
+        })
+
+        Object.assign(item, { qty_checkout: qty });
+        cart.push(item);
+
+
+    }else{
+
+        Object.assign(item, { qty_checkout: qty });
+        cart.push(item);
+
+    }
+
+    localStorage.setItem("cart",JSON.stringify(cart));
+    handleClose();
+  }
+
+  const qtyInput = (v: any) => {
+    setQty(v)    
+  }
+
+  const handleClickOpen = (product :any) => {
+    setOpen(true);
+    setOpenProduct(product);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const AddProduct = () => {
+    return(
+
+      <React.Fragment>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+        >
+          <DialogTitle>Add To Cart</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Please insert Quantity and choose variant if available.
+            </DialogContentText>
+            <Box
+              noValidate
+              component="form"
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                m: 'auto',
+                width: 'fit-content',
+              }}
+            >
+              <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                <TextField label="Qty" id="outlined-size-normal" defaultValue="1" type="number" onChange={(event: any) =>{
+                  console.log(event.target.value);
+                  qtyInput(event.target.value);
+                }} />
+              </FormControl>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={()=>{
+              AddToCart(openProduct)
+            }}>Add To Cart</Button>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </React.Fragment>
+
+    );
+
+  }
+
   return (
     <div style={{marginBottom:"4em"}}>
 
@@ -145,7 +243,6 @@ export default function Productadd() {
                 <Typography variant={"h4"}>
                     Choose Product
                 </Typography>
-
 
                 <Search>
                   <SearchIconWrapper>
@@ -172,24 +269,28 @@ export default function Productadd() {
                             </IconButton>
                             }
                             title={item.nama_produk}
-                            subheader={item.barcode}
+                            subheader={item.pidr}
                         />
                         <CardMedia
                             component="img"
                             height="194"
-                            image={item.imageList}
+                            image="https://assets.eccs.center/imgview/0/small-produk-561/madu.png"
+                            // image={item.imageList}
                             alt={item.nama_produk}
                         />
                         <CardContent>
                            
                         </CardContent>
                         <CardActions disableSpacing>
-                            <IconButton aria-label="add to favorites">
-                            <Icon>shopping_basket</Icon>
+                            <IconButton onClick={()=>{
+                              // AddToCart(item)
+                              handleClickOpen(item)
+                            }} aria-label="add to favorites">
+                            <Icon>add_shopping_cart</Icon>
                             </IconButton>
-                            <IconButton aria-label="share">
+                            {/* <IconButton aria-label="share">
                             <Icon>visibility</Icon>
-                            </IconButton>
+                            </IconButton> */}
                         </CardActions>
                     </Card>
                   </Grid>
@@ -212,6 +313,8 @@ export default function Productadd() {
             variant="outlined" 
             shape="rounded" />
         </Stack>
+
+        {AddProduct()}
 
     </div>
     
