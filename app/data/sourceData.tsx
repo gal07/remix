@@ -56,7 +56,7 @@ const key = {
 }
 
 export async function getUsers() {
-    const path = 'customer?page=1&limit=1000';
+    const path = 'customer?page=1&limit=200';
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
     const result = data
@@ -88,7 +88,7 @@ export async function getUserDetail(id : number) {
 }
 
 export async function getProduct() {
-    const path = 'product?page=1&limit=1000';
+    const path = 'product?page=1&limit=200';
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
     const result = data
@@ -109,8 +109,8 @@ export async function getProduct() {
     return json({result})
 }
 
-export async function getProducts(page = 1) {
-    const path = 'product?page=' + page + '&limit=8';
+export async function getProducts(search = false,page = 1) {
+    const path = 'product?page=' + (search != false ? 'search='+search:'') + page + '&limit=8';
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
     const result = data.data
@@ -153,11 +153,11 @@ export async function deleteUsers(id : number) {
     return data;
 }
 
-export async function getTransaction(id : number) {
-    const path = 'customer/delete/' + id;
+export async function getTransaction(id : number = 0) {
+    const path = 'order' + (id == 0 ? '':'/'+id);
     const res = await fetch(apiUrl + path, {
         headers: key,
-        method: "DELETE"
+        method: "GET"
     });
     const data = await res.json();
     return data;

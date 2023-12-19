@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {redirect, type LoaderFunctionArgs, json}
 from "@remix-run/node";
-import {useLoaderData, Outlet,useNavigate, Form} from "@remix-run/react";
-import { getUsers, getProduct, getTest, createTransaction } from '~/data/sourceData';
+import {useLoaderData, Outlet,useNavigate, Form, useMatches} from "@remix-run/react";
+import { getUsers, getProduct, createTransaction } from '~/data/sourceData';
 import type { ActionFunctionArgs, MetaFunction, SessionData } from "@remix-run/node";
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box';
@@ -26,6 +26,7 @@ import { createCookieSessionStorage } from "@remix-run/node";
 import { useSubmit } from "@remix-run/react";
 import Input from '@mui/material/Input';
 import { FormEvent } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
 
 
 export async function loader({
@@ -81,28 +82,17 @@ export async function action({ request }: ActionFunctionArgs) {
 
       if (type == "checkout") {
         const checkout = String(body.get("checkout"));
-       
         const response = await createTransaction(checkout);
-        console.log(response);
-        
         if (response.meta.code != 200) {
-
             console.log(response.meta.message);
-
         }else{
-
-            // Redirect to the user page
-            return true;
-
+            return redirect('/order/'+response.data.id);
         }
-
-        
-        return true;
       }
-
+    
     }
 
-    return redirect('/sales/checkout');
+    return true;
 }
 
 export const meta: MetaFunction = () => {
@@ -115,16 +105,38 @@ export const meta: MetaFunction = () => {
 };
 
 export default function index() {
-
+  
   const [cart, setCart] = React.useState({});
+  const [total, setTotal] = React.useState(0);
+  const [discount, setDiscount] = React.useState(0);
+  const matches = useMatches();
+
+
   React.useEffect(()=>{
     
     let data = JSON.parse(localStorage.getItem("cart") || '{}');
+    let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
+    let getTotal = 0;
+    let getDiscount = 0;
     setCart(data);
 
-  },[])
+    if (data instanceof Array) {
+      data.map((val, idx, []) => {
+        let opsdata = {
+          "product_name":val.nama_produk,
+          "price":val.pidr_string,
+          "qty":val.qty_checkout,
+          "total":parseInt(val.pidr)*parseInt(val.qty_checkout),
+        };
+        
+        getTotal += parseInt(val.pidr)*parseInt(val.qty_checkout);
+        dtprod.push(opsdata);
+      });
+      setTotal(getTotal);
+      setDiscount(getDiscount);
+    }
 
-  const myusers = useLoaderData < typeof loader > ();
+  },[])
 
   return(
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
@@ -133,10 +145,10 @@ export default function index() {
           <p>
             {}
           </p>
-          {TableProductCheckout(cart)}
+          {TableProductCheckout(cart,total,discount)}
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
-          {TableTotalCheckout(cart)}
+          {TableTotalCheckout(cart,total,discount)}
         </Grid>
           {AddProduct()}
       </Grid>
@@ -145,20 +157,32 @@ export default function index() {
   
 }
 
-const TableProductCheckout = (data: Object) => {
+const TableProductCheckout = (data: Object,total: any,discount: any) => {
   
   let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
-
   if (data instanceof Array) {
     data.map((val, idx, []) => { 
       let opsdata = {
         "product_name":val.nama_produk,
-        "price":val.pidr,
+        "price":val.pidr_string,
         "qty":val.qty_checkout,
-        "total":val.pidr,
+        "total":parseInt(val.pidr)*parseInt(val.qty_checkout),
       };
       dtprod.push(opsdata);
     });
+  }
+
+  // Alert Dialog
+  const [openAlert, setOpenAlert] = React.useState(false);
+  const handleClickOpenAlert= (e :any) => {
+    console.log(e);
+    
+    setOpenAlert(true);
+  }
+  const handleCloseAlert = (e :any) => {
+    console.log(e);
+
+    setOpenAlert(false);
   }
   
   return (
@@ -176,6 +200,7 @@ const TableProductCheckout = (data: Object) => {
             <Table sx={{ minWidth: 650,width:"100%" }} aria-label="simple table">
               <TableHead>
                 <TableRow>
+                  <TableCell></TableCell>
                   <TableCell>List Item</TableCell>
                   <TableCell align="right">Price</TableCell>
                   <TableCell align="right">Quantity</TableCell>
@@ -188,6 +213,20 @@ const TableProductCheckout = (data: Object) => {
                     key={row.product_name}
                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
+                    <TableCell component="th" scope="row">
+                      <Stack spacing={1} direction={"row"}>
+                        <Button onClick={()=>{
+                          handleClickOpenAlert("delete")
+                        }} color='error' size='small' variant="contained">
+                          <Icon>delete</Icon>
+                        </Button>
+                        <Button onClick={()=>{
+                          handleClickOpenAlert("edit")
+                        }} size='small' variant="contained">
+                          <Icon>edit</Icon>
+                        </Button>
+                      </Stack>
+                    </TableCell>
                     <TableCell component="th" scope="row">
                       {row.product_name}
                     </TableCell>
@@ -219,13 +258,13 @@ const TableProductCheckout = (data: Object) => {
             <Grid xs={6} md={6} lg={6}>
               <Box>
                   <Typography margin={"0.5em"} textAlign={"right"} gutterBottom={true} variant="caption" component="h5">
-                    $ 14
+                    Rp. {total}
                   </Typography>
                   <Typography margin={"0.5em"} textAlign={"right"} gutterBottom={true} variant="caption" component="h5">
-                    $ 4
+                    Rp. 0
                   </Typography>
                   <Typography margin={"0.5em"} textAlign={"right"} gutterBottom={true} variant="h5" component="h5">
-                    $ 10
+                    Rp. {total-discount}
                   </Typography>
               </Box>
             </Grid>
@@ -233,25 +272,58 @@ const TableProductCheckout = (data: Object) => {
           </Stack>
 
         </Box>
+
+        {/* Alert Dialog */}
+        <Dialog
+          open={openAlert}
+          onClose={handleCloseAlert}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {"Delete Product from cart"}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Remove this product from your cart, are you agree ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseAlert}>Disagree</Button>
+            <Button onClick={handleCloseAlert} autoFocus>
+              Agree
+            </Button>
+          </DialogActions>
+        </Dialog>
+
     </div>
 
   );
 
 }
 
-const TableTotalCheckout = (data: Object) => {
-
-  React.useEffect(() => {
-    // This will re-mount whenever the `slug` changes
-  }, []);
+const TableTotalCheckout = (data: Object,total: any,discount: any) => {
 
   const submit = useSubmit();
   const [age, setAge] = React.useState("");
   const [product, setProduct] = React.useState(false);
-
   const handleChange = (event: SelectChangeEvent) => {
     setAge(event.target.value as string);
   };
+
+  const [customer, setCustomer] = React.useState(0);
+  const myusers = useLoaderData < typeof loader > ();
+  const users = myusers.users.result
+      .map((record :any) => {
+          return {label: (record.nama_lengkap != null ? record.nama_lengkap:"No name"),id: record.id}
+  });
+  const onTagsChange = (event:any, values:any) => {
+    setCustomer(values.id)
+  }
+  const filterOptions = createFilterOptions({
+    ignoreCase: true,
+    matchFrom: "start",
+  });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>, data : any) {
 
@@ -265,17 +337,17 @@ const TableTotalCheckout = (data: Object) => {
   
     // preparing data to checkout
     let checkoutData = {
-      "customer_id": 496,
-      "cart": [],
-      "type": "checkout"
+      customer_id: customer,
+      cart: [],
+      type: "checkout"
     }
   
     data.map((product : any)=>{
       let ready = {
-          "product_id":product.idproduk,
-          "qty":parseInt(product.qty_checkout),
-          "attribute": product.attributes,
-          "attribute_note": ""
+          product_id:product.idproduk,
+          qty:parseInt(product.qty_checkout),
+          attribute: product.attributes,
+          attribute_note: ""
       };
       checkoutData.cart.push(ready); 
     })
@@ -294,7 +366,6 @@ const TableTotalCheckout = (data: Object) => {
       relative: "route",
     });
   }
-
 
   return(
     <div>
@@ -319,14 +390,22 @@ const TableTotalCheckout = (data: Object) => {
                   <Grid xs={6} md={6} lg={6}>
                     <Box>
                         <Typography margin={"0.5em"} textAlign={"right"} gutterBottom={true} variant="h5" component="h5">
-                          $ 10
+                          Rp. {total}
                         </Typography>
                     </Box>
                   </Grid>
 
                   <Grid xs={12} md={12} lg={12}>
                     <Box>
-                        {UserList()}
+                      <Autocomplete
+                        disablePortal
+                        id="combo-box-demo"
+                        filterOptions={filterOptions}
+                        options={users}
+                        sx={{ width: 300}}
+                        renderInput={(params) => <TextField sx={{margin:"0.5em" }} {...params} label="Customer *" />}
+                        onChange={onTagsChange}
+                      />
                     </Box>
                   </Grid>
 
@@ -369,41 +448,6 @@ const TableTotalCheckout = (data: Object) => {
 
 }
 
-const UserList = () => {
-
-  const myusers = useLoaderData < typeof loader > ();
-  
-  const users = myusers.users.result
-      .map((record :any) => {
-          return {label: (record.nama_lengkap != null ? record.nama_lengkap:"No name"),id: record.id}
-  });
-        
-  const onTagsChange = (event:any, values:any) => {
-    console.log(event);
-    console.log(values);
-  }
-
-  const filterOptions = createFilterOptions({
-    ignoreCase: true,
-    matchFrom: "start",
-  });
-
-  return (
-
-    <Autocomplete
-      disablePortal
-      id="combo-box-demo"
-      filterOptions={filterOptions}
-      options={users}
-      sx={{ width: 300}}
-      renderInput={(params) => <TextField sx={{margin:"0.5em" }} {...params} label="Customer *" />}
-      onChange={onTagsChange}
-    />
-
-  );
-
-}
-
 const AddProduct = () => {
   const navigate = useNavigate();
   const handleClickOpen = () => {
@@ -433,6 +477,7 @@ const AddProduct = () => {
   );
 
 }
+
 
 function useLocalStorage(key:any, initialValue:any) {
   // State to store our value

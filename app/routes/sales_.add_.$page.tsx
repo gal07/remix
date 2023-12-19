@@ -11,21 +11,16 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
-import { LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node';
+import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node';
 import { getProducts } from '~/data/sourceData';
-import { useLoaderData, useNavigate, useRevalidator} from '@remix-run/react';
+import { Form, useLoaderData, useNavigate, useRevalidator, useSubmit} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, alpha } from '@mui/material';
+import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, alpha } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Search } from '@mui/icons-material';
 import { userPrefs } from "~/cookies.server";
 import { getSession, commitSession } from "../sessions";
-
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
 
 export const meta: MetaFunction = () => {
 
@@ -44,25 +39,13 @@ export async function loader({
     const session = await getSession(
       request.headers.get("Cookie")
     );
-
     session.set("userId", "90000");
 
     let page = params.page as string;
-    const product = await getProducts(parseInt(page));    
+    const product = await getProducts(false,parseInt(page));    
     return product;
   
-  }
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+}
 
 export default function Productadd() {
 
@@ -73,7 +56,7 @@ export default function Productadd() {
     setExpanded(!expanded);
   };
   
-  const product = useLoaderData < typeof loader > ();
+  const product = useLoaderData < typeof loader > ();  
   const [pagination, setPagination] = React.useState(product.result.pagination);
 
   const navigate = useNavigate();
@@ -132,17 +115,20 @@ export default function Productadd() {
 
   React.useEffect(()=>{
     console.log("use effect in sales add");
+    let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+    setBadges(cart.length)
+
   })
 
   const [open, setOpen] = React.useState(false);
   const [openProduct, setOpenProduct] = React.useState({});
   const [qty, setQty] = React.useState(1);
+  const [badges, setBadges] = React.useState(0);
 
   const AddToCart = async (item :any) => {
     
     let oldcart = JSON.parse(localStorage.getItem('cart') || '{}');
     let cart = [];
-
     if (oldcart?.length > 0) {
 
         oldcart.map((e:any)=>{
@@ -152,7 +138,6 @@ export default function Productadd() {
         Object.assign(item, { qty_checkout: qty });
         cart.push(item);
 
-
     }else{
 
         Object.assign(item, { qty_checkout: qty });
@@ -160,6 +145,7 @@ export default function Productadd() {
 
     }
 
+    setBadges(cart.length);
     localStorage.setItem("cart",JSON.stringify(cart));
     handleClose();
   }
@@ -220,23 +206,44 @@ export default function Productadd() {
     );
 
   }
+  
+  const submit = useSubmit();
+
+  const searchProduct = (v: any) => {
+
+    console.log("search "+v);
+    const formData = new FormData();
+    const currentPage = pagination.next_page-1;
+    submit(formData, {
+      action: "/sales/add/"+currentPage,
+      method: "GET",
+      encType: "application/x-www-form-urlencoded",
+      preventScrollReset: false,
+      replace: false,
+      relative: "route",
+    });
+
+  }
 
   return (
     <div style={{marginBottom:"4em"}}>
 
         <Box sx={{ '& > :not(style)': { m: 1 } }}>
-            <Fab sx={{
-                position: "fixed",
-                bottom: (theme) => theme.spacing(2),
-                right: (theme) => theme.spacing(2)
-                }} 
-                color="primary"
-                aria-label="add"
-                onClick={navigates}
-                >
-            <Icon>shopping_basket</Icon>
-            </Fab>
+            <Badge sx={{
+                  position: "fixed",
+                  bottom: (theme) => theme.spacing(2),
+                  right: (theme) => theme.spacing(2)
+                  }}  badgeContent={badges} color="primary">
+              <Fab 
+                  color="primary"
+                  aria-label="add"
+                  onClick={navigates}
+                  >
+              <Icon>shopping_basket</Icon>
+              </Fab>
+            </Badge>
         </Box>
+       
 
         <Grid container style={{marginTop:"1em"}}>
             <Grid item xs={12} style={{"textAlign":"center","marginBottom":"1em"}}>
@@ -251,6 +258,9 @@ export default function Productadd() {
                   <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
+                    onKeyUp={(event) => {
+                      searchProduct((event.target as HTMLInputElement).value)
+                    }}
                   />
                 </Search>
 
@@ -303,7 +313,8 @@ export default function Productadd() {
             )}
 
         <Stack sx={{"alignItems":"center","margin":"2em"}} spacing={3}>
-            <Pagination 
+            <Pagination
+            defaultPage={pagination.next_page-1}
             count={pagination.total_page} 
             onChange={(e,value)=>{
                 console.log(e);
@@ -319,4 +330,11 @@ export default function Productadd() {
     </div>
     
   );
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  console.log("action function in sales add");
+  const body = await request.formData();
+  return true;
+
 }
