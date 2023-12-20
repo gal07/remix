@@ -173,3 +173,21 @@ export async function createTransaction(body : any) {
     const data = await res.json();
     return data;
 }
+
+export async function authLogin(body : any) {
+
+    const path = 'auth/login';
+    const res = await fetch(apiUrl + path, {
+        body: new URLSearchParams({
+            'email': body.email,
+            'password': body.password,
+        }),
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+    });
+    const data = await res.json();
+    return data;
+    
+}
