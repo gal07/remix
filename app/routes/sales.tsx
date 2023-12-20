@@ -41,31 +41,20 @@ export async function loader({
   );
 
   const users = await getUsers();
-  let act = [{asd:22}];
-
-  if (session.has("act")) {
-    if (session.get("act") == "delete") {
-      console.log("delete "+session.get("id"));
-      act.push({"delete":session.get("id")})
-    }
-  }
   
   return json({
     users: await users.json(),
-    act: act
   },{headers: {
     "Set-Cookie": await commitSession(session),
   },});
 
 }
-
 // Action to handle form submission
 export async function action({ request }: ActionFunctionArgs) {
 
     const session = await getSession(
       request.headers.get("Cookie")
     );
-
     const body = await request.formData();
     const type = String(body.get("type"));
 
@@ -74,6 +63,8 @@ export async function action({ request }: ActionFunctionArgs) {
       if (type == "checkout") {
         const checkout = String(body.get("checkout"));
         const response = await createTransaction(checkout);
+        console.log(response);
+        
         if (response.meta.code != 200) {
             console.log(response.meta.message);
         }else{
@@ -111,42 +102,68 @@ export default function index() {
   const [cart, setCart] = React.useState({});
   const [total, setTotal] = React.useState(0);
   const [discount, setDiscount] = React.useState(0);
-  const [dataload, setDataload] = React.useState(false); 
-  const [buttonst, setButtonst] = React.useState(false); 
+  const [delCart, setDeleteCart] = React.useState(0); 
+  const [buttonst, setButtonst] = React.useState(false);
   const myusers = useLoaderData < typeof loader > ();
+  console.log(myusers);
   
-  if (myusers.act) {
-    // setDataload(true);
-  }
-
   React.useEffect(()=>{
     console.log("use effec sales load");
 
-    let data = JSON.parse(localStorage.getItem("cart") || '{}');
-    let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
-    let getTotal = 0;
-    let getDiscount = 0;
-    setCart(data);
-    if (data instanceof Array) {
-      data.map((val, idx, []) => {
-        let opsdata = {
-          "product_name":val.nama_produk,
-          "price":val.pidr_string,
-          "qty":val.qty_checkout,
-          "total":parseInt(val.pidr)*parseInt(val.qty_checkout),
-        };
-        
-        getTotal += parseInt(val.pidr)*parseInt(val.qty_checkout);
-        dtprod.push(opsdata);
+    // collect cart product
+    let getData = JSON.parse(localStorage.getItem("cart") || '{}');
+    let UpdateData: any[] = [];
+
+    // Update Cart
+    if (getData instanceof Array) {
+
+      getData.map((val, idx, []) => {
+
+        if (val.idproduk != delCart) {
+            UpdateData.push(val);
+        }
+
       });
-      setTotal(getTotal);
-      setDiscount(getDiscount);
+      localStorage.removeItem("cart");
+      localStorage.setItem("cart",JSON.stringify(UpdateData));
+
     }
 
-  },[])
+    // Retrieve Cart
+    let data = JSON.parse(localStorage.getItem("cart") || '{}');
+    if (data instanceof Array) {
 
-  const deleteCart = () => {
-    setCart({});
+       let data = JSON.parse(localStorage.getItem("cart") || '{}');
+       let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
+       let getTotal = 0;
+       let getDiscount = 0;
+
+       data.map((val :any, idx :any, []) => {
+         
+         let opsdata = {
+           "product_name":val.nama_produk,
+           "price":val.pidr_string,
+           "qty":val.qty_checkout,
+           "total":parseInt(val.pidr)*parseInt(val.qty_checkout),
+         };
+         
+         getTotal += parseInt(val.pidr)*parseInt(val.qty_checkout);
+         dtprod.push(opsdata);
+ 
+       });
+
+       setCart(data);
+       setTotal(getTotal);
+       setDiscount(getDiscount);
+      
+    }
+
+  },[buttonst])
+
+  const deleteCart = (e: any) => {
+    console.log(e);
+    setDeleteCart(e);
+    (buttonst ? setButtonst(false):setButtonst(true))
   }
 
   return(
@@ -166,7 +183,6 @@ export default function index() {
 }
 
 const TableProductCheckout = (data: Object,total: any,discount: any,deleteCart: any) => {
-  const submit = useSubmit();
 
   let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
   if (data instanceof Array) {
@@ -185,18 +201,17 @@ const TableProductCheckout = (data: Object,total: any,discount: any,deleteCart: 
   // Alert Dialog
   const [openAlert, setOpenAlert] = React.useState(false);
   const [productTarget, setProductTarget] = React.useState(0);
-
   const handleClickOpenAlert= (e :any) => {
     setOpenAlert(true);
   }
   const handleCloseAlert = (e :any) => {
     setOpenAlert(false);
   }
-
   const handleSubmitDelCart = (e: any) => {
     e.preventDefault();
-    deleteCart()
-    }
+    deleteCart(productTarget);
+    handleCloseAlert(e);
+  }
   
   return (
 
@@ -324,15 +339,8 @@ const TableTotalCheckout = (data: Object,total: any,discount: any) => {
 
   const submit = useSubmit();
 
-  const [age, setAge] = React.useState("");
-  const [product, setProduct] = React.useState(false);
-  const handleChange = (event: SelectChangeEvent) => {
-    setAge(event.target.value as string);
-  };
-
   const [customer, setCustomer] = React.useState(0);
   const myusers = useLoaderData < typeof loader > ();
-  
   const users = myusers.users.result
       .map((record :any) => {
           return {label: (record.nama_lengkap != null ? record.nama_lengkap:"No name"),id: record.id}
@@ -372,7 +380,6 @@ const TableTotalCheckout = (data: Object,total: any,discount: any) => {
       checkoutData.cart.push(ready); 
     })
 
-    console.log(checkoutData);
     const formData = new FormData();
     formData.append("checkout",JSON.stringify(checkoutData));
     formData.append("type","checkout");
@@ -385,6 +392,7 @@ const TableTotalCheckout = (data: Object,total: any,discount: any) => {
       replace: false,
       relative: "route",
     });
+    
   }
 
   return(
@@ -418,6 +426,7 @@ const TableTotalCheckout = (data: Object,total: any,discount: any) => {
                   <Grid xs={12} md={12} lg={12}>
                     <Box>
                       <Autocomplete
+                        freeSolo={true}
                         disablePortal
                         id="combo-box-demo"
                         filterOptions={filterOptions}
