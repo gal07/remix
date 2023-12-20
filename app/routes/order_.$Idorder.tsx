@@ -2,7 +2,7 @@ import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
 import {useMatches, useLoaderData} from "@remix-run/react";
 import { getProducts, getTransaction } from "~/data/sourceData";
-import { getSession } from "~/sessions";
+import { getSession, requireUserSession } from "~/sessions";
 import invariant from "tiny-invariant";
 
 export const meta: MetaFunction = () => {
@@ -19,6 +19,8 @@ export async function loader({
     request
   }: LoaderFunctionArgs) {
   
+    await requireUserSession(request);
+
     // Get Specific order
     invariant(params.Idorder, "Missing Idorder param");
     let idorder:number = parseInt(params.Idorder!); 

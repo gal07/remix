@@ -1,9 +1,27 @@
 import * as React from 'react';
-import type { MetaFunction } from "@remix-run/node";
+import { json, redirect, type MetaFunction } from "@remix-run/node";
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
+import { getSession, commitSession, requireUserSession } from '~/sessions';
+
+
+export const loader = async ({ request }: { request: Request }) => {
+  
+  await requireUserSession(request);
+    
+  const session = await getSession(request.headers.get("Cookie"));
+  const data = {
+      error: session.get("error")
+  };
+  return json(data, {
+      headers: {
+          "Set-Cookie": await commitSession(session)
+      }
+  });
+
+}
 
 export const meta: MetaFunction = () => {
   return [

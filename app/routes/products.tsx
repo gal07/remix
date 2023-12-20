@@ -9,6 +9,16 @@ import type {LoaderFunctionArgs}
 from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import { getProduct } from '../data/sourceData'
+import { requireUserSession } from "~/sessions";
+
+export const loader = async ({request} : LoaderFunctionArgs) => {
+
+    await requireUserSession(request);
+
+    const result = await getProduct();
+    return result;
+
+};
 
 export const meta: MetaFunction = () => {
     return [
@@ -62,12 +72,6 @@ const columns: GridColDef[] = [
     }
 ];
 
-export const loader = async (args : LoaderFunctionArgs) => {
-
-    const result = await getProduct();
-    return result;
-
-};
 
 export default function Index() {
 

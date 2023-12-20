@@ -25,6 +25,7 @@ import FormControl from '@mui/material/FormControl';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
+import { requireUserSession } from '~/sessions';
 
 export const meta: MetaFunction = () => {
     return [
@@ -328,8 +329,9 @@ const columns: GridColDef[] = [
     }
 ];
 
-export const loader = async (args : LoaderFunctionArgs) => {
+export const loader = async ({ request } : LoaderFunctionArgs) => {
 
+    await requireUserSession(request);
     const result = await getUsers();
     return result;
 

@@ -27,11 +27,14 @@ import { useSubmit } from "@remix-run/react";
 import Input from '@mui/material/Input';
 import { FormEvent } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
+import { requireUserSession } from '~/sessions';
 
 
 export async function loader({
   request,
 }: LoaderFunctionArgs) {
+
+  await requireUserSession(request);
 
   const { getSession, commitSession, destroySession } =
   createCookieSessionStorage<SessionData, SessionData>(
