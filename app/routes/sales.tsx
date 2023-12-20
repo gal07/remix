@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {redirect, type LoaderFunctionArgs, json}
 from "@remix-run/node";
-import {useLoaderData, Outlet,useNavigate, Form, useMatches} from "@remix-run/react";
+import {useLoaderData, Outlet,useNavigate, Form, useNavigation} from "@remix-run/react";
 import { getUsers, getProduct, createTransaction } from '~/data/sourceData';
 import type { ActionFunctionArgs, MetaFunction, SessionData } from "@remix-run/node";
 import Stack from '@mui/material/Stack'
@@ -27,7 +27,7 @@ import { useSubmit } from "@remix-run/react";
 import Input from '@mui/material/Input';
 import { FormEvent } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@mui/material';
-import { requireUserSession } from '~/sessions';
+import { commitSession, getSession, requireUserSession } from '~/sessions';
 
 
 export async function loader({
@@ -36,39 +36,23 @@ export async function loader({
 
   await requireUserSession(request);
 
-  const { getSession, commitSession, destroySession } =
-  createCookieSessionStorage<SessionData, SessionData>(
-    {
-      // a Cookie from `createCookie` or the CookieOptions to create one
-      cookie: {
-        name: "__session",
-
-        // all of these are optional
-        domain: "remix.run",
-        // Expires can also be set (although maxAge overrides it when used in combination).
-        // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
-        //
-        // expires: new Date(Date.now() + 60_000),
-        httpOnly: true,
-        maxAge: 60,
-        path: "/",
-        sameSite: "lax",
-        secrets: ["s3cret1"],
-        secure: true,
-      },
-    }
-  );
-
   const session = await getSession(
     request.headers.get("Cookie")
   );
 
   const users = await getUsers();
-  const product = await getProduct();
+  let act = [{asd:22}];
 
+  if (session.has("act")) {
+    if (session.get("act") == "delete") {
+      console.log("delete "+session.get("id"));
+      act.push({"delete":session.get("id")})
+    }
+  }
+  
   return json({
     users: await users.json(),
-    product: await product.json()
+    act: act
   },{headers: {
     "Set-Cookie": await commitSession(session),
   },});
@@ -77,6 +61,10 @@ export async function loader({
 
 // Action to handle form submission
 export async function action({ request }: ActionFunctionArgs) {
+
+    const session = await getSession(
+      request.headers.get("Cookie")
+    );
 
     const body = await request.formData();
     const type = String(body.get("type"));
@@ -91,6 +79,17 @@ export async function action({ request }: ActionFunctionArgs) {
         }else{
             return redirect('/order/'+response.data.id);
         }
+      }
+
+      if(type == "delete"){
+        const id = String(body.get("idproduk"));
+        session.flash("act","delete");
+        session.flash("id",id);
+        return redirect("/sales", {
+            headers: {
+                "Set-Cookie": await commitSession(session)
+            }
+        });
       }
     
     }
@@ -112,17 +111,22 @@ export default function index() {
   const [cart, setCart] = React.useState({});
   const [total, setTotal] = React.useState(0);
   const [discount, setDiscount] = React.useState(0);
-  const matches = useMatches();
-
+  const [dataload, setDataload] = React.useState(false); 
+  const [buttonst, setButtonst] = React.useState(false); 
+  const myusers = useLoaderData < typeof loader > ();
+  
+  if (myusers.act) {
+    // setDataload(true);
+  }
 
   React.useEffect(()=>{
-    
+    console.log("use effec sales load");
+
     let data = JSON.parse(localStorage.getItem("cart") || '{}');
     let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
     let getTotal = 0;
     let getDiscount = 0;
     setCart(data);
-
     if (data instanceof Array) {
       data.map((val, idx, []) => {
         let opsdata = {
@@ -141,14 +145,15 @@ export default function index() {
 
   },[])
 
+  const deleteCart = () => {
+    setCart({});
+  }
+
   return(
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
       <Grid container spacing={2} sx={{marginTop:"0.5em",width:"100%",height:"100%"}}>
         <Grid item xs={12} md={8} lg={8}>
-          <p>
-            {}
-          </p>
-          {TableProductCheckout(cart,total,discount)}
+          {TableProductCheckout(cart,total,discount,deleteCart)}
         </Grid>
         <Grid item xs={12} md={4} lg={4}>
           {TableTotalCheckout(cart,total,discount)}
@@ -160,12 +165,14 @@ export default function index() {
   
 }
 
-const TableProductCheckout = (data: Object,total: any,discount: any) => {
-  
+const TableProductCheckout = (data: Object,total: any,discount: any,deleteCart: any) => {
+  const submit = useSubmit();
+
   let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
   if (data instanceof Array) {
     data.map((val, idx, []) => { 
       let opsdata = {
+        "idproduk":val.idproduk,
         "product_name":val.nama_produk,
         "price":val.pidr_string,
         "qty":val.qty_checkout,
@@ -177,16 +184,19 @@ const TableProductCheckout = (data: Object,total: any,discount: any) => {
 
   // Alert Dialog
   const [openAlert, setOpenAlert] = React.useState(false);
+  const [productTarget, setProductTarget] = React.useState(0);
+
   const handleClickOpenAlert= (e :any) => {
-    console.log(e);
-    
     setOpenAlert(true);
   }
   const handleCloseAlert = (e :any) => {
-    console.log(e);
-
     setOpenAlert(false);
   }
+
+  const handleSubmitDelCart = (e: any) => {
+    e.preventDefault();
+    deleteCart()
+    }
   
   return (
 
@@ -220,6 +230,7 @@ const TableProductCheckout = (data: Object,total: any,discount: any) => {
                       <Stack spacing={1} direction={"row"}>
                         <Button onClick={()=>{
                           handleClickOpenAlert("delete")
+                          setProductTarget(row.idproduk)
                         }} color='error' size='small' variant="contained">
                           <Icon>delete</Icon>
                         </Button>
@@ -293,9 +304,13 @@ const TableProductCheckout = (data: Object,total: any,discount: any) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseAlert}>Disagree</Button>
-            <Button onClick={handleCloseAlert} autoFocus>
-              Agree
-            </Button>
+            <Form onSubmit={(e)=>{
+              handleSubmitDelCart(e)
+            }}>
+              <Button type='submit' autoFocus>
+                Agree
+              </Button>
+            </Form>
           </DialogActions>
         </Dialog>
 
@@ -308,6 +323,7 @@ const TableProductCheckout = (data: Object,total: any,discount: any) => {
 const TableTotalCheckout = (data: Object,total: any,discount: any) => {
 
   const submit = useSubmit();
+
   const [age, setAge] = React.useState("");
   const [product, setProduct] = React.useState(false);
   const handleChange = (event: SelectChangeEvent) => {
@@ -316,6 +332,7 @@ const TableTotalCheckout = (data: Object,total: any,discount: any) => {
 
   const [customer, setCustomer] = React.useState(0);
   const myusers = useLoaderData < typeof loader > ();
+  
   const users = myusers.users.result
       .map((record :any) => {
           return {label: (record.nama_lengkap != null ? record.nama_lengkap:"No name"),id: record.id}
@@ -359,7 +376,7 @@ const TableTotalCheckout = (data: Object,total: any,discount: any) => {
     const formData = new FormData();
     formData.append("checkout",JSON.stringify(checkoutData));
     formData.append("type","checkout");
-
+  
     submit(formData, {
       action: "/sales",
       method: "post",
@@ -479,41 +496,4 @@ const AddProduct = () => {
 
   );
 
-}
-
-
-function useLocalStorage(key:any, initialValue:any) {
-  // State to store our value
-  // Pass initial state function to useState so logic is only executed once
-  const [storedValue, setStoredValue] = React.useState(() => {
-    try {
-      // Get from local storage by key
-      const item = window.localStorage.getItem(key);
-      // Parse stored json or if none return initialValue
-      return item ? JSON.parse(item) : initialValue;
-    } catch (error) {
-      // If error also return initialValue
-      console.log(error);
-      return initialValue;
-    }
-  });
-
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
-  const setValue = (value:any) => {
-    try {
-      // Allow value to be a function so we have same API as useState
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      // Save state
-      setStoredValue(valueToStore);
-      // Save to local storage
-      localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      // A more advanced implementation would handle the error case
-      console.log(error);
-    }
-  };
-
-  return [storedValue, setValue];
 }

@@ -8,6 +8,8 @@ type SessionData = {
 
 type SessionFlashData = {
   error: string;
+  act:string;
+  id:string;
 };
 
 const { getSession, commitSession, destroySession } =
