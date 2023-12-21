@@ -15,7 +15,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from '@rem
 import { getProducts } from '~/data/sourceData';
 import { Form, useLoaderData, useNavigate, useRevalidator, useSubmit} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
-import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, alpha } from '@mui/material';
+import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, alpha } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Search } from '@mui/icons-material';
@@ -114,23 +114,45 @@ export default function Productadd() {
   }));
 
   React.useEffect(()=>{
+
     console.log("use effect in sales add");
     let cart = JSON.parse(localStorage.getItem('cart') || '{}');
     setBadges(cart.length)
 
   })
-
+  const submit = useSubmit();
   const [open, setOpen] = React.useState(false);
   const [openProduct, setOpenProduct] = React.useState({});
   const [qty, setQty] = React.useState(1);
   const [badges, setBadges] = React.useState(0);
+  const [attributes, setAttributes] = React.useState({});
+  const [attributesID, setAttributID] = React.useState(0);
+  const [attributesDetail, setAttributesDetails] = React.useState(0);
 
   const AddToCart = async (item :any) => {
     
     let oldcart = JSON.parse(localStorage.getItem('cart') || '{}');
     let cart = [];
+
+    // fill attributes if select attributes
+    if (setAttributes.length > 0 && attributesID > 0 && attributesDetail > 0) {
+      Object.assign(item, { attribute: [{attribute_id:attributesID,value:attributesDetail}] })
+
+      const attr:any = attributes;
+
+      attr[0].data.map((vv :any)=>{
+        if (vv.product_attributes_detail_id == attributesDetail) {
+          Object.assign(item, { attribute_name: attr[0].name+" : "+vv.name })
+          Object.assign(item, { pidr: parseFloat(vv.price) })
+          Object.assign(item, { pidr_string: vv.price_string })
+        }
+      })
+    }
+
+    // update cart
     if (oldcart?.length > 0) {
 
+        // Update cart
         oldcart.map((e:any)=>{
           cart.push(e);
         })
@@ -140,13 +162,17 @@ export default function Productadd() {
 
     }else{
 
+        // Add new cart
         Object.assign(item, { qty_checkout: qty });
         cart.push(item);
 
     }
 
-    setBadges(cart.length);
-    localStorage.setItem("cart",JSON.stringify(cart));
+    setBadges(cart.length); // update badges cart
+    localStorage.setItem("cart",JSON.stringify(cart)); // set cart
+    setAttributID(0); // reset value
+    setAttributes({}); // reset value
+    setAttributesDetails(0); // reset value
     handleClose();
   }
 
@@ -157,13 +183,15 @@ export default function Productadd() {
   const handleClickOpen = (product :any) => {
     setOpen(true);
     setOpenProduct(product);
+    setAttributes(product.attributes)
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const AddProduct = () => {
+  const AddProduct = (attr : any) => {
+    
     return(
 
       <React.Fragment>
@@ -184,8 +212,37 @@ export default function Productadd() {
                 flexDirection: 'column',
                 m: 'auto',
                 width: 'fit-content',
+                float:'left'
               }}
             >
+
+              {
+                (attr.length > 0 ? <FormControl sx={{ marginTop: 1, minWidth: 120 }}>
+                  <InputLabel id="demo-simple-select-helper-label">{attr[0].name}</InputLabel>
+                  <Select
+                    required
+                    labelId="demo-simple-select-helper-label"
+                    id="demo-simple-select-helper"
+                    value={attributesDetail}
+                    label="Age"
+                    onChange={(e,v :any)=>{
+                      // console.log(v.props.value);
+                      let val_attr = v.props.value;
+                      setAttributesDetails(val_attr);
+                      setAttributID(attr[0].id)
+                    }}
+                  >
+                    {
+                      attr[0].data.map((es : any) => {
+                        return <MenuItem value={es.product_attributes_detail_id}>{es.name + " - " +es.price_string}</MenuItem>
+                      })
+                    }
+                  </Select>
+                  <FormHelperText>Choose Attributes</FormHelperText>
+                </FormControl>:"")
+              }
+              
+
               <FormControl sx={{ mt: 2, minWidth: 120 }}>
                 <TextField label="Qty" id="outlined-size-normal" defaultValue="1" type="number" onChange={(event: any) =>{
                   console.log(event.target.value);
@@ -207,8 +264,6 @@ export default function Productadd() {
 
   }
   
-  const submit = useSubmit();
-
   const searchProduct = (v: any) => {
 
     console.log("search "+v);
@@ -325,7 +380,7 @@ export default function Productadd() {
             shape="rounded" />
         </Stack>
 
-        {AddProduct()}
+        {AddProduct(attributes)}
 
     </div>
     

@@ -4,6 +4,7 @@ import { createCookieSessionStorage, redirect } from "@remix-run/node"; // or cl
 type SessionData = {
   userId: string;
   keySec: string;
+  voucher: string;
 };
 
 type SessionFlashData = {
