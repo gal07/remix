@@ -21,8 +21,6 @@ import TextField from '@mui/material/TextField';
 import Autocomplete, {createFilterOptions} from '@mui/material/Autocomplete';
 import Fab from '@mui/material/Fab';
 import Icon from '@mui/material/Icon';
-import {SelectChangeEvent} from '@mui/material/Select';
-import {createCookieSessionStorage} from "@remix-run/node";
 import {useSubmit} from "@remix-run/react";
 import Input from '@mui/material/Input';
 import {FormEvent} from 'react';
@@ -66,7 +64,13 @@ export async function action({request} : ActionFunctionArgs) {
             if (response.meta.code != 200) {
                 session.flash("error",response.meta.message);
             } else {
-                return redirect('/order/' + response.data.id);
+                session.flash("act","order_complete");
+                return redirect('/order/' + response.data.id,
+                {
+                    headers:{
+                        "Set-Cookie": await commitSession(session)
+                    }
+                });
             }
         }
 
@@ -108,6 +112,10 @@ export const meta: MetaFunction = () => {
     ];
 
 };
+
+function numberWithCommas(x: any) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 export default function index() {
 
@@ -192,7 +200,7 @@ export default function index() {
             triggerUse ? settriggerUse(false): settriggerUse(true)
         )
     }
-    
+
     return (
         < div style = {{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }} > 
         <Grid container spacing = {2}
@@ -283,19 +291,23 @@ const TableProductCheckout = (
                     setProductTarget(row.idproduk)
                 }
             }
-            color = 'error' size = 'small' variant = "contained" > <Icon> delete</Icon></Button> < Button onClick = {
+            color = 'error' size = 'small' variant = "contained" > <Icon> delete</Icon></Button> 
+            {/* < Button onClick = {
                 () => {
                     handleClickOpenAlert("edit")
                 }
             }
-            size = 'small' variant = "contained" > <Icon> edit</Icon></Button></Stack></TableCell> < TableCell component = "th" scope = "row" > {
+            size = 'small' variant = "contained" > <Icon> edit</Icon></Button> */}
+            </Stack></TableCell>
+            < TableCell component = "th" scope = "row" > {
                 row.product_name+ (row.attribute_name ? " - "+row.attribute_name:"")
             }</TableCell> < TableCell align = "right" > {
                 row.price
             }</TableCell> < TableCell align = "right" > {
                 row.qty
-            }</TableCell> < TableCell align = "right" > {
-                row.total
+            }</TableCell> < TableCell align = "right" > 
+            Rp.{
+                numberWithCommas(row.total)
             }</TableCell></TableRow>))
         }</TableBody></Table></TableContainer> < Stack useFlexGap flexWrap = "wrap" direction = {
             "row"
@@ -352,7 +364,7 @@ const TableProductCheckout = (
         gutterBottom = {
             true
         }
-        variant = "caption" component = "h5" > Rp.{total}</Typography> < Typography margin = {
+        variant = "caption" component = "h5" > Rp.{numberWithCommas(total)}</Typography> < Typography margin = {
             "0.5em"
         }
         textAlign = {
@@ -361,7 +373,7 @@ const TableProductCheckout = (
         gutterBottom = {
             true
         }
-        variant = "caption" component = "h5" > Rp.{(discount? discount:0)}</Typography> < Typography margin = {
+        variant = "caption" component = "h5" > Rp.{numberWithCommas((discount? discount:0))}</Typography> < Typography margin = {
             "0.5em"
         }
         textAlign = {
@@ -371,7 +383,7 @@ const TableProductCheckout = (
             true
         }
         variant = "h5" component = "h5" > Rp.{
-            total - (discount? discount:0)
+            numberWithCommas(total - (discount? discount:0))
         }</Typography></Box></Grid></Stack></Box> {/* Alert Dialog */
         } < Dialog open = {
             openAlert
@@ -428,6 +440,9 @@ const TableTotalCheckout = (data
     const filterOptions = createFilterOptions(
         {ignoreCase: true, matchFrom: "start"}
     );
+    const paymentList = [
+        { label: 'Cash', id: 1 },
+    ]
 
     async function handleSubmit(
       event: FormEvent<HTMLFormElement>,
@@ -487,117 +502,79 @@ const TableTotalCheckout = (data
     }
 
     return (
-        <div> < Stack direction = "column" justifyContent = "space-around" alignItems = "stretch" spacing = {
-            0.5
-        }
-        sx = {{marginTop:"4.5em"}} > <Box bgcolor = {
-            "#f7f7f7"
-        } > <Stack useFlexGap flexWrap = "wrap" direction = {
-            "row"
-        } > <Grid xs = {
-            6
-        }
-        md = {
-            6
-        }
-        lg = {
-            6
-        } > <Box> < Typography margin = {
-            "0.5em"
-        }
-        textAlign = {
-            "left"
-        }
-        gutterBottom = {
-            true
-        }
-        variant = "h5" component = "h5" > Total</Typography></Box></Grid> < Grid xs = {
-            6
-        }
-        md = {
-            6
-        }
-        lg = {
-            6
-        } > <Box> < Typography margin = {
-            "0.5em"
-        }
-        textAlign = {
-            "right"
-        }
-        gutterBottom = {
-            true
-        }
-        variant = "h5" component = "h5" > Rp.{total}</Typography></Box></Grid> < Grid xs = {
-            12
-        }
-        md = {
-            12
-        }
-        lg = {
-            12
-        } > <Box> < Autocomplete freeSolo = {
-            true
-        }
-        disablePortal id = "combo-box-demo" filterOptions = {
-            filterOptions
-        }
-        options = {
-            users
-        }
-        sx = {{ width: 300}}
-        renderInput = {
-            (params) => <TextField sx = {{margin:"0.5em" }}{
-                ...params
-            }
-            label = "Customer *" />
-        }
-        onChange = {
-            onTagsChange
-        } /> </Box></Grid> < Grid xs = {
-            12
-        }
-        md = {
-            12
-        }
-        lg = {
-            12
-        } > 
-        <Form method = "POST" onSubmit={(e) => {
-            handleSubmit(e, data, "check_voucher",false)
-        }}>
-          <Box> 
-            < TextField variant = "outlined" sx = {{margin:"0.5em"}}
-              id = "outlined-required" label = "Voucher" defaultValue = {voucher} style = {{color:"white"}}
-              onKeyUp={(e: any)=>{
-                let v = (e.target as HTMLInputElement).value;
-                setVoucher(v);                
-              }}
-            />
-          
-            <Button type='submit' sx={{alignContent:"flex-start",marginTop:"1em"}} size="large">Use</Button>
-          </Box >
-        </Form>
-        </Grid> 
-        < Divider variant = "middle" /> <Grid xs = {
-            12
-        }
-        md = {
-            12
-        }
-        lg = {
-            12
-        } > <Box sx = {{margin:"0em",marginTop:"0.5em"}} > <Form method = "POST" action = 'checkout' onSubmit = {
-            (e) => {
-                handleSubmit(e, data, "checkout",false)
-            }
-        } > <Input type = "hidden" size = 'small' name = "email" id = "email" defaultValue = "wasdas@asdas.com" /> <Button type = "submit" size = {
-            "large"
-        }
-        fullWidth = {
-            true
-        }
-        variant = "contained" color = "success" > Pay</Button></Form></Box></Grid></Stack></Box></Stack></div>
+        <div> 
+            < Stack direction = "column" justifyContent = "space-around" alignItems = "stretch" spacing = {0.5} sx = {{marginTop:"4.5em"}} > <Box bgcolor = {"#f7f7f7"} > 
+                <Stack useFlexGap flexWrap = "wrap" direction = {"row"} > 
+                    <Grid xs = {6} md = {6} lg = {6} > 
+                        <Box> 
+                            < Typography margin = {"0.5em"} textAlign = {"left"} gutterBottom = {true} variant = "h5" component = "h5" > Total </Typography>
+                        </Box>
+                    </Grid>
+                    < Grid xs = {6} md = {6} lg = {6} >
+                        <Box>
+                            < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{numberWithCommas(total)}</Typography>
+                        </Box>
+                    </Grid> 
+                    < Grid xs = {12} md = {12} lg = {12} > 
+                        <Box> 
+                            < Autocomplete freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {users} sx = {{ width: 300}}
+                            renderInput = {
+                                (params) => <TextField sx = {{margin:"0.5em" }}{
+                                    ...params
+                                }
+                                label = "Customer" />
+                            }
+                            onChange = {
+                                onTagsChange
+                            } />
+                        </Box>
+                    </Grid>
+                    < Grid xs = {12} md = {12} lg = {12} > 
+                        <Form method = "POST" onSubmit={(e) => {
+                            handleSubmit(e, data, "check_voucher",false)
+                        }}>
+                            <Box> 
+                                < TextField variant = "outlined" sx = {{margin:"0.5em"}}
+                                id = "outlined-required" label = "Voucher" defaultValue = {voucher} style = {{color:"white"}}
+                                onKeyUp={(e: any)=>{
+                                    let v = (e.target as HTMLInputElement).value;
+                                    setVoucher(v);                
+                                }}
+                                />
+                            
+                                <Button type='submit' sx={{alignContent:"flex-start",marginTop:"1em"}} size="large">Use</Button>
+                            </Box >
+                        </Form>
+                    </Grid>
+                    < Grid xs = {12} md = {12} lg = {12} > 
+                        < Autocomplete freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {paymentList} sx = {{ width: 300}}
+                            renderInput = {
+                                (params) => <TextField sx = {{margin:"0.5em" }}{
+                                    ...params
+                                }
+                                label = "Payment" />
+                            }
+                            onChange = {
+                                onTagsChange
+                        } />
+                    </Grid> 
+            < Divider variant = "middle" /> 
+            <Grid xs = {12} md = {12} lg = {12} >
+                <Box sx = {{margin:"0em",marginTop:"0.5em"}} > 
+                    <Form method = "POST" action = 'checkout' onSubmit = {
+                    (e) => {
+                        handleSubmit(e, data, "checkout",false)
+                    }
+                    } > 
+                        <Input type = "hidden" size = 'small' name = "email" id = "email" defaultValue = "wasdas@asdas.com" />
+                            <Button type = "submit" size = {"large"} fullWidth = {true} variant = "contained" color = "success" > Pay</Button>
+                    </Form>
+                </Box>
+            </Grid>
+         </Stack>
+         </Box>
+         </Stack>
+        </div>
     );
 
 }

@@ -8314,6 +8314,7 @@ import { TableContainer, Paper as Paper3, Table, TableHead, TableRow, TableCell,
 import { json as json2 } from "@remix-run/node";
 import { useLoaderData as useLoaderData2 } from "@remix-run/react";
 import invariant from "tiny-invariant";
+import React46 from "react";
 import { jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
 var meta2 = () => [
   { title: "ECCS POS - Order " },
@@ -8323,38 +8324,36 @@ async function loader2({
   params,
   request
 }) {
-  await requireUserSession(request), invariant(params.Idorder, "Missing Idorder param");
+  await requireUserSession(request);
+  let session = await getSession(request.headers.get("Cookie"));
+  session.has("act") && session.get("act") == "order_complete" && session.flash("act", "delete_cart");
+  let flash = session.has("act") ? session.get("act") : null;
+  invariant(params.Idorder, "Missing Idorder param");
   let idorder = parseInt(params.Idorder), getOrder = await getTransaction(idorder);
-  return json2({ getOrder });
+  return json2({
+    getOrder: await getOrder,
+    flash
+  }, {
+    headers: {
+      "Set-Cookie": await commitSession(session)
+    }
+  });
 }
 async function action2({ request }) {
 }
 function index() {
-  let order = useLoaderData2(), TAX_RATE = 0.07;
-  function ccyFormat(num) {
-    return `${num.toFixed(2)}`;
-  }
-  function priceRow(qty, unit) {
-    return qty * unit;
-  }
-  function createRow(desc, qty, unit) {
-    let price = priceRow(qty, unit);
-    return { desc, qty, unit, price };
-  }
-  function subtotal(items) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-  }
-  let rows = [
-    createRow("Paperclips (Box)", 100, 1.15),
-    createRow("Paper (Case)", 10, 45.99),
-    createRow("Waste Basket", 2, 1e4)
-  ], invoiceSubtotal = subtotal(rows), invoiceTotal = TAX_RATE * invoiceSubtotal + invoiceSubtotal, date = new Date(order.getOrder.data?.tanggal), dtprod = [];
+  let order = useLoaderData2(), date = new Date(order.getOrder.data?.tanggal);
+  React46.useEffect(() => {
+    order?.flash && order.flash == "delete_cart" && localStorage.removeItem("cart");
+  });
+  let dtprod = [];
   return order.getOrder.data.detail instanceof Array && order.getOrder.data.detail.map((val, idx, []) => {
     let opsdata = {
       product_name: val.nama,
       price: val.harga,
       qty: val.qty,
-      total: parseInt(val.harga) * parseInt(val.qty)
+      total: parseInt(val.harga) * parseInt(val.qty),
+      attribute: val.attribute ? val.attribute : []
     };
     dtprod.push(opsdata);
   }), /* @__PURE__ */ jsxDEV5("div", { children: [
@@ -8363,15 +8362,15 @@ function index() {
     }, component: Paper3, children: /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code != 200, children: /* @__PURE__ */ jsxDEV5(Table, { sx: { minWidth: 700 }, "aria-label": "spanning table", children: [
       /* @__PURE__ */ jsxDEV5(TableHead, { children: /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { align: "left", colSpan: 3, children: "Data Order" }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 100,
+        lineNumber: 89,
         columnNumber: 25
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 99,
+        lineNumber: 88,
         columnNumber: 25
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 98,
+        lineNumber: 87,
         columnNumber: 21
       }, this),
       /* @__PURE__ */ jsxDEV5(TableBody, { children: [
@@ -8380,11 +8379,11 @@ function index() {
           order.getOrder.data.id
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 108,
+          lineNumber: 97,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 107,
+          lineNumber: 96,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8392,11 +8391,11 @@ function index() {
           order.getOrder.data.invoice_no
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 111,
+          lineNumber: 100,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 110,
+          lineNumber: 99,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8404,11 +8403,11 @@ function index() {
           date.getDate() + " - " + date.getMonth() + " - " + date.getFullYear()
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 114,
+          lineNumber: 103,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 113,
+          lineNumber: 102,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8416,191 +8415,209 @@ function index() {
           order.getOrder.data.nama_pelanggan
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 117,
+          lineNumber: 106,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 116,
+          lineNumber: 105,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
           "Payment : ",
-          order.getOrder.data.payment_method
+          order.getOrder.data.payment_method == null ? "Cash" : order.getOrder.data.payment_method
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 120,
+          lineNumber: 109,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 119,
+          lineNumber: 108,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 105,
+        lineNumber: 94,
         columnNumber: 21
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 97,
+      lineNumber: 86,
       columnNumber: 21
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 96,
+      lineNumber: 85,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 93,
+      lineNumber: 82,
       columnNumber: 13
     }, this),
     /* @__PURE__ */ jsxDEV5(TableContainer, { sx: { marginTop: "1em", marginBottom: "3em" }, component: Paper3, children: /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code != 200, children: /* @__PURE__ */ jsxDEV5(Table, { sx: { minWidth: 700 }, "aria-label": "spanning table", children: [
       /* @__PURE__ */ jsxDEV5(TableHead, { children: /* @__PURE__ */ jsxDEV5(TableRow, { children: [
         /* @__PURE__ */ jsxDEV5(TableCell, { children: "Product Name" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 132,
+          lineNumber: 121,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: "Qty." }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 133,
+          lineNumber: 122,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: "Price" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 134,
+          lineNumber: 123,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: "Total" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 135,
+          lineNumber: 124,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 131,
+        lineNumber: 120,
         columnNumber: 25
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 130,
+        lineNumber: 119,
         columnNumber: 21
       }, this),
       /* @__PURE__ */ jsxDEV5(TableBody, { children: [
         dtprod.map((row) => /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { children: row.product_name }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 141,
+            lineNumber: 130,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: row.qty }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 142,
+            lineNumber: 131,
             columnNumber: 29
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: row.price }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
+            "Rp ",
+            row.attribute.length > 0 ? numberWithCommas(row.attribute[0].price) : numberWithCommas(row.price)
+          ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 143,
+            lineNumber: 132,
             columnNumber: 29
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: ccyFormat(row.total) }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
+            "Rp ",
+            row.attribute.length > 0 ? numberWithCommas(row.attribute[0].price * row.qty) : numberWithCommas(row.total)
+          ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 144,
+            lineNumber: 135,
             columnNumber: 29
           }, this)
         ] }, row.product_name, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 140,
+          lineNumber: 129,
           columnNumber: 25
         }, this)),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { rowSpan: 3 }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 148,
+            lineNumber: 141,
             columnNumber: 25
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { colSpan: 2, children: "Subtotal" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 149,
+            lineNumber: 142,
             columnNumber: 25
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: order.getOrder.data.total_barang }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
+            "Rp ",
+            numberWithCommas(order.getOrder.data.total_barang)
+          ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 150,
+            lineNumber: 143,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 147,
+          lineNumber: 140,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { children: "Discount" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 153,
+            lineNumber: 146,
             columnNumber: 25
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { align: "right" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 154,
+            lineNumber: 147,
             columnNumber: 25
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: order.getOrder.data.voucher_nominal }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
+            "Rp ",
+            numberWithCommas(order.getOrder.data.voucher_nominal)
+          ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 155,
+            lineNumber: 148,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 152,
+          lineNumber: 145,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { colSpan: 2, children: "Total" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 158,
+            lineNumber: 151,
             columnNumber: 25
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: order.getOrder.data.total }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
+            "Rp ",
+            numberWithCommas(order.getOrder.data.total)
+          ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 159,
+            lineNumber: 152,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 157,
+          lineNumber: 150,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 138,
+        lineNumber: 127,
         columnNumber: 21
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 129,
+      lineNumber: 118,
       columnNumber: 21
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 128,
+      lineNumber: 117,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 127,
+      lineNumber: 116,
       columnNumber: 13
     }, this),
     /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code == 200, children: /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h3", sx: { textAlign: "center", marginTop: "3em" }, children: order.getOrder.meta.message }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 166,
+      lineNumber: 159,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 165,
+      lineNumber: 158,
       columnNumber: 13
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/order_.$Idorder.tsx",
-    lineNumber: 92,
+    lineNumber: 81,
     columnNumber: 9
   }, this);
+}
+function numberWithCommas(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // app/routes/sales_.checkout.tsx
@@ -8927,7 +8944,7 @@ import { json as json6 } from "@remix-run/node";
 // node_modules/@mui/material/Skeleton/Skeleton.js
 import _objectWithoutPropertiesLoose35 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends42 from "@babel/runtime/helpers/esm/extends";
-import * as React46 from "react";
+import * as React47 from "react";
 import clsx29 from "clsx";
 import PropTypes37 from "prop-types";
 import { keyframes as keyframes3, css as css2 } from "@mui/system";
@@ -9050,7 +9067,7 @@ var _excluded37 = ["animation", "className", "component", "height", "style", "va
         right: 0;
         top: 0;
       }
-    `), waveKeyframe, (theme.vars || theme).palette.action.hover)), Skeleton = /* @__PURE__ */ React46.forwardRef(function(inProps, ref) {
+    `), waveKeyframe, (theme.vars || theme).palette.action.hover)), Skeleton = /* @__PURE__ */ React47.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiSkeleton"
@@ -9323,20 +9340,20 @@ __export(sales_exports, {
   loader: () => loader7,
   meta: () => meta6
 });
-import * as React87 from "react";
+import * as React88 from "react";
 import { redirect as redirect7, json as json8 } from "@remix-run/node";
 import { useLoaderData as useLoaderData5, useNavigate as useNavigate2, Form as Form2 } from "@remix-run/react";
 
 // node_modules/@mui/material/Table/Table.js
 import _objectWithoutPropertiesLoose36 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends43 from "@babel/runtime/helpers/esm/extends";
-import * as React48 from "react";
+import * as React49 from "react";
 import PropTypes38 from "prop-types";
 import clsx30 from "clsx";
 
 // node_modules/@mui/material/Table/TableContext.js
-import * as React47 from "react";
-var TableContext = /* @__PURE__ */ React47.createContext();
+import * as React48 from "react";
+var TableContext = /* @__PURE__ */ React48.createContext();
 TableContext.displayName = "TableContext";
 var TableContext_default = TableContext;
 
@@ -9382,7 +9399,7 @@ var _excluded38 = ["className", "component", "padding", "size", "stickyHeader"],
   })
 }, ownerState.stickyHeader && {
   borderCollapse: "separate"
-})), defaultComponent = "table", Table2 = /* @__PURE__ */ React48.forwardRef(function(inProps, ref) {
+})), defaultComponent = "table", Table2 = /* @__PURE__ */ React49.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTable"
@@ -9397,7 +9414,7 @@ var _excluded38 = ["className", "component", "padding", "size", "stickyHeader"],
     padding,
     size,
     stickyHeader
-  }), classes = useUtilityClasses27(ownerState), table = React48.useMemo(() => ({
+  }), classes = useUtilityClasses27(ownerState), table = React49.useMemo(() => ({
     padding,
     size,
     stickyHeader
@@ -9462,13 +9479,13 @@ var Table_default = Table2;
 // node_modules/@mui/material/TableBody/TableBody.js
 import _extends44 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose37 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React50 from "react";
+import * as React51 from "react";
 import PropTypes39 from "prop-types";
 import clsx31 from "clsx";
 
 // node_modules/@mui/material/Table/Tablelvl2Context.js
-import * as React49 from "react";
-var Tablelvl2Context = /* @__PURE__ */ React49.createContext();
+import * as React50 from "react";
+var Tablelvl2Context = /* @__PURE__ */ React50.createContext();
 Tablelvl2Context.displayName = "Tablelvl2Context";
 var Tablelvl2Context_default = Tablelvl2Context;
 
@@ -9496,7 +9513,7 @@ var _excluded39 = ["className", "component"], useUtilityClasses28 = (ownerState)
   display: "table-row-group"
 }), tablelvl2 = {
   variant: "body"
-}, defaultComponent2 = "tbody", TableBody2 = /* @__PURE__ */ React50.forwardRef(function(inProps, ref) {
+}, defaultComponent2 = "tbody", TableBody2 = /* @__PURE__ */ React51.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableBody"
@@ -9549,7 +9566,7 @@ var TableBody_default = TableBody2;
 // node_modules/@mui/material/TableCell/TableCell.js
 import _objectWithoutPropertiesLoose38 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends45 from "@babel/runtime/helpers/esm/extends";
-import * as React51 from "react";
+import * as React52 from "react";
 import PropTypes40 from "prop-types";
 import clsx32 from "clsx";
 import { darken as darken3, alpha as alpha8, lighten as lighten3 } from "@mui/system";
@@ -9636,7 +9653,7 @@ var _excluded40 = ["align", "className", "component", "padding", "scope", "size"
   top: 0,
   zIndex: 2,
   backgroundColor: (theme.vars || theme).palette.background.default
-})), TableCell2 = /* @__PURE__ */ React51.forwardRef(function(inProps, ref) {
+})), TableCell2 = /* @__PURE__ */ React52.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableCell"
@@ -9649,7 +9666,7 @@ var _excluded40 = ["align", "className", "component", "padding", "scope", "size"
     size: sizeProp,
     sortDirection,
     variant: variantProp
-  } = props, other = _objectWithoutPropertiesLoose38(props, _excluded40), table = React51.useContext(TableContext_default), tablelvl23 = React51.useContext(Tablelvl2Context_default), isHeadCell = tablelvl23 && tablelvl23.variant === "head", component;
+  } = props, other = _objectWithoutPropertiesLoose38(props, _excluded40), table = React52.useContext(TableContext_default), tablelvl23 = React52.useContext(Tablelvl2Context_default), isHeadCell = tablelvl23 && tablelvl23.variant === "head", component;
   componentProp ? component = componentProp : component = isHeadCell ? "th" : "td";
   let scope = scopeProp;
   component === "td" ? scope = void 0 : !scope && isHeadCell && (scope = "col");
@@ -9734,7 +9751,7 @@ var TableCell_default = TableCell2;
 // node_modules/@mui/material/TableContainer/TableContainer.js
 import _extends46 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose39 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React52 from "react";
+import * as React53 from "react";
 import PropTypes41 from "prop-types";
 import clsx33 from "clsx";
 
@@ -9761,7 +9778,7 @@ var _excluded41 = ["className", "component"], useUtilityClasses30 = (ownerState)
 })({
   width: "100%",
   overflowX: "auto"
-}), TableContainer2 = /* @__PURE__ */ React52.forwardRef(function(inProps, ref) {
+}), TableContainer2 = /* @__PURE__ */ React53.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableContainer"
@@ -9810,7 +9827,7 @@ var TableContainer_default = TableContainer2;
 // node_modules/@mui/material/TableHead/TableHead.js
 import _extends47 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose40 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React53 from "react";
+import * as React54 from "react";
 import PropTypes42 from "prop-types";
 import clsx34 from "clsx";
 
@@ -9838,7 +9855,7 @@ var _excluded42 = ["className", "component"], useUtilityClasses31 = (ownerState)
   display: "table-header-group"
 }), tablelvl22 = {
   variant: "head"
-}, defaultComponent3 = "thead", TableHead2 = /* @__PURE__ */ React53.forwardRef(function(inProps, ref) {
+}, defaultComponent3 = "thead", TableHead2 = /* @__PURE__ */ React54.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableHead"
@@ -9891,7 +9908,7 @@ var TableHead_default = TableHead2;
 // node_modules/@mui/material/TableRow/TableRow.js
 import _extends48 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose41 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React54 from "react";
+import * as React55 from "react";
 import PropTypes43 from "prop-types";
 import clsx35 from "clsx";
 import { alpha as alpha9 } from "@mui/system";
@@ -9942,7 +9959,7 @@ var _excluded43 = ["className", "component", "hover", "selected"], useUtilityCla
       backgroundColor: theme.vars ? `rgba(${theme.vars.palette.primary.mainChannel} / calc(${theme.vars.palette.action.selectedOpacity} + ${theme.vars.palette.action.hoverOpacity}))` : alpha9(theme.palette.primary.main, theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity)
     }
   }
-})), defaultComponent4 = "tr", TableRow2 = /* @__PURE__ */ React54.forwardRef(function(inProps, ref) {
+})), defaultComponent4 = "tr", TableRow2 = /* @__PURE__ */ React55.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableRow"
@@ -9951,7 +9968,7 @@ var _excluded43 = ["className", "component", "hover", "selected"], useUtilityCla
     component = defaultComponent4,
     hover = !1,
     selected = !1
-  } = props, other = _objectWithoutPropertiesLoose41(props, _excluded43), tablelvl23 = React54.useContext(Tablelvl2Context_default), ownerState = _extends48({}, props, {
+  } = props, other = _objectWithoutPropertiesLoose41(props, _excluded43), tablelvl23 = React55.useContext(Tablelvl2Context_default), ownerState = _extends48({}, props, {
     component,
     hover,
     selected,
@@ -10008,7 +10025,7 @@ var TableRow_default = TableRow2;
 // node_modules/@mui/material/Divider/Divider.js
 import _objectWithoutPropertiesLoose42 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends49 from "@babel/runtime/helpers/esm/extends";
-import * as React55 from "react";
+import * as React56 from "react";
 import PropTypes44 from "prop-types";
 import clsx36 from "clsx";
 import { alpha as alpha10 } from "@mui/system";
@@ -10142,7 +10159,7 @@ var _excluded44 = ["absolute", "children", "className", "component", "flexItem",
 }, ownerState.orientation === "vertical" && {
   paddingTop: `calc(${theme.spacing(1)} * 1.2)`,
   paddingBottom: `calc(${theme.spacing(1)} * 1.2)`
-})), Divider = /* @__PURE__ */ React55.forwardRef(function(inProps, ref) {
+})), Divider = /* @__PURE__ */ React56.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDivider"
@@ -10249,7 +10266,7 @@ var Divider_default = Divider;
 // node_modules/@mui/material/Button/Button.js
 import _objectWithoutPropertiesLoose43 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends50 from "@babel/runtime/helpers/esm/extends";
-import * as React58 from "react";
+import * as React59 from "react";
 import PropTypes45 from "prop-types";
 import clsx37 from "clsx";
 import { internal_resolveProps as resolveProps } from "@mui/utils";
@@ -10263,14 +10280,14 @@ function getButtonUtilityClass(slot) {
 var buttonClasses = generateUtilityClasses36("MuiButton", ["root", "text", "textInherit", "textPrimary", "textSecondary", "textSuccess", "textError", "textInfo", "textWarning", "outlined", "outlinedInherit", "outlinedPrimary", "outlinedSecondary", "outlinedSuccess", "outlinedError", "outlinedInfo", "outlinedWarning", "contained", "containedInherit", "containedPrimary", "containedSecondary", "containedSuccess", "containedError", "containedInfo", "containedWarning", "disableElevation", "focusVisible", "disabled", "colorInherit", "textSizeSmall", "textSizeMedium", "textSizeLarge", "outlinedSizeSmall", "outlinedSizeMedium", "outlinedSizeLarge", "containedSizeSmall", "containedSizeMedium", "containedSizeLarge", "sizeMedium", "sizeSmall", "sizeLarge", "fullWidth", "startIcon", "endIcon", "iconSizeSmall", "iconSizeMedium", "iconSizeLarge"]), buttonClasses_default = buttonClasses;
 
 // node_modules/@mui/material/ButtonGroup/ButtonGroupContext.js
-import * as React56 from "react";
-var ButtonGroupContext = /* @__PURE__ */ React56.createContext({});
+import * as React57 from "react";
+var ButtonGroupContext = /* @__PURE__ */ React57.createContext({});
 ButtonGroupContext.displayName = "ButtonGroupContext";
 var ButtonGroupContext_default = ButtonGroupContext;
 
 // node_modules/@mui/material/ButtonGroup/ButtonGroupButtonContext.js
-import * as React57 from "react";
-var ButtonGroupButtonContext = /* @__PURE__ */ React57.createContext(void 0);
+import * as React58 from "react";
+var ButtonGroupButtonContext = /* @__PURE__ */ React58.createContext(void 0);
 ButtonGroupButtonContext.displayName = "ButtonGroupButtonContext";
 var ButtonGroupButtonContext_default = ButtonGroupButtonContext;
 
@@ -10471,8 +10488,8 @@ var _excluded45 = ["children", "color", "component", "className", "disabled", "d
   marginLeft: 8
 }, ownerState.size === "small" && {
   marginRight: -2
-}, commonIconStyles(ownerState))), Button2 = /* @__PURE__ */ React58.forwardRef(function(inProps, ref) {
-  let contextProps = React58.useContext(ButtonGroupContext_default), buttonGroupButtonContextPositionClassName = React58.useContext(ButtonGroupButtonContext_default), resolvedProps = resolveProps(contextProps, inProps), props = useThemeProps({
+}, commonIconStyles(ownerState))), Button2 = /* @__PURE__ */ React59.forwardRef(function(inProps, ref) {
+  let contextProps = React59.useContext(ButtonGroupContext_default), buttonGroupButtonContextPositionClassName = React59.useContext(ButtonGroupButtonContext_default), resolvedProps = resolveProps(contextProps, inProps), props = useThemeProps({
     props: resolvedProps,
     name: "MuiButton"
   }), {
@@ -10622,7 +10639,7 @@ var Button_default = Button2;
 // node_modules/@mui/material/TextField/TextField.js
 import _extends70 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose60 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React78 from "react";
+import * as React79 from "react";
 import PropTypes62 from "prop-types";
 import clsx48 from "clsx";
 import { refType as refType9, unstable_useId as useId3 } from "@mui/utils";
@@ -10630,7 +10647,7 @@ import { refType as refType9, unstable_useId as useId3 } from "@mui/utils";
 // node_modules/@mui/material/Input/Input.js
 import _objectWithoutPropertiesLoose45 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends53 from "@babel/runtime/helpers/esm/extends";
-import * as React62 from "react";
+import * as React63 from "react";
 import PropTypes47 from "prop-types";
 import { refType as refType3, deepmerge as deepmerge4 } from "@mui/utils";
 
@@ -10638,7 +10655,7 @@ import { refType as refType3, deepmerge as deepmerge4 } from "@mui/utils";
 import _objectWithoutPropertiesLoose44 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends51 from "@babel/runtime/helpers/esm/extends";
 import "@mui/utils";
-import * as React61 from "react";
+import * as React62 from "react";
 import PropTypes46 from "prop-types";
 import clsx38 from "clsx";
 import { refType as refType2, elementTypeAcceptingRef as elementTypeAcceptingRef3 } from "@mui/utils";
@@ -10654,15 +10671,15 @@ function formControlState({
 }
 
 // node_modules/@mui/material/FormControl/FormControlContext.js
-import * as React59 from "react";
-var FormControlContext = /* @__PURE__ */ React59.createContext(void 0);
+import * as React60 from "react";
+var FormControlContext = /* @__PURE__ */ React60.createContext(void 0);
 FormControlContext.displayName = "FormControlContext";
 var FormControlContext_default = FormControlContext;
 
 // node_modules/@mui/material/FormControl/useFormControl.js
-import * as React60 from "react";
+import * as React61 from "react";
 function useFormControl() {
-  return React60.useContext(FormControlContext_default);
+  return React61.useContext(FormControlContext_default);
 }
 
 // node_modules/@mui/material/InputBase/utils.js
@@ -10858,7 +10875,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
       }
     }
   }
-}), InputBase2 = /* @__PURE__ */ React61.forwardRef(function(inProps, ref) {
+}), InputBase2 = /* @__PURE__ */ React62.forwardRef(function(inProps, ref) {
   var _slotProps$input;
   let props = useThemeProps({
     props: inProps,
@@ -10900,11 +10917,11 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     value: valueProp
   } = props, other = _objectWithoutPropertiesLoose44(props, _excluded46), value = inputPropsProp.value != null ? inputPropsProp.value : valueProp, {
     current: isControlled
-  } = React61.useRef(value != null), inputRef = React61.useRef(), handleInputRefWarning = React61.useCallback((instance) => {
+  } = React62.useRef(value != null), inputRef = React62.useRef(), handleInputRefWarning = React62.useCallback((instance) => {
     instance && instance.nodeName !== "INPUT" && !instance.focus && console.error(["MUI: You have provided a `inputComponent` to the input component", "that does not correctly handle the `ref` prop.", "Make sure the `ref` prop is called with a HTMLInputElement."].join(`
 `));
-  }, []), handleInputRef = useForkRef_default(inputRef, inputRefProp, inputPropsProp.ref, handleInputRefWarning), [focused, setFocused] = React61.useState(!1), muiFormControl = useFormControl();
-  React61.useEffect(() => {
+  }, []), handleInputRef = useForkRef_default(inputRef, inputRefProp, inputPropsProp.ref, handleInputRefWarning), [focused, setFocused] = React62.useState(!1), muiFormControl = useFormControl();
+  React62.useEffect(() => {
     if (muiFormControl)
       return muiFormControl.registerEffect();
   }, [muiFormControl]);
@@ -10913,10 +10930,10 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     muiFormControl,
     states: ["color", "disabled", "error", "hiddenLabel", "size", "required", "filled"]
   });
-  fcs.focused = muiFormControl ? muiFormControl.focused : focused, React61.useEffect(() => {
+  fcs.focused = muiFormControl ? muiFormControl.focused : focused, React62.useEffect(() => {
     !muiFormControl && disabled && focused && (setFocused(!1), onBlur && onBlur());
   }, [muiFormControl, disabled, focused, onBlur]);
-  let onFilled = muiFormControl && muiFormControl.onFilled, onEmpty = muiFormControl && muiFormControl.onEmpty, checkDirty = React61.useCallback((obj) => {
+  let onFilled = muiFormControl && muiFormControl.onFilled, onEmpty = muiFormControl && muiFormControl.onEmpty, checkDirty = React62.useCallback((obj) => {
     isFilled(obj) ? onFilled && onFilled() : onEmpty && onEmpty();
   }, [onFilled, onEmpty]);
   useEnhancedEffect_default(() => {
@@ -10943,7 +10960,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     }
     inputPropsProp.onChange && inputPropsProp.onChange(event, ...args), onChange && onChange(event, ...args);
   };
-  React61.useEffect(() => {
+  React62.useEffect(() => {
     checkDirty(inputRef.current);
   }, []);
   let handleClick = (event) => {
@@ -10963,7 +10980,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
       value: "x"
     });
   };
-  React61.useEffect(() => {
+  React62.useEffect(() => {
     muiFormControl && muiFormControl.setAdornedStart(Boolean(startAdornment));
   }, [muiFormControl, startAdornment]);
   let ownerState = _extends51({}, props, {
@@ -10980,7 +10997,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     startAdornment,
     type
   }), classes = useUtilityClasses35(ownerState), Root = slots.root || components.Root || InputBaseRoot, rootProps = slotProps.root || componentsProps.root || {}, Input3 = slots.input || components.Input || InputBaseComponent;
-  return inputProps = _extends51({}, inputProps, (_slotProps$input = slotProps.input) != null ? _slotProps$input : componentsProps.input), /* @__PURE__ */ _jsxs12(React61.Fragment, {
+  return inputProps = _extends51({}, inputProps, (_slotProps$input = slotProps.input) != null ? _slotProps$input : componentsProps.input), /* @__PURE__ */ _jsxs12(React62.Fragment, {
     children: [!disableInjectingGlobalStyles && inputGlobalStyles, /* @__PURE__ */ _jsxs12(Root, _extends51({}, rootProps, !isHostComponent3(Root) && {
       ownerState: _extends51({}, ownerState, rootProps.ownerState)
     }, {
@@ -11353,7 +11370,7 @@ var _excluded47 = ["disableUnderline", "components", "componentsProps", "fullWid
   name: "MuiInput",
   slot: "Input",
   overridesResolver: inputOverridesResolver
-})({}), Input = /* @__PURE__ */ React62.forwardRef(function(inProps, ref) {
+})({}), Input = /* @__PURE__ */ React63.forwardRef(function(inProps, ref) {
   var _ref, _slots$root, _ref2, _slots$input;
   let props = useThemeProps({
     props: inProps,
@@ -11582,7 +11599,7 @@ var Input_default = Input;
 // node_modules/@mui/material/FilledInput/FilledInput.js
 import _objectWithoutPropertiesLoose46 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends55 from "@babel/runtime/helpers/esm/extends";
-import * as React63 from "react";
+import * as React64 from "react";
 import { refType as refType4, deepmerge as deepmerge5 } from "@mui/utils";
 import PropTypes48 from "prop-types";
 
@@ -11756,7 +11773,7 @@ var _excluded48 = ["disableUnderline", "components", "componentsProps", "fullWid
   paddingBottom: 0,
   paddingLeft: 0,
   paddingRight: 0
-})), FilledInput = /* @__PURE__ */ React63.forwardRef(function(inProps, ref) {
+})), FilledInput = /* @__PURE__ */ React64.forwardRef(function(inProps, ref) {
   var _ref, _slots$root, _ref2, _slots$input;
   let props = useThemeProps({
     props: inProps,
@@ -11998,7 +12015,7 @@ var FilledInput_default = FilledInput;
 // node_modules/@mui/material/OutlinedInput/OutlinedInput.js
 import _objectWithoutPropertiesLoose48 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends58 from "@babel/runtime/helpers/esm/extends";
-import * as React65 from "react";
+import * as React66 from "react";
 import PropTypes50 from "prop-types";
 import { refType as refType5 } from "@mui/utils";
 
@@ -12236,7 +12253,7 @@ var _excluded50 = ["components", "fullWidth", "inputComponent", "label", "multil
   paddingLeft: 0
 }, ownerState.endAdornment && {
   paddingRight: 0
-})), OutlinedInput = /* @__PURE__ */ React65.forwardRef(function(inProps, ref) {
+})), OutlinedInput = /* @__PURE__ */ React66.forwardRef(function(inProps, ref) {
   var _ref, _slots$root, _ref2, _slots$input, _React$Fragment;
   let props = useThemeProps({
     props: inProps,
@@ -12274,7 +12291,7 @@ var _excluded50 = ["components", "fullWidth", "inputComponent", "label", "multil
     renderSuffix: (state) => /* @__PURE__ */ _jsx53(NotchedOutlineRoot2, {
       ownerState,
       className: classes.notchedOutline,
-      label: label != null && label !== "" && fcs.required ? _React$Fragment || (_React$Fragment = /* @__PURE__ */ _jsxs13(React65.Fragment, {
+      label: label != null && label !== "" && fcs.required ? _React$Fragment || (_React$Fragment = /* @__PURE__ */ _jsxs13(React66.Fragment, {
         children: [label, "\u2009", "*"]
       })) : label,
       notched: typeof notched < "u" ? notched : Boolean(state.startAdornment || state.filled || state.focused)
@@ -12462,14 +12479,14 @@ var OutlinedInput_default = OutlinedInput;
 // node_modules/@mui/material/InputLabel/InputLabel.js
 import _objectWithoutPropertiesLoose50 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends60 from "@babel/runtime/helpers/esm/extends";
-import * as React67 from "react";
+import * as React68 from "react";
 import PropTypes52 from "prop-types";
 import clsx40 from "clsx";
 
 // node_modules/@mui/material/FormLabel/FormLabel.js
 import _objectWithoutPropertiesLoose49 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends59 from "@babel/runtime/helpers/esm/extends";
-import * as React66 from "react";
+import * as React67 from "react";
 import PropTypes51 from "prop-types";
 import clsx39 from "clsx";
 
@@ -12530,7 +12547,7 @@ var _excluded51 = ["children", "className", "color", "component", "disabled", "e
   [`&.${formLabelClasses_default.error}`]: {
     color: (theme.vars || theme).palette.error.main
   }
-})), FormLabel = /* @__PURE__ */ React66.forwardRef(function(inProps, ref) {
+})), FormLabel = /* @__PURE__ */ React67.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFormLabel"
@@ -12720,7 +12737,7 @@ var _excluded52 = ["disableAnimation", "margin", "shrink", "variant", "className
   "&:not(label) + div": {
     marginTop: 16
   }
-})), InputLabel2 = /* @__PURE__ */ React67.forwardRef(function(inProps, ref) {
+})), InputLabel2 = /* @__PURE__ */ React68.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     name: "MuiInputLabel",
     props: inProps
@@ -12824,7 +12841,7 @@ var InputLabel_default = InputLabel2;
 // node_modules/@mui/material/FormControl/FormControl.js
 import _objectWithoutPropertiesLoose51 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends61 from "@babel/runtime/helpers/esm/extends";
-import * as React68 from "react";
+import * as React69 from "react";
 import PropTypes53 from "prop-types";
 import clsx41 from "clsx";
 
@@ -12872,7 +12889,7 @@ var _excluded53 = ["children", "className", "color", "component", "disabled", "e
   marginBottom: 4
 }, ownerState.fullWidth && {
   width: "100%"
-})), FormControl2 = /* @__PURE__ */ React68.forwardRef(function(inProps, ref) {
+})), FormControl2 = /* @__PURE__ */ React69.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFormControl"
@@ -12901,30 +12918,30 @@ var _excluded53 = ["children", "className", "color", "component", "disabled", "e
     required,
     size,
     variant
-  }), classes = useUtilityClasses41(ownerState), [adornedStart, setAdornedStart] = React68.useState(() => {
+  }), classes = useUtilityClasses41(ownerState), [adornedStart, setAdornedStart] = React69.useState(() => {
     let initialAdornedStart = !1;
-    return children && React68.Children.forEach(children, (child) => {
+    return children && React69.Children.forEach(children, (child) => {
       if (!isMuiElement_default(child, ["Input", "Select"]))
         return;
       let input = isMuiElement_default(child, ["Select"]) ? child.props.input : child;
       input && isAdornedStart(input.props) && (initialAdornedStart = !0);
     }), initialAdornedStart;
-  }), [filled, setFilled] = React68.useState(() => {
+  }), [filled, setFilled] = React69.useState(() => {
     let initialFilled = !1;
-    return children && React68.Children.forEach(children, (child) => {
+    return children && React69.Children.forEach(children, (child) => {
       isMuiElement_default(child, ["Input", "Select"]) && (isFilled(child.props, !0) || isFilled(child.props.inputProps, !0)) && (initialFilled = !0);
     }), initialFilled;
-  }), [focusedState, setFocused] = React68.useState(!1);
+  }), [focusedState, setFocused] = React69.useState(!1);
   disabled && focusedState && setFocused(!1);
   let focused = visuallyFocused !== void 0 && !disabled ? visuallyFocused : focusedState, registerEffect;
   {
-    let registeredInput = React68.useRef(!1);
+    let registeredInput = React69.useRef(!1);
     registerEffect = () => (registeredInput.current && console.error(["MUI: There are multiple `InputBase` components inside a FormControl.", "This creates visual inconsistencies, only use one `InputBase`."].join(`
 `)), registeredInput.current = !0, () => {
       registeredInput.current = !1;
     });
   }
-  let childContext = React68.useMemo(() => ({
+  let childContext = React69.useMemo(() => ({
     adornedStart,
     setAdornedStart,
     color,
@@ -13048,7 +13065,7 @@ var FormControl_default = FormControl2;
 // node_modules/@mui/material/FormHelperText/FormHelperText.js
 import _objectWithoutPropertiesLoose52 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends62 from "@babel/runtime/helpers/esm/extends";
-import * as React69 from "react";
+import * as React70 from "react";
 import PropTypes54 from "prop-types";
 import clsx42 from "clsx";
 
@@ -13106,7 +13123,7 @@ var _span2, _excluded54 = ["children", "className", "component", "disabled", "er
 }, ownerState.contained && {
   marginLeft: 14,
   marginRight: 14
-})), FormHelperText2 = /* @__PURE__ */ React69.forwardRef(function(inProps, ref) {
+})), FormHelperText2 = /* @__PURE__ */ React70.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFormHelperText"
@@ -13207,7 +13224,7 @@ var FormHelperText_default = FormHelperText2;
 // node_modules/@mui/material/Select/Select.js
 import _extends69 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose59 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React77 from "react";
+import * as React78 from "react";
 import PropTypes61 from "prop-types";
 import clsx47 from "clsx";
 import { deepmerge as deepmerge6 } from "@mui/utils";
@@ -13216,7 +13233,7 @@ import { deepmerge as deepmerge6 } from "@mui/utils";
 import _extends68 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose58 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import "@mui/utils";
-import * as React75 from "react";
+import * as React76 from "react";
 import { isFragment as isFragment3 } from "react-is";
 import PropTypes60 from "prop-types";
 import clsx46 from "clsx";
@@ -13225,7 +13242,7 @@ import { refType as refType8, unstable_useId as useId2 } from "@mui/utils";
 // node_modules/@mui/material/Menu/Menu.js
 import _extends66 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose56 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React73 from "react";
+import * as React74 from "react";
 import { isFragment as isFragment2 } from "react-is";
 import PropTypes58 from "prop-types";
 import clsx44 from "clsx";
@@ -13234,7 +13251,7 @@ import { HTMLElementType as HTMLElementType5 } from "@mui/utils";
 // node_modules/@mui/material/MenuList/MenuList.js
 import _extends63 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose53 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React70 from "react";
+import * as React71 from "react";
 import { isFragment } from "react-is";
 import PropTypes55 from "prop-types";
 
@@ -13273,7 +13290,7 @@ function moveFocus(list, currentFocus, disableListWrap, disabledItemsFocusable, 
   }
   return !1;
 }
-var MenuList = /* @__PURE__ */ React70.forwardRef(function(props, ref) {
+var MenuList = /* @__PURE__ */ React71.forwardRef(function(props, ref) {
   let {
     // private
     // eslint-disable-next-line react/prop-types
@@ -13286,7 +13303,7 @@ var MenuList = /* @__PURE__ */ React70.forwardRef(function(props, ref) {
     disableListWrap = !1,
     onKeyDown,
     variant = "selectedMenu"
-  } = props, other = _objectWithoutPropertiesLoose53(props, _excluded55), listRef = React70.useRef(null), textCriteriaRef = React70.useRef({
+  } = props, other = _objectWithoutPropertiesLoose53(props, _excluded55), listRef = React71.useRef(null), textCriteriaRef = React71.useRef({
     keys: [],
     repeating: !0,
     previousKeyMatched: !0,
@@ -13294,7 +13311,7 @@ var MenuList = /* @__PURE__ */ React70.forwardRef(function(props, ref) {
   });
   useEnhancedEffect_default(() => {
     autoFocus && listRef.current.focus();
-  }, [autoFocus]), React70.useImperativeHandle(actions, () => ({
+  }, [autoFocus]), React71.useImperativeHandle(actions, () => ({
     adjustStyleForScrollbar: (containerElement, theme) => {
       let noExplicitWidth = !listRef.current.style.width;
       if (containerElement.clientHeight < listRef.current.clientHeight && noExplicitWidth) {
@@ -13322,18 +13339,18 @@ var MenuList = /* @__PURE__ */ React70.forwardRef(function(props, ref) {
     }
     onKeyDown && onKeyDown(event);
   }, handleRef = useForkRef_default(listRef, ref), activeItemIndex = -1;
-  React70.Children.forEach(children, (child, index5) => {
-    if (!/* @__PURE__ */ React70.isValidElement(child)) {
+  React71.Children.forEach(children, (child, index5) => {
+    if (!/* @__PURE__ */ React71.isValidElement(child)) {
       activeItemIndex === index5 && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
       return;
     }
     isFragment(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
 `)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index5), activeItemIndex === index5 && (child.props.disabled || child.props.muiSkipListHighlight || child.type.muiSkipListHighlight) && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
   });
-  let items = React70.Children.map(children, (child, index5) => {
+  let items = React71.Children.map(children, (child, index5) => {
     if (index5 === activeItemIndex) {
       let newChildProps = {};
-      return autoFocusItem && (newChildProps.autoFocus = !0), child.props.tabIndex === void 0 && variant === "selectedMenu" && (newChildProps.tabIndex = 0), /* @__PURE__ */ React70.cloneElement(child, newChildProps);
+      return autoFocusItem && (newChildProps.autoFocus = !0), child.props.tabIndex === void 0 && variant === "selectedMenu" && (newChildProps.tabIndex = 0), /* @__PURE__ */ React71.cloneElement(child, newChildProps);
     }
     return child;
   });
@@ -13397,7 +13414,7 @@ var MenuList_default = MenuList;
 // node_modules/@mui/material/Popover/Popover.js
 import _extends65 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose55 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React72 from "react";
+import * as React73 from "react";
 import PropTypes57 from "prop-types";
 import clsx43 from "clsx";
 import { unstable_composeClasses as composeClasses3, useSlotProps as useSlotProps3, isHostComponent as isHostComponent4 } from "@mui/base";
@@ -13406,7 +13423,7 @@ import { chainPropTypes as chainPropTypes7, integerPropType as integerPropType4,
 // node_modules/@mui/material/Grow/Grow.js
 import _extends64 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose54 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React71 from "react";
+import * as React72 from "react";
 import PropTypes56 from "prop-types";
 import { elementAcceptingRef as elementAcceptingRef5 } from "@mui/utils";
 import { Transition as Transition3 } from "react-transition-group";
@@ -13424,7 +13441,7 @@ var styles3 = {
     opacity: 1,
     transform: "none"
   }
-}, isWebKit154 = typeof navigator < "u" && /^((?!chrome|android).)*(safari|mobile)/i.test(navigator.userAgent) && /(os |version\/)15(.|_)4/i.test(navigator.userAgent), Grow = /* @__PURE__ */ React71.forwardRef(function(props, ref) {
+}, isWebKit154 = typeof navigator < "u" && /^((?!chrome|android).)*(safari|mobile)/i.test(navigator.userAgent) && /(os |version\/)15(.|_)4/i.test(navigator.userAgent), Grow = /* @__PURE__ */ React72.forwardRef(function(props, ref) {
   let {
     addEndListener,
     appear = !0,
@@ -13441,7 +13458,7 @@ var styles3 = {
     timeout = "auto",
     // eslint-disable-next-line react/prop-types
     TransitionComponent = Transition3
-  } = props, other = _objectWithoutPropertiesLoose54(props, _excluded56), timer = React71.useRef(), autoTimeout = React71.useRef(), theme = useTheme(), nodeRef = React71.useRef(null), handleRef = useForkRef_default(nodeRef, children.ref, ref), normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
+  } = props, other = _objectWithoutPropertiesLoose54(props, _excluded56), timer = React72.useRef(), autoTimeout = React72.useRef(), theme = useTheme(), nodeRef = React72.useRef(null), handleRef = useForkRef_default(nodeRef, children.ref, ref), normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
     if (callback) {
       let node = nodeRef.current;
       maybeIsAppearing === void 0 ? callback(node) : callback(node, maybeIsAppearing);
@@ -13490,7 +13507,7 @@ var styles3 = {
   }), handleExited = normalizedTransitionCallback(onExited), handleAddEndListener = (next) => {
     timeout === "auto" && (timer.current = setTimeout(next, autoTimeout.current || 0)), addEndListener && addEndListener(nodeRef.current, next);
   };
-  return React71.useEffect(() => () => {
+  return React72.useEffect(() => () => {
     clearTimeout(timer.current);
   }, []), /* @__PURE__ */ _jsx58(TransitionComponent, _extends64({
     appear,
@@ -13505,7 +13522,7 @@ var styles3 = {
     addEndListener: handleAddEndListener,
     timeout: timeout === "auto" ? null : timeout
   }, other, {
-    children: (state, childProps) => /* @__PURE__ */ React71.cloneElement(children, _extends64({
+    children: (state, childProps) => /* @__PURE__ */ React72.cloneElement(children, _extends64({
       style: _extends64({
         opacity: 0,
         transform: getScale(0.75),
@@ -13644,7 +13661,7 @@ var useUtilityClasses43 = (ownerState) => {
   maxHeight: "calc(100% - 32px)",
   // We disable the focus ring for mouse, touch and keyboard users.
   outline: 0
-}), Popover = /* @__PURE__ */ React72.forwardRef(function(inProps, ref) {
+}), Popover = /* @__PURE__ */ React73.forwardRef(function(inProps, ref) {
   var _slotProps$paper, _slots$root, _slots$paper;
   let props = useThemeProps({
     props: inProps,
@@ -13677,7 +13694,7 @@ var useUtilityClasses43 = (ownerState) => {
       onEntering
     } = {},
     disableScrollLock = !1
-  } = props, TransitionProps = _objectWithoutPropertiesLoose55(props.TransitionProps, _excluded57), other = _objectWithoutPropertiesLoose55(props, _excluded210), externalPaperSlotProps = (_slotProps$paper = slotProps?.paper) != null ? _slotProps$paper : PaperPropsProp, paperRef = React72.useRef(), handlePaperRef = useForkRef_default(paperRef, externalPaperSlotProps.ref), ownerState = _extends65({}, props, {
+  } = props, TransitionProps = _objectWithoutPropertiesLoose55(props.TransitionProps, _excluded57), other = _objectWithoutPropertiesLoose55(props, _excluded210), externalPaperSlotProps = (_slotProps$paper = slotProps?.paper) != null ? _slotProps$paper : PaperPropsProp, paperRef = React73.useRef(), handlePaperRef = useForkRef_default(paperRef, externalPaperSlotProps.ref), ownerState = _extends65({}, props, {
     anchorOrigin,
     anchorReference,
     elevation,
@@ -13687,7 +13704,7 @@ var useUtilityClasses43 = (ownerState) => {
     TransitionComponent,
     transitionDuration: transitionDurationProp,
     TransitionProps
-  }), classes = useUtilityClasses43(ownerState), getAnchorOffset = React72.useCallback(() => {
+  }), classes = useUtilityClasses43(ownerState), getAnchorOffset = React73.useCallback(() => {
     if (anchorReference === "anchorPosition")
       return anchorPosition || console.error('MUI: You need to provide a `anchorPosition` prop when using <Popover anchorReference="anchorPosition" />.'), anchorPosition;
     let resolvedAnchorEl = resolveAnchorEl(anchorEl), anchorElement = resolvedAnchorEl && resolvedAnchorEl.nodeType === 1 ? resolvedAnchorEl : ownerDocument_default(paperRef.current).body, anchorRect = anchorElement.getBoundingClientRect();
@@ -13700,10 +13717,10 @@ var useUtilityClasses43 = (ownerState) => {
       top: anchorRect.top + getOffsetTop(anchorRect, anchorOrigin.vertical),
       left: anchorRect.left + getOffsetLeft(anchorRect, anchorOrigin.horizontal)
     };
-  }, [anchorEl, anchorOrigin.horizontal, anchorOrigin.vertical, anchorPosition, anchorReference]), getTransformOrigin = React72.useCallback((elemRect) => ({
+  }, [anchorEl, anchorOrigin.horizontal, anchorOrigin.vertical, anchorPosition, anchorReference]), getTransformOrigin = React73.useCallback((elemRect) => ({
     vertical: getOffsetTop(elemRect, transformOrigin.vertical),
     horizontal: getOffsetLeft(elemRect, transformOrigin.horizontal)
-  }), [transformOrigin.horizontal, transformOrigin.vertical]), getPositioningStyle = React72.useCallback((element) => {
+  }), [transformOrigin.horizontal, transformOrigin.vertical]), getPositioningStyle = React73.useCallback((element) => {
     let elemRect = {
       width: element.offsetWidth,
       height: element.offsetHeight
@@ -13735,26 +13752,26 @@ var useUtilityClasses43 = (ownerState) => {
       left: `${Math.round(left)}px`,
       transformOrigin: getTransformOriginValue(elemTransformOrigin)
     };
-  }, [anchorEl, anchorReference, getAnchorOffset, getTransformOrigin, marginThreshold]), [isPositioned, setIsPositioned] = React72.useState(open), setPositioningStyles = React72.useCallback(() => {
+  }, [anchorEl, anchorReference, getAnchorOffset, getTransformOrigin, marginThreshold]), [isPositioned, setIsPositioned] = React73.useState(open), setPositioningStyles = React73.useCallback(() => {
     let element = paperRef.current;
     if (!element)
       return;
     let positioning = getPositioningStyle(element);
     positioning.top !== null && (element.style.top = positioning.top), positioning.left !== null && (element.style.left = positioning.left), element.style.transformOrigin = positioning.transformOrigin, setIsPositioned(!0);
   }, [getPositioningStyle]);
-  React72.useEffect(() => (disableScrollLock && window.addEventListener("scroll", setPositioningStyles), () => window.removeEventListener("scroll", setPositioningStyles)), [anchorEl, disableScrollLock, setPositioningStyles]);
+  React73.useEffect(() => (disableScrollLock && window.addEventListener("scroll", setPositioningStyles), () => window.removeEventListener("scroll", setPositioningStyles)), [anchorEl, disableScrollLock, setPositioningStyles]);
   let handleEntering = (element, isAppearing) => {
     onEntering && onEntering(element, isAppearing), setPositioningStyles();
   }, handleExited = () => {
     setIsPositioned(!1);
   };
-  React72.useEffect(() => {
+  React73.useEffect(() => {
     open && setPositioningStyles();
-  }), React72.useImperativeHandle(action10, () => open ? {
+  }), React73.useImperativeHandle(action10, () => open ? {
     updatePosition: () => {
       setPositioningStyles();
     }
-  } : null, [open, setPositioningStyles]), React72.useEffect(() => {
+  } : null, [open, setPositioningStyles]), React73.useEffect(() => {
     if (!open)
       return;
     let handleResize = debounce_default(() => {
@@ -14041,7 +14058,7 @@ var _excluded58 = ["onEntering"], _excluded211 = ["autoFocus", "children", "clas
 })({
   // We disable the focus ring for mouse, touch and keyboard users.
   outline: 0
-}), Menu = /* @__PURE__ */ React73.forwardRef(function(inProps, ref) {
+}), Menu = /* @__PURE__ */ React74.forwardRef(function(inProps, ref) {
   var _slots$paper, _slotProps$paper;
   let props = useThemeProps({
     props: inProps,
@@ -14072,13 +14089,13 @@ var _excluded58 = ["onEntering"], _excluded211 = ["autoFocus", "children", "clas
     transitionDuration,
     TransitionProps,
     variant
-  }), classes = useUtilityClasses44(ownerState), autoFocusItem = autoFocus && !disableAutoFocusItem && open, menuListActionsRef = React73.useRef(null), handleEntering = (element, isAppearing) => {
+  }), classes = useUtilityClasses44(ownerState), autoFocusItem = autoFocus && !disableAutoFocusItem && open, menuListActionsRef = React74.useRef(null), handleEntering = (element, isAppearing) => {
     menuListActionsRef.current && menuListActionsRef.current.adjustStyleForScrollbar(element, theme), onEntering && onEntering(element, isAppearing);
   }, handleListKeyDown = (event) => {
     event.key === "Tab" && (event.preventDefault(), onClose && onClose(event, "tabKeyDown"));
   }, activeItemIndex = -1;
-  React73.Children.map(children, (child, index5) => {
-    /* @__PURE__ */ React73.isValidElement(child) && (isFragment2(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
+  React74.Children.map(children, (child, index5) => {
+    /* @__PURE__ */ React74.isValidElement(child) && (isFragment2(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
 `)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index5));
   });
   let PaperSlot = (_slots$paper = slots.paper) != null ? _slots$paper : MenuPaper, paperExternalSlotProps = (_slotProps$paper = slotProps.paper) != null ? _slotProps$paper : PaperProps, rootSlotProps = useSlotProps({
@@ -14239,7 +14256,7 @@ var Menu_default = Menu;
 // node_modules/@mui/material/NativeSelect/NativeSelectInput.js
 import _objectWithoutPropertiesLoose57 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends67 from "@babel/runtime/helpers/esm/extends";
-import * as React74 from "react";
+import * as React75 from "react";
 import PropTypes59 from "prop-types";
 import clsx45 from "clsx";
 import { refType as refType7 } from "@mui/utils";
@@ -14364,7 +14381,7 @@ var _excluded59 = ["className", "disabled", "error", "IconComponent", "inputRef"
     } = props;
     return [styles4.icon, ownerState.variant && styles4[`icon${capitalize_default(ownerState.variant)}`], ownerState.open && styles4.iconOpen];
   }
-})(nativeSelectIconStyles), NativeSelectInput = /* @__PURE__ */ React74.forwardRef(function(props, ref) {
+})(nativeSelectIconStyles), NativeSelectInput = /* @__PURE__ */ React75.forwardRef(function(props, ref) {
   let {
     className,
     disabled,
@@ -14377,7 +14394,7 @@ var _excluded59 = ["className", "disabled", "error", "IconComponent", "inputRef"
     variant,
     error
   }), classes = useUtilityClasses45(ownerState);
-  return /* @__PURE__ */ _jsxs15(React74.Fragment, {
+  return /* @__PURE__ */ _jsxs15(React75.Fragment, {
     children: [/* @__PURE__ */ _jsx61(NativeSelectSelect, _extends67({
       ownerState,
       className: clsx45(classes.select, className),
@@ -14535,7 +14552,7 @@ var useUtilityClasses46 = (ownerState) => {
     nativeInput: ["nativeInput"]
   };
   return unstable_composeClasses(slots, getSelectUtilityClasses, classes);
-}, SelectInput = /* @__PURE__ */ React75.forwardRef(function(props, ref) {
+}, SelectInput = /* @__PURE__ */ React76.forwardRef(function(props, ref) {
   var _MenuProps$slotProps;
   let {
     "aria-describedby": ariaDescribedby,
@@ -14575,22 +14592,22 @@ var useUtilityClasses46 = (ownerState) => {
     controlled: openProp,
     default: defaultOpen,
     name: "Select"
-  }), inputRef = React75.useRef(null), displayRef = React75.useRef(null), [displayNode, setDisplayNode] = React75.useState(null), {
+  }), inputRef = React76.useRef(null), displayRef = React76.useRef(null), [displayNode, setDisplayNode] = React76.useState(null), {
     current: isOpenControlled
-  } = React75.useRef(openProp != null), [menuMinWidthState, setMenuMinWidthState] = React75.useState(), handleRef = useForkRef_default(ref, inputRefProp), handleDisplayRef = React75.useCallback((node) => {
+  } = React76.useRef(openProp != null), [menuMinWidthState, setMenuMinWidthState] = React76.useState(), handleRef = useForkRef_default(ref, inputRefProp), handleDisplayRef = React76.useCallback((node) => {
     displayRef.current = node, node && setDisplayNode(node);
   }, []), anchorElement = displayNode?.parentNode;
-  React75.useImperativeHandle(handleRef, () => ({
+  React76.useImperativeHandle(handleRef, () => ({
     focus: () => {
       displayRef.current.focus();
     },
     node: inputRef.current,
     value
-  }), [value]), React75.useEffect(() => {
+  }), [value]), React76.useEffect(() => {
     defaultOpen && openState && displayNode && !isOpenControlled && (setMenuMinWidthState(autoWidth ? null : anchorElement.clientWidth), displayRef.current.focus());
-  }, [displayNode, autoWidth]), React75.useEffect(() => {
+  }, [displayNode, autoWidth]), React76.useEffect(() => {
     autoFocus && displayRef.current.focus();
-  }, [autoFocus]), React75.useEffect(() => {
+  }, [autoFocus]), React76.useEffect(() => {
     if (!labelId)
       return;
     let label = ownerDocument_default(displayRef.current).getElementById(labelId);
@@ -14609,7 +14626,7 @@ var useUtilityClasses46 = (ownerState) => {
     event.button === 0 && (event.preventDefault(), displayRef.current.focus(), update(!0, event));
   }, handleClose = (event) => {
     update(!1, event);
-  }, childrenArray = React75.Children.toArray(children), handleChange = (event) => {
+  }, childrenArray = React76.Children.toArray(children), handleChange = (event) => {
     let child = childrenArray.find((childItem) => childItem.props.value === event.target.value);
     child !== void 0 && (setValueState(child.props.value), onChange && onChange(event, child));
   }, handleItemClick = (child) => (event) => {
@@ -14657,7 +14674,7 @@ var useUtilityClasses46 = (ownerState) => {
     value
   }) || displayEmpty) && (renderValue ? display = renderValue(value) : computeDisplay = !0);
   let items = childrenArray.map((child) => {
-    if (!/* @__PURE__ */ React75.isValidElement(child))
+    if (!/* @__PURE__ */ React76.isValidElement(child))
       return null;
     isFragment3(child) && console.error(["MUI: The Select component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
 `));
@@ -14668,7 +14685,7 @@ var useUtilityClasses46 = (ownerState) => {
       selected = value.some((v) => areEqualValues(v, child.props.value)), selected && computeDisplay && displayMultiple.push(child.props.children);
     } else
       selected = areEqualValues(value, child.props.value), selected && computeDisplay && (displaySingle = child.props.children);
-    return selected && (foundMatch = !0), /* @__PURE__ */ React75.cloneElement(child, {
+    return selected && (foundMatch = !0), /* @__PURE__ */ React76.cloneElement(child, {
       "aria-selected": selected ? "true" : "false",
       onClick: handleItemClick(child),
       onKeyUp: (event) => {
@@ -14682,7 +14699,7 @@ var useUtilityClasses46 = (ownerState) => {
       // Instead, we provide it as a data attribute.
     });
   });
-  React75.useEffect(() => {
+  React76.useEffect(() => {
     if (!foundMatch && !multiple && value !== "") {
       let values = childrenArray.map((child) => child.props.value);
       console.warn([`MUI: You have provided an out-of-range value \`${value}\` for the select ${name ? `(name="${name}") ` : ""}component.`, "Consider providing a value that matches one of the available options or ''.", `The available values are ${values.filter((x) => x != null).map((x) => `\`${x}\``).join(", ") || '""'}.`].join(`
@@ -14699,7 +14716,7 @@ var useUtilityClasses46 = (ownerState) => {
     open,
     error
   }), classes = useUtilityClasses46(ownerState), paperProps = _extends68({}, MenuProps.PaperProps, (_MenuProps$slotProps = MenuProps.slotProps) == null ? void 0 : _MenuProps$slotProps.paper), listboxId = useId2(), hiddenInputId = useId2();
-  return /* @__PURE__ */ _jsxs16(React75.Fragment, {
+  return /* @__PURE__ */ _jsxs16(React76.Fragment, {
     children: [/* @__PURE__ */ _jsx62(SelectSelect, _extends68({
       ref: handleDisplayRef,
       tabIndex,
@@ -14940,7 +14957,7 @@ var _excluded61 = ["autoWidth", "children", "classes", "className", "defaultOpen
   overridesResolver: (props, styles4) => styles4.root,
   shouldForwardProp: (prop) => rootShouldForwardProp(prop) && prop !== "variant",
   slot: "Root"
-}, StyledInput = styled_default(Input_default, styledRootConfig)(""), StyledOutlinedInput = styled_default(OutlinedInput_default, styledRootConfig)(""), StyledFilledInput = styled_default(FilledInput_default, styledRootConfig)(""), Select2 = /* @__PURE__ */ React77.forwardRef(function(inProps, ref) {
+}, StyledInput = styled_default(Input_default, styledRootConfig)(""), StyledOutlinedInput = styled_default(OutlinedInput_default, styledRootConfig)(""), StyledFilledInput = styled_default(FilledInput_default, styledRootConfig)(""), Select2 = /* @__PURE__ */ React78.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     name: "MuiSelect",
     props: inProps
@@ -14985,8 +15002,8 @@ var _excluded61 = ["autoWidth", "children", "classes", "className", "defaultOpen
       ownerState
     })
   }[variant], inputComponentRef = useForkRef_default(ref, InputComponent.ref);
-  return /* @__PURE__ */ _jsx64(React77.Fragment, {
-    children: /* @__PURE__ */ React77.cloneElement(InputComponent, _extends69({
+  return /* @__PURE__ */ _jsx64(React78.Fragment, {
+    children: /* @__PURE__ */ React78.cloneElement(InputComponent, _extends69({
       // Most of the logic is implemented in `SelectInput`.
       // The `Select` component is a simple API wrapper to expose something better to play with.
       inputComponent,
@@ -15201,7 +15218,7 @@ var _excluded62 = ["autoComplete", "autoFocus", "children", "className", "color"
   name: "MuiTextField",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), TextField2 = /* @__PURE__ */ React78.forwardRef(function(inProps, ref) {
+})({}), TextField2 = /* @__PURE__ */ React79.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTextField"
@@ -15482,7 +15499,7 @@ var TextField_default = TextField2;
 // node_modules/@mui/material/Autocomplete/Autocomplete.js
 import _objectWithoutPropertiesLoose65 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends75 from "@babel/runtime/helpers/esm/extends";
-import * as React85 from "react";
+import * as React86 from "react";
 import PropTypes67 from "prop-types";
 import clsx51 from "clsx";
 import { chainPropTypes as chainPropTypes9, integerPropType as integerPropType5 } from "@mui/utils";
@@ -15496,7 +15513,7 @@ import _objectWithoutPropertiesLoose62 from "@babel/runtime/helpers/esm/objectWi
 // node_modules/@mui/base/Popper/Popper.js
 import _extends71 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose61 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React79 from "react";
+import * as React80 from "react";
 import { chainPropTypes as chainPropTypes8, HTMLElementType as HTMLElementType6, refType as refType10, unstable_ownerDocument as ownerDocument5, unstable_useEnhancedEffect as useEnhancedEffect3, unstable_useForkRef as useForkRef6 } from "@mui/utils";
 import { createPopper } from "@popperjs/core";
 import PropTypes63 from "prop-types";
@@ -15543,7 +15560,7 @@ function isVirtualElement(element) {
 }
 var useUtilityClasses49 = () => unstable_composeClasses({
   root: ["root"]
-}, useClassNamesOverride(getPopperUtilityClass)), defaultPopperOptions = {}, PopperTooltip = /* @__PURE__ */ React79.forwardRef(function(props, forwardedRef) {
+}, useClassNamesOverride(getPopperUtilityClass)), defaultPopperOptions = {}, PopperTooltip = /* @__PURE__ */ React80.forwardRef(function(props, forwardedRef) {
   var _slots$root;
   let {
     anchorEl,
@@ -15560,14 +15577,14 @@ var useUtilityClasses49 = () => unstable_composeClasses({
     TransitionProps
     // @ts-ignore internal logic
     // prevent from spreading to DOM, it can come from the parent component e.g. Select.
-  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded63), tooltipRef = React79.useRef(null), ownRef = useForkRef6(tooltipRef, forwardedRef), popperRef = React79.useRef(null), handlePopperRef = useForkRef6(popperRef, popperRefProp), handlePopperRefRef = React79.useRef(handlePopperRef);
+  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded63), tooltipRef = React80.useRef(null), ownRef = useForkRef6(tooltipRef, forwardedRef), popperRef = React80.useRef(null), handlePopperRef = useForkRef6(popperRef, popperRefProp), handlePopperRefRef = React80.useRef(handlePopperRef);
   useEnhancedEffect3(() => {
     handlePopperRefRef.current = handlePopperRef;
-  }, [handlePopperRef]), React79.useImperativeHandle(popperRefProp, () => popperRef.current, []);
-  let rtlPlacement = flipPlacement(initialPlacement, direction), [placement, setPlacement] = React79.useState(rtlPlacement), [resolvedAnchorElement, setResolvedAnchorElement] = React79.useState(resolveAnchorEl2(anchorEl));
-  React79.useEffect(() => {
+  }, [handlePopperRef]), React80.useImperativeHandle(popperRefProp, () => popperRef.current, []);
+  let rtlPlacement = flipPlacement(initialPlacement, direction), [placement, setPlacement] = React80.useState(rtlPlacement), [resolvedAnchorElement, setResolvedAnchorElement] = React80.useState(resolveAnchorEl2(anchorEl));
+  React80.useEffect(() => {
     popperRef.current && popperRef.current.forceUpdate();
-  }), React79.useEffect(() => {
+  }), React80.useEffect(() => {
     anchorEl && setResolvedAnchorElement(resolveAnchorEl2(anchorEl));
   }, [anchorEl]), useEnhancedEffect3(() => {
     if (!resolvedAnchorElement || !open)
@@ -15628,7 +15645,7 @@ var useUtilityClasses49 = () => unstable_composeClasses({
   return /* @__PURE__ */ _jsx66(Root, _extends71({}, rootProps, {
     children: typeof children == "function" ? children(childProps) : children
   }));
-}), Popper = /* @__PURE__ */ React79.forwardRef(function(props, forwardedRef) {
+}), Popper = /* @__PURE__ */ React80.forwardRef(function(props, forwardedRef) {
   let {
     anchorEl,
     children,
@@ -15645,7 +15662,7 @@ var useUtilityClasses49 = () => unstable_composeClasses({
     transition = !1,
     slotProps = {},
     slots = {}
-  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded213), [exited, setExited] = React79.useState(!0), handleEnter = () => {
+  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded213), [exited, setExited] = React80.useState(!0), handleEnter = () => {
     setExited(!1);
   }, handleExited = () => {
     setExited(!0);
@@ -15819,13 +15836,13 @@ Popper.propTypes = {
 import { useThemeWithoutDefault as useTheme2 } from "@mui/system";
 import { HTMLElementType as HTMLElementType7, refType as refType11 } from "@mui/utils";
 import PropTypes64 from "prop-types";
-import * as React80 from "react";
+import * as React81 from "react";
 import { jsx as _jsx67 } from "react/jsx-runtime";
 var _excluded64 = ["anchorEl", "component", "components", "componentsProps", "container", "disablePortal", "keepMounted", "modifiers", "open", "placement", "popperOptions", "popperRef", "transition", "slots", "slotProps"], PopperRoot = styled_default(Popper, {
   name: "MuiPopper",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), Popper3 = /* @__PURE__ */ React80.forwardRef(function(inProps, ref) {
+})({}), Popper3 = /* @__PURE__ */ React81.forwardRef(function(inProps, ref) {
   var _slots$root;
   let theme = useTheme2(), props = useThemeProps({
     props: inProps,
@@ -16001,7 +16018,7 @@ var Popper_default = Popper3;
 // node_modules/@mui/material/ListSubheader/ListSubheader.js
 import _objectWithoutPropertiesLoose63 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends73 from "@babel/runtime/helpers/esm/extends";
-import * as React81 from "react";
+import * as React82 from "react";
 import PropTypes65 from "prop-types";
 import clsx49 from "clsx";
 
@@ -16102,7 +16119,7 @@ var _excluded65 = ["className", "color", "component", "disableGutters", "disable
   top: 0,
   zIndex: 1,
   backgroundColor: (theme.vars || theme).palette.background.paper
-})), ListSubheader = /* @__PURE__ */ React81.forwardRef(function(inProps, ref) {
+})), ListSubheader = /* @__PURE__ */ React82.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiListSubheader"
@@ -16180,7 +16197,7 @@ var ListSubheader_default = ListSubheader;
 // node_modules/@mui/material/Chip/Chip.js
 import _objectWithoutPropertiesLoose64 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends74 from "@babel/runtime/helpers/esm/extends";
-import * as React83 from "react";
+import * as React84 from "react";
 import PropTypes66 from "prop-types";
 import clsx50 from "clsx";
 import { alpha as alpha12 } from "@mui/system";
@@ -16454,7 +16471,7 @@ var _excluded66 = ["avatar", "className", "clickable", "color", "component", "de
 function isDeleteKeyboardEvent(keyboardEvent) {
   return keyboardEvent.key === "Backspace" || keyboardEvent.key === "Delete";
 }
-var Chip = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
+var Chip = /* @__PURE__ */ React84.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiChip"
@@ -16477,7 +16494,7 @@ var Chip = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
     tabIndex,
     skipFocusWhenDisabled = !1
     // TODO v6: Rename to `focusableWhenDisabled`.
-  } = props, other = _objectWithoutPropertiesLoose64(props, _excluded66), chipRef = React83.useRef(null), handleRef = useForkRef_default(chipRef, ref), handleDeleteIconClick = (event) => {
+  } = props, other = _objectWithoutPropertiesLoose64(props, _excluded66), chipRef = React84.useRef(null), handleRef = useForkRef_default(chipRef, ref), handleDeleteIconClick = (event) => {
     event.stopPropagation(), onDelete && onDelete(event);
   }, handleKeyDown = (event) => {
     event.currentTarget === event.target && isDeleteKeyboardEvent(event) && event.preventDefault(), onKeyDown && onKeyDown(event);
@@ -16488,7 +16505,7 @@ var Chip = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
     disabled,
     size,
     color,
-    iconColor: /* @__PURE__ */ React83.isValidElement(iconProp) && iconProp.props.color || color,
+    iconColor: /* @__PURE__ */ React84.isValidElement(iconProp) && iconProp.props.color || color,
     onDelete: !!onDelete,
     clickable,
     variant
@@ -16498,7 +16515,7 @@ var Chip = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
   }, onDelete && {
     disableRipple: !0
   }) : {}, deleteIcon = null;
-  onDelete && (deleteIcon = deleteIconProp && /* @__PURE__ */ React83.isValidElement(deleteIconProp) ? /* @__PURE__ */ React83.cloneElement(deleteIconProp, {
+  onDelete && (deleteIcon = deleteIconProp && /* @__PURE__ */ React84.isValidElement(deleteIconProp) ? /* @__PURE__ */ React84.cloneElement(deleteIconProp, {
     className: clsx50(deleteIconProp.props.className, classes.deleteIcon),
     onClick: handleDeleteIconClick
   }) : /* @__PURE__ */ _jsx70(Cancel_default, {
@@ -16506,11 +16523,11 @@ var Chip = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
     onClick: handleDeleteIconClick
   }));
   let avatar = null;
-  avatarProp && /* @__PURE__ */ React83.isValidElement(avatarProp) && (avatar = /* @__PURE__ */ React83.cloneElement(avatarProp, {
+  avatarProp && /* @__PURE__ */ React84.isValidElement(avatarProp) && (avatar = /* @__PURE__ */ React84.cloneElement(avatarProp, {
     className: clsx50(classes.avatar, avatarProp.props.className)
   }));
   let icon = null;
-  return iconProp && /* @__PURE__ */ React83.isValidElement(iconProp) && (icon = /* @__PURE__ */ React83.cloneElement(iconProp, {
+  return iconProp && /* @__PURE__ */ React84.isValidElement(iconProp) && (icon = /* @__PURE__ */ React84.cloneElement(iconProp, {
     className: clsx50(classes.icon, iconProp.props.className)
   })), avatar && icon && console.error("MUI: The Chip component can not handle the avatar and the icon prop at the same time. Pick one."), /* @__PURE__ */ _jsxs18(ChipRoot, _extends74({
     as: component,
@@ -16975,7 +16992,7 @@ var _ClearIcon, _ArrowDropDownIcon, _excluded67 = ["autoComplete", "autoHighligh
     paddingLeft: 24
   }
 });
-var Autocomplete = /* @__PURE__ */ React85.forwardRef(function(inProps, ref) {
+var Autocomplete = /* @__PURE__ */ React86.forwardRef(function(inProps, ref) {
   var _slotProps$clearIndic, _slotProps$paper, _slotProps$popper, _slotProps$popupIndic;
   let props = useThemeProps({
     props: inProps,
@@ -17124,7 +17141,7 @@ var Autocomplete = /* @__PURE__ */ React85.forwardRef(function(inProps, ref) {
       inputValue
     }, ownerState);
   }, clearIndicatorSlotProps = (_slotProps$clearIndic = slotProps.clearIndicator) != null ? _slotProps$clearIndic : componentsProps.clearIndicator, paperSlotProps = (_slotProps$paper = slotProps.paper) != null ? _slotProps$paper : componentsProps.paper, popperSlotProps = (_slotProps$popper = slotProps.popper) != null ? _slotProps$popper : componentsProps.popper, popupIndicatorSlotProps = (_slotProps$popupIndic = slotProps.popupIndicator) != null ? _slotProps$popupIndic : componentsProps.popupIndicator;
-  return /* @__PURE__ */ _jsxs19(React85.Fragment, {
+  return /* @__PURE__ */ _jsxs19(React86.Fragment, {
     children: [/* @__PURE__ */ _jsx72(AutocompleteRoot, _extends75({
       ref,
       className: clsx51(classes.root, className),
@@ -17640,7 +17657,7 @@ var Autocomplete_default = Autocomplete;
 // node_modules/@mui/material/Fab/Fab.js
 import _objectWithoutPropertiesLoose66 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends76 from "@babel/runtime/helpers/esm/extends";
-import * as React86 from "react";
+import * as React87 from "react";
 import PropTypes68 from "prop-types";
 import clsx52 from "clsx";
 
@@ -17755,7 +17772,7 @@ var _excluded68 = ["children", "className", "color", "component", "disabled", "d
     boxShadow: (theme.vars || theme).shadows[0],
     backgroundColor: (theme.vars || theme).palette.action.disabledBackground
   }
-})), Fab2 = /* @__PURE__ */ React86.forwardRef(function(inProps, ref) {
+})), Fab2 = /* @__PURE__ */ React87.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFab"
@@ -17885,7 +17902,14 @@ async function action8({ request }) {
       if (console.log(checkout), response.meta.code != 200)
         session.flash("error", response.meta.message);
       else
-        return redirect7("/order/" + response.data.id);
+        return session.flash("act", "order_complete"), redirect7(
+          "/order/" + response.data.id,
+          {
+            headers: {
+              "Set-Cookie": await commitSession(session)
+            }
+          }
+        );
     }
     if (type == "check_voucher") {
       let checkout = String(body2.get("checkout")), response = await createTransaction(checkout);
@@ -17914,9 +17938,12 @@ var meta6 = () => [
     content: "Welcome to eccs-pos!"
   }
 ];
+function numberWithCommas2(x) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 function index4() {
-  let [cart, setCart] = React87.useState({}), [total, setTotal] = React87.useState(0), [discount, setDiscount] = React87.useState(0), [delCart, setDeleteCart] = React87.useState(0), [triggerUse, settriggerUse] = React87.useState(!0), [snack, setSnack] = React87.useState(!0), myusers = useLoaderData5();
-  React87.useEffect(() => {
+  let [cart, setCart] = React88.useState({}), [total, setTotal] = React88.useState(0), [discount, setDiscount] = React88.useState(0), [delCart, setDeleteCart] = React88.useState(0), [triggerUse, settriggerUse] = React88.useState(!0), [snack, setSnack] = React88.useState(!0), myusers = useLoaderData5();
+  React88.useEffect(() => {
     console.log("use effec sales load");
     let getData = JSON.parse(localStorage.getItem("cart") || "{}"), UpdateData = [];
     if (getData instanceof Array && (getData.map((val, idx, []) => {
@@ -17955,7 +17982,7 @@ function index4() {
             })
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 199,
+            lineNumber: 207,
             columnNumber: 65
           }, this),
           " ",
@@ -17964,7 +17991,7 @@ function index4() {
             TableTotalCheckout(cart, total, discount)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 201,
+            lineNumber: 209,
             columnNumber: 18
           }, this),
           " ",
@@ -17975,27 +18002,27 @@ function index4() {
       !0,
       {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 198,
+        lineNumber: 206,
         columnNumber: 9
       },
       this
     ),
     /* @__PURE__ */ jsxDEV13(Stack_default, { spacing: 2, sx: { width: "100%" }, children: /* @__PURE__ */ jsxDEV13(Snackbar, { open: snack, autoHideDuration: 6e3, onClose: handleCloseSnack, children: /* @__PURE__ */ jsxDEV13(Alert, { onClose: handleCloseSnack, severity: "error", sx: { width: "100%" }, children: myusers.errors }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 209,
+      lineNumber: 217,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 208,
+      lineNumber: 216,
       columnNumber: 11
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 207,
+      lineNumber: 215,
       columnNumber: 9
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 197,
+    lineNumber: 205,
     columnNumber: 9
   }, this);
 }
@@ -18012,7 +18039,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
     };
     dtprod.push(opsdata);
   });
-  let [openAlert, setOpenAlert] = React87.useState(!1), [productTarget, setProductTarget] = React87.useState(0), handleClickOpenAlert = (e) => {
+  let [openAlert, setOpenAlert] = React88.useState(!1), [productTarget, setProductTarget] = React88.useState(0), handleClickOpenAlert = (e) => {
     setOpenAlert(!0);
   }, handleCloseAlert = (e) => {
     setOpenAlert(!1);
@@ -18036,14 +18063,14 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
         !1,
         {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 266,
+          lineNumber: 274,
           columnNumber: 63
         },
         this
       )
     ] }, void 0, !0, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 266,
+      lineNumber: 274,
       columnNumber: 11
     }, this),
     /* @__PURE__ */ jsxDEV13(Box_default, { children: [
@@ -18055,39 +18082,39 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
           /* @__PURE__ */ jsxDEV13(TableHead_default, { children: /* @__PURE__ */ jsxDEV13(TableRow_default, { children: [
             /* @__PURE__ */ jsxDEV13(TableCell_default, {}, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 271,
+              lineNumber: 279,
               columnNumber: 109
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { children: " List Item" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 271,
+              lineNumber: 279,
               columnNumber: 132
             }, this),
             " ",
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Price" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 271,
+              lineNumber: 279,
               columnNumber: 166
             }, this),
             " ",
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Quantity" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 271,
+              lineNumber: 279,
               columnNumber: 214
             }, this),
             " ",
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Total" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 271,
+              lineNumber: 279,
               columnNumber: 265
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 271,
+            lineNumber: 279,
             columnNumber: 99
           }, this) }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 271,
+            lineNumber: 279,
             columnNumber: 88
           }, this),
           /* @__PURE__ */ jsxDEV13(TableBody_default, { children: [
@@ -18120,7 +18147,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                                 " ",
                                 /* @__PURE__ */ jsxDEV13(Icon_default, { children: " delete" }, void 0, !1, {
                                   fileName: "app/routes/sales.tsx",
-                                  lineNumber: 286,
+                                  lineNumber: 294,
                                   columnNumber: 68
                                 }, this)
                               ]
@@ -18129,35 +18156,8 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                             !0,
                             {
                               fileName: "app/routes/sales.tsx",
-                              lineNumber: 280,
+                              lineNumber: 288,
                               columnNumber: 17
-                            },
-                            this
-                          ),
-                          " ",
-                          /* @__PURE__ */ jsxDEV13(
-                            Button_default,
-                            {
-                              onClick: () => {
-                                handleClickOpenAlert("edit");
-                              },
-                              size: "small",
-                              variant: "contained",
-                              children: [
-                                " ",
-                                /* @__PURE__ */ jsxDEV13(Icon_default, { children: " edit" }, void 0, !1, {
-                                  fileName: "app/routes/sales.tsx",
-                                  lineNumber: 291,
-                                  columnNumber: 52
-                                }, this)
-                              ]
-                            },
-                            void 0,
-                            !0,
-                            {
-                              fileName: "app/routes/sales.tsx",
-                              lineNumber: 286,
-                              columnNumber: 98
                             },
                             this
                           )
@@ -18167,24 +18167,23 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                       !0,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 275,
+                        lineNumber: 283,
                         columnNumber: 120
                       },
                       this
                     )
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 275,
+                    lineNumber: 283,
                     columnNumber: 76
                   }, this),
-                  " ",
                   /* @__PURE__ */ jsxDEV13(TableCell_default, { component: "th", scope: "row", children: [
                     " ",
                     row.product_name + (row.attribute_name ? " - " + row.attribute_name : "")
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 291,
-                    columnNumber: 100
+                    lineNumber: 302,
+                    columnNumber: 13
                   }, this),
                   " ",
                   /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
@@ -18192,7 +18191,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                     row.price
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 293,
+                    lineNumber: 304,
                     columnNumber: 27
                   }, this),
                   " ",
@@ -18201,16 +18200,16 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                     row.qty
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 295,
+                    lineNumber: 306,
                     columnNumber: 27
                   }, this),
                   " ",
                   /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
-                    " ",
-                    row.total
+                    "Rp.",
+                    numberWithCommas2(row.total)
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 297,
+                    lineNumber: 308,
                     columnNumber: 27
                   }, this)
                 ]
@@ -18219,24 +18218,24 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
               !0,
               {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 272,
+                lineNumber: 280,
                 columnNumber: 40
               },
               this
             ))
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 271,
+            lineNumber: 279,
             columnNumber: 335
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 271,
+          lineNumber: 279,
           columnNumber: 13
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 269,
+        lineNumber: 277,
         columnNumber: 76
       }, this),
       " ",
@@ -18273,7 +18272,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                       !1,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 311,
+                        lineNumber: 323,
                         columnNumber: 19
                       },
                       this
@@ -18293,7 +18292,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                       !1,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 320,
+                        lineNumber: 332,
                         columnNumber: 83
                       },
                       this
@@ -18313,14 +18312,14 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                       !1,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 329,
+                        lineNumber: 341,
                         columnNumber: 70
                       },
                       this
                     )
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 311,
+                    lineNumber: 323,
                     columnNumber: 13
                   }, this)
                 ]
@@ -18329,7 +18328,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
               !0,
               {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 303,
+                lineNumber: 315,
                 columnNumber: 52
               },
               this
@@ -18355,14 +18354,14 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                         component: "h5",
                         children: [
                           " Rp.",
-                          total
+                          numberWithCommas2(total)
                         ]
                       },
                       void 0,
                       !0,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 346,
+                        lineNumber: 358,
                         columnNumber: 19
                       },
                       this
@@ -18378,15 +18377,15 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                         component: "h5",
                         children: [
                           " Rp.",
-                          discount || 0
+                          numberWithCommas2(discount || 0)
                         ]
                       },
                       void 0,
                       !0,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 355,
-                        columnNumber: 72
+                        lineNumber: 367,
+                        columnNumber: 90
                       },
                       this
                     ),
@@ -18401,21 +18400,21 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
                         component: "h5",
                         children: [
                           " Rp.",
-                          total - (discount || 0)
+                          numberWithCommas2(total - (discount || 0))
                         ]
                       },
                       void 0,
                       !0,
                       {
                         fileName: "app/routes/sales.tsx",
-                        lineNumber: 364,
-                        columnNumber: 89
+                        lineNumber: 376,
+                        columnNumber: 107
                       },
                       this
                     )
                   ] }, void 0, !0, {
                     fileName: "app/routes/sales.tsx",
-                    lineNumber: 346,
+                    lineNumber: 358,
                     columnNumber: 13
                   }, this)
                 ]
@@ -18424,7 +18423,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
               !0,
               {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 338,
+                lineNumber: 350,
                 columnNumber: 75
               },
               this
@@ -18435,14 +18434,14 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
         !0,
         {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 300,
+          lineNumber: 312,
           columnNumber: 48
         },
         this
       )
     ] }, void 0, !0, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 269,
+      lineNumber: 277,
       columnNumber: 70
     }, this),
     " ",
@@ -18461,26 +18460,26 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
             "Delete Product from cart"
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 382,
+            lineNumber: 394,
             columnNumber: 96
           }, this),
           /* @__PURE__ */ jsxDEV13(DialogContent2, { children: [
             " ",
             /* @__PURE__ */ jsxDEV13(DialogContentText2, { id: "alert-dialog-description", children: " Remove this product from your cart, are you agree ? " }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 384,
+              lineNumber: 396,
               columnNumber: 40
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 384,
+            lineNumber: 396,
             columnNumber: 24
           }, this),
           /* @__PURE__ */ jsxDEV13(DialogActions2, { children: [
             " ",
             /* @__PURE__ */ jsxDEV13(Button_default, { onClick: handleCloseAlert, children: " Disagree" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 386,
+              lineNumber: 398,
               columnNumber: 67
             }, this),
             " ",
@@ -18490,17 +18489,17 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
               " ",
               /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", autoFocus: !0, children: " Agree" }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 392,
+                lineNumber: 404,
                 columnNumber: 17
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 388,
+              lineNumber: 400,
               columnNumber: 35
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 386,
+            lineNumber: 398,
             columnNumber: 51
           }, this)
         ]
@@ -18509,25 +18508,27 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
       !0,
       {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 376,
+        lineNumber: 388,
         columnNumber: 11
       },
       this
     )
   ] }, void 0, !0, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 265,
+    lineNumber: 273,
     columnNumber: 9
   }, this);
 }, TableTotalCheckout = (data, total, discount) => {
-  let submit = useSubmit2(), [customer, setCustomer] = React87.useState(0), [voucher, setVoucher] = React87.useState(""), users = useLoaderData5().users.result.map((record) => ({
+  let submit = useSubmit2(), [customer, setCustomer] = React88.useState(0), [voucher, setVoucher] = React88.useState(""), users = useLoaderData5().users.result.map((record) => ({
     label: record.nama_lengkap != null ? record.nama_lengkap : "No name",
     id: record.id
   })), onTagsChange = (event, values) => {
     setCustomer(values.id);
   }, filterOptions = createFilterOptions(
     { ignoreCase: !0, matchFrom: "start" }
-  );
+  ), paymentList = [
+    { label: "Cash", id: 1 }
+  ];
   async function handleSubmit(event, data2, type, option) {
     if (event.preventDefault(), (data2.length ? data2 : !1) == !1)
       return alert("cart is empty"), !1;
@@ -18555,327 +18556,213 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
       relative: "route"
     });
   }
-  return /* @__PURE__ */ jsxDEV13("div", { children: [
+  return /* @__PURE__ */ jsxDEV13("div", { children: /* @__PURE__ */ jsxDEV13(Stack_default, { direction: "column", justifyContent: "space-around", alignItems: "stretch", spacing: 0.5, sx: { marginTop: "4.5em" }, children: [
     " ",
-    /* @__PURE__ */ jsxDEV13(
-      Stack_default,
-      {
-        direction: "column",
-        justifyContent: "space-around",
-        alignItems: "stretch",
-        spacing: 0.5,
-        sx: { marginTop: "4.5em" },
-        children: [
-          " ",
-          /* @__PURE__ */ jsxDEV13(Box_default, { bgcolor: "#f7f7f7", children: [
-            " ",
-            /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
-              " ",
-              /* @__PURE__ */ jsxDEV13(
-                Grid_default,
-                {
-                  xs: 6,
-                  md: 6,
-                  lg: 6,
-                  children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-                      " ",
-                      /* @__PURE__ */ jsxDEV13(
-                        Typography_default,
-                        {
-                          margin: "0.5em",
-                          textAlign: "left",
-                          gutterBottom: !0,
-                          variant: "h5",
-                          component: "h5",
-                          children: " Total"
-                        },
-                        void 0,
-                        !1,
-                        {
-                          fileName: "app/routes/sales.tsx",
-                          lineNumber: 505,
-                          columnNumber: 19
-                        },
-                        this
-                      )
-                    ] }, void 0, !0, {
-                      fileName: "app/routes/sales.tsx",
-                      lineNumber: 505,
-                      columnNumber: 13
-                    }, this)
-                  ]
-                },
-                void 0,
-                !0,
-                {
-                  fileName: "app/routes/sales.tsx",
-                  lineNumber: 497,
-                  columnNumber: 13
-                },
-                this
-              ),
-              " ",
-              /* @__PURE__ */ jsxDEV13(
-                Grid_default,
-                {
-                  xs: 6,
-                  md: 6,
-                  lg: 6,
-                  children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-                      " ",
-                      /* @__PURE__ */ jsxDEV13(
-                        Typography_default,
-                        {
-                          margin: "0.5em",
-                          textAlign: "right",
-                          gutterBottom: !0,
-                          variant: "h5",
-                          component: "h5",
-                          children: [
-                            " Rp.",
-                            total
-                          ]
-                        },
-                        void 0,
-                        !0,
-                        {
-                          fileName: "app/routes/sales.tsx",
-                          lineNumber: 522,
-                          columnNumber: 19
-                        },
-                        this
-                      )
-                    ] }, void 0, !0, {
-                      fileName: "app/routes/sales.tsx",
-                      lineNumber: 522,
-                      columnNumber: 13
-                    }, this)
-                  ]
-                },
-                void 0,
-                !0,
-                {
-                  fileName: "app/routes/sales.tsx",
-                  lineNumber: 514,
-                  columnNumber: 75
-                },
-                this
-              ),
-              " ",
-              /* @__PURE__ */ jsxDEV13(
-                Grid_default,
-                {
-                  xs: 12,
-                  md: 12,
-                  lg: 12,
-                  children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-                      " ",
-                      /* @__PURE__ */ jsxDEV13(
-                        Autocomplete_default,
-                        {
-                          freeSolo: !0,
-                          disablePortal: !0,
-                          id: "combo-box-demo",
-                          filterOptions,
-                          options: users,
-                          sx: { width: 300 },
-                          renderInput: (params) => /* @__PURE__ */ jsxDEV13(
-                            TextField_default,
-                            {
-                              sx: { margin: "0.5em" },
-                              ...params,
-                              label: "Customer *"
-                            },
-                            void 0,
-                            !1,
-                            {
-                              fileName: "app/routes/sales.tsx",
-                              lineNumber: 550,
-                              columnNumber: 25
-                            },
-                            this
-                          ),
-                          onChange: onTagsChange
-                        },
-                        void 0,
-                        !1,
-                        {
-                          fileName: "app/routes/sales.tsx",
-                          lineNumber: 539,
-                          columnNumber: 19
-                        },
-                        this
-                      ),
-                      " "
-                    ] }, void 0, !0, {
-                      fileName: "app/routes/sales.tsx",
-                      lineNumber: 539,
-                      columnNumber: 13
-                    }, this)
-                  ]
-                },
-                void 0,
-                !0,
-                {
-                  fileName: "app/routes/sales.tsx",
-                  lineNumber: 531,
-                  columnNumber: 80
-                },
-                this
-              ),
-              " ",
-              /* @__PURE__ */ jsxDEV13(
-                Grid_default,
-                {
-                  xs: 12,
-                  md: 12,
-                  lg: 12,
-                  children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", onSubmit: (e) => {
-                    handleSubmit(e, data, "check_voucher", !1);
-                  }, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-                    /* @__PURE__ */ jsxDEV13(
-                      TextField_default,
-                      {
-                        variant: "outlined",
-                        sx: { margin: "0.5em" },
-                        id: "outlined-required",
-                        label: "Voucher",
-                        defaultValue: voucher,
-                        style: { color: "white" },
-                        onKeyUp: (e) => {
-                          let v = e.target.value;
-                          setVoucher(v);
-                        }
-                      },
-                      void 0,
-                      !1,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 570,
-                        columnNumber: 13
-                      },
-                      this
-                    ),
-                    /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", sx: { alignContent: "flex-start", marginTop: "1em" }, size: "large", children: "Use" }, void 0, !1, {
-                      fileName: "app/routes/sales.tsx",
-                      lineNumber: 578,
-                      columnNumber: 13
-                    }, this)
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 569,
-                    columnNumber: 11
-                  }, this) }, void 0, !1, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 566,
-                    columnNumber: 9
-                  }, this)
-                },
-                void 0,
-                !1,
-                {
-                  fileName: "app/routes/sales.tsx",
-                  lineNumber: 557,
-                  columnNumber: 28
-                },
-                this
-              ),
-              /* @__PURE__ */ jsxDEV13(Divider_default, { variant: "middle" }, void 0, !1, {
-                fileName: "app/routes/sales.tsx",
-                lineNumber: 582,
-                columnNumber: 9
-              }, this),
-              " ",
-              /* @__PURE__ */ jsxDEV13(
-                Grid_default,
-                {
-                  xs: 12,
-                  md: 12,
-                  lg: 12,
-                  children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: [
-                      " ",
-                      /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", action: "checkout", onSubmit: (e) => {
-                        handleSubmit(e, data, "checkout", !1);
-                      }, children: [
-                        " ",
-                        /* @__PURE__ */ jsxDEV13(Input_default, { type: "hidden", size: "small", name: "email", id: "email", defaultValue: "wasdas@asdas.com" }, void 0, !1, {
-                          fileName: "app/routes/sales.tsx",
-                          lineNumber: 594,
-                          columnNumber: 13
-                        }, this),
-                        " ",
-                        /* @__PURE__ */ jsxDEV13(
-                          Button_default,
-                          {
-                            type: "submit",
-                            size: "large",
-                            fullWidth: !0,
-                            variant: "contained",
-                            color: "success",
-                            children: " Pay"
-                          },
-                          void 0,
-                          !1,
-                          {
-                            fileName: "app/routes/sales.tsx",
-                            lineNumber: 594,
-                            columnNumber: 116
-                          },
-                          this
-                        )
-                      ] }, void 0, !0, {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 590,
-                        columnNumber: 60
-                      }, this)
-                    ] }, void 0, !0, {
-                      fileName: "app/routes/sales.tsx",
-                      lineNumber: 590,
-                      columnNumber: 13
-                    }, this)
-                  ]
-                },
-                void 0,
-                !0,
-                {
-                  fileName: "app/routes/sales.tsx",
-                  lineNumber: 582,
-                  columnNumber: 41
-                },
-                this
-              )
-            ] }, void 0, !0, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 495,
-              columnNumber: 13
-            }, this)
-          ] }, void 0, !0, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 493,
-            columnNumber: 38
-          }, this)
-        ]
-      },
-      void 0,
-      !0,
-      {
+    /* @__PURE__ */ jsxDEV13(Box_default, { bgcolor: "#f7f7f7", children: /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
+      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: " Total " }, void 0, !1, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 490,
-        columnNumber: 15
-      },
-      this
-    )
+        lineNumber: 510,
+        columnNumber: 29
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 509,
+        columnNumber: 25
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 508,
+        columnNumber: 21
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: [
+        " Rp.",
+        numberWithCommas2(total)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 515,
+        columnNumber: 29
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 514,
+        columnNumber: 25
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 513,
+        columnNumber: 21
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(
+        Autocomplete_default,
+        {
+          freeSolo: !0,
+          disablePortal: !0,
+          id: "combo-box-demo",
+          filterOptions,
+          options: users,
+          sx: { width: 300 },
+          renderInput: (params) => /* @__PURE__ */ jsxDEV13(
+            TextField_default,
+            {
+              sx: { margin: "0.5em" },
+              ...params,
+              label: "Customer"
+            },
+            void 0,
+            !1,
+            {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 522,
+              columnNumber: 45
+            },
+            this
+          ),
+          onChange: onTagsChange
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 520,
+          columnNumber: 29
+        },
+        this
+      ) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 519,
+        columnNumber: 25
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 518,
+        columnNumber: 21
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", onSubmit: (e) => {
+        handleSubmit(e, data, "check_voucher", !1);
+      }, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
+        /* @__PURE__ */ jsxDEV13(
+          TextField_default,
+          {
+            variant: "outlined",
+            sx: { margin: "0.5em" },
+            id: "outlined-required",
+            label: "Voucher",
+            defaultValue: voucher,
+            style: { color: "white" },
+            onKeyUp: (e) => {
+              let v = e.target.value;
+              setVoucher(v);
+            }
+          },
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 537,
+            columnNumber: 33
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", sx: { alignContent: "flex-start", marginTop: "1em" }, size: "large", children: "Use" }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 545,
+          columnNumber: 33
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 536,
+        columnNumber: 29
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 533,
+        columnNumber: 25
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 532,
+        columnNumber: 21
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(
+        Autocomplete_default,
+        {
+          freeSolo: !0,
+          disablePortal: !0,
+          id: "combo-box-demo",
+          filterOptions,
+          options: paymentList,
+          sx: { width: 300 },
+          renderInput: (params) => /* @__PURE__ */ jsxDEV13(
+            TextField_default,
+            {
+              sx: { margin: "0.5em" },
+              ...params,
+              label: "Payment"
+            },
+            void 0,
+            !1,
+            {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 552,
+              columnNumber: 45
+            },
+            this
+          ),
+          onChange: onTagsChange
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 550,
+          columnNumber: 25
+        },
+        this
+      ) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 549,
+        columnNumber: 21
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Divider_default, { variant: "middle" }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 561,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", action: "checkout", onSubmit: (e) => {
+        handleSubmit(e, data, "checkout", !1);
+      }, children: [
+        /* @__PURE__ */ jsxDEV13(Input_default, { type: "hidden", size: "small", name: "email", id: "email", defaultValue: "wasdas@asdas.com" }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 569,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", size: "large", fullWidth: !0, variant: "contained", color: "success", children: " Pay" }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 570,
+          columnNumber: 29
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 564,
+        columnNumber: 21
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 563,
+        columnNumber: 17
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 562,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 507,
+      columnNumber: 17
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 506,
+      columnNumber: 142
+    }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 490,
+    lineNumber: 506,
+    columnNumber: 13
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/sales.tsx",
+    lineNumber: 505,
     columnNumber: 9
   }, this);
 }, AddProduct = () => {
@@ -18897,7 +18784,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
         " ",
         /* @__PURE__ */ jsxDEV13(Icon_default, { children: " add" }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 622,
+          lineNumber: 599,
           columnNumber: 14
         }, this)
       ]
@@ -18906,17 +18793,17 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
     !0,
     {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 615,
+      lineNumber: 592,
       columnNumber: 15
     },
     this
   ) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 614,
+    lineNumber: 591,
     columnNumber: 11
   }, this) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 613,
+    lineNumber: 590,
     columnNumber: 9
   }, this);
 };
@@ -18929,13 +18816,13 @@ __export(users_exports, {
   loader: () => loader8,
   meta: () => meta7
 });
-import * as React95 from "react";
+import * as React96 from "react";
 import { DataGrid as DataGrid2, GridToolbar as GridToolbar2 } from "@mui/x-data-grid";
 
 // node_modules/@mui/material/Tooltip/Tooltip.js
 import _objectWithoutPropertiesLoose67 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends77 from "@babel/runtime/helpers/esm/extends";
-import * as React88 from "react";
+import * as React89 from "react";
 import PropTypes69 from "prop-types";
 import clsx53 from "clsx";
 import { elementAcceptingRef as elementAcceptingRef6 } from "@mui/utils";
@@ -19127,7 +19014,7 @@ function composeEventHandler(handler, eventHandler) {
     eventHandler && eventHandler(event), handler(event);
   };
 }
-var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
+var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
   var _ref, _slots$popper, _ref2, _ref3, _slots$transition, _ref4, _slots$tooltip, _ref5, _slots$arrow, _slotProps$popper, _ref6, _slotProps$popper2, _slotProps$transition, _slotProps$tooltip, _ref7, _slotProps$tooltip2, _slotProps$arrow, _ref8, _slotProps$arrow2;
   let props = useThemeProps({
     props: inProps,
@@ -19160,9 +19047,9 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
     title,
     TransitionComponent: TransitionComponentProp = Grow_default,
     TransitionProps
-  } = props, other = _objectWithoutPropertiesLoose67(props, _excluded69), children = /* @__PURE__ */ React88.isValidElement(childrenProp) ? childrenProp : /* @__PURE__ */ _jsx74("span", {
+  } = props, other = _objectWithoutPropertiesLoose67(props, _excluded69), children = /* @__PURE__ */ React89.isValidElement(childrenProp) ? childrenProp : /* @__PURE__ */ _jsx74("span", {
     children: childrenProp
-  }), theme = useTheme(), isRtl = theme.direction === "rtl", [childNode, setChildNode] = React88.useState(), [arrowRef, setArrowRef] = React88.useState(null), ignoreNonTouchEvents = React88.useRef(!1), disableInteractive = disableInteractiveProp || followCursor, closeTimer = React88.useRef(), enterTimer = React88.useRef(), leaveTimer = React88.useRef(), touchTimer = React88.useRef(), [openState, setOpenState] = useControlled_default({
+  }), theme = useTheme(), isRtl = theme.direction === "rtl", [childNode, setChildNode] = React89.useState(), [arrowRef, setArrowRef] = React89.useState(null), ignoreNonTouchEvents = React89.useRef(!1), disableInteractive = disableInteractiveProp || followCursor, closeTimer = React89.useRef(), enterTimer = React89.useRef(), leaveTimer = React89.useRef(), touchTimer = React89.useRef(), [openState, setOpenState] = useControlled_default({
     controlled: openProp,
     default: !1,
     name: "Tooltip",
@@ -19171,16 +19058,16 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
   {
     let {
       current: isControlled
-    } = React88.useRef(openProp !== void 0);
-    React88.useEffect(() => {
+    } = React89.useRef(openProp !== void 0);
+    React89.useEffect(() => {
       childNode && childNode.disabled && !isControlled && title !== "" && childNode.tagName.toLowerCase() === "button" && console.error(["MUI: You are providing a disabled `button` child to the Tooltip component.", "A disabled element does not fire events.", "Tooltip needs to listen to the child element's events to display the title.", "", "Add a simple wrapper element, such as a `span`."].join(`
 `));
     }, [title, childNode, isControlled]);
   }
-  let id = useId_default(idProp), prevUserSelect = React88.useRef(), stopTouchInteraction = React88.useCallback(() => {
+  let id = useId_default(idProp), prevUserSelect = React89.useRef(), stopTouchInteraction = React89.useCallback(() => {
     prevUserSelect.current !== void 0 && (document.body.style.WebkitUserSelect = prevUserSelect.current, prevUserSelect.current = void 0), clearTimeout(touchTimer.current);
   }, []);
-  React88.useEffect(() => () => {
+  React89.useEffect(() => () => {
     clearTimeout(closeTimer.current), clearTimeout(enterTimer.current), clearTimeout(leaveTimer.current), stopTouchInteraction();
   }, [stopTouchInteraction]);
   let handleOpen = (event) => {
@@ -19209,7 +19096,7 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
     onBlur: handleBlurVisible,
     onFocus: handleFocusVisible,
     ref: focusVisibleRef
-  } = useIsFocusVisible_default(), [, setChildIsFocusVisible] = React88.useState(!1), handleBlur = (event) => {
+  } = useIsFocusVisible_default(), [, setChildIsFocusVisible] = React89.useState(!1), handleBlur = (event) => {
     handleBlurVisible(event), isFocusVisibleRef.current === !1 && (setChildIsFocusVisible(!1), handleLeave(event));
   }, handleFocus = (event) => {
     childNode || setChildNode(event.currentTarget), handleFocusVisible(event), isFocusVisibleRef.current === !0 && (setChildIsFocusVisible(!0), handleEnter(event));
@@ -19226,7 +19113,7 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
       handleClose(event);
     }, leaveTouchDelay);
   };
-  React88.useEffect(() => {
+  React89.useEffect(() => {
     if (!open)
       return;
     function handleKeyDown(nativeEvent) {
@@ -19238,7 +19125,7 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
   }, [handleClose, open]);
   let handleRef = useForkRef_default(children.ref, focusVisibleRef, setChildNode, ref);
   !title && title !== 0 && (open = !1);
-  let popperRef = React88.useRef(), handleMouseMove = (event) => {
+  let popperRef = React89.useRef(), handleMouseMove = (event) => {
     let childrenProps2 = children.props;
     childrenProps2.onMouseMove && childrenProps2.onMouseMove(event), cursorPosition = {
       x: event.clientX,
@@ -19253,14 +19140,14 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
   }, followCursor ? {
     onMouseMove: handleMouseMove
   } : {});
-  childrenProps["data-mui-internal-clone-element"] = !0, React88.useEffect(() => {
+  childrenProps["data-mui-internal-clone-element"] = !0, React89.useEffect(() => {
     childNode && !childNode.getAttribute("data-mui-internal-clone-element") && console.error(["MUI: The `children` component of the Tooltip is not forwarding its props correctly.", "Please make sure that props are spread on the same element that the ref is applied to."].join(`
 `));
   }, [childNode]);
   let interactiveWrapperListeners = {};
   disableTouchListener || (childrenProps.onTouchStart = handleTouchStart, childrenProps.onTouchEnd = handleTouchEnd), disableHoverListener || (childrenProps.onMouseOver = composeEventHandler(handleMouseOver, childrenProps.onMouseOver), childrenProps.onMouseLeave = composeEventHandler(handleMouseLeave, childrenProps.onMouseLeave), disableInteractive || (interactiveWrapperListeners.onMouseOver = handleMouseOver, interactiveWrapperListeners.onMouseLeave = handleMouseLeave)), disableFocusListener || (childrenProps.onFocus = composeEventHandler(handleFocus, childrenProps.onFocus), childrenProps.onBlur = composeEventHandler(handleBlur, childrenProps.onBlur), disableInteractive || (interactiveWrapperListeners.onFocus = handleFocus, interactiveWrapperListeners.onBlur = handleBlur)), children.props.title && console.error(["MUI: You have provided a `title` prop to the child of <Tooltip />.", `Remove this title prop \`${children.props.title}\` or the Tooltip component.`].join(`
 `));
-  let popperOptions = React88.useMemo(() => {
+  let popperOptions = React89.useMemo(() => {
     var _PopperProps$popperOp;
     let tooltipModifiers = [{
       name: "arrow",
@@ -19287,8 +19174,8 @@ var Tooltip = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
   }), ownerState), tooltipArrowProps = appendOwnerState2(ArrowComponent, _extends77({}, (_slotProps$arrow = slotProps.arrow) != null ? _slotProps$arrow : componentsProps.arrow, {
     className: clsx53(classes.arrow, (_ref8 = (_slotProps$arrow2 = slotProps.arrow) != null ? _slotProps$arrow2 : componentsProps.arrow) == null ? void 0 : _ref8.className)
   }), ownerState);
-  return /* @__PURE__ */ _jsxs20(React88.Fragment, {
-    children: [/* @__PURE__ */ React88.cloneElement(children, childrenProps), /* @__PURE__ */ _jsx74(PopperComponent, _extends77({
+  return /* @__PURE__ */ _jsxs20(React89.Fragment, {
+    children: [/* @__PURE__ */ React89.cloneElement(children, childrenProps), /* @__PURE__ */ _jsx74(PopperComponent, _extends77({
       as: PopperComponentProp ?? Popper_default,
       placement,
       anchorEl: followCursor ? {
@@ -19523,7 +19410,7 @@ import { json as json9 } from "@remix-run/node";
 // node_modules/@mui/material/Dialog/Dialog.js
 import _objectWithoutPropertiesLoose68 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends78 from "@babel/runtime/helpers/esm/extends";
-import * as React90 from "react";
+import * as React91 from "react";
 import PropTypes70 from "prop-types";
 import clsx54 from "clsx";
 import { unstable_useId as useId4 } from "@mui/utils";
@@ -19536,8 +19423,8 @@ function getDialogUtilityClass(slot) {
 var dialogClasses = generateUtilityClasses55("MuiDialog", ["root", "scrollPaper", "scrollBody", "container", "paper", "paperScrollPaper", "paperScrollBody", "paperWidthFalse", "paperWidthXs", "paperWidthSm", "paperWidthMd", "paperWidthLg", "paperWidthXl", "paperFullWidth", "paperFullScreen"]), dialogClasses_default = dialogClasses;
 
 // node_modules/@mui/material/Dialog/DialogContext.js
-import * as React89 from "react";
-var DialogContext = /* @__PURE__ */ React89.createContext({});
+import * as React90 from "react";
+var DialogContext = /* @__PURE__ */ React90.createContext({});
 DialogContext.displayName = "DialogContext";
 var DialogContext_default = DialogContext;
 
@@ -19664,7 +19551,7 @@ var _excluded70 = ["aria-describedby", "aria-labelledby", "BackdropComponent", "
     margin: 0,
     maxWidth: "100%"
   }
-})), Dialog3 = /* @__PURE__ */ React90.forwardRef(function(inProps, ref) {
+})), Dialog3 = /* @__PURE__ */ React91.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialog"
@@ -19697,11 +19584,11 @@ var _excluded70 = ["aria-describedby", "aria-labelledby", "BackdropComponent", "
     fullWidth,
     maxWidth,
     scroll
-  }), classes = useUtilityClasses55(ownerState), backdropClick = React90.useRef(), handleMouseDown = (event) => {
+  }), classes = useUtilityClasses55(ownerState), backdropClick = React91.useRef(), handleMouseDown = (event) => {
     backdropClick.current = event.target === event.currentTarget;
   }, handleBackdropClick = (event) => {
     backdropClick.current && (backdropClick.current = null, onBackdropClick && onBackdropClick(event), onClose && onClose(event, "backdropClick"));
-  }, ariaLabelledby = useId4(ariaLabelledbyProp), dialogContextValue = React90.useMemo(() => ({
+  }, ariaLabelledby = useId4(ariaLabelledbyProp), dialogContextValue = React91.useMemo(() => ({
     titleId: ariaLabelledby
   }), [ariaLabelledby]);
   return /* @__PURE__ */ _jsx75(DialogRoot, _extends78({
@@ -19884,7 +19771,7 @@ var Dialog_default = Dialog3;
 // node_modules/@mui/material/DialogActions/DialogActions.js
 import _objectWithoutPropertiesLoose69 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends79 from "@babel/runtime/helpers/esm/extends";
-import * as React91 from "react";
+import * as React92 from "react";
 import PropTypes71 from "prop-types";
 import clsx55 from "clsx";
 
@@ -19926,7 +19813,7 @@ var _excluded71 = ["className", "disableSpacing"], useUtilityClasses56 = (ownerS
   "& > :not(style) ~ :not(style)": {
     marginLeft: 8
   }
-})), DialogActions3 = /* @__PURE__ */ React91.forwardRef(function(inProps, ref) {
+})), DialogActions3 = /* @__PURE__ */ React92.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogActions"
@@ -19974,7 +19861,7 @@ var DialogActions_default = DialogActions3;
 // node_modules/@mui/material/DialogContent/DialogContent.js
 import _objectWithoutPropertiesLoose70 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends80 from "@babel/runtime/helpers/esm/extends";
-import * as React92 from "react";
+import * as React93 from "react";
 import PropTypes72 from "prop-types";
 import clsx56 from "clsx";
 
@@ -20028,7 +19915,7 @@ var _excluded72 = ["className", "dividers"], useUtilityClasses57 = (ownerState) 
   [`.${dialogTitleClasses_default.root} + &`]: {
     paddingTop: 0
   }
-})), DialogContent3 = /* @__PURE__ */ React92.forwardRef(function(inProps, ref) {
+})), DialogContent3 = /* @__PURE__ */ React93.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogContent"
@@ -20076,7 +19963,7 @@ var DialogContent_default = DialogContent3;
 // node_modules/@mui/material/DialogContentText/DialogContentText.js
 import _objectWithoutPropertiesLoose71 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends81 from "@babel/runtime/helpers/esm/extends";
-import * as React93 from "react";
+import * as React94 from "react";
 import PropTypes73 from "prop-types";
 import clsx57 from "clsx";
 
@@ -20101,7 +19988,7 @@ var _excluded73 = ["children", "className"], useUtilityClasses58 = (ownerState) 
   name: "MuiDialogContentText",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), DialogContentText3 = /* @__PURE__ */ React93.forwardRef(function(inProps, ref) {
+})({}), DialogContentText3 = /* @__PURE__ */ React94.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogContentText"
@@ -20146,7 +20033,7 @@ var DialogContentText_default = DialogContentText3;
 // node_modules/@mui/material/DialogTitle/DialogTitle.js
 import _extends82 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose72 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React94 from "react";
+import * as React95 from "react";
 import PropTypes74 from "prop-types";
 import clsx58 from "clsx";
 import { jsx as _jsx79 } from "react/jsx-runtime";
@@ -20164,7 +20051,7 @@ var _excluded74 = ["className", "id"], useUtilityClasses59 = (ownerState) => {
 })({
   padding: "16px 24px",
   flex: "0 0 auto"
-}), DialogTitle3 = /* @__PURE__ */ React94.forwardRef(function(inProps, ref) {
+}), DialogTitle3 = /* @__PURE__ */ React95.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogTitle"
@@ -20173,7 +20060,7 @@ var _excluded74 = ["className", "id"], useUtilityClasses59 = (ownerState) => {
     id: idProp
   } = props, other = _objectWithoutPropertiesLoose72(props, _excluded74), ownerState = props, classes = useUtilityClasses59(ownerState), {
     titleId = idProp
-  } = React94.useContext(DialogContext_default);
+  } = React95.useContext(DialogContext_default);
   return /* @__PURE__ */ _jsx79(DialogTitleRoot, _extends82({
     component: "h2",
     className: clsx58(classes.root, className),
@@ -20242,7 +20129,7 @@ async function action9({ request }) {
   }
 }
 function createUserComponent() {
-  let actionData = useActionData2(), [open, setOpen] = React95.useState(!1), handleClickOpen = () => {
+  let actionData = useActionData2(), [open, setOpen] = React96.useState(!1), handleClickOpen = () => {
     setOpen(!0);
   }, handleClose = () => {
     setTimeout(function() {
@@ -20463,11 +20350,11 @@ var columns2 = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => {
-      let id = params.id, [openAlertDel, setAlertDel] = React95.useState(!1), handleClosedelete = () => {
+      let id = params.id, [openAlertDel, setAlertDel] = React96.useState(!1), handleClosedelete = () => {
         setAlertDel(!1);
       }, handleOpem = () => {
         setAlertDel(!0);
-      }, [openAlertUpd, setAlertUpd] = React95.useState(!1), handleCloseUpd = () => {
+      }, [openAlertUpd, setAlertUpd] = React96.useState(!1), handleCloseUpd = () => {
         setAlertUpd(!1);
       };
       return /* @__PURE__ */ jsxDEV14(Stack_default, { direction: "row", spacing: "1", children: [
@@ -20804,7 +20691,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MCD5EH3K.js", imports: ["/build/_shared/chunk-CGUHYEAN.js", "/build/_shared/chunk-ZUAFYAKC.js", "/build/_shared/chunk-SJBMELWV.js", "/build/_shared/chunk-HYACEHLG.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-YYINZSH7.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-DJTPBTWE.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-LUSJNQ23.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-PE47IOH4.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-QYC45YCA.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-QUQMKBKZ.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-W7OH4TUA.js", imports: ["/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-AWA5USEP.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "f4b2ff51", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1703154223519 }, url: "/build/manifest-F4B2FF51.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MCD5EH3K.js", imports: ["/build/_shared/chunk-CGUHYEAN.js", "/build/_shared/chunk-ZUAFYAKC.js", "/build/_shared/chunk-SJBMELWV.js", "/build/_shared/chunk-HYACEHLG.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-YYINZSH7.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-DJTPBTWE.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-LUSJNQ23.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-MTWVRE7S.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-QYC45YCA.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-HBRF7YN5.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-W7OH4TUA.js", imports: ["/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-AWA5USEP.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "99ca563c", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1703209922730 }, url: "/build/manifest-99CA563C.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

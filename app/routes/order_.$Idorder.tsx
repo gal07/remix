@@ -2,8 +2,9 @@ import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
 import {useMatches, useLoaderData} from "@remix-run/react";
 import { getProducts, getTransaction } from "~/data/sourceData";
-import { getSession, requireUserSession } from "~/sessions";
 import invariant from "tiny-invariant";
+import {commitSession, getSession, requireUserSession} from '~/sessions';
+import React from "react";
 
 export const meta: MetaFunction = () => {
 
@@ -20,60 +21,47 @@ export async function loader({
   }: LoaderFunctionArgs) {
   
     await requireUserSession(request);
+    const session = await getSession(request.headers.get("Cookie"));
+    if (session.has("act")) {
+        if (session.get("act") == "order_complete") {
+            session.flash("act","delete_cart");
+        }
+    }
+    const flash = (session.has('act') ? session.get("act"):null);       
+
 
     // Get Specific order
     invariant(params.Idorder, "Missing Idorder param");
     let idorder:number = parseInt(params.Idorder!); 
     const getOrder = await getTransaction(idorder);
-    return json({getOrder});
+    return json({
+        getOrder: await getOrder,
+        flash: flash
+    }, {
+        headers: {
+            "Set-Cookie": await commitSession(session)
+        }
+    });
     
 }
 
- // Action to handle form submission
- export async function action({ request }: ActionFunctionArgs) {
+// Action to handle form submission
+export async function action({ request }: ActionFunctionArgs) {
   
- }
+}
 
 export default function index(){
 
     const order = useLoaderData < typeof loader > ();
-
-    const TAX_RATE = 0.07;
-
-    function ccyFormat(num: number) {
-    return `${num.toFixed(2)}`;
-    }
-
-    function priceRow(qty: number, unit: number) {
-    return qty * unit;
-    }
-
-    function createRow(desc: string, qty: number, unit: number) {
-    const price = priceRow(qty, unit);
-    return { desc, qty, unit, price };
-    }
-
-    interface Row {
-        desc: string;
-        qty: number;
-        unit: number;
-        price: number;
-    }
-
-    function subtotal(items: readonly Row[]) {
-        return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-    }
-
-    const rows = [
-        createRow('Paperclips (Box)', 100, 1.15),
-        createRow('Paper (Case)', 10, 45.99),
-        createRow('Waste Basket', 2, 10000),
-    ];
-
-    const invoiceSubtotal = subtotal(rows);
-    const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-    const invoiceTotal = invoiceTaxes + invoiceSubtotal;
     const date = new Date(order.getOrder.data?.tanggal);
+
+    React.useEffect(()=>{
+        if (order?.flash) {
+            if (order.flash == "delete_cart") {
+                localStorage.removeItem("cart");
+            }
+        }
+    })
 
     let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
     if (order.getOrder.data.detail instanceof Array) {
@@ -83,6 +71,7 @@ export default function index(){
             "price":val.harga,
             "qty":val.qty,
             "total":parseInt(val.harga)*parseInt(val.qty),
+            "attribute": val.attribute ? val.attribute : []
         };
         dtprod.push(opsdata);
         });
@@ -117,7 +106,7 @@ export default function index(){
                             <TableCell>Name : {order.getOrder.data.nama_pelanggan}</TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell>Payment : {order.getOrder.data.payment_method}</TableCell>
+                            <TableCell>Payment : {order.getOrder.data.payment_method == null ? "Cash":order.getOrder.data.payment_method}</TableCell>
                         </TableRow>
                     
                     </TableBody>
@@ -140,23 +129,27 @@ export default function index(){
                         <TableRow key={row.product_name}>
                             <TableCell>{row.product_name}</TableCell>
                             <TableCell align="right">{row.qty}</TableCell>
-                            <TableCell align="right">{row.price}</TableCell>
-                            <TableCell align="right">{ccyFormat(row.total)}</TableCell>
+                            <TableCell align="right">Rp {
+                                row.attribute.length > 0 ?  numberWithCommas(row.attribute[0].price) : numberWithCommas(row.price)
+                            }</TableCell>
+                            <TableCell align="right">Rp {
+                                row.attribute.length > 0 ?  numberWithCommas(row.attribute[0].price * row.qty) : numberWithCommas(row.total)
+                            }</TableCell>
                         </TableRow>
                         ))}
                         <TableRow>
                         <TableCell rowSpan={3} />
                         <TableCell colSpan={2}>Subtotal</TableCell>
-                        <TableCell align="right">{order.getOrder.data.total_barang}</TableCell>
+                        <TableCell align="right">Rp {numberWithCommas(order.getOrder.data.total_barang)}</TableCell>
                         </TableRow>
                         <TableRow>
                         <TableCell>Discount</TableCell>
                         <TableCell align="right"></TableCell>
-                        <TableCell align="right">{order.getOrder.data.voucher_nominal}</TableCell>
+                        <TableCell align="right">Rp {numberWithCommas(order.getOrder.data.voucher_nominal)}</TableCell>
                         </TableRow>
                         <TableRow>
                         <TableCell colSpan={2}>Total</TableCell>
-                        <TableCell align="right">{order.getOrder.data.total}</TableCell>
+                        <TableCell align="right">Rp {numberWithCommas(order.getOrder.data.total)}</TableCell>
                         </TableRow>
                     </TableBody>
                     </Table>
@@ -169,4 +162,8 @@ export default function index(){
             </div>
         </div>
     );
+}
+
+function numberWithCommas(x: any) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
