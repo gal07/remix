@@ -17941,9 +17941,9 @@ var meta6 = () => [
 function numberWithCommas2(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
-function index4() {
-  let [cart, setCart] = React88.useState({}), [total, setTotal] = React88.useState(0), [discount, setDiscount] = React88.useState(0), [delCart, setDeleteCart] = React88.useState(0), [triggerUse, settriggerUse] = React88.useState(!0), [snack, setSnack] = React88.useState(!0), myusers = useLoaderData5();
-  React88.useEffect(() => {
+function index4(props = !1) {
+  let [cart, setCart] = React88.useState({}), [total, setTotal] = React88.useState(0), [discount, setDiscount] = React88.useState(0), [delCart, setDeleteCart] = React88.useState(0), [triggerUse, settriggerUse] = React88.useState(props), [snack, setSnack] = React88.useState(!1), myusers = useLoaderData5();
+  console.log(myusers), React88.useEffect(() => {
     console.log("use effec sales load");
     let getData = JSON.parse(localStorage.getItem("cart") || "{}"), UpdateData = [];
     if (getData instanceof Array && (getData.map((val, idx, []) => {
@@ -17960,11 +17960,541 @@ function index4() {
         getTotal += parseInt(val.pidr) * parseInt(val.qty_checkout), dtprod.push(opsdata);
       }), setCart(data2), setTotal(getTotal), setDiscount(getDiscount);
     }
+    cart && handleOpenSnack();
   }, [triggerUse]);
   let handleCloseSnack = () => {
     setSnack(!1);
   }, handleOpenSnack = () => {
     setSnack(!0);
+  }, deleteCart = (e) => {
+    setDeleteCart(e), settriggerUse(!triggerUse);
+  }, TableProductCheckout = (data, total2, discount2, deleteCart2) => {
+    let dtprod = [];
+    data instanceof Array && data.map((val, idx, []) => {
+      let opsdata = {
+        idproduk: val.idproduk,
+        product_name: val.nama_produk,
+        attribute_name: val.attribute_name ? val.attribute_name : null,
+        price: val.pidr_string,
+        qty: val.qty_checkout,
+        total: parseInt(val.pidr) * parseInt(val.qty_checkout)
+      };
+      dtprod.push(opsdata);
+    });
+    let [openAlert, setOpenAlert] = React88.useState(!1), [productTarget, setProductTarget] = React88.useState(0), handleClickOpenAlert = (e) => {
+      setOpenAlert(!0);
+    }, handleCloseAlert = (e) => {
+      setOpenAlert(!1);
+    }, handleSubmitDelCart = (e) => {
+      e.preventDefault(), deleteCart2(productTarget), handleCloseAlert(e);
+    };
+    return /* @__PURE__ */ jsxDEV13("div", { children: [
+      /* @__PURE__ */ jsxDEV13(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: [
+        " ",
+        /* @__PURE__ */ jsxDEV13(Typography_default, { gutterBottom: !0, variant: "h4", component: "h4", children: " Checkout" }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 256,
+          columnNumber: 68
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 256,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Box_default, { children: [
+        /* @__PURE__ */ jsxDEV13(TableContainer_default, { component: Paper_default, children: /* @__PURE__ */ jsxDEV13(Table_default, { sx: { minWidth: 650, width: "100%" }, "aria-label": "simple table", children: [
+          /* @__PURE__ */ jsxDEV13(TableHead_default, { children: /* @__PURE__ */ jsxDEV13(TableRow_default, { children: [
+            /* @__PURE__ */ jsxDEV13(TableCell_default, {}, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 262,
+              columnNumber: 37
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { children: " List Item" }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 263,
+              columnNumber: 37
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Price" }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 264,
+              columnNumber: 37
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Quantity" }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 265,
+              columnNumber: 37
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Total" }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 266,
+              columnNumber: 37
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 261,
+            columnNumber: 33
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 260,
+            columnNumber: 29
+          }, this),
+          /* @__PURE__ */ jsxDEV13(TableBody_default, { children: dtprod.map((row) => /* @__PURE__ */ jsxDEV13(TableRow_default, { sx: { "&:last-child td, &:last-child th": { border: 0 } }, children: [
+            " ",
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { component: "th", scope: "row", children: [
+              " ",
+              /* @__PURE__ */ jsxDEV13(Stack_default, { spacing: 1, direction: "row", children: /* @__PURE__ */ jsxDEV13(
+                Button_default,
+                {
+                  onClick: () => {
+                    handleClickOpenAlert("delete"), setProductTarget(row.idproduk);
+                  },
+                  color: "error",
+                  size: "small",
+                  variant: "contained",
+                  children: [
+                    " ",
+                    /* @__PURE__ */ jsxDEV13(Icon_default, { children: " delete" }, void 0, !1, {
+                      fileName: "app/routes/sales.tsx",
+                      lineNumber: 275,
+                      columnNumber: 88
+                    }, this)
+                  ]
+                },
+                void 0,
+                !0,
+                {
+                  fileName: "app/routes/sales.tsx",
+                  lineNumber: 271,
+                  columnNumber: 33
+                },
+                this
+              ) }, void 0, !1, {
+                fileName: "app/routes/sales.tsx",
+                lineNumber: 270,
+                columnNumber: 204
+              }, this)
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 270,
+              columnNumber: 160
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { component: "th", scope: "row", children: [
+              " ",
+              row.product_name + (row.attribute_name ? " - " + row.attribute_name : "")
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 283,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
+              " ",
+              row.price
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 284,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
+              " ",
+              row.qty
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 285,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
+              " Rp.",
+              numberWithCommas2(row.total)
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 286,
+              columnNumber: 33
+            }, this)
+          ] }, row.product_name, !0, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 270,
+            columnNumber: 61
+          }, this)) }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 269,
+            columnNumber: 29
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 259,
+          columnNumber: 25
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 258,
+          columnNumber: 21
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", sx: { bgcolor: "#1976d2", color: "white" }, children: [
+          /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
+            /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: " Total Before Discount" }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 294,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: " Discount " }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 295,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: " Total" }, void 0, !1, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 296,
+              columnNumber: 33
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 293,
+            columnNumber: 29
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 292,
+            columnNumber: 25
+          }, this),
+          /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
+            /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: [
+              " Rp.",
+              numberWithCommas2(total2)
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 301,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: [
+              " Rp.",
+              numberWithCommas2(discount2 || 0)
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 302,
+              columnNumber: 33
+            }, this),
+            /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: [
+              " Rp.",
+              numberWithCommas2(total2 - (discount2 || 0))
+            ] }, void 0, !0, {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 303,
+              columnNumber: 33
+            }, this)
+          ] }, void 0, !0, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 300,
+            columnNumber: 29
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 299,
+            columnNumber: 25
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 291,
+          columnNumber: 21
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 257,
+        columnNumber: 17
+      }, this),
+      /* @__PURE__ */ jsxDEV13(Dialog2, { open: openAlert, onClose: handleCloseAlert, "aria-labelledby": "alert-dialog-title", "aria-describedby": "alert-dialog-description", children: [
+        /* @__PURE__ */ jsxDEV13(DialogTitle2, { id: "alert-dialog-title", children: [
+          " ",
+          "Delete Product from cart"
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 310,
+          columnNumber: 21
+        }, this),
+        /* @__PURE__ */ jsxDEV13(DialogContent2, { children: /* @__PURE__ */ jsxDEV13(DialogContentText2, { id: "alert-dialog-description", children: " Remove this product from your cart,are you agree ? " }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 312,
+          columnNumber: 25
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 311,
+          columnNumber: 22
+        }, this),
+        /* @__PURE__ */ jsxDEV13(DialogActions2, { children: [
+          /* @__PURE__ */ jsxDEV13(Button_default, { onClick: handleCloseAlert, children: " Disagree" }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 315,
+            columnNumber: 25
+          }, this),
+          /* @__PURE__ */ jsxDEV13(Form2, { onSubmit: (e) => {
+            handleSubmitDelCart(e);
+          }, children: /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", autoFocus: !0, children: " Agree" }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 317,
+            columnNumber: 33
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 316,
+            columnNumber: 29
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 314,
+          columnNumber: 22
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 309,
+        columnNumber: 17
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 254,
+      columnNumber: 13
+    }, this);
+  }, TableTotalCheckout = () => {
+    let submit = useSubmit2(), [customer, setCustomer] = React88.useState(0), [voucher, setVoucher] = React88.useState(""), users = useLoaderData5().users.result.map((record) => ({
+      label: record.nama_lengkap != null ? record.nama_lengkap : "No name",
+      id: record.id
+    })), onTagsChange = (event, values) => {
+      setCustomer(values.id);
+    }, filterOptions = createFilterOptions(
+      { ignoreCase: !0, matchFrom: "start" }
+    ), paymentList = [
+      { label: "Cash", id: 1 }
+    ];
+    async function handleSubmit(event, data, type, option) {
+      if (event.preventDefault(), (data.length ? data : !1) == !1)
+        return alert("cart is empty"), !1;
+      let checkoutData = {
+        customer_id: customer,
+        cart: [],
+        type
+      };
+      data.map((product) => {
+        let ready = {
+          product_id: product.idproduk,
+          qty: parseInt(product.qty_checkout),
+          attribute: product.attribute ? product.attribute : [],
+          attribute_note: ""
+        };
+        checkoutData.cart.push(ready);
+      }), type == "check_voucher" && Object.assign(checkoutData, { use_voucher: 1, voucher_code: voucher });
+      let formData = new FormData();
+      formData.append("checkout", JSON.stringify(checkoutData)), formData.append("type", type), submit(formData, {
+        action: "/sales",
+        method: "post",
+        encType: "application/x-www-form-urlencoded",
+        preventScrollReset: !1,
+        replace: !1,
+        relative: "route"
+      });
+    }
+    return /* @__PURE__ */ jsxDEV13("div", { children: /* @__PURE__ */ jsxDEV13(Stack_default, { direction: "column", justifyContent: "space-around", alignItems: "stretch", spacing: 0.5, sx: { marginTop: "4.5em" }, children: [
+      " ",
+      /* @__PURE__ */ jsxDEV13(Box_default, { bgcolor: "#f7f7f7", children: /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
+        /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: " Total " }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 416,
+          columnNumber: 33
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 415,
+          columnNumber: 29
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 414,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: [
+          " Rp.",
+          numberWithCommas2(total)
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 421,
+          columnNumber: 33
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 420,
+          columnNumber: 29
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 419,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(
+          Autocomplete_default,
+          {
+            freeSolo: !0,
+            disablePortal: !0,
+            id: "combo-box-demo",
+            filterOptions,
+            options: users,
+            sx: { width: 300 },
+            renderInput: (params) => /* @__PURE__ */ jsxDEV13(
+              TextField_default,
+              {
+                sx: { margin: "0.5em" },
+                ...params,
+                label: "Customer"
+              },
+              void 0,
+              !1,
+              {
+                fileName: "app/routes/sales.tsx",
+                lineNumber: 428,
+                columnNumber: 49
+              },
+              this
+            ),
+            onChange: onTagsChange
+          },
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 426,
+            columnNumber: 33
+          },
+          this
+        ) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 425,
+          columnNumber: 29
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 424,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", onSubmit: (e) => {
+          handleSubmit(e, cart, "check_voucher", !1);
+        }, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
+          /* @__PURE__ */ jsxDEV13(
+            TextField_default,
+            {
+              variant: "outlined",
+              sx: { margin: "0.5em" },
+              id: "outlined-required",
+              label: "Voucher",
+              defaultValue: voucher,
+              style: { color: "white" },
+              onKeyUp: (e) => {
+                let v = e.target.value;
+                setVoucher(v);
+              }
+            },
+            void 0,
+            !1,
+            {
+              fileName: "app/routes/sales.tsx",
+              lineNumber: 443,
+              columnNumber: 37
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", sx: { alignContent: "flex-start", marginTop: "1em" }, size: "large", children: "Use" }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 451,
+            columnNumber: 37
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 442,
+          columnNumber: 33
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 439,
+          columnNumber: 29
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 438,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(
+          Autocomplete_default,
+          {
+            freeSolo: !0,
+            disablePortal: !0,
+            id: "combo-box-demo",
+            filterOptions,
+            options: paymentList,
+            sx: { width: 300 },
+            renderInput: (params) => /* @__PURE__ */ jsxDEV13(
+              TextField_default,
+              {
+                sx: { margin: "0.5em" },
+                ...params,
+                label: "Payment"
+              },
+              void 0,
+              !1,
+              {
+                fileName: "app/routes/sales.tsx",
+                lineNumber: 458,
+                columnNumber: 49
+              },
+              this
+            ),
+            onChange: onTagsChange
+          },
+          void 0,
+          !1,
+          {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 456,
+            columnNumber: 29
+          },
+          this
+        ) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 455,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Divider_default, { variant: "middle" }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 467,
+          columnNumber: 17
+        }, this),
+        /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", action: "checkout", onSubmit: (e) => {
+          handleSubmit(e, cart, "checkout", !1);
+        }, children: [
+          /* @__PURE__ */ jsxDEV13(Input_default, { type: "hidden", size: "small", name: "email", id: "email", defaultValue: "wasdas@asdas.com" }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 475,
+            columnNumber: 29
+          }, this),
+          /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", size: "large", fullWidth: !0, variant: "contained", color: "success", children: " Pay" }, void 0, !1, {
+            fileName: "app/routes/sales.tsx",
+            lineNumber: 476,
+            columnNumber: 33
+          }, this)
+        ] }, void 0, !0, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 470,
+          columnNumber: 25
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 469,
+          columnNumber: 21
+        }, this) }, void 0, !1, {
+          fileName: "app/routes/sales.tsx",
+          lineNumber: 468,
+          columnNumber: 17
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 413,
+        columnNumber: 21
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales.tsx",
+        lineNumber: 412,
+        columnNumber: 146
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 412,
+      columnNumber: 17
+    }, this) }, void 0, !1, {
+      fileName: "app/routes/sales.tsx",
+      lineNumber: 411,
+      columnNumber: 13
+    }, this);
   };
   return /* @__PURE__ */ jsxDEV13("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
     /* @__PURE__ */ jsxDEV13(
@@ -17977,21 +18507,19 @@ function index4() {
           " ",
           /* @__PURE__ */ jsxDEV13(Grid_default, { item: !0, xs: 12, md: 8, lg: 8, children: [
             " ",
-            TableProductCheckout(cart, total, discount, (e) => {
-              console.log(e), setDeleteCart(e), settriggerUse(!triggerUse);
-            })
+            TableProductCheckout(cart, total, discount, deleteCart)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 207,
+            lineNumber: 491,
             columnNumber: 65
           }, this),
           " ",
           /* @__PURE__ */ jsxDEV13(Grid_default, { item: !0, xs: 12, md: 4, lg: 4, children: [
             " ",
-            TableTotalCheckout(cart, total, discount)
+            TableTotalCheckout()
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 209,
+            lineNumber: 493,
             columnNumber: 18
           }, this),
           " ",
@@ -18002,770 +18530,31 @@ function index4() {
       !0,
       {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 206,
+        lineNumber: 490,
         columnNumber: 9
       },
       this
     ),
     /* @__PURE__ */ jsxDEV13(Stack_default, { spacing: 2, sx: { width: "100%" }, children: /* @__PURE__ */ jsxDEV13(Snackbar, { open: snack, autoHideDuration: 6e3, onClose: handleCloseSnack, children: /* @__PURE__ */ jsxDEV13(Alert, { onClose: handleCloseSnack, severity: "error", sx: { width: "100%" }, children: myusers.errors }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 217,
+      lineNumber: 501,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 216,
+      lineNumber: 500,
       columnNumber: 11
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 215,
+      lineNumber: 499,
       columnNumber: 9
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 205,
+    lineNumber: 489,
     columnNumber: 9
   }, this);
 }
-var TableProductCheckout = (data, total, discount, deleteCart) => {
-  let dtprod = [];
-  data instanceof Array && data.map((val, idx, []) => {
-    let opsdata = {
-      idproduk: val.idproduk,
-      product_name: val.nama_produk,
-      attribute_name: val.attribute_name ? val.attribute_name : null,
-      price: val.pidr_string,
-      qty: val.qty_checkout,
-      total: parseInt(val.pidr) * parseInt(val.qty_checkout)
-    };
-    dtprod.push(opsdata);
-  });
-  let [openAlert, setOpenAlert] = React88.useState(!1), [productTarget, setProductTarget] = React88.useState(0), handleClickOpenAlert = (e) => {
-    setOpenAlert(!0);
-  }, handleCloseAlert = (e) => {
-    setOpenAlert(!1);
-  }, handleSubmitDelCart = (e) => {
-    e.preventDefault(), deleteCart(productTarget), handleCloseAlert(e);
-  };
-  return /* @__PURE__ */ jsxDEV13("div", { children: [
-    " ",
-    " ",
-    /* @__PURE__ */ jsxDEV13(Box_default, { sx: { marginTop: "1em", textAlign: "center" }, children: [
-      " ",
-      /* @__PURE__ */ jsxDEV13(
-        Typography_default,
-        {
-          gutterBottom: !0,
-          variant: "h4",
-          component: "h4",
-          children: " Checkout"
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 274,
-          columnNumber: 63
-        },
-        this
-      )
-    ] }, void 0, !0, {
-      fileName: "app/routes/sales.tsx",
-      lineNumber: 274,
-      columnNumber: 11
-    }, this),
-    /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-      " ",
-      /* @__PURE__ */ jsxDEV13(TableContainer_default, { component: Paper_default, children: [
-        " ",
-        /* @__PURE__ */ jsxDEV13(Table_default, { sx: { minWidth: 650, width: "100%" }, "aria-label": "simple table", children: [
-          " ",
-          /* @__PURE__ */ jsxDEV13(TableHead_default, { children: /* @__PURE__ */ jsxDEV13(TableRow_default, { children: [
-            /* @__PURE__ */ jsxDEV13(TableCell_default, {}, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 279,
-              columnNumber: 109
-            }, this),
-            /* @__PURE__ */ jsxDEV13(TableCell_default, { children: " List Item" }, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 279,
-              columnNumber: 132
-            }, this),
-            " ",
-            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Price" }, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 279,
-              columnNumber: 166
-            }, this),
-            " ",
-            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Quantity" }, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 279,
-              columnNumber: 214
-            }, this),
-            " ",
-            /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Total" }, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 279,
-              columnNumber: 265
-            }, this)
-          ] }, void 0, !0, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 279,
-            columnNumber: 99
-          }, this) }, void 0, !1, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 279,
-            columnNumber: 88
-          }, this),
-          /* @__PURE__ */ jsxDEV13(TableBody_default, { children: [
-            " ",
-            dtprod.map((row) => /* @__PURE__ */ jsxDEV13(
-              TableRow_default,
-              {
-                sx: { "&:last-child td, &:last-child th": { border: 0 } },
-                children: [
-                  " ",
-                  /* @__PURE__ */ jsxDEV13(TableCell_default, { component: "th", scope: "row", children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Stack_default,
-                      {
-                        spacing: 1,
-                        direction: "row",
-                        children: [
-                          " ",
-                          /* @__PURE__ */ jsxDEV13(
-                            Button_default,
-                            {
-                              onClick: () => {
-                                handleClickOpenAlert("delete"), setProductTarget(row.idproduk);
-                              },
-                              color: "error",
-                              size: "small",
-                              variant: "contained",
-                              children: [
-                                " ",
-                                /* @__PURE__ */ jsxDEV13(Icon_default, { children: " delete" }, void 0, !1, {
-                                  fileName: "app/routes/sales.tsx",
-                                  lineNumber: 294,
-                                  columnNumber: 68
-                                }, this)
-                              ]
-                            },
-                            void 0,
-                            !0,
-                            {
-                              fileName: "app/routes/sales.tsx",
-                              lineNumber: 288,
-                              columnNumber: 17
-                            },
-                            this
-                          )
-                        ]
-                      },
-                      void 0,
-                      !0,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 283,
-                        columnNumber: 120
-                      },
-                      this
-                    )
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 283,
-                    columnNumber: 76
-                  }, this),
-                  /* @__PURE__ */ jsxDEV13(TableCell_default, { component: "th", scope: "row", children: [
-                    " ",
-                    row.product_name + (row.attribute_name ? " - " + row.attribute_name : "")
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 302,
-                    columnNumber: 13
-                  }, this),
-                  " ",
-                  /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
-                    " ",
-                    row.price
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 304,
-                    columnNumber: 27
-                  }, this),
-                  " ",
-                  /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
-                    " ",
-                    row.qty
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 306,
-                    columnNumber: 27
-                  }, this),
-                  " ",
-                  /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
-                    "Rp.",
-                    numberWithCommas2(row.total)
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 308,
-                    columnNumber: 27
-                  }, this)
-                ]
-              },
-              row.product_name,
-              !0,
-              {
-                fileName: "app/routes/sales.tsx",
-                lineNumber: 280,
-                columnNumber: 40
-              },
-              this
-            ))
-          ] }, void 0, !0, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 279,
-            columnNumber: 335
-          }, this)
-        ] }, void 0, !0, {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 279,
-          columnNumber: 13
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 277,
-        columnNumber: 76
-      }, this),
-      " ",
-      /* @__PURE__ */ jsxDEV13(
-        Stack_default,
-        {
-          useFlexGap: !0,
-          flexWrap: "wrap",
-          direction: "row",
-          sx: { bgcolor: "#1976d2", color: "white" },
-          children: [
-            " ",
-            /* @__PURE__ */ jsxDEV13(
-              Grid_default,
-              {
-                xs: 6,
-                md: 6,
-                lg: 6,
-                children: [
-                  " ",
-                  /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Typography_default,
-                      {
-                        margin: "0.5em",
-                        textAlign: "left",
-                        gutterBottom: !0,
-                        variant: "caption",
-                        component: "h5",
-                        children: " Total Before Discount"
-                      },
-                      void 0,
-                      !1,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 323,
-                        columnNumber: 19
-                      },
-                      this
-                    ),
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Typography_default,
-                      {
-                        margin: "0.5em",
-                        textAlign: "left",
-                        gutterBottom: !0,
-                        variant: "caption",
-                        component: "h5",
-                        children: " Discount"
-                      },
-                      void 0,
-                      !1,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 332,
-                        columnNumber: 83
-                      },
-                      this
-                    ),
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Typography_default,
-                      {
-                        margin: "0.5em",
-                        textAlign: "left",
-                        gutterBottom: !0,
-                        variant: "h5",
-                        component: "h5",
-                        children: " Total"
-                      },
-                      void 0,
-                      !1,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 341,
-                        columnNumber: 70
-                      },
-                      this
-                    )
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 323,
-                    columnNumber: 13
-                  }, this)
-                ]
-              },
-              void 0,
-              !0,
-              {
-                fileName: "app/routes/sales.tsx",
-                lineNumber: 315,
-                columnNumber: 52
-              },
-              this
-            ),
-            " ",
-            /* @__PURE__ */ jsxDEV13(
-              Grid_default,
-              {
-                xs: 6,
-                md: 6,
-                lg: 6,
-                children: [
-                  " ",
-                  /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Typography_default,
-                      {
-                        margin: "0.5em",
-                        textAlign: "right",
-                        gutterBottom: !0,
-                        variant: "caption",
-                        component: "h5",
-                        children: [
-                          " Rp.",
-                          numberWithCommas2(total)
-                        ]
-                      },
-                      void 0,
-                      !0,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 358,
-                        columnNumber: 19
-                      },
-                      this
-                    ),
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Typography_default,
-                      {
-                        margin: "0.5em",
-                        textAlign: "right",
-                        gutterBottom: !0,
-                        variant: "caption",
-                        component: "h5",
-                        children: [
-                          " Rp.",
-                          numberWithCommas2(discount || 0)
-                        ]
-                      },
-                      void 0,
-                      !0,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 367,
-                        columnNumber: 90
-                      },
-                      this
-                    ),
-                    " ",
-                    /* @__PURE__ */ jsxDEV13(
-                      Typography_default,
-                      {
-                        margin: "0.5em",
-                        textAlign: "right",
-                        gutterBottom: !0,
-                        variant: "h5",
-                        component: "h5",
-                        children: [
-                          " Rp.",
-                          numberWithCommas2(total - (discount || 0))
-                        ]
-                      },
-                      void 0,
-                      !0,
-                      {
-                        fileName: "app/routes/sales.tsx",
-                        lineNumber: 376,
-                        columnNumber: 107
-                      },
-                      this
-                    )
-                  ] }, void 0, !0, {
-                    fileName: "app/routes/sales.tsx",
-                    lineNumber: 358,
-                    columnNumber: 13
-                  }, this)
-                ]
-              },
-              void 0,
-              !0,
-              {
-                fileName: "app/routes/sales.tsx",
-                lineNumber: 350,
-                columnNumber: 75
-              },
-              this
-            )
-          ]
-        },
-        void 0,
-        !0,
-        {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 312,
-          columnNumber: 48
-        },
-        this
-      )
-    ] }, void 0, !0, {
-      fileName: "app/routes/sales.tsx",
-      lineNumber: 277,
-      columnNumber: 70
-    }, this),
-    " ",
-    " ",
-    /* @__PURE__ */ jsxDEV13(
-      Dialog2,
-      {
-        open: openAlert,
-        onClose: handleCloseAlert,
-        "aria-labelledby": "alert-dialog-title",
-        "aria-describedby": "alert-dialog-description",
-        children: [
-          " ",
-          /* @__PURE__ */ jsxDEV13(DialogTitle2, { id: "alert-dialog-title", children: [
-            " ",
-            "Delete Product from cart"
-          ] }, void 0, !0, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 394,
-            columnNumber: 96
-          }, this),
-          /* @__PURE__ */ jsxDEV13(DialogContent2, { children: [
-            " ",
-            /* @__PURE__ */ jsxDEV13(DialogContentText2, { id: "alert-dialog-description", children: " Remove this product from your cart, are you agree ? " }, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 396,
-              columnNumber: 40
-            }, this)
-          ] }, void 0, !0, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 396,
-            columnNumber: 24
-          }, this),
-          /* @__PURE__ */ jsxDEV13(DialogActions2, { children: [
-            " ",
-            /* @__PURE__ */ jsxDEV13(Button_default, { onClick: handleCloseAlert, children: " Disagree" }, void 0, !1, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 398,
-              columnNumber: 67
-            }, this),
-            " ",
-            /* @__PURE__ */ jsxDEV13(Form2, { onSubmit: (e) => {
-              handleSubmitDelCart(e);
-            }, children: [
-              " ",
-              /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", autoFocus: !0, children: " Agree" }, void 0, !1, {
-                fileName: "app/routes/sales.tsx",
-                lineNumber: 404,
-                columnNumber: 17
-              }, this)
-            ] }, void 0, !0, {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 400,
-              columnNumber: 35
-            }, this)
-          ] }, void 0, !0, {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 398,
-            columnNumber: 51
-          }, this)
-        ]
-      },
-      void 0,
-      !0,
-      {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 388,
-        columnNumber: 11
-      },
-      this
-    )
-  ] }, void 0, !0, {
-    fileName: "app/routes/sales.tsx",
-    lineNumber: 273,
-    columnNumber: 9
-  }, this);
-}, TableTotalCheckout = (data, total, discount) => {
-  let submit = useSubmit2(), [customer, setCustomer] = React88.useState(0), [voucher, setVoucher] = React88.useState(""), users = useLoaderData5().users.result.map((record) => ({
-    label: record.nama_lengkap != null ? record.nama_lengkap : "No name",
-    id: record.id
-  })), onTagsChange = (event, values) => {
-    setCustomer(values.id);
-  }, filterOptions = createFilterOptions(
-    { ignoreCase: !0, matchFrom: "start" }
-  ), paymentList = [
-    { label: "Cash", id: 1 }
-  ];
-  async function handleSubmit(event, data2, type, option) {
-    if (event.preventDefault(), (data2.length ? data2 : !1) == !1)
-      return alert("cart is empty"), !1;
-    let checkoutData = {
-      customer_id: customer,
-      cart: [],
-      type
-    };
-    data2.map((product) => {
-      let ready = {
-        product_id: product.idproduk,
-        qty: parseInt(product.qty_checkout),
-        attribute: product.attribute ? product.attribute : [],
-        attribute_note: ""
-      };
-      checkoutData.cart.push(ready);
-    }), type == "check_voucher" && Object.assign(checkoutData, { use_voucher: 1, voucher_code: voucher });
-    let formData = new FormData();
-    formData.append("checkout", JSON.stringify(checkoutData)), formData.append("type", type), submit(formData, {
-      action: "/sales",
-      method: "post",
-      encType: "application/x-www-form-urlencoded",
-      preventScrollReset: !1,
-      replace: !1,
-      relative: "route"
-    });
-  }
-  return /* @__PURE__ */ jsxDEV13("div", { children: /* @__PURE__ */ jsxDEV13(Stack_default, { direction: "column", justifyContent: "space-around", alignItems: "stretch", spacing: 0.5, sx: { marginTop: "4.5em" }, children: [
-    " ",
-    /* @__PURE__ */ jsxDEV13(Box_default, { bgcolor: "#f7f7f7", children: /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
-      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: " Total " }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 510,
-        columnNumber: 29
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 509,
-        columnNumber: 25
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 508,
-        columnNumber: 21
-      }, this),
-      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: [
-        " Rp.",
-        numberWithCommas2(total)
-      ] }, void 0, !0, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 515,
-        columnNumber: 29
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 514,
-        columnNumber: 25
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 513,
-        columnNumber: 21
-      }, this),
-      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(
-        Autocomplete_default,
-        {
-          freeSolo: !0,
-          disablePortal: !0,
-          id: "combo-box-demo",
-          filterOptions,
-          options: users,
-          sx: { width: 300 },
-          renderInput: (params) => /* @__PURE__ */ jsxDEV13(
-            TextField_default,
-            {
-              sx: { margin: "0.5em" },
-              ...params,
-              label: "Customer"
-            },
-            void 0,
-            !1,
-            {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 522,
-              columnNumber: 45
-            },
-            this
-          ),
-          onChange: onTagsChange
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 520,
-          columnNumber: 29
-        },
-        this
-      ) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 519,
-        columnNumber: 25
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 518,
-        columnNumber: 21
-      }, this),
-      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", onSubmit: (e) => {
-        handleSubmit(e, data, "check_voucher", !1);
-      }, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
-        /* @__PURE__ */ jsxDEV13(
-          TextField_default,
-          {
-            variant: "outlined",
-            sx: { margin: "0.5em" },
-            id: "outlined-required",
-            label: "Voucher",
-            defaultValue: voucher,
-            style: { color: "white" },
-            onKeyUp: (e) => {
-              let v = e.target.value;
-              setVoucher(v);
-            }
-          },
-          void 0,
-          !1,
-          {
-            fileName: "app/routes/sales.tsx",
-            lineNumber: 537,
-            columnNumber: 33
-          },
-          this
-        ),
-        /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", sx: { alignContent: "flex-start", marginTop: "1em" }, size: "large", children: "Use" }, void 0, !1, {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 545,
-          columnNumber: 33
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 536,
-        columnNumber: 29
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 533,
-        columnNumber: 25
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 532,
-        columnNumber: 21
-      }, this),
-      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(
-        Autocomplete_default,
-        {
-          freeSolo: !0,
-          disablePortal: !0,
-          id: "combo-box-demo",
-          filterOptions,
-          options: paymentList,
-          sx: { width: 300 },
-          renderInput: (params) => /* @__PURE__ */ jsxDEV13(
-            TextField_default,
-            {
-              sx: { margin: "0.5em" },
-              ...params,
-              label: "Payment"
-            },
-            void 0,
-            !1,
-            {
-              fileName: "app/routes/sales.tsx",
-              lineNumber: 552,
-              columnNumber: 45
-            },
-            this
-          ),
-          onChange: onTagsChange
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 550,
-          columnNumber: 25
-        },
-        this
-      ) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 549,
-        columnNumber: 21
-      }, this),
-      /* @__PURE__ */ jsxDEV13(Divider_default, { variant: "middle" }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 561,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", action: "checkout", onSubmit: (e) => {
-        handleSubmit(e, data, "checkout", !1);
-      }, children: [
-        /* @__PURE__ */ jsxDEV13(Input_default, { type: "hidden", size: "small", name: "email", id: "email", defaultValue: "wasdas@asdas.com" }, void 0, !1, {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 569,
-          columnNumber: 25
-        }, this),
-        /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", size: "large", fullWidth: !0, variant: "contained", color: "success", children: " Pay" }, void 0, !1, {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 570,
-          columnNumber: 29
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 564,
-        columnNumber: 21
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 563,
-        columnNumber: 17
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 562,
-        columnNumber: 13
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/sales.tsx",
-      lineNumber: 507,
-      columnNumber: 17
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/sales.tsx",
-      lineNumber: 506,
-      columnNumber: 142
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/sales.tsx",
-    lineNumber: 506,
-    columnNumber: 13
-  }, this) }, void 0, !1, {
-    fileName: "app/routes/sales.tsx",
-    lineNumber: 505,
-    columnNumber: 9
-  }, this);
-}, AddProduct = () => {
+var AddProduct = () => {
   let navigate = useNavigate2();
   return /* @__PURE__ */ jsxDEV13("div", { children: /* @__PURE__ */ jsxDEV13(Box_default, { sx: { "& > :not(style)": { m: 1 } }, children: /* @__PURE__ */ jsxDEV13(
     Fab_default,
@@ -18784,7 +18573,7 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
         " ",
         /* @__PURE__ */ jsxDEV13(Icon_default, { children: " add" }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 599,
+          lineNumber: 531,
           columnNumber: 14
         }, this)
       ]
@@ -18793,17 +18582,17 @@ var TableProductCheckout = (data, total, discount, deleteCart) => {
     !0,
     {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 592,
+      lineNumber: 524,
       columnNumber: 15
     },
     this
   ) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 591,
+    lineNumber: 523,
     columnNumber: 11
   }, this) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 590,
+    lineNumber: 522,
     columnNumber: 9
   }, this);
 };
@@ -20691,7 +20480,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MCD5EH3K.js", imports: ["/build/_shared/chunk-CGUHYEAN.js", "/build/_shared/chunk-ZUAFYAKC.js", "/build/_shared/chunk-SJBMELWV.js", "/build/_shared/chunk-HYACEHLG.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-YYINZSH7.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-DJTPBTWE.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-LUSJNQ23.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-MTWVRE7S.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-QYC45YCA.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-HBRF7YN5.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-W7OH4TUA.js", imports: ["/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-AWA5USEP.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "99ca563c", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1703209922730 }, url: "/build/manifest-99CA563C.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MCD5EH3K.js", imports: ["/build/_shared/chunk-CGUHYEAN.js", "/build/_shared/chunk-ZUAFYAKC.js", "/build/_shared/chunk-SJBMELWV.js", "/build/_shared/chunk-HYACEHLG.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-YYINZSH7.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-DJTPBTWE.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-LUSJNQ23.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-MTWVRE7S.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-QYC45YCA.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-SBNKOQLK.js", imports: ["/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-W7OH4TUA.js", imports: ["/build/_shared/chunk-VDWBWBTP.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-AWA5USEP.js", imports: ["/build/_shared/chunk-2SE3WHPD.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-3O2ZPZE3.js", "/build/_shared/chunk-VPBOZGGY.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "2b917220", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1703243252264 }, url: "/build/manifest-2B917220.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
