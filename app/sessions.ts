@@ -11,6 +11,9 @@ type SessionFlashData = {
   error: string;
   act:string;
   id:string;
+  message:string;
+  alert:number;
+  object:any;
 };
 
 const { getSession, commitSession, destroySession } =

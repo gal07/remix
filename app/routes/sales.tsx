@@ -33,13 +33,17 @@ export async function loader({request} : LoaderFunctionArgs) {
 
     const session = await getSession(request.headers.get("Cookie"));
     const storageSessions = (session.has('voucher') ? session.get("voucher"):{});     
-    const error = (session.has('error') ? session.get("error"):null);       
+    const message = (session.has('message') ? session.get("message"):null);
+    const alert = (session.has('alert') ? session.get("alert"):null);  
+    const object = (session.has('object') ? session.get("object"):null);                          
     const users = await getUsers();
     
     return json({
         users: await users.json(),
         sessions: storageSessions,
-        errors: error
+        message: message,
+        alert: alert,
+        object: object,
     }, {
         headers: {
             "Set-Cookie": await commitSession(session)
@@ -59,10 +63,12 @@ export async function action({request} : ActionFunctionArgs) {
         if (type == "checkout") {
             const checkout = String(body.get("checkout"));
             const response = await createTransaction(checkout);
-            console.log(checkout);
 
             if (response.meta.code != 200) {
-                session.flash("error",response.meta.message);
+
+                session.flash("message",response.meta.message);
+                session.flash("alert",0);
+
             } else {
                 session.flash("act","order_complete");
                 return redirect('/order/' + response.data.id,
@@ -77,12 +83,18 @@ export async function action({request} : ActionFunctionArgs) {
         if (type == "check_voucher") {
           const checkout = String(body.get("checkout"));
           const response = await createTransaction(checkout);
-          console.log(response);
           
           if (response.meta.code != 200) {
-              session.flash("error",response.meta.message);
+            
+            session.flash("message",response.meta.message);
+            session.flash("alert",0);
+
           } else {
-              session.set("voucher",response.data)
+            
+              session.flash("object",response.data)
+              session.flash("message","Voucher apllied.");
+              session.flash("alert",1);
+
               return redirect('/sales',{
                 headers: {
                     "Set-Cookie": await commitSession(session)
@@ -146,6 +158,15 @@ export default function index(props :boolean = false) {
                 }
 
             });
+
+            // collect voucher value
+            if (myusers.object != null) {
+                let obj = myusers.object;
+                (obj.voucher ? 
+                    localStorage.setItem("voucher",obj.discount)
+                :"")
+            }
+
             localStorage.removeItem("cart");
             localStorage.setItem("cart", JSON.stringify(UpdateData));
 
@@ -156,6 +177,7 @@ export default function index(props :boolean = false) {
         if (data instanceof Array) {
 
             let data = JSON.parse(localStorage.getItem("cart") || '{}');
+            
             let dtprod: {
                 product_name: any;
                 price: any;
@@ -163,7 +185,6 @@ export default function index(props :boolean = false) {
                 total: any;
             }[] = [];
             let getTotal = 0;
-            let getDiscount = (myusers.sessions ? myusers.sessions.discount : 0);
 
             data.map((val : any, idx : any, []) => {
 
@@ -179,9 +200,13 @@ export default function index(props :boolean = false) {
 
             });
 
+            let finalGetdiscount = 0
+            let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
+            finalGetdiscount = parseInt(getVoucher);
+            
             setCart(data);
-            setTotal(getTotal);
-            setDiscount(getDiscount);
+            setTotal(getTotal - finalGetdiscount);
+            setDiscount(finalGetdiscount);
 
         }
 
@@ -189,7 +214,7 @@ export default function index(props :boolean = false) {
             handleOpenSnack();
         }
 
-    }, [triggerUse])
+    }, [triggerUse,myusers])
 
     const handleCloseSnack = () => {
       setSnack(false);
@@ -358,7 +383,7 @@ export default function index(props :boolean = false) {
         ) {
     
             event.preventDefault() // this will prevent Remix from submitting the form
-    
+            
             let length = data.length
                 ? data
                 : false;
@@ -373,7 +398,6 @@ export default function index(props :boolean = false) {
                 cart: [],
                 type: type
             }
-    
     
     
             data.map((product
@@ -418,7 +442,7 @@ export default function index(props :boolean = false) {
                         </Grid>
                         < Grid xs = {6} md = {6} lg = {6} >
                             <Box>
-                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{numberWithCommas(total)}</Typography>
+                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{ numberWithCommas(total - (discount? discount:0))}</Typography>
                             </Box>
                         </Grid> 
                         < Grid xs = {12} md = {12} lg = {12} > 
@@ -496,13 +520,16 @@ export default function index(props :boolean = false) {
             AddProduct()
         }</Grid>
 
-        <Stack spacing={2} sx={{ width: '100%' }}>
-          <Snackbar open={snack} autoHideDuration={6000} onClose={handleCloseSnack}>
-            <Alert onClose={handleCloseSnack} severity="error" sx={{ width: '100%' }}>
-              {myusers.errors}
+        {( myusers.message != null ? 
+            <Stack spacing={2} sx={{ width: '100%' }}>
+            <Snackbar   anchorOrigin={{ vertical:"bottom", horizontal:"center" }} open={snack} autoHideDuration={6000} onClose={handleCloseSnack}>
+            <Alert variant='filled' onClose={handleCloseSnack} severity={(myusers.alert && myusers.alert == 1 ? "success":"error")} sx={{ width: '100%' }}>
+                {(myusers.message && myusers.message != null ? myusers.message:"")}
             </Alert>
-          </Snackbar>
-        </Stack>
+            </Snackbar>
+        </Stack>:""
+        )}
+        
 
         </div>
     );
