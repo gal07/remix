@@ -163,7 +163,7 @@ export default function index(props :boolean = false) {
             if (myusers.object != null) {
                 let obj = myusers.object;
                 (obj.voucher ? 
-                    localStorage.setItem("voucher",obj.discount)
+                    localStorage.setItem("voucher",JSON.stringify(obj.voucher))
                 :"")
             }
 
@@ -202,10 +202,19 @@ export default function index(props :boolean = false) {
 
             let finalGetdiscount = 0
             let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
-            finalGetdiscount = parseInt(getVoucher);
+            
+            if (getVoucher?.voucher_type) {
+                switch (getVoucher.voucher_type) {
+                    case "percent":
+                        finalGetdiscount = getTotal * parseInt(getVoucher.value_total) / 100;
+                        break;
+                    default:
+                        break;
+                }
+            }
             
             setCart(data);
-            setTotal(getTotal - finalGetdiscount);
+            setTotal(getTotal);            
             setDiscount(finalGetdiscount);
 
         }
