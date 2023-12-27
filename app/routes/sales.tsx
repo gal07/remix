@@ -24,7 +24,7 @@ import Icon from '@mui/material/Icon';
 import {useSubmit} from "@remix-run/react";
 import Input from '@mui/material/Input';
 import {FormEvent} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, Alert} from '@mui/material';
+import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, Alert, Backdrop, CircularProgress} from '@mui/material';
 import {commitSession, getSession, requireUserSession} from '~/sessions';
 
 export async function loader({request} : LoaderFunctionArgs) {
@@ -35,7 +35,8 @@ export async function loader({request} : LoaderFunctionArgs) {
     const storageSessions = (session.has('voucher') ? session.get("voucher"):{});     
     const message = (session.has('message') ? session.get("message"):null);
     const alert = (session.has('alert') ? session.get("alert"):null);  
-    const object = (session.has('object') ? session.get("object"):null);                          
+    const object = (session.has('object') ? session.get("object"):null);  
+    const act = (session.has('act') ? session.get("act"):null);  
     const users = await getUsers();
     
     return json({
@@ -44,6 +45,7 @@ export async function loader({request} : LoaderFunctionArgs) {
         message: message,
         alert: alert,
         object: object,
+        act: act
     }, {
         headers: {
             "Set-Cookie": await commitSession(session)
@@ -103,6 +105,10 @@ export async function action({request} : ActionFunctionArgs) {
             }
         }
 
+        if (type == "delete_voucher") {            
+            session.flash("act","delete_voucher")
+        }
+
     }
 
     return redirect('/sales',{
@@ -132,17 +138,31 @@ function numberWithCommas(x: any) {
 export default function index(props :boolean = false) {
 
     const [cart, setCart] = React.useState({});
-    const [total, setTotal] = React.useState(0);
-    const [discount, setDiscount] = React.useState(0);
+    const [total, setTotal] = React.useState<any | any>(0);
+    const [discount, setDiscount] = React.useState<any | any>(0);
+    const [voucher, setVoucher] = React.useState("");
+    const [useVoucher, setuseVoucher] = React.useState(false);
+    const [backdrop, setBackdrop] = React.useState(false);
     const [delCart, setDeleteCart] = React.useState(0);
     const [triggerUse, settriggerUse] = React.useState(props);
     const [snack, setSnack] = React.useState(false);
     const myusers = useLoaderData < typeof loader > ();
+    const navigation = useNavigation();
     console.log(myusers);
     
-
     React.useEffect(() => {
         console.log("use effec sales load");
+        console.log(navigation.state);
+
+        // remove voucher
+        if (myusers?.act && myusers?.act == "delete_voucher") {
+            console.log("delete_voucher ss");
+            
+            setVoucher("");
+            setDiscount(0);
+            setuseVoucher(false);
+            localStorage.removeItem("voucher");
+        }
 
         // collect cart product
         let getData = JSON.parse(localStorage.getItem("cart") || '{}');
@@ -204,9 +224,19 @@ export default function index(props :boolean = false) {
             let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
             
             if (getVoucher?.voucher_type) {
+
+                // set state voucher code
+                setVoucher(getVoucher.voucher_code)
+                setuseVoucher(true)
                 switch (getVoucher.voucher_type) {
                     case "percent":
-                        finalGetdiscount = getTotal * parseInt(getVoucher.value_total) / 100;
+                        let find = getTotal * parseInt(getVoucher.value_total) / 100;
+                        finalGetdiscount = (getVoucher.max_voucher_total > 0 ? (find > getVoucher.max_voucher_total ? getVoucher.max_voucher_total:find):find);
+                        break;
+                    case "value":
+                        finalGetdiscount = parseInt(getVoucher.value_total);
+                        console.log(finalGetdiscount);
+                        
                         break;
                     default:
                         break;
@@ -332,9 +362,9 @@ export default function index(props :boolean = false) {
                         </Grid> 
                         < Grid xs = {6} md = {6} lg = {6} > 
                             <Box>
-                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "caption" component = "h5" > Rp.{numberWithCommas(total)}</Typography>
-                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "caption" component = "h5" > Rp.{numberWithCommas((discount? discount:0))}</Typography>
-                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{ numberWithCommas(total - (discount? discount:0))}</Typography>
+                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "caption" component = "h5" > Rp.{numberWithCommas(parseInt(total))}</Typography>
+                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "caption" component = "h5" > Rp.{numberWithCommas((discount? parseInt(discount):0))}</Typography>
+                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{ numberWithCommas(parseInt(total) - (discount? parseInt(discount):0))}</Typography>
                             </Box>
                         </Grid>
                     </Stack>
@@ -358,11 +388,13 @@ export default function index(props :boolean = false) {
     
     }
 
-    const TableTotalCheckout = () => {
-
+    const TableTotalCheckout = (voucher :any) => {
+        
         const submit = useSubmit();
         const [customer, setCustomer] = React.useState(0);
-        const [voucher, setVoucher] = React.useState("");
+        const [preText, setPreText] = React.useState(voucher.toString());
+        console.log("set pretext "+ voucher);
+        
         const myusers = useLoaderData < typeof loader > ();
         const users = myusers.users.result.map((record: any) => {
                 return {
@@ -383,7 +415,7 @@ export default function index(props :boolean = false) {
         const paymentList = [
             { label: 'Cash', id: 1 },
         ]
-    
+        
         async function handleSubmit(
           event: FormEvent<HTMLFormElement>,
           data : any,
@@ -421,11 +453,16 @@ export default function index(props :boolean = false) {
                     .cart
                     .push(ready);
             })
-    
+
             if (type == "check_voucher") {
+                Object.assign(checkoutData, { use_voucher: 1,voucher_code: preText})
+            }
+
+            if (useVoucher === true) {
                 Object.assign(checkoutData, { use_voucher: 1,voucher_code: voucher})
             }
-    
+
+
             const formData = new FormData();
             formData.append("checkout", JSON.stringify(checkoutData));
             formData.append("type", type);
@@ -451,7 +488,7 @@ export default function index(props :boolean = false) {
                         </Grid>
                         < Grid xs = {6} md = {6} lg = {6} >
                             <Box>
-                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{ numberWithCommas(total - (discount? discount:0))}</Typography>
+                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{ numberWithCommas(parseInt(total) - (discount? parseInt(discount):0))}</Typography>
                             </Box>
                         </Grid> 
                         < Grid xs = {12} md = {12} lg = {12} > 
@@ -470,18 +507,23 @@ export default function index(props :boolean = false) {
                         </Grid>
                         < Grid xs = {12} md = {12} lg = {12} > 
                             <Form method = "POST" onSubmit={(e) => {
-                                handleSubmit(e, cart, "check_voucher",false)
+                                handleSubmit(e, cart, (voucher == "" ? "check_voucher":"delete_voucher"),false)
                             }}>
-                                <Box> 
+                                <Box>
+                                    {(useVoucher === true ? 
                                     < TextField variant = "outlined" sx = {{margin:"0.5em"}}
-                                    id = "outlined-required" label = "Voucher" defaultValue = {voucher} style = {{color:"white"}}
-                                    onKeyUp={(e: any)=>{
-                                        let v = (e.target as HTMLInputElement).value;
-                                        setVoucher(v);                
-                                    }}
+                                    id = "outlined-required" label = "Voucher" defaultValue={preText} value={voucher} style = {{color:"white"}}
+                                    onChange={(e)=> setPreText(e.target.value)}
                                     />
+                                    :
+                                    < TextField variant = "outlined" sx = {{margin:"0.5em"}}
+                                    id = "outlined-required" label = "Voucher" defaultValue={preText} style = {{color:"white"}}
+                                    onChange={(e)=> setPreText(e.target.value)}
+                                    />
+                                    )}
+                                    
                                 
-                                    <Button type='submit' sx={{alignContent:"flex-start",marginTop:"1em"}} size="large">Use</Button>
+                                    <Button type='submit' sx={{alignContent:"flex-start",marginTop:"1em"}} color={(voucher == "" ? "primary":"error")} size="large">{(voucher == "" ? "Use":"Remove")}</Button>
                                 </Box >
                             </Form>
                         </Grid>
@@ -524,7 +566,7 @@ export default function index(props :boolean = false) {
         sx = {{marginTop:"0.5em",width:"100%",height:"100%"}} > <Grid item xs = { 12} md = {8}lg = {8} > {
             TableProductCheckout(cart, total, discount, deleteCart)
         }</Grid> < Grid item xs = {12} md = {4}lg = {4} > {
-            TableTotalCheckout()
+            TableTotalCheckout(voucher)
         }</Grid> {
             AddProduct()
         }</Grid>
@@ -538,6 +580,13 @@ export default function index(props :boolean = false) {
             </Snackbar>
         </Stack>:""
         )}
+
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={(navigation.state === 'loading' ? true:false)}
+        >
+            <CircularProgress color="inherit" />
+        </Backdrop>
         
 
         </div>

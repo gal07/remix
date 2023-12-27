@@ -109,13 +109,15 @@ export async function getProduct() {
     return json({result})
 }
 
-export async function getProducts(search = false,page = 1) {
-    const path = 'product?page=' + (search != false ? 'search='+search:'') + page + '&limit=8';
+export async function getProducts(search = "",page = 1) {
+    const path = 'product?page=' + page +(search != "" ? '&search='+search:'') + '&limit=8';
     const res = await fetch(apiUrl + path, {headers: key});
     const data = await res.json();
     const result = data.data
         ? data
         : {}
+    console.log(path);
+    
     return json({result})
 }
 

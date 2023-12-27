@@ -11,7 +11,7 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
-import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from '@remix-run/node';
+import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json, redirect } from '@remix-run/node';
 import { getProducts } from '~/data/sourceData';
 import { Form, useLoaderData, useNavigate, useRevalidator, useSubmit} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
@@ -41,33 +41,30 @@ export async function loader({
     );
     session.set("userId", "90000");
 
+    const url = new URL(request.url);
+    const search = url.searchParams.get("search");
+
     let page = params.page as string;
-    const product = await getProducts(false,parseInt(page));    
-    return product;
+    const product = await getProducts(search?.toString(),parseInt(page));    
+    return json({
+      product: await product.json(),
+      params: search,
+    });
   
 }
 
 export default function Productadd() {
 
-  const revalidator = useRevalidator();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-  
-  const product = useLoaderData < typeof loader > ();  
-  const [pagination, setPagination] = React.useState(product.result.pagination);
-
+  const loadData = useLoaderData < typeof loader > ();  
+  const [pagination, setPagination] = React.useState(loadData.product.result.pagination);
   const navigate = useNavigate();
   const navigates = () => {
     navigate("/sales");
   };
-  
+
+  console.log(loadData);
 
   const changePage = (page: number) => {
-    console.log("changePage "+page);
-      // revalidator.revalidate()
       navigate("/sales/add/"+page);
   }
 
@@ -268,6 +265,7 @@ export default function Productadd() {
 
     console.log("search "+v);
     const formData = new FormData();
+    formData.append("search",v);
     const currentPage = pagination.next_page-1;
     submit(formData, {
       action: "/sales/add/"+currentPage,
@@ -313,18 +311,22 @@ export default function Productadd() {
                   <StyledInputBase
                     placeholder="Search…"
                     inputProps={{ 'aria-label': 'search' }}
-                    onKeyUp={(event) => {
-                      searchProduct((event.target as HTMLInputElement).value)
+                    onKeyUp={(e) => {
+                      if (e.key === "Enter") {
+                        searchProduct((e.target as HTMLInputElement).value)
+                        e.preventDefault();
+                      }
                     }}
+                    defaultValue={loadData.params}
                   />
                 </Search>
 
             </Grid>
         </Grid>
 
-          {product.result.data.length ? (
+          {loadData.product.result.data.length ? (
               <Grid container xs={12} spacing={2}>
-                {product.result.data.map((item: any) => (
+                {loadData.product.result.data.map((item: any) => (
                   <Grid item xs={12} md={3} lg={3}>
                     <Card sx={{ maxWidth: 345 }}>
                         <CardHeader
@@ -390,6 +392,12 @@ export default function Productadd() {
 export async function action({ request }: ActionFunctionArgs) {
   console.log("action function in sales add");
   const body = await request.formData();
+  const search = String(body.get("search"));
+  if (search != "") {
+    return redirect("/sales/add/1?search="+search);
+  }
+  
+
   return true;
 
 }

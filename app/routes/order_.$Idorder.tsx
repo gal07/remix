@@ -59,11 +59,14 @@ export default function index(){
         if (order?.flash) {
             if (order.flash == "delete_cart") {
                 localStorage.removeItem("cart");
+                localStorage.removeItem("voucher");
             }
         }
     })
 
-    let dtprod: { product_name: any; price: any; qty: any; total: any; }[] = [];
+    let dtprod: {
+        attribute: any; product_name: any; price: any; qty: any; total: any; 
+}[] = [];
     if (order.getOrder.data.detail instanceof Array) {
         order.getOrder.data.detail.map((val : any, idx : any, []) => { 
         let opsdata = {
