@@ -15,7 +15,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json, redirect } 
 import { getProducts } from '~/data/sourceData';
 import { Form, useLoaderData, useNavigate, useRevalidator, useSubmit} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
-import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, alpha } from '@mui/material';
+import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Search } from '@mui/icons-material';
@@ -278,6 +278,15 @@ export default function Productadd() {
 
   }
 
+  const [alignment, setAlignment] = React.useState('web');
+
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string,
+    ) => {
+      setAlignment(newAlignment);
+    };
+
   return (
     <div style={{marginBottom:"4em"}}>
 
@@ -303,6 +312,19 @@ export default function Productadd() {
                 <Typography variant={"h4"}>
                     Choose Product
                 </Typography>
+
+                <div>
+                  <ToggleButtonGroup
+                    color="primary"
+                    value={alignment}
+                    exclusive
+                    onChange={handleChange}
+                    aria-label="Platform"
+                  >
+                    <ToggleButton value="web"><Icon>grid_on</Icon></ToggleButton>
+                    <ToggleButton value="android"><Icon>view_list</Icon></ToggleButton>
+                  </ToggleButtonGroup>
+                </div>
 
                 <Search>
                   <SearchIconWrapper>
