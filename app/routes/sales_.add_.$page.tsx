@@ -15,7 +15,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json, redirect } 
 import { getProducts } from '~/data/sourceData';
 import { Form, useLoaderData, useNavigate, useRevalidator, useSubmit} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
-import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
+import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, List, ListItem, ListItemText, MenuItem, Select, SelectChangeEvent, Switch, TextField, ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Search } from '@mui/icons-material';
@@ -278,13 +278,15 @@ export default function Productadd() {
 
   }
 
-  const [alignment, setAlignment] = React.useState('web');
+  const [alignment, setAlignment] = React.useState('grid');
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string,
     ) => {
       setAlignment(newAlignment);
+      console.log(newAlignment);
+      
     };
 
   return (
@@ -321,8 +323,8 @@ export default function Productadd() {
                     onChange={handleChange}
                     aria-label="Platform"
                   >
-                    <ToggleButton value="web"><Icon>grid_on</Icon></ToggleButton>
-                    <ToggleButton value="android"><Icon>view_list</Icon></ToggleButton>
+                    <ToggleButton value="grid"><Icon>grid_on</Icon></ToggleButton>
+                    <ToggleButton value="list"><Icon>view_list</Icon></ToggleButton>
                   </ToggleButtonGroup>
                 </div>
 
@@ -345,8 +347,8 @@ export default function Productadd() {
 
             </Grid>
         </Grid>
-
-          {loadData.product.result.data.length ? (
+                    
+          {loadData.product.result.data.length && alignment == 'grid'? (
               <Grid container xs={12} spacing={2}>
                 {loadData.product.result.data.map((item: any) => (
                   <Grid item xs={12} md={3} lg={3}>
@@ -358,7 +360,7 @@ export default function Productadd() {
                             </IconButton>
                             }
                             title={item.nama_produk}
-                            subheader={item.pidr}
+                            subheader={"Rp"+numberWithCommas(item.pidr)}
                         />
                         <CardMedia
                             component="img"
@@ -385,11 +387,43 @@ export default function Productadd() {
                   </Grid>
                 ))}
               </Grid>
-            ) : (
+            ) : (alignment == 'grid' ? 
               <p>
                 <i>No Product</i>
               </p>
-            )}
+            :"")}
+
+          {loadData.product.result.data.length && alignment == 'list'?(
+              <Grid container xs={12} lg={12} spacing={2}>
+                <List sx={{ width: '100%', maxWidth: 1500 }}>
+                  {loadData.product.result.data.map((item: any) => (
+                      <ListItem
+                      sx={{margin:"1em"}}
+                      key={item.nama_produk}
+                      disableGutters
+                      secondaryAction={
+                        <IconButton onClick={()=>{
+                          // AddToCart(item)
+                          handleClickOpen(item)
+                        }} aria-label="add to favorites">
+                        <Icon>add_shopping_cart</Icon>
+                        </IconButton>
+                      }
+                    >
+                      <ListItemText primary={`${item.nama_produk}`} />
+                      <ListItemText primary={``} />
+                      <ListItemText primary={`${"Rp"+numberWithCommas(item.pidr)}`} sx={{textAlign:'right'}}/>
+
+                    </ListItem>
+                  ))}
+                </List>
+              </Grid>
+              
+            ) : (alignment == 'list' ? 
+            <p>
+              <i>No Product</i>
+            </p>
+          :"")}
 
         <Stack sx={{"alignItems":"center","margin":"2em"}} spacing={3}>
             <Pagination
@@ -422,4 +456,8 @@ export async function action({ request }: ActionFunctionArgs) {
 
   return true;
 
+}
+
+function numberWithCommas(x: any) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
