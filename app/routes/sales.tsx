@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {redirect, type LoaderFunctionArgs, json} from "@remix-run/node";
 import {useLoaderData, Outlet, useNavigate, Form, useNavigation} from "@remix-run/react";
-import {getUsers, getProduct, createTransaction} from '~/data/sourceData';
+import {getUsers, getProduct, createTransaction, getPayments} from '~/data/sourceData';
 import type {ActionFunctionArgs, MetaFunction, SessionData}
 from "@remix-run/node";
 import Stack from '@mui/material/Stack'
@@ -26,6 +26,22 @@ import Input from '@mui/material/Input';
 import {FormEvent} from 'react';
 import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, Alert, Backdrop, CircularProgress} from '@mui/material';
 import {commitSession, getSession, requireUserSession} from '~/sessions';
+import { styled, lighten, darken } from '@mui/system';
+
+const GroupHeader = styled('div')(({ theme }) => ({
+    position: 'sticky',
+    top: '-8px',
+    padding: '4px 10px',
+    color: theme.palette.primary.main,
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? lighten(theme.palette.primary.light, 0.85)
+        : darken(theme.palette.primary.main, 0.8),
+  }));
+  
+  const GroupItems = styled('ul')({
+    padding: 0,
+  });
 
 export async function loader({request} : LoaderFunctionArgs) {
 
@@ -36,16 +52,19 @@ export async function loader({request} : LoaderFunctionArgs) {
     const message = (session.has('message') ? session.get("message"):null);
     const alert = (session.has('alert') ? session.get("alert"):null);  
     const object = (session.has('object') ? session.get("object"):null);  
-    const act = (session.has('act') ? session.get("act"):null);  
-    const users = await getUsers();
+    const act = (session.has('act') ? session.get("act"):null);
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
+    const users = await getUsers(secret?.toString());
+    const payment = await getPayments(secret?.toString());
     
     return json({
         users: await users.json(),
+        payment: await payment.json(),
         sessions: storageSessions,
         message: message,
         alert: alert,
         object: object,
-        act: act
+        act: act,
     }, {
         headers: {
             "Set-Cookie": await commitSession(session)
@@ -57,6 +76,7 @@ export async function loader({request} : LoaderFunctionArgs) {
 export async function action({request} : ActionFunctionArgs) {
 
     const session = await getSession(request.headers.get("Cookie"));
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
     const body = await request.formData();
     const type = String(body.get("type"));
 
@@ -64,8 +84,9 @@ export async function action({request} : ActionFunctionArgs) {
 
         if (type == "checkout") {
             const checkout = String(body.get("checkout"));
-            const response = await createTransaction(checkout);
-
+            const response = await createTransaction(checkout,secret?.toString());
+            console.log(response);
+            
             if (response.meta.code != 200) {
 
                 session.flash("message",response.meta.message);
@@ -84,7 +105,7 @@ export async function action({request} : ActionFunctionArgs) {
 
         if (type == "check_voucher") {
           const checkout = String(body.get("checkout"));
-          const response = await createTransaction(checkout);
+          const response = await createTransaction(checkout,secret?.toString());
           
           if (response.meta.code != 200) {
             
@@ -146,6 +167,8 @@ export default function index(props :boolean = false) {
     const [delCart, setDeleteCart] = React.useState(0);
     const [triggerUse, settriggerUse] = React.useState(props);
     const [snack, setSnack] = React.useState(false);
+    const [paymentList, setPaymentList] = React.useState<any | any>();
+    const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
     const myusers = useLoaderData < typeof loader > ();
     const navigation = useNavigation();
     console.log(myusers);
@@ -247,6 +270,27 @@ export default function index(props :boolean = false) {
             setTotal(getTotal);            
             setDiscount(finalGetdiscount);
 
+        }
+
+        // retrieve Payment List
+        let key_temp: { id: any;key: any;}[] = [];
+        let val_temp: { label: any;id: any;}[] = [];
+        if (myusers.payment.result?.data) {
+            let pylist = myusers.payment.result.data;
+            pylist.map((payment: any)=>{
+                payment.value.map((code: any) => {
+                    val_temp.push({
+                        label:code.name,
+                        id:code.code,
+                    })
+                    key_temp.push({
+                        id:code.code,
+                        key: payment.key
+                    })
+                })
+            })
+            setPaymentList(val_temp);
+            setKeyPaymentList(key_temp);
         }
 
         if (cart) {
@@ -388,13 +432,18 @@ export default function index(props :boolean = false) {
     
     }
 
-    const TableTotalCheckout = (voucher :any) => {
+    const TableTotalCheckout = (voucher :any,paymentList :any,keypaymentList: any) => {
+
+        console.log(paymentList);
+        console.log(keypaymentList);
+        
         
         const submit = useSubmit();
         const [customer, setCustomer] = React.useState(0);
         const [preText, setPreText] = React.useState(voucher.toString());
-        console.log("set pretext "+ voucher);
-        
+        const [UsePayment, setUsePayment] = React.useState("");
+        const [UsePaymentName, setUsePaymentName] = React.useState("");
+
         const myusers = useLoaderData < typeof loader > ();
         const users = myusers.users.result.map((record: any) => {
                 return {
@@ -406,16 +455,28 @@ export default function index(props :boolean = false) {
                     id: record.id
                 }
         });
-        const onTagsChange = (event: any, values: any) => {
+        const onTagsChange = (event: any, values: any,reason : any) => {
+            if (reason === 'reset') {
+                setCustomer(0);
+            }
             setCustomer(values.id)
         }
         const filterOptions = createFilterOptions(
             {ignoreCase: true, matchFrom: "start"}
         );
-        const paymentList = [
-            { label: 'Cash', id: 1 },
-        ]
-        
+
+        const handleUsePayment = (event: any, values: any,reason : any) => {
+
+            if (reason === 'clear') {
+                setUsePayment("");
+                setUsePaymentName("");
+            }else{
+                setUsePayment(values.id)
+                setUsePaymentName(values.label)
+            }
+                    
+        }
+               
         async function handleSubmit(
           event: FormEvent<HTMLFormElement>,
           data : any,
@@ -432,14 +493,31 @@ export default function index(props :boolean = false) {
                 alert("cart is empty");
                 return false;
             }
+
+            if (UsePayment == "") {
+                alert("Choose Payment!");
+                return false;
+            }
     
             // preparing data to checkout
             let checkoutData = {
                 customer_id: customer,
+                payment_key: "",
+                payment_name: "",
+                payment_code: "",
+                cash_payment: total,
                 cart: [],
                 type: type
             }
-    
+
+            // fill payment data
+            checkoutData.payment_code = UsePayment;
+            checkoutData.payment_name = UsePaymentName;
+            keypaymentList.map((e: any) => {
+                if (e.id == UsePayment) {
+                    checkoutData.payment_key = e.key;
+                }
+            })
     
             data.map((product
             : any) => {
@@ -466,6 +544,9 @@ export default function index(props :boolean = false) {
             const formData = new FormData();
             formData.append("checkout", JSON.stringify(checkoutData));
             formData.append("type", type);
+            console.log(data);
+            console.log(checkoutData);
+            // return false;
             submit(formData, {
                 action: "/sales",
                 method: "post",
@@ -476,7 +557,7 @@ export default function index(props :boolean = false) {
             });
     
         }
-    
+        
         return (
             <div> 
                 < Stack direction = "column" justifyContent = "space-around" alignItems = "stretch" spacing = {0.5} sx = {{marginTop:"4.5em"}} > <Box bgcolor = {"#f7f7f7"} > 
@@ -536,8 +617,10 @@ export default function index(props :boolean = false) {
                                     label = "Payment" />
                                 }
                                 onChange = {
-                                    onTagsChange
-                            } />
+                                    handleUsePayment
+                                }
+                                 />
+                            
                         </Grid> 
                 < Divider variant = "middle" /> 
                 <Grid xs = {12} md = {12} lg = {12} >
@@ -566,7 +649,7 @@ export default function index(props :boolean = false) {
         sx = {{marginTop:"0.5em",width:"100%",height:"100%"}} > <Grid item xs = { 12} md = {8}lg = {8} > {
             TableProductCheckout(cart, total, discount, deleteCart)
         }</Grid> < Grid item xs = {12} md = {4}lg = {4} > {
-            TableTotalCheckout(voucher)
+            TableTotalCheckout(voucher,paymentList,keyPaymentList)
         }</Grid> {
             AddProduct()
         }</Grid>

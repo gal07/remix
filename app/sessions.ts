@@ -21,7 +21,7 @@ const { getSession, commitSession, destroySession } =
     {
       // a Cookie from `createCookie` or the CookieOptions to create one
       cookie: {
-        name: "eccs_pos_cookie",
+        name: "_p_c_k",
 
         // all of these are optional
         // domain: "remix.run",
@@ -30,10 +30,10 @@ const { getSession, commitSession, destroySession } =
         //
         // expires: new Date(Date.now() + 60_000),
         // httpOnly: true,
-        maxAge: 3600,
+        maxAge: 3600*24,
         // path: "/",
         // sameSite: "lax",
-        secrets: ["s3cret1"],
+        secrets: ["Sjjasd888q18ejhasJAJasu@*8asdjjasjd"],
         // secure: false,
       },
     }

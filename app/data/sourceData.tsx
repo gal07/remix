@@ -40,24 +40,12 @@ type createUser = {
 
 const apiUrl = "http://localhost:4001/api/";
 const key = {
-    "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY4LCJuYW1hX2RlcGFuIjoiU29kaWsiL" +
-            "CJuYW1hX2JlbGFrYW5nIjoiSmF5YW1hbnMiLCJlbWFpbCI6InNvamF5QGdtLmNvbSIsInBob25lIjo" +
-            "iNjI4NzcxMjYzNjEyMyIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X" +
-            "2lkIjoyMTcsImlhdCI6MTcwMjg5MzQwNX0.o0QadIloGprWBWDFqJUsIEQQgewR0XzH4-40IwrxeFx" +
-            "dO3sqg9AhJWpZPS8l2VAih2vt2gbkJHEmRNs1ePipXU4SwFf4a_TA7zR9xkXim_LejVghkUa8KAh_q" +
-            "TUOJ2x34Y4K1Qd6HKN3F-LOU6dtUyIovPjhor8VGZtUrAmz2eTTsYrFkrRc7KZg_rxf0-KQNs7FxjQ" +
-            "ADebMuVunvmFi2Iehi64aNQZyCzMFGNbSvAdLEeJ3mH6SnNVzZFA1tUGH1GbiDPe-7U8XPOsDIRJVO" +
-            "u1Dw2a2Lh4Jz81F5kHYTGIVvluRdGPbt4HTcyr-ek6iJa7kERFL3Q842q6Ej7pKEoKadfVzYgoWccw" +
-            "cwNGrtHl5mgdYmu2b6t65ShvnSYN43pqk6IqbAmySDqEu6qAu9Yq5nhQgU6LA69kfNuJDiiixJ5PS8" +
-            "y0zS6kFTtU309YwJg4oDmTXZRPT9ccTjiETQ_0HOIXR2LzgnUYByJLrAXv84lafl4ZStAVZGnw0Li6" +
-            "xyHgy0_dYM7FZgXMKer00Dn-bJPWaH8dhuztP5HpN6wRYw4XLtAEYEJFGSj038vMrlDtbSPLFC31_d" +
-            "2YcwU_Wyp-FQmJeJKD88Sd3g7ruYht3Q25qVraFK2K1jcd5BNKjVfImnSwXdMt99qSLn9xkfiYiDt7" +
-            "4lu416ol_0nrfWwM"
+    "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTM2LCJuYW1hX2RlcGFuIjoiUFQgQmFuZGFyIEJlbmlrIiwibmFtYV9iZWxha2FuZyI6IlN1a3NlcyBNYWttdXIiLCJlbWFpbCI6ImFkbWluLmJlbmlrQGVjY3MuY2VudGVyIiwicGhvbmUiOiIxMTExMTExMSIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X2lkIjoxODcsImlhdCI6MTcwMzgyMDQxMX0.uF59QNOyAIu79c_JMeRxhpLGthH13WJTraSlxVcYBAHGVPsRp53eDWoht3lS5GI1LkFZsTiBUBFz5K_X-jZSBRMtMEhLW-kB2oOkurlDb9OGOzZ_lTUE8h_xzswEmyA3_OrTS1GsczA1zQJjWc4o-CKqhMl3-PCYWcwR8lW8esjW4TIt95oqVW4bFVRemZnZueKauMueIVboTa_5j2XwgPnRS1uYqJH6Mk6mth9aiVIhHMGPalL-vGenNngPuJVcHDe1bDaxmEtxYlT2TSanhk_8LrURziIc8n8V__qdbsispvvyr-DOwUueHhGfQLxnwo7ug4_RgtbpXXckrFxgwEL-ntHMTjMQ7T79VmnUv1EUuQ6jJvwo12Am7ARJaYXXuj29LkI_5EwgfaIPNhNJeyJ5ImHXLSfq3B_kf5217oIBBxrH8Dn2xwoonha7dA-SJF96IQTSKtm7gBEJxGAVNs4KxZYv44VTvodNKrYf1H9mQp4vvEGL5kS_vIW9j29CVi2yleV0iwqqWw2wOFLVQ1RGNla-D8G_oonrBXIEtUngTB9Pb2yJQjQoGlRT4bstz6ytE2ryxnNMdDZN0o86AgTOeRSosd8R6qGhBHdepWKFa6NGWesKx3m5aGSRAJv2JseOuWqGTP0GnJKSQ4g8jOCBT_j73JL1sTVSuoyTtF4"
 }
 
-export async function getUsers() {
+export async function getUsers(secret : any) {
     const path = 'customer?page=1&limit=200';
-    const res = await fetch(apiUrl + path, {headers: key});
+    const res = await fetch(apiUrl + path, {headers: {"x-api-key":secret}});
     const data = await res.json();
     const result = data
         .data
@@ -121,6 +109,17 @@ export async function getProducts(search = "",page = 1) {
     return json({result})
 }
 
+export async function getPayments(secret: any) {
+    const path = 'order/list_payment';
+    const res = await fetch(apiUrl + path, {headers: {"x-api-key":secret}});
+    const data = await res.json();
+    const result = data.data
+        ? data
+        : {}
+    
+    return json({result})
+}
+
 export async function createUsers(body : any) {
 
     const path = 'customer/';
@@ -165,7 +164,7 @@ export async function getTransaction(id : number = 0) {
     return data;
 }
 
-export async function createTransaction(body : any) {
+export async function createTransaction(body : any,secret: any) {
     const path = 'order/create';
     const res = await fetch(apiUrl + path, {
         headers: key,
@@ -173,6 +172,8 @@ export async function createTransaction(body : any) {
         method: "POST"
     });
     const data = await res.json();
+    console.log(res);
+    
     return data;
 }
 
