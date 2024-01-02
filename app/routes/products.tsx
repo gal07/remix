@@ -9,13 +9,15 @@ import type {LoaderFunctionArgs}
 from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import { getProduct } from '../data/sourceData'
-import { requireUserSession } from "~/sessions";
+import { getSession, requireUserSession } from "~/sessions";
 
 export const loader = async ({request} : LoaderFunctionArgs) => {
 
     await requireUserSession(request);
 
-    const result = await getProduct();
+    const session = await getSession(request.headers.get("Cookie"));
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
+    const result = await getProduct(secret);
     return result;
 
 };

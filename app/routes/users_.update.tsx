@@ -1,6 +1,7 @@
 import type { ActionFunctionArgs } from "@remix-run/node"; // or cloudflare/deno
 import { json, redirect } from "@remix-run/node"; // or cloudflare/deno
 import {updateUsers} from "../data/sourceData"
+import { getSession } from "~/sessions";
 
 // Action to handle form submission
 export async function action({ request }: ActionFunctionArgs) {
@@ -20,8 +21,12 @@ export async function action({ request }: ActionFunctionArgs) {
         "alamat":alamat,
     };
 
+    const session = await getSession(request.headers.get("Cookie"));
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
+
+
     // Update user
-    const response = await updateUsers(parseInt(id),data);
+    const response = await updateUsers(secret,parseInt(id),data);
 
     if (response.meta.code != 200) {
         console.log(data);

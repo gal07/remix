@@ -31,9 +31,9 @@ export default function Appbar() {
   const urls = [
     '/',
     'sales',
-    'products',
+    'order',
     'users',
-    'report'
+    'logout'
   ];
 
   // toggle Appbar drawer
@@ -60,7 +60,7 @@ export default function Appbar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Dashboard', 'Sales', 'Products', 'Users', 'Report'].map((text, index) => (
+        {['Dashboard', 'Sales', 'Order', 'Users', 'Logout'].map((text, index) => (
           <NavLink to={urls[index]}>
             <ListItem key={text} disablePadding>
               <ListItemButton>

@@ -28,20 +28,6 @@ import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Sn
 import {commitSession, getSession, requireUserSession} from '~/sessions';
 import { styled, lighten, darken } from '@mui/system';
 
-const GroupHeader = styled('div')(({ theme }) => ({
-    position: 'sticky',
-    top: '-8px',
-    padding: '4px 10px',
-    color: theme.palette.primary.main,
-    backgroundColor:
-      theme.palette.mode === 'light'
-        ? lighten(theme.palette.primary.light, 0.85)
-        : darken(theme.palette.primary.main, 0.8),
-  }));
-  
-  const GroupItems = styled('ul')({
-    padding: 0,
-  });
 
 export async function loader({request} : LoaderFunctionArgs) {
 
@@ -85,7 +71,6 @@ export async function action({request} : ActionFunctionArgs) {
         if (type == "checkout") {
             const checkout = String(body.get("checkout"));
             const response = await createTransaction(checkout,secret?.toString());
-            console.log(response);
             
             if (response.meta.code != 200) {
 
@@ -171,16 +156,11 @@ export default function index(props :boolean = false) {
     const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
     const myusers = useLoaderData < typeof loader > ();
     const navigation = useNavigation();
-    console.log(myusers);
     
     React.useEffect(() => {
-        console.log("use effec sales load");
-        console.log(navigation.state);
 
         // remove voucher
-        if (myusers?.act && myusers?.act == "delete_voucher") {
-            console.log("delete_voucher ss");
-            
+        if (myusers?.act && myusers?.act == "delete_voucher") {            
             setVoucher("");
             setDiscount(0);
             setuseVoucher(false);
@@ -257,9 +237,7 @@ export default function index(props :boolean = false) {
                         finalGetdiscount = (getVoucher.max_voucher_total > 0 ? (find > getVoucher.max_voucher_total ? getVoucher.max_voucher_total:find):find);
                         break;
                     case "value":
-                        finalGetdiscount = parseInt(getVoucher.value_total);
-                        console.log(finalGetdiscount);
-                        
+                        finalGetdiscount = parseInt(getVoucher.value_total);                        
                         break;
                     default:
                         break;
@@ -273,7 +251,7 @@ export default function index(props :boolean = false) {
         }
 
         // retrieve Payment List
-        let key_temp: { id: any;key: any;}[] = [];
+        let key_temp: { id: any;key: any;label:any;}[] = [];
         let val_temp: { label: any;id: any;}[] = [];
         if (myusers.payment.result?.data) {
             let pylist = myusers.payment.result.data;
@@ -285,7 +263,8 @@ export default function index(props :boolean = false) {
                     })
                     key_temp.push({
                         id:code.code,
-                        key: payment.key
+                        key: payment.key,
+                        label: code.name,
                     })
                 })
             })
@@ -433,11 +412,7 @@ export default function index(props :boolean = false) {
     }
 
     const TableTotalCheckout = (voucher :any,paymentList :any,keypaymentList: any) => {
-
-        console.log(paymentList);
-        console.log(keypaymentList);
-        
-        
+  
         const submit = useSubmit();
         const [customer, setCustomer] = React.useState(0);
         const [preText, setPreText] = React.useState(voucher.toString());
@@ -514,7 +489,7 @@ export default function index(props :boolean = false) {
             checkoutData.payment_code = UsePayment;
             checkoutData.payment_name = UsePaymentName;
             keypaymentList.map((e: any) => {
-                if (e.id == UsePayment) {
+                if (e.label == UsePaymentName) {                    
                     checkoutData.payment_key = e.key;
                 }
             })
@@ -540,12 +515,10 @@ export default function index(props :boolean = false) {
                 Object.assign(checkoutData, { use_voucher: 1,voucher_code: voucher})
             }
 
-
             const formData = new FormData();
             formData.append("checkout", JSON.stringify(checkoutData));
             formData.append("type", type);
-            console.log(data);
-            console.log(checkoutData);
+
             // return false;
             submit(formData, {
                 action: "/sales",
@@ -574,7 +547,7 @@ export default function index(props :boolean = false) {
                         </Grid> 
                         < Grid xs = {12} md = {12} lg = {12} > 
                             <Box> 
-                                < Autocomplete freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {users} sx = {{ width: 300}}
+                                < Autocomplete size="small" freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {users} sx = {{ width: 300}}
                                 renderInput = {
                                     (params) => <TextField sx = {{margin:"0.5em" }}{
                                         ...params
@@ -592,12 +565,12 @@ export default function index(props :boolean = false) {
                             }}>
                                 <Box>
                                     {(useVoucher === true ? 
-                                    < TextField variant = "outlined" sx = {{margin:"0.5em"}}
+                                    < TextField size="small" variant = "outlined" sx = {{margin:"0.5em"}}
                                     id = "outlined-required" label = "Voucher" defaultValue={preText} value={voucher} style = {{color:"white"}}
                                     onChange={(e)=> setPreText(e.target.value)}
                                     />
                                     :
-                                    < TextField variant = "outlined" sx = {{margin:"0.5em"}}
+                                    < TextField size="small" variant = "outlined" sx = {{margin:"0.5em"}}
                                     id = "outlined-required" label = "Voucher" defaultValue={preText} style = {{color:"white"}}
                                     onChange={(e)=> setPreText(e.target.value)}
                                     />
@@ -609,7 +582,7 @@ export default function index(props :boolean = false) {
                             </Form>
                         </Grid>
                         < Grid xs = {12} md = {12} lg = {12} > 
-                            < Autocomplete freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {paymentList} sx = {{ width: 300}}
+                            < Autocomplete size="small" freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {paymentList} sx = {{ width: 300}}
                                 renderInput = {
                                     (params) => <TextField sx = {{margin:"0.5em" }}{
                                         ...params

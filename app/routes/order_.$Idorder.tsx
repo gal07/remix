@@ -1,4 +1,4 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography, Grid, List } from "@mui/material";
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
 import {useMatches, useLoaderData} from "@remix-run/react";
 import { getProducts, getTransaction } from "~/data/sourceData";
@@ -28,12 +28,13 @@ export async function loader({
         }
     }
     const flash = (session.has('act') ? session.get("act"):null);       
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
 
 
     // Get Specific order
     invariant(params.Idorder, "Missing Idorder param");
     let idorder:number = parseInt(params.Idorder!); 
-    const getOrder = await getTransaction(idorder);
+    const getOrder = await getTransaction(secret,idorder);
     return json({
         getOrder: await getOrder,
         flash: flash
@@ -54,7 +55,8 @@ export default function index(){
 
     const order = useLoaderData < typeof loader > ();
     const date = new Date(order.getOrder.data?.tanggal);
-
+    console.log(order.getOrder.data.payment);
+    
     React.useEffect(()=>{
         if (order?.flash) {
             if (order.flash == "delete_cart") {
@@ -82,41 +84,93 @@ export default function index(){
           
     return(
         <div>
-            <TableContainer sx={{
-                marginTop:"2em"
-            }} component={Paper}>
-                <div hidden={(order.getOrder.meta.code != 200 ? true:false)}>
-                    <Table sx={{ minWidth: 700 }} aria-label="spanning table">
-                    <TableHead>
-                        <TableRow>
-                        <TableCell align="left" colSpan={3}>
-                            Data Order
-                        </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                       
-                        <TableRow>
-                            <TableCell>Order ID : {order.getOrder.data.id}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>No Invoice : {order.getOrder.data.invoice_no}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Date : {date.getDate()+" - "+date.getMonth()+" - "+date.getFullYear()}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Name : {order.getOrder.data.nama_pelanggan}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell>Payment : {order.getOrder.data.payment_method == null ? "Cash":order.getOrder.data.payment_method}</TableCell>
-                        </TableRow>
-                    
-                    </TableBody>
-                    </Table>
-                </div>
-            </TableContainer>
-            <TableContainer sx={{marginTop:"1em",marginBottom:"3em"}} component={Paper}>
+              <Grid container xs={12} lg={12} spacing={2}>
+
+                <Grid item xs={12} lg={8}>
+                    <TableContainer sx={{
+                    marginTop:"2em"
+                }} component={Paper}>
+                    <div hidden={(order.getOrder.meta.code != 200 ? true:false)}>
+                        <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+                        <TableHead>
+                            <TableRow>
+                            <TableCell align="left" colSpan={3}>
+                                Data Order
+                            </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            <TableRow>
+                                <TableCell>Order ID : {order.getOrder.data.id}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>No Invoice : {order.getOrder.data.invoice_no}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Date : {date.getDate()+" - "+date.getMonth()+" - "+date.getFullYear()}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Name : {order.getOrder.data.nama_pelanggan}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Payment : {order.getOrder.data.payment_method == null ? "Cash":order.getOrder.data.payment_method+" - "+order.getOrder.data.payment.payment_channel}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell>Status : {(order.getOrder.data.status == 33 ? "Waiting Payment":(order.getOrder.data.status == 5 ? "Completed":"Status unknown"))}</TableCell>
+                            </TableRow>
+                        
+                        </TableBody>
+                        </Table>
+                    </div>
+                    </TableContainer>
+                </Grid>
+
+                <Grid item xs={12} lg={4}>
+                    <TableContainer sx={{
+                    marginTop:"2em"
+                }} component={Paper}>
+                    <div hidden={(order.getOrder.meta.code != 200 ? true:false)}>
+                        <Table sx={{ minWidth: 100 }} aria-label="spanning table">
+                        <TableHead>
+                            <TableRow>
+                            <TableCell align="left" colSpan={3}>
+                                How to pay ?
+                            </TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                        
+                            {(order.getOrder.data.payment.type == "img" ? 
+                            <TableRow>
+                                <TableCell><img style={{ width: "50%" ,"textAlign":"center"}} src={order.getOrder.data.payment.payment_link}/>
+                                    <Typography variant="h5" sx={{marginLeft:"1em"}}>{order.getOrder.data.payment.payment_channel}</Typography>
+                                </TableCell>
+                            </TableRow>
+                            :<><TableRow>
+                                    <TableCell>Ref Number : {order.getOrder.data.payment.payment_link}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Channel : {order.getOrder.data.payment_method} - {order.getOrder.data.payment.payment_channel}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell><Typography variant="h6">Please transfer amount of total to ref number.</Typography></TableCell>
+                                </TableRow>
+                                
+                                </>)}
+
+                        </TableBody>
+                        </Table>
+                    </div>
+                    </TableContainer>
+                </Grid>
+
+              </Grid>
+
+            
+
+           
+
+            <TableContainer sx={{marginTop:"1em"}} component={Paper}>
                 <div hidden={(order.getOrder.meta.code != 200 ? true:false)}>
                     <Table sx={{ minWidth: 700 }} aria-label="spanning table">
                     <TableHead>
@@ -158,6 +212,9 @@ export default function index(){
                     </Table>
                 </div>
             </TableContainer>
+
+           
+
             <div hidden={(order.getOrder.meta.code != 200 ? false:true)}>
                 <Typography variant="h3" sx={{textAlign:"center",marginTop:"3em"}}>
                     {order.getOrder.meta.message}

@@ -13,9 +13,9 @@ import { red } from '@mui/material/colors';
 import Icon from '@mui/material/Icon';
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json, redirect } from '@remix-run/node';
 import { getProducts } from '~/data/sourceData';
-import { Form, useLoaderData, useNavigate, useRevalidator, useSubmit} from '@remix-run/react';
+import { Form, useLoaderData, useNavigate, useNavigation, useRevalidator, useSubmit} from '@remix-run/react';
 import Grid from '@mui/material/Grid';
-import { Badge, Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, List, ListItem, ListItemText, MenuItem, Select, SelectChangeEvent, Switch, TextField, ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
+import { Backdrop, Badge, Box, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogProps, DialogTitle, Fab, FormControl, FormControlLabel, FormHelperText, InputBase, InputLabel, List, ListItem, ListItemText, MenuItem, Select, SelectChangeEvent, Switch, TextField, ToggleButton, ToggleButtonGroup, alpha } from '@mui/material';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import { Search } from '@mui/icons-material';
@@ -125,6 +125,7 @@ export default function Productadd() {
   const [attributes, setAttributes] = React.useState({});
   const [attributesID, setAttributID] = React.useState(0);
   const [attributesDetail, setAttributesDetails] = React.useState(0);
+  const navigation = useNavigation();
 
   const AddToCart = async (item :any) => {
     
@@ -365,8 +366,7 @@ export default function Productadd() {
                         <CardMedia
                             component="img"
                             height="194"
-                            image="https://assets.eccs.center/imgview/0/small-produk-561/madu.png"
-                            // image={item.imageList}
+                            image={item.imageList}
                             alt={item.nama_produk}
                         />
                         <CardContent>
@@ -439,6 +439,13 @@ export default function Productadd() {
         </Stack>
 
         {AddProduct(attributes)}
+
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={(navigation.state === 'loading' ? true:false)}
+        >
+            <CircularProgress color="inherit" />
+        </Backdrop>
 
     </div>
     
