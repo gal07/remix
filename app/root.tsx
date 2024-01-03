@@ -9,10 +9,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
   useRouteError,
 } from "@remix-run/react";
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -38,10 +40,7 @@ export function ErrorBoundary() {
 
 export default function App() {
 
-  const loginSession = {
-    "api-x-key":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY4LCJuYW1hX2RlcGFuIjoiU29kaWsiLCJuYW1hX2JlbGFrYW5nIjoiSmF5YW1hbnMiLCJlbWFpbCI6InNvamF5QGdtLmNvbSIsInBob25lIjoiNjI4NzcxMjYzNjEyMyIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X2lkIjoyMTcsImlhdCI6MTcwMjUyNTM3OH0.bI1cULf30M000R-1Q88Tk4-Fpihe4ztcgkcewmar1smxzlcuETZNnxd6iKnPN_xQAbFWVGKoNpG70GExRlDiFELOsSk72KQAbjMRJpX4mTF53mMi8lMYIU69AHgJhZr5vRMtdBgQGTUIs-6jVVOANWalH1GasnUagCaEUFELLZtmmkpxBkB8eZ318XUgPWjllySxuWCi5kQy9Iw4iGhro92f1MB4irlS-vRQnaDmKbo75aTCbhXjbEl2pe8ONskeQ32zGFMX83m43dG0_mKn-0VlzjtNcHxIATY2c-jV1iIBZgQ-zsk7fl-rteyKRXTMVvx1pRbxO9g9LLVvHdWBhuxeHHYZNMkUu4dAubwPA3Qa1okcWBIKahJ5LWe5kjVFsddqIClbPuwMQK4igFm1aRZ8JJfjgKAYyPekwQ3YtG80kyFtSY3XaYunb0_Ipy_pwkkbLV2SUVLuNN6DsJ9qSc-ZfV9gF10NLdL6XN9MAgt5yIIZhX8I7oSrIs6ZwV-D7MhJ9U9QE1AYm26Y4Z3c2o38DjBDe5PAqemYdMUDtOhZco5JbLM5gYlBMu4LccBuaUisFq4hVnm-s_zrePqZX3ppihP4v5V0NswDI4ETDNG8I6lbXb0My84C3guxFcFHermQwKTLBhiwc3CCoCwgakBeCAm0KkA8k0uj45ThAOU",
-    "login":true
-  };
+  const navigation = useNavigation();
 
   return (
     <html lang="en">
@@ -66,7 +65,7 @@ export default function App() {
         <Appbar />
         <Container maxWidth="xl">
           <CssBaseline />
-          <Outlet context={loginSession} />
+          <Outlet />
           <ScrollRestoration getKey={(location, matches) => {
             // default behavior
             return location.key;
@@ -74,6 +73,13 @@ export default function App() {
           <LiveReload />
           <Scripts />
         </Container>
+
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={(navigation.state === 'loading' ? true:false)}
+        >
+            <CircularProgress color="inherit" />
+        </Backdrop>
 
       </body>
     </html>

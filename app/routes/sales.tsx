@@ -115,6 +115,13 @@ export async function action({request} : ActionFunctionArgs) {
             session.flash("act","delete_voucher")
         }
 
+        if (type == "calling_alert") {
+            const type_alert = String(body.get("type_alert"));
+            const message_alert = String(body.get("message_alert"));
+            session.flash("message",message_alert);
+            session.flash("alert",(type_alert == "error" ? 0:1));
+        }
+
     }
 
     return redirect('/sales',{
@@ -148,14 +155,12 @@ export default function index(props :boolean = false) {
     const [discount, setDiscount] = React.useState<any | any>(0);
     const [voucher, setVoucher] = React.useState("");
     const [useVoucher, setuseVoucher] = React.useState(false);
-    const [backdrop, setBackdrop] = React.useState(false);
     const [delCart, setDeleteCart] = React.useState(0);
     const [triggerUse, settriggerUse] = React.useState(props);
     const [snack, setSnack] = React.useState(false);
     const [paymentList, setPaymentList] = React.useState<any | any>();
     const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
     const myusers = useLoaderData < typeof loader > ();
-    const navigation = useNavigation();
     
     React.useEffect(() => {
 
@@ -460,18 +465,39 @@ export default function index(props :boolean = false) {
         ) {
     
             event.preventDefault() // this will prevent Remix from submitting the form
+            const formData = new FormData(); // Formdata for fill the data
             
             let length = data.length
                 ? data
                 : false;
             if (length == false) {
-                alert("cart is empty");
-                return false;
+                 // return false;
+                formData.append("type","calling_alert");
+                formData.append("type_alert","error");
+                formData.append("message_alert","Cart is empty");
+                submit(formData, {
+                    action: "/sales",
+                    method: "post",
+                    encType: "application/x-www-form-urlencoded",
+                    preventScrollReset: false,
+                    replace: false,
+                    relative: "route"
+                });
             }
 
             if (UsePayment == "") {
-                alert("Choose Payment!");
-                return false;
+                 // return false;
+                 formData.append("type","calling_alert");
+                 formData.append("type_alert","error");
+                 formData.append("message_alert","Choose Payment!");
+                 submit(formData, {
+                     action: "/sales",
+                     method: "post",
+                     encType: "application/x-www-form-urlencoded",
+                     preventScrollReset: false,
+                     replace: false,
+                     relative: "route"
+                 });
             }
     
             // preparing data to checkout
@@ -515,7 +541,6 @@ export default function index(props :boolean = false) {
                 Object.assign(checkoutData, { use_voucher: 1,voucher_code: voucher})
             }
 
-            const formData = new FormData();
             formData.append("checkout", JSON.stringify(checkoutData));
             formData.append("type", type);
 
@@ -636,14 +661,6 @@ export default function index(props :boolean = false) {
             </Snackbar>
         </Stack>:""
         )}
-
-        <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={(navigation.state === 'loading' ? true:false)}
-        >
-            <CircularProgress color="inherit" />
-        </Backdrop>
-        
 
         </div>
     );

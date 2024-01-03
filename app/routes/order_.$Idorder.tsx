@@ -1,6 +1,6 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography, Grid, List } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Typography, Grid, List, Stack, Breadcrumbs } from "@mui/material";
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node";
-import {useMatches, useLoaderData} from "@remix-run/react";
+import {useMatches, useLoaderData, Link, useNavigate, NavLink} from "@remix-run/react";
 import { getProducts, getTransaction } from "~/data/sourceData";
 import invariant from "tiny-invariant";
 import {commitSession, getSession, requireUserSession} from '~/sessions';
@@ -34,7 +34,7 @@ export async function loader({
     // Get Specific order
     invariant(params.Idorder, "Missing Idorder param");
     let idorder:number = parseInt(params.Idorder!); 
-    const getOrder = await getTransaction(secret,idorder);
+    const getOrder = await getTransaction(secret,"",1,10,idorder);
     return json({
         getOrder: await getOrder,
         flash: flash
@@ -55,7 +55,9 @@ export default function index(){
 
     const order = useLoaderData < typeof loader > ();
     const date = new Date(order.getOrder.data?.tanggal);
-    console.log(order.getOrder.data.payment);
+    const navigate = useNavigate();
+
+    console.log(order.getOrder);
     
     React.useEffect(()=>{
         if (order?.flash) {
@@ -68,7 +70,7 @@ export default function index(){
 
     let dtprod: {
         attribute: any; product_name: any; price: any; qty: any; total: any; 
-}[] = [];
+    }[] = [];
     if (order.getOrder.data.detail instanceof Array) {
         order.getOrder.data.detail.map((val : any, idx : any, []) => { 
         let opsdata = {
@@ -86,9 +88,20 @@ export default function index(){
         <div>
               <Grid container xs={12} lg={12} spacing={2}>
 
+              {(order.getOrder.meta.code == 200 ? 
+              <Grid item xs={12} lg={12} sx={{marginTop:"0.5em"}}>
+                    <Breadcrumbs aria-label="breadcrumb">
+                        <NavLink to={"/order"}>
+                            List Order
+                        </NavLink>
+                        <Typography color="text.primary">{order.getOrder.data.id}</Typography>
+                    </Breadcrumbs>
+                </Grid>:"")}
+                
+
                 <Grid item xs={12} lg={8}>
                     <TableContainer sx={{
-                    marginTop:"2em"
+                    marginTop:"0em"
                 }} component={Paper}>
                     <div hidden={(order.getOrder.meta.code != 200 ? true:false)}>
                         <Table sx={{ minWidth: 700 }} aria-label="spanning table">
@@ -127,7 +140,7 @@ export default function index(){
 
                 <Grid item xs={12} lg={4}>
                     <TableContainer sx={{
-                    marginTop:"2em"
+                    marginTop:"0em"
                 }} component={Paper}>
                     <div hidden={(order.getOrder.meta.code != 200 ? true:false)}>
                         <Table sx={{ minWidth: 100 }} aria-label="spanning table">
@@ -184,7 +197,12 @@ export default function index(){
                     <TableBody>
                         {dtprod.map((row) => (
                         <TableRow key={row.product_name}>
-                            <TableCell>{row.product_name}</TableCell>
+                            <TableCell>
+                                <Stack direction="column">
+                                    <Typography variant="caption">{row.product_name}</Typography>
+                                    <Typography variant="caption">{row.attribute[0]["nama_attribute"]}</Typography>
+                                </Stack>  
+                            </TableCell>
                             <TableCell align="right">{row.qty}</TableCell>
                             <TableCell align="right">Rp {
                                 row.attribute.length > 0 ?  numberWithCommas(row.attribute[0].price) : numberWithCommas(row.price)
@@ -197,16 +215,16 @@ export default function index(){
                         <TableRow>
                         <TableCell rowSpan={3} />
                         <TableCell colSpan={2}>Subtotal</TableCell>
-                        <TableCell align="right">Rp {numberWithCommas(order.getOrder.data.total_barang)}</TableCell>
+                        <TableCell align="right">{order.getOrder.data.total_barang_string}</TableCell>
                         </TableRow>
                         <TableRow>
                         <TableCell>Discount</TableCell>
                         <TableCell align="right"></TableCell>
-                        <TableCell align="right">Rp {numberWithCommas(order.getOrder.data.voucher_nominal)}</TableCell>
+                        <TableCell align="right">{order.getOrder.data.voucher_nominal_string}</TableCell>
                         </TableRow>
                         <TableRow>
                         <TableCell colSpan={2}>Total</TableCell>
-                        <TableCell align="right">Rp {numberWithCommas(order.getOrder.data.total)}</TableCell>
+                        <TableCell align="right">{order.getOrder.data.total_string}</TableCell>
                         </TableRow>
                     </TableBody>
                     </Table>

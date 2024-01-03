@@ -5613,6 +5613,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
   useRouteError
 } from "@remix-run/react";
 
@@ -5795,6 +5796,7 @@ Container.propTypes = {
 var Container_default = Container;
 
 // app/root.tsx
+import { Backdrop as Backdrop3, CircularProgress } from "@mui/material";
 import { jsxDEV as jsxDEV3 } from "react/jsx-dev-runtime";
 var links = () => [
   ...void 0 ? [{ rel: "stylesheet", href: void 0 }] : []
@@ -5805,60 +5807,61 @@ function ErrorBoundary() {
     /* @__PURE__ */ jsxDEV3("head", { children: [
       /* @__PURE__ */ jsxDEV3("title", { children: "Oh no!" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 27,
+        lineNumber: 29,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 28,
+        lineNumber: 30,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 29,
+        lineNumber: 31,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 26,
+      lineNumber: 28,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDEV3("body", { children: /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
       fileName: "app/root.tsx",
-      lineNumber: 33,
+      lineNumber: 35,
       columnNumber: 9
     }, this) }, void 0, !1, {
       fileName: "app/root.tsx",
-      lineNumber: 31,
+      lineNumber: 33,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/root.tsx",
-    lineNumber: 25,
+    lineNumber: 27,
     columnNumber: 5
   }, this);
 }
 function App() {
+  let navigation = useNavigation();
   return /* @__PURE__ */ jsxDEV3("html", { lang: "en", children: [
     /* @__PURE__ */ jsxDEV3("head", { children: [
       /* @__PURE__ */ jsxDEV3("meta", { charSet: "utf-8" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 49,
+        lineNumber: 48,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 50,
+        lineNumber: 49,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 51,
+        lineNumber: 50,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.googleapis.com" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 52,
+        lineNumber: 51,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(
@@ -5871,7 +5874,7 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 54,
+          lineNumber: 53,
           columnNumber: 9
         },
         this
@@ -5886,69 +5889,86 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 58,
+          lineNumber: 57,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 62,
+        lineNumber: 61,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 48,
+      lineNumber: 47,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDEV3("body", { children: [
       /* @__PURE__ */ jsxDEV3(Appbar, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 66,
+        lineNumber: 65,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Container_default, { maxWidth: "xl", children: [
         /* @__PURE__ */ jsxDEV3(CssBaseline_default, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 68,
+          lineNumber: 67,
           columnNumber: 11
         }, this),
-        /* @__PURE__ */ jsxDEV3(Outlet, { context: {
-          "api-x-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTY4LCJuYW1hX2RlcGFuIjoiU29kaWsiLCJuYW1hX2JlbGFrYW5nIjoiSmF5YW1hbnMiLCJlbWFpbCI6InNvamF5QGdtLmNvbSIsInBob25lIjoiNjI4NzcxMjYzNjEyMyIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X2lkIjoyMTcsImlhdCI6MTcwMjUyNTM3OH0.bI1cULf30M000R-1Q88Tk4-Fpihe4ztcgkcewmar1smxzlcuETZNnxd6iKnPN_xQAbFWVGKoNpG70GExRlDiFELOsSk72KQAbjMRJpX4mTF53mMi8lMYIU69AHgJhZr5vRMtdBgQGTUIs-6jVVOANWalH1GasnUagCaEUFELLZtmmkpxBkB8eZ318XUgPWjllySxuWCi5kQy9Iw4iGhro92f1MB4irlS-vRQnaDmKbo75aTCbhXjbEl2pe8ONskeQ32zGFMX83m43dG0_mKn-0VlzjtNcHxIATY2c-jV1iIBZgQ-zsk7fl-rteyKRXTMVvx1pRbxO9g9LLVvHdWBhuxeHHYZNMkUu4dAubwPA3Qa1okcWBIKahJ5LWe5kjVFsddqIClbPuwMQK4igFm1aRZ8JJfjgKAYyPekwQ3YtG80kyFtSY3XaYunb0_Ipy_pwkkbLV2SUVLuNN6DsJ9qSc-ZfV9gF10NLdL6XN9MAgt5yIIZhX8I7oSrIs6ZwV-D7MhJ9U9QE1AYm26Y4Z3c2o38DjBDe5PAqemYdMUDtOhZco5JbLM5gYlBMu4LccBuaUisFq4hVnm-s_zrePqZX3ppihP4v5V0NswDI4ETDNG8I6lbXb0My84C3guxFcFHermQwKTLBhiwc3CCoCwgakBeCAm0KkA8k0uj45ThAOU",
-          login: !0
-        } }, void 0, !1, {
+        /* @__PURE__ */ jsxDEV3(Outlet, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 69,
+          lineNumber: 68,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(ScrollRestoration, { getKey: (location, matches) => location.key }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 70,
+          lineNumber: 69,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(LiveReload, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 74,
+          lineNumber: 73,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 75,
+          lineNumber: 74,
           columnNumber: 11
         }, this)
       ] }, void 0, !0, {
         fileName: "app/root.tsx",
-        lineNumber: 67,
+        lineNumber: 66,
         columnNumber: 9
-      }, this)
+      }, this),
+      /* @__PURE__ */ jsxDEV3(
+        Backdrop3,
+        {
+          sx: { color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 },
+          open: navigation.state === "loading",
+          children: /* @__PURE__ */ jsxDEV3(CircularProgress, { color: "inherit" }, void 0, !1, {
+            fileName: "app/root.tsx",
+            lineNumber: 81,
+            columnNumber: 13
+          }, this)
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/root.tsx",
+          lineNumber: 77,
+          columnNumber: 9
+        },
+        this
+      )
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 64,
+      lineNumber: 63,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/root.tsx",
-    lineNumber: 47,
+    lineNumber: 46,
     columnNumber: 5
   }, this);
 }
@@ -6577,8 +6597,8 @@ async function deleteUsers(secret, id) {
     method: "DELETE"
   })).json();
 }
-async function getTransaction(secret, id = 0) {
-  let path = "order" + (id == 0 ? "?page=1&limit=200" : "/" + id);
+async function getTransaction(secret, search = "", page, limit, id = 0) {
+  let path = "order" + (id == 0 ? "?page=" + page + "&limit=" + limit + "&search=" + search : "/" + id);
   return await (await fetch(apiUrl + path, {
     headers: { "x-api-key": secret },
     method: "GET"
@@ -6605,7 +6625,7 @@ async function authLogin(body2) {
 }
 
 // app/routes/sales_.add_.$page.tsx
-import { useLoaderData, useNavigate, useNavigation, useSubmit } from "@remix-run/react";
+import { useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
 
 // node_modules/@mui/material/Grid/Grid.js
 import _objectWithoutPropertiesLoose31 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -7079,7 +7099,7 @@ Grid.propTypes = {
 var Grid_default = Grid;
 
 // app/routes/sales_.add_.$page.tsx
-import { Backdrop as Backdrop3, Badge, Box as Box2, Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, FormControl, FormHelperText, InputBase, InputLabel, List as List3, ListItem as ListItem3, ListItemText as ListItemText3, MenuItem, Select, TextField, ToggleButton, ToggleButtonGroup, alpha as alpha7 } from "@mui/material";
+import { Badge, Box as Box2, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, FormControl, FormHelperText, InputBase, InputLabel, List as List3, ListItem as ListItem3, ListItemText as ListItemText3, MenuItem, Select, TextField, ToggleButton, ToggleButtonGroup, alpha as alpha7 } from "@mui/material";
 
 // node_modules/@mui/material/Pagination/Pagination.js
 import _extends41 from "@babel/runtime/helpers/esm/extends";
@@ -7446,7 +7466,7 @@ var _excluded35 = ["className", "color", "component", "components", "disabled", 
     size,
     type,
     variant
-  }), theme = useTheme(), classes = useUtilityClasses24(ownerState), Icon3 = (theme.direction === "rtl" ? {
+  }), theme = useTheme(), classes = useUtilityClasses24(ownerState), Icon4 = (theme.direction === "rtl" ? {
     previous: slots.next || components.next || NavigateNext_default,
     next: slots.previous || components.previous || NavigateBefore_default,
     last: slots.first || components.first || FirstPage_default,
@@ -7469,8 +7489,8 @@ var _excluded35 = ["className", "color", "component", "components", "disabled", 
     disabled,
     className: clsx27(classes.root, className)
   }, other, {
-    children: [type === "page" && page, Icon3 ? /* @__PURE__ */ _jsx38(PaginationItemPageIcon, {
-      as: Icon3,
+    children: [type === "page" && page, Icon4 ? /* @__PURE__ */ _jsx38(PaginationItemPageIcon, {
+      as: Icon4,
       ownerState,
       className: classes.icon
     }) : null]
@@ -7948,7 +7968,7 @@ function Productadd() {
     let cart = JSON.parse(localStorage.getItem("cart") || "{}");
     setBadges(cart.length);
   });
-  let submit = useSubmit(), [open, setOpen] = React45.useState(!1), [openProduct, setOpenProduct] = React45.useState({}), [qty, setQty] = React45.useState(1), [badges, setBadges] = React45.useState(0), [attributes, setAttributes] = React45.useState({}), [attributesID, setAttributID] = React45.useState(0), [attributesDetail, setAttributesDetails] = React45.useState(0), navigation = useNavigation(), AddToCart = async (item) => {
+  let submit = useSubmit(), [open, setOpen] = React45.useState(!1), [openProduct, setOpenProduct] = React45.useState({}), [qty, setQty] = React45.useState(1), [badges, setBadges] = React45.useState(0), [attributes, setAttributes] = React45.useState({}), [attributesID, setAttributID] = React45.useState(0), [attributesDetail, setAttributesDetails] = React45.useState(0), AddToCart = async (item) => {
     let oldcart = JSON.parse(localStorage.getItem("cart") || "{}"), cart = [];
     if (setAttributes.length > 0 && attributesID > 0 && attributesDetail > 0) {
       Object.assign(item, { attribute: [{ attribute_id: attributesID, value: attributesDetail }] });
@@ -7974,13 +7994,13 @@ function Productadd() {
       children: [
         /* @__PURE__ */ jsxDEV4(DialogTitle, { children: "Add To Cart" }, void 0, !1, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 200,
+          lineNumber: 199,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV4(DialogContent, { children: [
           /* @__PURE__ */ jsxDEV4(DialogContentText, { children: "Please insert Quantity and choose variant if available." }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 202,
+            lineNumber: 201,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDEV4(
@@ -7999,7 +8019,7 @@ function Productadd() {
                 attr.length > 0 ? /* @__PURE__ */ jsxDEV4(FormControl, { sx: { marginTop: 1, minWidth: 120 }, children: [
                   /* @__PURE__ */ jsxDEV4(InputLabel, { id: "demo-simple-select-helper-label", children: attr[0].name }, void 0, !1, {
                     fileName: "app/routes/sales_.add_.$page.tsx",
-                    lineNumber: 219,
+                    lineNumber: 218,
                     columnNumber: 19
                   }, this),
                   /* @__PURE__ */ jsxDEV4(
@@ -8016,7 +8036,7 @@ function Productadd() {
                       },
                       children: attr[0].data.map((es) => /* @__PURE__ */ jsxDEV4(MenuItem, { value: es.product_attributes_detail_id, children: es.name + " - " + es.price_string }, void 0, !1, {
                         fileName: "app/routes/sales_.add_.$page.tsx",
-                        lineNumber: 235,
+                        lineNumber: 234,
                         columnNumber: 32
                       }, this))
                     },
@@ -8024,30 +8044,30 @@ function Productadd() {
                     !1,
                     {
                       fileName: "app/routes/sales_.add_.$page.tsx",
-                      lineNumber: 220,
+                      lineNumber: 219,
                       columnNumber: 19
                     },
                     this
                   ),
                   /* @__PURE__ */ jsxDEV4(FormHelperText, { children: "Choose Attributes" }, void 0, !1, {
                     fileName: "app/routes/sales_.add_.$page.tsx",
-                    lineNumber: 239,
+                    lineNumber: 238,
                     columnNumber: 19
                   }, this)
                 ] }, void 0, !0, {
                   fileName: "app/routes/sales_.add_.$page.tsx",
-                  lineNumber: 218,
+                  lineNumber: 217,
                   columnNumber: 36
                 }, this) : "",
                 /* @__PURE__ */ jsxDEV4(FormControl, { sx: { mt: 2, minWidth: 120 }, children: /* @__PURE__ */ jsxDEV4(TextField, { label: "Qty", id: "outlined-size-normal", defaultValue: "1", type: "number", onChange: (event) => {
                   console.log(event.target.value), qtyInput(event.target.value);
                 } }, void 0, !1, {
                   fileName: "app/routes/sales_.add_.$page.tsx",
-                  lineNumber: 245,
+                  lineNumber: 244,
                   columnNumber: 17
                 }, this) }, void 0, !1, {
                   fileName: "app/routes/sales_.add_.$page.tsx",
-                  lineNumber: 244,
+                  lineNumber: 243,
                   columnNumber: 15
                 }, this)
               ]
@@ -8056,14 +8076,14 @@ function Productadd() {
             !0,
             {
               fileName: "app/routes/sales_.add_.$page.tsx",
-              lineNumber: 205,
+              lineNumber: 204,
               columnNumber: 13
             },
             this
           )
         ] }, void 0, !0, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 201,
+          lineNumber: 200,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV4(DialogActions, { children: [
@@ -8071,17 +8091,17 @@ function Productadd() {
             AddToCart(openProduct);
           }, children: "Add To Cart" }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 253,
+            lineNumber: 252,
             columnNumber: 13
           }, this),
           /* @__PURE__ */ jsxDEV4(Button, { onClick: handleClose, children: "Close" }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 256,
+            lineNumber: 255,
             columnNumber: 13
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 252,
+          lineNumber: 251,
           columnNumber: 11
         }, this)
       ]
@@ -8090,13 +8110,13 @@ function Productadd() {
     !0,
     {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 196,
+      lineNumber: 195,
       columnNumber: 9
     },
     this
   ) }, void 0, !1, {
     fileName: "app/routes/sales_.add_.$page.tsx",
-    lineNumber: 195,
+    lineNumber: 194,
     columnNumber: 7
   }, this), searchProduct = (v) => {
     console.log("search " + v);
@@ -8125,7 +8145,7 @@ function Productadd() {
         onClick: navigates,
         children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "shopping_basket" }, void 0, !1, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 307,
+          lineNumber: 306,
           columnNumber: 15
         }, this)
       },
@@ -8133,23 +8153,23 @@ function Productadd() {
       !1,
       {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 302,
+        lineNumber: 301,
         columnNumber: 15
       },
       this
     ) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 297,
+      lineNumber: 296,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 296,
+      lineNumber: 295,
       columnNumber: 9
     }, this),
     /* @__PURE__ */ jsxDEV4(Grid_default, { container: !0, style: { marginTop: "1em" }, children: /* @__PURE__ */ jsxDEV4(Grid_default, { item: !0, xs: 12, style: { textAlign: "center", marginBottom: "1em" }, children: [
       /* @__PURE__ */ jsxDEV4(Typography_default, { variant: "h4", children: "Choose Product" }, void 0, !1, {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 315,
+        lineNumber: 314,
         columnNumber: 17
       }, this),
       /* @__PURE__ */ jsxDEV4("div", { children: /* @__PURE__ */ jsxDEV4(
@@ -8165,20 +8185,20 @@ function Productadd() {
           children: [
             /* @__PURE__ */ jsxDEV4(ToggleButton, { value: "grid", children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "grid_on" }, void 0, !1, {
               fileName: "app/routes/sales_.add_.$page.tsx",
-              lineNumber: 327,
+              lineNumber: 326,
               columnNumber: 48
             }, this) }, void 0, !1, {
               fileName: "app/routes/sales_.add_.$page.tsx",
-              lineNumber: 327,
+              lineNumber: 326,
               columnNumber: 21
             }, this),
             /* @__PURE__ */ jsxDEV4(ToggleButton, { value: "list", children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "view_list" }, void 0, !1, {
               fileName: "app/routes/sales_.add_.$page.tsx",
-              lineNumber: 328,
+              lineNumber: 327,
               columnNumber: 48
             }, this) }, void 0, !1, {
               fileName: "app/routes/sales_.add_.$page.tsx",
-              lineNumber: 328,
+              lineNumber: 327,
               columnNumber: 21
             }, this)
           ]
@@ -8187,23 +8207,23 @@ function Productadd() {
         !0,
         {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 320,
+          lineNumber: 319,
           columnNumber: 19
         },
         this
       ) }, void 0, !1, {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 319,
+        lineNumber: 318,
         columnNumber: 17
       }, this),
       /* @__PURE__ */ jsxDEV4(Search, { children: [
         /* @__PURE__ */ jsxDEV4(SearchIconWrapper, { children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "search" }, void 0, !1, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 334,
+          lineNumber: 333,
           columnNumber: 21
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 333,
+          lineNumber: 332,
           columnNumber: 19
         }, this),
         /* @__PURE__ */ jsxDEV4(
@@ -8220,23 +8240,23 @@ function Productadd() {
           !1,
           {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 336,
+            lineNumber: 335,
             columnNumber: 19
           },
           this
         )
       ] }, void 0, !0, {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 332,
+        lineNumber: 331,
         columnNumber: 17
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 314,
+      lineNumber: 313,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 313,
+      lineNumber: 312,
       columnNumber: 9
     }, this),
     loadData.product.result.data.length && alignment == "grid" ? /* @__PURE__ */ jsxDEV4(Grid_default, { container: !0, xs: 12, spacing: 2, children: loadData.product.result.data.map((item) => /* @__PURE__ */ jsxDEV4(Grid_default, { item: !0, xs: 12, md: 3, lg: 3, children: /* @__PURE__ */ jsxDEV4(Card_default, { sx: { maxWidth: 345 }, children: [
@@ -8245,11 +8265,11 @@ function Productadd() {
         {
           action: /* @__PURE__ */ jsxDEV4(IconButton_default, { "aria-label": "settings", children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "more_vert" }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 360,
+            lineNumber: 359,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 359,
+            lineNumber: 358,
             columnNumber: 29
           }, this),
           title: item.nama_produk,
@@ -8259,7 +8279,7 @@ function Productadd() {
         !1,
         {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 357,
+          lineNumber: 356,
           columnNumber: 25
         },
         this
@@ -8276,50 +8296,50 @@ function Productadd() {
         !1,
         {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 366,
+          lineNumber: 365,
           columnNumber: 25
         },
         this
       ),
       /* @__PURE__ */ jsxDEV4(CardContent_default, {}, void 0, !1, {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 372,
+        lineNumber: 371,
         columnNumber: 25
       }, this),
       /* @__PURE__ */ jsxDEV4(CardActions_default, { disableSpacing: !0, children: /* @__PURE__ */ jsxDEV4(IconButton_default, { onClick: () => {
         handleClickOpen(item);
       }, "aria-label": "add to favorites", children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "add_shopping_cart" }, void 0, !1, {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 380,
-        columnNumber: 29
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 376,
+        lineNumber: 379,
         columnNumber: 29
       }, this) }, void 0, !1, {
         fileName: "app/routes/sales_.add_.$page.tsx",
         lineNumber: 375,
+        columnNumber: 29
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/sales_.add_.$page.tsx",
+        lineNumber: 374,
         columnNumber: 25
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 356,
+      lineNumber: 355,
       columnNumber: 21
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 355,
+      lineNumber: 354,
       columnNumber: 19
     }, this)) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 353,
+      lineNumber: 352,
       columnNumber: 15
     }, this) : alignment == "grid" ? /* @__PURE__ */ jsxDEV4("p", { children: /* @__PURE__ */ jsxDEV4("i", { children: "No Product" }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 392,
+      lineNumber: 391,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 391,
+      lineNumber: 390,
       columnNumber: 15
     }, this) : "",
     loadData.product.result.data.length && alignment == "list" ? /* @__PURE__ */ jsxDEV4(Grid_default, { container: !0, xs: 12, lg: 12, spacing: 2, children: /* @__PURE__ */ jsxDEV4(List3, { sx: { width: "100%", maxWidth: 1500 }, children: loadData.product.result.data.map((item) => /* @__PURE__ */ jsxDEV4(
@@ -8331,27 +8351,27 @@ function Productadd() {
           handleClickOpen(item);
         }, "aria-label": "add to favorites", children: /* @__PURE__ */ jsxDEV4(Icon_default, { children: "add_shopping_cart" }, void 0, !1, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 409,
+          lineNumber: 408,
           columnNumber: 25
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 405,
+          lineNumber: 404,
           columnNumber: 25
         }, this),
         children: [
           /* @__PURE__ */ jsxDEV4(ListItemText3, { primary: `${item.nama_produk}` }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 413,
+            lineNumber: 412,
             columnNumber: 23
           }, this),
           /* @__PURE__ */ jsxDEV4(ListItemText3, { primary: "" }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 414,
+            lineNumber: 413,
             columnNumber: 23
           }, this),
           /* @__PURE__ */ jsxDEV4(ListItemText3, { primary: `${"Rp" + numberWithCommas(item.pidr)}`, sx: { textAlign: "right" } }, void 0, !1, {
             fileName: "app/routes/sales_.add_.$page.tsx",
-            lineNumber: 415,
+            lineNumber: 414,
             columnNumber: 23
           }, this)
         ]
@@ -8360,25 +8380,25 @@ function Productadd() {
       !0,
       {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 400,
+        lineNumber: 399,
         columnNumber: 23
       },
       this
     )) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 398,
+      lineNumber: 397,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 397,
+      lineNumber: 396,
       columnNumber: 15
     }, this) : alignment == "list" ? /* @__PURE__ */ jsxDEV4("p", { children: /* @__PURE__ */ jsxDEV4("i", { children: "No Product" }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 424,
+      lineNumber: 423,
       columnNumber: 15
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 423,
+      lineNumber: 422,
       columnNumber: 13
     }, this) : "",
     /* @__PURE__ */ jsxDEV4(Stack_default, { sx: { alignItems: "center", margin: "2em" }, spacing: 3, children: /* @__PURE__ */ jsxDEV4(
@@ -8396,39 +8416,19 @@ function Productadd() {
       !1,
       {
         fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 429,
+        lineNumber: 428,
         columnNumber: 13
       },
       this
     ) }, void 0, !1, {
       fileName: "app/routes/sales_.add_.$page.tsx",
-      lineNumber: 428,
+      lineNumber: 427,
       columnNumber: 9
     }, this),
-    AddProduct2(attributes),
-    /* @__PURE__ */ jsxDEV4(
-      Backdrop3,
-      {
-        sx: { color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 },
-        open: navigation.state === "loading",
-        children: /* @__PURE__ */ jsxDEV4(CircularProgress, { color: "inherit" }, void 0, !1, {
-          fileName: "app/routes/sales_.add_.$page.tsx",
-          lineNumber: 447,
-          columnNumber: 13
-        }, this)
-      },
-      void 0,
-      !1,
-      {
-        fileName: "app/routes/sales_.add_.$page.tsx",
-        lineNumber: 443,
-        columnNumber: 9
-      },
-      this
-    )
+    AddProduct2(attributes)
   ] }, void 0, !0, {
     fileName: "app/routes/sales_.add_.$page.tsx",
-    lineNumber: 294,
+    lineNumber: 293,
     columnNumber: 5
   }, this);
 }
@@ -8449,9 +8449,9 @@ __export(order_Idorder_exports, {
   loader: () => loader2,
   meta: () => meta2
 });
-import { TableContainer, Paper as Paper3, Table, TableHead, TableRow, TableCell, TableBody, Typography as Typography3, Grid as Grid3 } from "@mui/material";
+import { TableContainer, Paper as Paper3, Table, TableHead, TableRow, TableCell, TableBody, Typography as Typography3, Grid as Grid3, Stack as Stack2, Breadcrumbs } from "@mui/material";
 import { json as json3 } from "@remix-run/node";
-import { useLoaderData as useLoaderData2 } from "@remix-run/react";
+import { useLoaderData as useLoaderData2, useNavigate as useNavigate2, NavLink as NavLink2 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import React46 from "react";
 import { Fragment as Fragment5, jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
@@ -8468,7 +8468,7 @@ async function loader2({
   session.has("act") && session.get("act") == "order_complete" && session.flash("act", "delete_cart");
   let flash = session.has("act") ? session.get("act") : null, secret = session.has("keySec") ? session.get("keySec") : null;
   invariant(params.Idorder, "Missing Idorder param");
-  let idorder = parseInt(params.Idorder), getOrder = await getTransaction(secret, idorder);
+  let idorder = parseInt(params.Idorder), getOrder = await getTransaction(secret, "", 1, 10, idorder);
   return json3({
     getOrder: await getOrder,
     flash
@@ -8481,8 +8481,8 @@ async function loader2({
 async function action2({ request }) {
 }
 function index() {
-  let order = useLoaderData2(), date = new Date(order.getOrder.data?.tanggal);
-  console.log(order.getOrder.data.payment), React46.useEffect(() => {
+  let order = useLoaderData2(), date = new Date(order.getOrder.data?.tanggal), navigate = useNavigate2();
+  console.log(order.getOrder), React46.useEffect(() => {
     order?.flash && order.flash == "delete_cart" && (localStorage.removeItem("cart"), localStorage.removeItem("voucher"));
   });
   let dtprod = [];
@@ -8497,20 +8497,40 @@ function index() {
     dtprod.push(opsdata);
   }), /* @__PURE__ */ jsxDEV5("div", { children: [
     /* @__PURE__ */ jsxDEV5(Grid3, { container: !0, xs: 12, lg: 12, spacing: 2, children: [
+      order.getOrder.meta.code == 200 ? /* @__PURE__ */ jsxDEV5(Grid3, { item: !0, xs: 12, lg: 12, sx: { marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV5(Breadcrumbs, { "aria-label": "breadcrumb", children: [
+        /* @__PURE__ */ jsxDEV5(NavLink2, { to: "/order", children: "List Order" }, void 0, !1, {
+          fileName: "app/routes/order_.$Idorder.tsx",
+          lineNumber: 94,
+          columnNumber: 25
+        }, this),
+        /* @__PURE__ */ jsxDEV5(Typography3, { color: "text.primary", children: order.getOrder.data.id }, void 0, !1, {
+          fileName: "app/routes/order_.$Idorder.tsx",
+          lineNumber: 97,
+          columnNumber: 25
+        }, this)
+      ] }, void 0, !0, {
+        fileName: "app/routes/order_.$Idorder.tsx",
+        lineNumber: 93,
+        columnNumber: 21
+      }, this) }, void 0, !1, {
+        fileName: "app/routes/order_.$Idorder.tsx",
+        lineNumber: 92,
+        columnNumber: 15
+      }, this) : "",
       /* @__PURE__ */ jsxDEV5(Grid3, { item: !0, xs: 12, lg: 8, children: /* @__PURE__ */ jsxDEV5(TableContainer, { sx: {
-        marginTop: "2em"
+        marginTop: "0em"
       }, component: Paper3, children: /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code != 200, children: /* @__PURE__ */ jsxDEV5(Table, { sx: { minWidth: 700 }, "aria-label": "spanning table", children: [
         /* @__PURE__ */ jsxDEV5(TableHead, { children: /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { align: "left", colSpan: 3, children: "Data Order" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 97,
+          lineNumber: 110,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 96,
+          lineNumber: 109,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 95,
+          lineNumber: 108,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableBody, { children: [
@@ -8519,11 +8539,11 @@ function index() {
             order.getOrder.data.id
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 104,
+            lineNumber: 117,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 103,
+            lineNumber: 116,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8531,11 +8551,11 @@ function index() {
             order.getOrder.data.invoice_no
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 107,
+            lineNumber: 120,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 106,
+            lineNumber: 119,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8543,11 +8563,11 @@ function index() {
             date.getDate() + " - " + date.getMonth() + " - " + date.getFullYear()
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 110,
+            lineNumber: 123,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 109,
+            lineNumber: 122,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8555,11 +8575,11 @@ function index() {
             order.getOrder.data.nama_pelanggan
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 113,
+            lineNumber: 126,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 112,
+            lineNumber: 125,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8567,11 +8587,11 @@ function index() {
             order.getOrder.data.payment_method == null ? "Cash" : order.getOrder.data.payment_method + " - " + order.getOrder.data.payment.payment_channel
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 116,
+            lineNumber: 129,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 115,
+            lineNumber: 128,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8579,69 +8599,69 @@ function index() {
             order.getOrder.data.status == 33 ? "Waiting Payment" : order.getOrder.data.status == 5 ? "Completed" : "Status unknown"
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 119,
+            lineNumber: 132,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 118,
+            lineNumber: 131,
             columnNumber: 29
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 102,
+          lineNumber: 115,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 94,
+        lineNumber: 107,
         columnNumber: 25
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 93,
+        lineNumber: 106,
         columnNumber: 21
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 90,
+        lineNumber: 103,
         columnNumber: 21
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 89,
+        lineNumber: 102,
         columnNumber: 17
       }, this),
       /* @__PURE__ */ jsxDEV5(Grid3, { item: !0, xs: 12, lg: 4, children: /* @__PURE__ */ jsxDEV5(TableContainer, { sx: {
-        marginTop: "2em"
+        marginTop: "0em"
       }, component: Paper3, children: /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code != 200, children: /* @__PURE__ */ jsxDEV5(Table, { sx: { minWidth: 100 }, "aria-label": "spanning table", children: [
         /* @__PURE__ */ jsxDEV5(TableHead, { children: /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { align: "left", colSpan: 3, children: "How to pay ?" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 136,
+          lineNumber: 149,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 135,
+          lineNumber: 148,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 134,
+          lineNumber: 147,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableBody, { children: order.getOrder.data.payment.type == "img" ? /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
           /* @__PURE__ */ jsxDEV5("img", { style: { width: "50%", textAlign: "center" }, src: order.getOrder.data.payment.payment_link }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 145,
+            lineNumber: 158,
             columnNumber: 44
           }, this),
           /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h5", sx: { marginLeft: "1em" }, children: order.getOrder.data.payment.payment_channel }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 146,
+            lineNumber: 159,
             columnNumber: 37
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 145,
+          lineNumber: 158,
           columnNumber: 33
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 144,
+          lineNumber: 157,
           columnNumber: 29
         }, this) : /* @__PURE__ */ jsxDEV5(Fragment5, { children: [
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8649,11 +8669,11 @@ function index() {
             order.getOrder.data.payment.payment_link
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 150,
+            lineNumber: 163,
             columnNumber: 37
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 149,
+            lineNumber: 162,
             columnNumber: 32
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: [
@@ -8663,98 +8683,113 @@ function index() {
             order.getOrder.data.payment.payment_channel
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 153,
+            lineNumber: 166,
             columnNumber: 37
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 152,
+            lineNumber: 165,
             columnNumber: 33
           }, this),
           /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h6", children: "Please transfer amount of total to ref number." }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 156,
+            lineNumber: 169,
             columnNumber: 48
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 156,
+            lineNumber: 169,
             columnNumber: 37
           }, this) }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 155,
+            lineNumber: 168,
             columnNumber: 33
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 149,
+          lineNumber: 162,
           columnNumber: 30
         }, this) }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 141,
+          lineNumber: 154,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 133,
+        lineNumber: 146,
         columnNumber: 25
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 132,
+        lineNumber: 145,
         columnNumber: 21
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 129,
+        lineNumber: 142,
         columnNumber: 21
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 128,
+        lineNumber: 141,
         columnNumber: 17
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 87,
+      lineNumber: 89,
       columnNumber: 15
     }, this),
     /* @__PURE__ */ jsxDEV5(TableContainer, { sx: { marginTop: "1em" }, component: Paper3, children: /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code != 200, children: /* @__PURE__ */ jsxDEV5(Table, { sx: { minWidth: 700 }, "aria-label": "spanning table", children: [
       /* @__PURE__ */ jsxDEV5(TableHead, { children: /* @__PURE__ */ jsxDEV5(TableRow, { children: [
         /* @__PURE__ */ jsxDEV5(TableCell, { children: "Product Name" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 178,
+          lineNumber: 191,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: "Qty." }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 179,
+          lineNumber: 192,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: "Price" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 180,
+          lineNumber: 193,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: "Total" }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 181,
+          lineNumber: 194,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 177,
+        lineNumber: 190,
         columnNumber: 25
       }, this) }, void 0, !1, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 176,
+        lineNumber: 189,
         columnNumber: 21
       }, this),
       /* @__PURE__ */ jsxDEV5(TableBody, { children: [
         dtprod.map((row) => /* @__PURE__ */ jsxDEV5(TableRow, { children: [
-          /* @__PURE__ */ jsxDEV5(TableCell, { children: row.product_name }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { children: /* @__PURE__ */ jsxDEV5(Stack2, { direction: "column", children: [
+            /* @__PURE__ */ jsxDEV5(Typography3, { variant: "caption", children: row.product_name }, void 0, !1, {
+              fileName: "app/routes/order_.$Idorder.tsx",
+              lineNumber: 202,
+              columnNumber: 37
+            }, this),
+            /* @__PURE__ */ jsxDEV5(Typography3, { variant: "caption", children: row.attribute[0].nama_attribute }, void 0, !1, {
+              fileName: "app/routes/order_.$Idorder.tsx",
+              lineNumber: 203,
+              columnNumber: 37
+            }, this)
+          ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 187,
+            lineNumber: 201,
+            columnNumber: 33
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/order_.$Idorder.tsx",
+            lineNumber: 200,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: row.qty }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 188,
+            lineNumber: 206,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
@@ -8762,7 +8797,7 @@ function index() {
             row.attribute.length > 0 ? numberWithCommas2(row.attribute[0].price) : numberWithCommas2(row.price)
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 189,
+            lineNumber: 207,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
@@ -8770,111 +8805,102 @@ function index() {
             row.attribute.length > 0 ? numberWithCommas2(row.attribute[0].price * row.qty) : numberWithCommas2(row.total)
           ] }, void 0, !0, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 192,
+            lineNumber: 210,
             columnNumber: 29
           }, this)
         ] }, row.product_name, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 186,
+          lineNumber: 199,
           columnNumber: 25
         }, this)),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { rowSpan: 3 }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 198,
+            lineNumber: 216,
             columnNumber: 25
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { colSpan: 2, children: "Subtotal" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 199,
+            lineNumber: 217,
             columnNumber: 25
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
-            "Rp ",
-            numberWithCommas2(order.getOrder.data.total_barang)
-          ] }, void 0, !0, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: order.getOrder.data.total_barang_string }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 200,
+            lineNumber: 218,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 197,
+          lineNumber: 215,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { children: "Discount" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 203,
+            lineNumber: 221,
             columnNumber: 25
           }, this),
           /* @__PURE__ */ jsxDEV5(TableCell, { align: "right" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 204,
+            lineNumber: 222,
             columnNumber: 25
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
-            "Rp ",
-            numberWithCommas2(order.getOrder.data.voucher_nominal)
-          ] }, void 0, !0, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: order.getOrder.data.voucher_nominal_string }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 205,
+            lineNumber: 223,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 202,
+          lineNumber: 220,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { colSpan: 2, children: "Total" }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 208,
+            lineNumber: 226,
             columnNumber: 25
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: [
-            "Rp ",
-            numberWithCommas2(order.getOrder.data.total)
-          ] }, void 0, !0, {
+          /* @__PURE__ */ jsxDEV5(TableCell, { align: "right", children: order.getOrder.data.total_string }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
-            lineNumber: 209,
+            lineNumber: 227,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/order_.$Idorder.tsx",
-          lineNumber: 207,
+          lineNumber: 225,
           columnNumber: 25
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/order_.$Idorder.tsx",
-        lineNumber: 184,
+        lineNumber: 197,
         columnNumber: 21
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 175,
+      lineNumber: 188,
       columnNumber: 21
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 174,
+      lineNumber: 187,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 173,
+      lineNumber: 186,
       columnNumber: 13
     }, this),
     /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code == 200, children: /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h3", sx: { textAlign: "center", marginTop: "3em" }, children: order.getOrder.meta.message }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 219,
+      lineNumber: 237,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
-      lineNumber: 218,
+      lineNumber: 236,
       columnNumber: 13
     }, this)
   ] }, void 0, !0, {
     fileName: "app/routes/order_.$Idorder.tsx",
-    lineNumber: 86,
+    lineNumber: 88,
     columnNumber: 9
   }, this);
 }
@@ -9603,12 +9629,21 @@ __export(order_exports, {
   meta: () => meta6
 });
 import { DataGrid as DataGrid2, GridToolbar as GridToolbar2 } from "@mui/x-data-grid";
-import { useLoaderData as useLoaderData5 } from "@remix-run/react";
+import { json as json10 } from "@remix-run/node";
+import { useLoaderData as useLoaderData5, useNavigate as useNavigate3 } from "@remix-run/react";
+import { Button as Button2, Divider, Icon as Icon3 } from "@mui/material";
+import React48 from "react";
 import { jsxDEV as jsxDEV12 } from "react/jsx-dev-runtime";
 var loader8 = async ({ request }) => {
   await requireUserSession(request);
   let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
-  return await getTransaction(secret, 0);
+  return json10({
+    flash: secret
+  }, {
+    headers: {
+      "Set-Cookie": await commitSession(session)
+    }
+  });
 }, meta6 = () => [
   {
     title: "ECCS POS - Order"
@@ -9624,26 +9659,9 @@ var loader8 = async ({ request }) => {
     flex: 1
   },
   {
-    field: "invoice",
+    field: "invoice_no",
     headerName: "Invoice",
-    flex: 1,
-    renderCell: (params) => /* @__PURE__ */ jsxDEV12(
-      "img",
-      {
-        style: {
-          width: "25%"
-        },
-        src: params.value
-      },
-      void 0,
-      !1,
-      {
-        fileName: "app/routes/order.tsx",
-        lineNumber: 45,
-        columnNumber: 33
-      },
-      this
-    )
+    flex: 1
   },
   {
     field: "nama_pelanggan",
@@ -9656,34 +9674,81 @@ var loader8 = async ({ request }) => {
     flex: 1
   },
   {
-    field: "total_barang",
-    headerName: "Subtotal",
-    flex: 1
-  },
-  {
-    field: "voucher_nominal",
-    headerName: "Voucher",
-    flex: 1
-  },
-  {
-    field: "total",
+    field: "total_string",
     headerName: "Total",
-    flex: 1
+    flex: 1,
+    renderCell(params) {
+      return /* @__PURE__ */ jsxDEV12("p", { children: params.value }, void 0, !1, {
+        fileName: "app/routes/order.tsx",
+        lineNumber: 70,
+        columnNumber: 17
+      }, this);
+    }
   },
   {
     field: "status",
     headerName: "Status",
-    flex: 1
+    flex: 1,
+    renderCell(params) {
+      return /* @__PURE__ */ jsxDEV12(Typography_default, { variant: "button", color: params.value == 33 ? "lightcoral" : params.value == 6 ? "red" : "green", children: params.value == 33 ? "Waiting Payment" : params.value == 6 ? "Cancelled" : "Completed" }, void 0, !1, {
+        fileName: "app/routes/order.tsx",
+        lineNumber: 79,
+        columnNumber: 17
+      }, this);
+    }
   },
   {
     field: "action",
     headerName: "Action",
-    flex: 1
+    flex: 1,
+    renderCell(params) {
+      let navigate = useNavigate3();
+      return /* @__PURE__ */ jsxDEV12(
+        Stack_default,
+        {
+          direction: "row",
+          divider: /* @__PURE__ */ jsxDEV12(Divider, { orientation: "vertical", flexItem: !0 }, void 0, !1, {
+            fileName: "app/routes/order.tsx",
+            lineNumber: 95,
+            columnNumber: 26
+          }, this),
+          spacing: 2,
+          children: /* @__PURE__ */ jsxDEV12(Button2, { onClick: () => {
+            navigate("/order/" + params.id);
+          }, children: /* @__PURE__ */ jsxDEV12(Icon3, { children: "rate_review" }, void 0, !1, {
+            fileName: "app/routes/order.tsx",
+            lineNumber: 101,
+            columnNumber: 25
+          }, this) }, void 0, !1, {
+            fileName: "app/routes/order.tsx",
+            lineNumber: 98,
+            columnNumber: 21
+          }, this)
+        },
+        void 0,
+        !1,
+        {
+          fileName: "app/routes/order.tsx",
+          lineNumber: 93,
+          columnNumber: 17
+        },
+        this
+      );
+    }
   }
 ];
 function Index4() {
-  let order = useLoaderData5();
-  return /* @__PURE__ */ jsxDEV12(
+  let order = useLoaderData5(), [paginationModel, setPaginationModel] = React48.useState({
+    page: 0,
+    pageSize: 5
+  }), [rows, setRows] = React48.useState([]), [loading, setLoading] = React48.useState(!1), [rowSelectionModel, setRowSelectionModel] = React48.useState([]), [dataOrder, setDataorder] = React48.useState(), [rowCount, setRowCount] = React48.useState(0), [search, setSearch] = React48.useState("");
+  return React48.useEffect(() => {
+    (async () => {
+      setLoading(!0);
+      let pageNext = paginationModel.page + 1, result = await getTransaction(order.flash, search, pageNext, 10, 0);
+      setRowCount(result.pagination.total_page * 10), setDataorder(result.data), setLoading(!1);
+    })();
+  }, [paginationModel, search]), /* @__PURE__ */ jsxDEV12(
     "div",
     {
       style: {
@@ -9700,7 +9765,7 @@ function Index4() {
             },
             children: /* @__PURE__ */ jsxDEV12(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Order" }, void 0, !1, {
               fileName: "app/routes/order.tsx",
-              lineNumber: 100,
+              lineNumber: 155,
               columnNumber: 17
             }, this)
           },
@@ -9708,7 +9773,7 @@ function Index4() {
           !1,
           {
             fileName: "app/routes/order.tsx",
-            lineNumber: 95,
+            lineNumber: 150,
             columnNumber: 13
           },
           this
@@ -9725,7 +9790,9 @@ function Index4() {
             children: /* @__PURE__ */ jsxDEV12(
               DataGrid2,
               {
-                rows: order.data,
+                paginationMode: "server",
+                rowCount,
+                rows: dataOrder || [],
                 columns: columns2,
                 initialState: {
                   pagination: {
@@ -9744,13 +9811,20 @@ function Index4() {
                     showQuickFilter: !0
                   }
                 },
-                pageSizeOptions: [10, 50]
+                pageSizeOptions: [10],
+                onPaginationModelChange: (p, m) => {
+                  setPaginationModel(p);
+                },
+                loading,
+                onFilterModelChange: (e) => {
+                  setSearch(e.quickFilterValues[0]);
+                }
               },
               void 0,
               !1,
               {
                 fileName: "app/routes/order.tsx",
-                lineNumber: 113,
+                lineNumber: 168,
                 columnNumber: 21
               },
               this
@@ -9760,13 +9834,13 @@ function Index4() {
           !1,
           {
             fileName: "app/routes/order.tsx",
-            lineNumber: 108,
+            lineNumber: 163,
             columnNumber: 17
           },
           this
         ) }, void 0, !1, {
           fileName: "app/routes/order.tsx",
-          lineNumber: 105,
+          lineNumber: 160,
           columnNumber: 13
         }, this)
       ]
@@ -9775,7 +9849,7 @@ function Index4() {
     !0,
     {
       fileName: "app/routes/order.tsx",
-      lineNumber: 89,
+      lineNumber: 144,
       columnNumber: 9
     },
     this
@@ -9790,20 +9864,20 @@ __export(sales_exports, {
   loader: () => loader9,
   meta: () => meta7
 });
-import * as React88 from "react";
-import { redirect as redirect9, json as json10 } from "@remix-run/node";
-import { useLoaderData as useLoaderData6, useNavigate as useNavigate2, Form as Form2, useNavigation as useNavigation2 } from "@remix-run/react";
+import * as React89 from "react";
+import { redirect as redirect9, json as json11 } from "@remix-run/node";
+import { useLoaderData as useLoaderData6, useNavigate as useNavigate4, Form as Form2 } from "@remix-run/react";
 
 // node_modules/@mui/material/Table/Table.js
 import _objectWithoutPropertiesLoose36 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends43 from "@babel/runtime/helpers/esm/extends";
-import * as React49 from "react";
+import * as React50 from "react";
 import PropTypes38 from "prop-types";
 import clsx30 from "clsx";
 
 // node_modules/@mui/material/Table/TableContext.js
-import * as React48 from "react";
-var TableContext = /* @__PURE__ */ React48.createContext();
+import * as React49 from "react";
+var TableContext = /* @__PURE__ */ React49.createContext();
 TableContext.displayName = "TableContext";
 var TableContext_default = TableContext;
 
@@ -9849,7 +9923,7 @@ var _excluded38 = ["className", "component", "padding", "size", "stickyHeader"],
   })
 }, ownerState.stickyHeader && {
   borderCollapse: "separate"
-})), defaultComponent = "table", Table2 = /* @__PURE__ */ React49.forwardRef(function(inProps, ref) {
+})), defaultComponent = "table", Table2 = /* @__PURE__ */ React50.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTable"
@@ -9864,7 +9938,7 @@ var _excluded38 = ["className", "component", "padding", "size", "stickyHeader"],
     padding,
     size,
     stickyHeader
-  }), classes = useUtilityClasses27(ownerState), table = React49.useMemo(() => ({
+  }), classes = useUtilityClasses27(ownerState), table = React50.useMemo(() => ({
     padding,
     size,
     stickyHeader
@@ -9929,13 +10003,13 @@ var Table_default = Table2;
 // node_modules/@mui/material/TableBody/TableBody.js
 import _extends44 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose37 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React51 from "react";
+import * as React52 from "react";
 import PropTypes39 from "prop-types";
 import clsx31 from "clsx";
 
 // node_modules/@mui/material/Table/Tablelvl2Context.js
-import * as React50 from "react";
-var Tablelvl2Context = /* @__PURE__ */ React50.createContext();
+import * as React51 from "react";
+var Tablelvl2Context = /* @__PURE__ */ React51.createContext();
 Tablelvl2Context.displayName = "Tablelvl2Context";
 var Tablelvl2Context_default = Tablelvl2Context;
 
@@ -9963,7 +10037,7 @@ var _excluded39 = ["className", "component"], useUtilityClasses28 = (ownerState)
   display: "table-row-group"
 }), tablelvl2 = {
   variant: "body"
-}, defaultComponent2 = "tbody", TableBody2 = /* @__PURE__ */ React51.forwardRef(function(inProps, ref) {
+}, defaultComponent2 = "tbody", TableBody2 = /* @__PURE__ */ React52.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableBody"
@@ -10016,7 +10090,7 @@ var TableBody_default = TableBody2;
 // node_modules/@mui/material/TableCell/TableCell.js
 import _objectWithoutPropertiesLoose38 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends45 from "@babel/runtime/helpers/esm/extends";
-import * as React52 from "react";
+import * as React53 from "react";
 import PropTypes40 from "prop-types";
 import clsx32 from "clsx";
 import { darken as darken3, alpha as alpha8, lighten as lighten3 } from "@mui/system";
@@ -10103,7 +10177,7 @@ var _excluded40 = ["align", "className", "component", "padding", "scope", "size"
   top: 0,
   zIndex: 2,
   backgroundColor: (theme.vars || theme).palette.background.default
-})), TableCell2 = /* @__PURE__ */ React52.forwardRef(function(inProps, ref) {
+})), TableCell2 = /* @__PURE__ */ React53.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableCell"
@@ -10116,7 +10190,7 @@ var _excluded40 = ["align", "className", "component", "padding", "scope", "size"
     size: sizeProp,
     sortDirection,
     variant: variantProp
-  } = props, other = _objectWithoutPropertiesLoose38(props, _excluded40), table = React52.useContext(TableContext_default), tablelvl23 = React52.useContext(Tablelvl2Context_default), isHeadCell = tablelvl23 && tablelvl23.variant === "head", component;
+  } = props, other = _objectWithoutPropertiesLoose38(props, _excluded40), table = React53.useContext(TableContext_default), tablelvl23 = React53.useContext(Tablelvl2Context_default), isHeadCell = tablelvl23 && tablelvl23.variant === "head", component;
   componentProp ? component = componentProp : component = isHeadCell ? "th" : "td";
   let scope = scopeProp;
   component === "td" ? scope = void 0 : !scope && isHeadCell && (scope = "col");
@@ -10201,7 +10275,7 @@ var TableCell_default = TableCell2;
 // node_modules/@mui/material/TableContainer/TableContainer.js
 import _extends46 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose39 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React53 from "react";
+import * as React54 from "react";
 import PropTypes41 from "prop-types";
 import clsx33 from "clsx";
 
@@ -10228,7 +10302,7 @@ var _excluded41 = ["className", "component"], useUtilityClasses30 = (ownerState)
 })({
   width: "100%",
   overflowX: "auto"
-}), TableContainer2 = /* @__PURE__ */ React53.forwardRef(function(inProps, ref) {
+}), TableContainer2 = /* @__PURE__ */ React54.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableContainer"
@@ -10277,7 +10351,7 @@ var TableContainer_default = TableContainer2;
 // node_modules/@mui/material/TableHead/TableHead.js
 import _extends47 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose40 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React54 from "react";
+import * as React55 from "react";
 import PropTypes42 from "prop-types";
 import clsx34 from "clsx";
 
@@ -10305,7 +10379,7 @@ var _excluded42 = ["className", "component"], useUtilityClasses31 = (ownerState)
   display: "table-header-group"
 }), tablelvl22 = {
   variant: "head"
-}, defaultComponent3 = "thead", TableHead2 = /* @__PURE__ */ React54.forwardRef(function(inProps, ref) {
+}, defaultComponent3 = "thead", TableHead2 = /* @__PURE__ */ React55.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableHead"
@@ -10358,7 +10432,7 @@ var TableHead_default = TableHead2;
 // node_modules/@mui/material/TableRow/TableRow.js
 import _extends48 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose41 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React55 from "react";
+import * as React56 from "react";
 import PropTypes43 from "prop-types";
 import clsx35 from "clsx";
 import { alpha as alpha9 } from "@mui/system";
@@ -10409,7 +10483,7 @@ var _excluded43 = ["className", "component", "hover", "selected"], useUtilityCla
       backgroundColor: theme.vars ? `rgba(${theme.vars.palette.primary.mainChannel} / calc(${theme.vars.palette.action.selectedOpacity} + ${theme.vars.palette.action.hoverOpacity}))` : alpha9(theme.palette.primary.main, theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity)
     }
   }
-})), defaultComponent4 = "tr", TableRow2 = /* @__PURE__ */ React55.forwardRef(function(inProps, ref) {
+})), defaultComponent4 = "tr", TableRow2 = /* @__PURE__ */ React56.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTableRow"
@@ -10418,7 +10492,7 @@ var _excluded43 = ["className", "component", "hover", "selected"], useUtilityCla
     component = defaultComponent4,
     hover = !1,
     selected = !1
-  } = props, other = _objectWithoutPropertiesLoose41(props, _excluded43), tablelvl23 = React55.useContext(Tablelvl2Context_default), ownerState = _extends48({}, props, {
+  } = props, other = _objectWithoutPropertiesLoose41(props, _excluded43), tablelvl23 = React56.useContext(Tablelvl2Context_default), ownerState = _extends48({}, props, {
     component,
     hover,
     selected,
@@ -10475,7 +10549,7 @@ var TableRow_default = TableRow2;
 // node_modules/@mui/material/Divider/Divider.js
 import _objectWithoutPropertiesLoose42 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends49 from "@babel/runtime/helpers/esm/extends";
-import * as React56 from "react";
+import * as React57 from "react";
 import PropTypes44 from "prop-types";
 import clsx36 from "clsx";
 import { alpha as alpha10 } from "@mui/system";
@@ -10609,7 +10683,7 @@ var _excluded44 = ["absolute", "children", "className", "component", "flexItem",
 }, ownerState.orientation === "vertical" && {
   paddingTop: `calc(${theme.spacing(1)} * 1.2)`,
   paddingBottom: `calc(${theme.spacing(1)} * 1.2)`
-})), Divider = /* @__PURE__ */ React56.forwardRef(function(inProps, ref) {
+})), Divider2 = /* @__PURE__ */ React57.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDivider"
@@ -10648,8 +10722,8 @@ var _excluded44 = ["absolute", "children", "className", "component", "flexItem",
     }) : null
   }));
 });
-Divider.muiSkipListHighlight = !0;
-Divider.propTypes = {
+Divider2.muiSkipListHighlight = !0;
+Divider2.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -10711,12 +10785,12 @@ Divider.propTypes = {
    */
   variant: PropTypes44.oneOfType([PropTypes44.oneOf(["fullWidth", "inset", "middle"]), PropTypes44.string])
 };
-var Divider_default = Divider;
+var Divider_default = Divider2;
 
 // node_modules/@mui/material/Button/Button.js
 import _objectWithoutPropertiesLoose43 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends50 from "@babel/runtime/helpers/esm/extends";
-import * as React59 from "react";
+import * as React60 from "react";
 import PropTypes45 from "prop-types";
 import clsx37 from "clsx";
 import { internal_resolveProps as resolveProps } from "@mui/utils";
@@ -10730,14 +10804,14 @@ function getButtonUtilityClass(slot) {
 var buttonClasses = generateUtilityClasses36("MuiButton", ["root", "text", "textInherit", "textPrimary", "textSecondary", "textSuccess", "textError", "textInfo", "textWarning", "outlined", "outlinedInherit", "outlinedPrimary", "outlinedSecondary", "outlinedSuccess", "outlinedError", "outlinedInfo", "outlinedWarning", "contained", "containedInherit", "containedPrimary", "containedSecondary", "containedSuccess", "containedError", "containedInfo", "containedWarning", "disableElevation", "focusVisible", "disabled", "colorInherit", "textSizeSmall", "textSizeMedium", "textSizeLarge", "outlinedSizeSmall", "outlinedSizeMedium", "outlinedSizeLarge", "containedSizeSmall", "containedSizeMedium", "containedSizeLarge", "sizeMedium", "sizeSmall", "sizeLarge", "fullWidth", "startIcon", "endIcon", "iconSizeSmall", "iconSizeMedium", "iconSizeLarge"]), buttonClasses_default = buttonClasses;
 
 // node_modules/@mui/material/ButtonGroup/ButtonGroupContext.js
-import * as React57 from "react";
-var ButtonGroupContext = /* @__PURE__ */ React57.createContext({});
+import * as React58 from "react";
+var ButtonGroupContext = /* @__PURE__ */ React58.createContext({});
 ButtonGroupContext.displayName = "ButtonGroupContext";
 var ButtonGroupContext_default = ButtonGroupContext;
 
 // node_modules/@mui/material/ButtonGroup/ButtonGroupButtonContext.js
-import * as React58 from "react";
-var ButtonGroupButtonContext = /* @__PURE__ */ React58.createContext(void 0);
+import * as React59 from "react";
+var ButtonGroupButtonContext = /* @__PURE__ */ React59.createContext(void 0);
 ButtonGroupButtonContext.displayName = "ButtonGroupButtonContext";
 var ButtonGroupButtonContext_default = ButtonGroupButtonContext;
 
@@ -10938,8 +11012,8 @@ var _excluded45 = ["children", "color", "component", "className", "disabled", "d
   marginLeft: 8
 }, ownerState.size === "small" && {
   marginRight: -2
-}, commonIconStyles(ownerState))), Button2 = /* @__PURE__ */ React59.forwardRef(function(inProps, ref) {
-  let contextProps = React59.useContext(ButtonGroupContext_default), buttonGroupButtonContextPositionClassName = React59.useContext(ButtonGroupButtonContext_default), resolvedProps = resolveProps(contextProps, inProps), props = useThemeProps({
+}, commonIconStyles(ownerState))), Button3 = /* @__PURE__ */ React60.forwardRef(function(inProps, ref) {
+  let contextProps = React60.useContext(ButtonGroupContext_default), buttonGroupButtonContextPositionClassName = React60.useContext(ButtonGroupButtonContext_default), resolvedProps = resolveProps(contextProps, inProps), props = useThemeProps({
     props: resolvedProps,
     name: "MuiButton"
   }), {
@@ -10990,7 +11064,7 @@ var _excluded45 = ["children", "color", "component", "className", "disabled", "d
     children: [startIcon, children, endIcon]
   }));
 });
-Button2.propTypes = {
+Button3.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -11084,12 +11158,12 @@ Button2.propTypes = {
    */
   variant: PropTypes45.oneOfType([PropTypes45.oneOf(["contained", "outlined", "text"]), PropTypes45.string])
 };
-var Button_default = Button2;
+var Button_default = Button3;
 
 // node_modules/@mui/material/TextField/TextField.js
 import _extends70 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose60 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React79 from "react";
+import * as React80 from "react";
 import PropTypes62 from "prop-types";
 import clsx48 from "clsx";
 import { refType as refType9, unstable_useId as useId3 } from "@mui/utils";
@@ -11097,7 +11171,7 @@ import { refType as refType9, unstable_useId as useId3 } from "@mui/utils";
 // node_modules/@mui/material/Input/Input.js
 import _objectWithoutPropertiesLoose45 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends53 from "@babel/runtime/helpers/esm/extends";
-import * as React63 from "react";
+import * as React64 from "react";
 import PropTypes47 from "prop-types";
 import { refType as refType3, deepmerge as deepmerge4 } from "@mui/utils";
 
@@ -11105,7 +11179,7 @@ import { refType as refType3, deepmerge as deepmerge4 } from "@mui/utils";
 import _objectWithoutPropertiesLoose44 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends51 from "@babel/runtime/helpers/esm/extends";
 import "@mui/utils";
-import * as React62 from "react";
+import * as React63 from "react";
 import PropTypes46 from "prop-types";
 import clsx38 from "clsx";
 import { refType as refType2, elementTypeAcceptingRef as elementTypeAcceptingRef3 } from "@mui/utils";
@@ -11121,15 +11195,15 @@ function formControlState({
 }
 
 // node_modules/@mui/material/FormControl/FormControlContext.js
-import * as React60 from "react";
-var FormControlContext = /* @__PURE__ */ React60.createContext(void 0);
+import * as React61 from "react";
+var FormControlContext = /* @__PURE__ */ React61.createContext(void 0);
 FormControlContext.displayName = "FormControlContext";
 var FormControlContext_default = FormControlContext;
 
 // node_modules/@mui/material/FormControl/useFormControl.js
-import * as React61 from "react";
+import * as React62 from "react";
 function useFormControl() {
-  return React61.useContext(FormControlContext_default);
+  return React62.useContext(FormControlContext_default);
 }
 
 // node_modules/@mui/material/InputBase/utils.js
@@ -11325,7 +11399,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
       }
     }
   }
-}), InputBase2 = /* @__PURE__ */ React62.forwardRef(function(inProps, ref) {
+}), InputBase2 = /* @__PURE__ */ React63.forwardRef(function(inProps, ref) {
   var _slotProps$input;
   let props = useThemeProps({
     props: inProps,
@@ -11367,11 +11441,11 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     value: valueProp
   } = props, other = _objectWithoutPropertiesLoose44(props, _excluded46), value = inputPropsProp.value != null ? inputPropsProp.value : valueProp, {
     current: isControlled
-  } = React62.useRef(value != null), inputRef = React62.useRef(), handleInputRefWarning = React62.useCallback((instance) => {
+  } = React63.useRef(value != null), inputRef = React63.useRef(), handleInputRefWarning = React63.useCallback((instance) => {
     instance && instance.nodeName !== "INPUT" && !instance.focus && console.error(["MUI: You have provided a `inputComponent` to the input component", "that does not correctly handle the `ref` prop.", "Make sure the `ref` prop is called with a HTMLInputElement."].join(`
 `));
-  }, []), handleInputRef = useForkRef_default(inputRef, inputRefProp, inputPropsProp.ref, handleInputRefWarning), [focused, setFocused] = React62.useState(!1), muiFormControl = useFormControl();
-  React62.useEffect(() => {
+  }, []), handleInputRef = useForkRef_default(inputRef, inputRefProp, inputPropsProp.ref, handleInputRefWarning), [focused, setFocused] = React63.useState(!1), muiFormControl = useFormControl();
+  React63.useEffect(() => {
     if (muiFormControl)
       return muiFormControl.registerEffect();
   }, [muiFormControl]);
@@ -11380,10 +11454,10 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     muiFormControl,
     states: ["color", "disabled", "error", "hiddenLabel", "size", "required", "filled"]
   });
-  fcs.focused = muiFormControl ? muiFormControl.focused : focused, React62.useEffect(() => {
+  fcs.focused = muiFormControl ? muiFormControl.focused : focused, React63.useEffect(() => {
     !muiFormControl && disabled && focused && (setFocused(!1), onBlur && onBlur());
   }, [muiFormControl, disabled, focused, onBlur]);
-  let onFilled = muiFormControl && muiFormControl.onFilled, onEmpty = muiFormControl && muiFormControl.onEmpty, checkDirty = React62.useCallback((obj) => {
+  let onFilled = muiFormControl && muiFormControl.onFilled, onEmpty = muiFormControl && muiFormControl.onEmpty, checkDirty = React63.useCallback((obj) => {
     isFilled(obj) ? onFilled && onFilled() : onEmpty && onEmpty();
   }, [onFilled, onEmpty]);
   useEnhancedEffect_default(() => {
@@ -11410,7 +11484,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     }
     inputPropsProp.onChange && inputPropsProp.onChange(event, ...args), onChange && onChange(event, ...args);
   };
-  React62.useEffect(() => {
+  React63.useEffect(() => {
     checkDirty(inputRef.current);
   }, []);
   let handleClick = (event) => {
@@ -11430,7 +11504,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
       value: "x"
     });
   };
-  React62.useEffect(() => {
+  React63.useEffect(() => {
     muiFormControl && muiFormControl.setAdornedStart(Boolean(startAdornment));
   }, [muiFormControl, startAdornment]);
   let ownerState = _extends51({}, props, {
@@ -11447,7 +11521,7 @@ var _excluded46 = ["aria-describedby", "autoComplete", "autoFocus", "className",
     startAdornment,
     type
   }), classes = useUtilityClasses35(ownerState), Root = slots.root || components.Root || InputBaseRoot, rootProps = slotProps.root || componentsProps.root || {}, Input3 = slots.input || components.Input || InputBaseComponent;
-  return inputProps = _extends51({}, inputProps, (_slotProps$input = slotProps.input) != null ? _slotProps$input : componentsProps.input), /* @__PURE__ */ _jsxs12(React62.Fragment, {
+  return inputProps = _extends51({}, inputProps, (_slotProps$input = slotProps.input) != null ? _slotProps$input : componentsProps.input), /* @__PURE__ */ _jsxs12(React63.Fragment, {
     children: [!disableInjectingGlobalStyles && inputGlobalStyles, /* @__PURE__ */ _jsxs12(Root, _extends51({}, rootProps, !isHostComponent3(Root) && {
       ownerState: _extends51({}, ownerState, rootProps.ownerState)
     }, {
@@ -11820,7 +11894,7 @@ var _excluded47 = ["disableUnderline", "components", "componentsProps", "fullWid
   name: "MuiInput",
   slot: "Input",
   overridesResolver: inputOverridesResolver
-})({}), Input = /* @__PURE__ */ React63.forwardRef(function(inProps, ref) {
+})({}), Input = /* @__PURE__ */ React64.forwardRef(function(inProps, ref) {
   var _ref, _slots$root, _ref2, _slots$input;
   let props = useThemeProps({
     props: inProps,
@@ -12049,7 +12123,7 @@ var Input_default = Input;
 // node_modules/@mui/material/FilledInput/FilledInput.js
 import _objectWithoutPropertiesLoose46 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends55 from "@babel/runtime/helpers/esm/extends";
-import * as React64 from "react";
+import * as React65 from "react";
 import { refType as refType4, deepmerge as deepmerge5 } from "@mui/utils";
 import PropTypes48 from "prop-types";
 
@@ -12223,7 +12297,7 @@ var _excluded48 = ["disableUnderline", "components", "componentsProps", "fullWid
   paddingBottom: 0,
   paddingLeft: 0,
   paddingRight: 0
-})), FilledInput = /* @__PURE__ */ React64.forwardRef(function(inProps, ref) {
+})), FilledInput = /* @__PURE__ */ React65.forwardRef(function(inProps, ref) {
   var _ref, _slots$root, _ref2, _slots$input;
   let props = useThemeProps({
     props: inProps,
@@ -12465,7 +12539,7 @@ var FilledInput_default = FilledInput;
 // node_modules/@mui/material/OutlinedInput/OutlinedInput.js
 import _objectWithoutPropertiesLoose48 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends58 from "@babel/runtime/helpers/esm/extends";
-import * as React66 from "react";
+import * as React67 from "react";
 import PropTypes50 from "prop-types";
 import { refType as refType5 } from "@mui/utils";
 
@@ -12703,7 +12777,7 @@ var _excluded50 = ["components", "fullWidth", "inputComponent", "label", "multil
   paddingLeft: 0
 }, ownerState.endAdornment && {
   paddingRight: 0
-})), OutlinedInput = /* @__PURE__ */ React66.forwardRef(function(inProps, ref) {
+})), OutlinedInput = /* @__PURE__ */ React67.forwardRef(function(inProps, ref) {
   var _ref, _slots$root, _ref2, _slots$input, _React$Fragment;
   let props = useThemeProps({
     props: inProps,
@@ -12741,7 +12815,7 @@ var _excluded50 = ["components", "fullWidth", "inputComponent", "label", "multil
     renderSuffix: (state) => /* @__PURE__ */ _jsx53(NotchedOutlineRoot2, {
       ownerState,
       className: classes.notchedOutline,
-      label: label != null && label !== "" && fcs.required ? _React$Fragment || (_React$Fragment = /* @__PURE__ */ _jsxs13(React66.Fragment, {
+      label: label != null && label !== "" && fcs.required ? _React$Fragment || (_React$Fragment = /* @__PURE__ */ _jsxs13(React67.Fragment, {
         children: [label, "\u2009", "*"]
       })) : label,
       notched: typeof notched < "u" ? notched : Boolean(state.startAdornment || state.filled || state.focused)
@@ -12929,14 +13003,14 @@ var OutlinedInput_default = OutlinedInput;
 // node_modules/@mui/material/InputLabel/InputLabel.js
 import _objectWithoutPropertiesLoose50 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends60 from "@babel/runtime/helpers/esm/extends";
-import * as React68 from "react";
+import * as React69 from "react";
 import PropTypes52 from "prop-types";
 import clsx40 from "clsx";
 
 // node_modules/@mui/material/FormLabel/FormLabel.js
 import _objectWithoutPropertiesLoose49 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends59 from "@babel/runtime/helpers/esm/extends";
-import * as React67 from "react";
+import * as React68 from "react";
 import PropTypes51 from "prop-types";
 import clsx39 from "clsx";
 
@@ -12997,7 +13071,7 @@ var _excluded51 = ["children", "className", "color", "component", "disabled", "e
   [`&.${formLabelClasses_default.error}`]: {
     color: (theme.vars || theme).palette.error.main
   }
-})), FormLabel = /* @__PURE__ */ React67.forwardRef(function(inProps, ref) {
+})), FormLabel = /* @__PURE__ */ React68.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFormLabel"
@@ -13187,7 +13261,7 @@ var _excluded52 = ["disableAnimation", "margin", "shrink", "variant", "className
   "&:not(label) + div": {
     marginTop: 16
   }
-})), InputLabel2 = /* @__PURE__ */ React68.forwardRef(function(inProps, ref) {
+})), InputLabel2 = /* @__PURE__ */ React69.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     name: "MuiInputLabel",
     props: inProps
@@ -13291,7 +13365,7 @@ var InputLabel_default = InputLabel2;
 // node_modules/@mui/material/FormControl/FormControl.js
 import _objectWithoutPropertiesLoose51 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends61 from "@babel/runtime/helpers/esm/extends";
-import * as React69 from "react";
+import * as React70 from "react";
 import PropTypes53 from "prop-types";
 import clsx41 from "clsx";
 
@@ -13339,7 +13413,7 @@ var _excluded53 = ["children", "className", "color", "component", "disabled", "e
   marginBottom: 4
 }, ownerState.fullWidth && {
   width: "100%"
-})), FormControl2 = /* @__PURE__ */ React69.forwardRef(function(inProps, ref) {
+})), FormControl2 = /* @__PURE__ */ React70.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFormControl"
@@ -13368,30 +13442,30 @@ var _excluded53 = ["children", "className", "color", "component", "disabled", "e
     required,
     size,
     variant
-  }), classes = useUtilityClasses41(ownerState), [adornedStart, setAdornedStart] = React69.useState(() => {
+  }), classes = useUtilityClasses41(ownerState), [adornedStart, setAdornedStart] = React70.useState(() => {
     let initialAdornedStart = !1;
-    return children && React69.Children.forEach(children, (child) => {
+    return children && React70.Children.forEach(children, (child) => {
       if (!isMuiElement_default(child, ["Input", "Select"]))
         return;
       let input = isMuiElement_default(child, ["Select"]) ? child.props.input : child;
       input && isAdornedStart(input.props) && (initialAdornedStart = !0);
     }), initialAdornedStart;
-  }), [filled, setFilled] = React69.useState(() => {
+  }), [filled, setFilled] = React70.useState(() => {
     let initialFilled = !1;
-    return children && React69.Children.forEach(children, (child) => {
+    return children && React70.Children.forEach(children, (child) => {
       isMuiElement_default(child, ["Input", "Select"]) && (isFilled(child.props, !0) || isFilled(child.props.inputProps, !0)) && (initialFilled = !0);
     }), initialFilled;
-  }), [focusedState, setFocused] = React69.useState(!1);
+  }), [focusedState, setFocused] = React70.useState(!1);
   disabled && focusedState && setFocused(!1);
   let focused = visuallyFocused !== void 0 && !disabled ? visuallyFocused : focusedState, registerEffect;
   {
-    let registeredInput = React69.useRef(!1);
+    let registeredInput = React70.useRef(!1);
     registerEffect = () => (registeredInput.current && console.error(["MUI: There are multiple `InputBase` components inside a FormControl.", "This creates visual inconsistencies, only use one `InputBase`."].join(`
 `)), registeredInput.current = !0, () => {
       registeredInput.current = !1;
     });
   }
-  let childContext = React69.useMemo(() => ({
+  let childContext = React70.useMemo(() => ({
     adornedStart,
     setAdornedStart,
     color,
@@ -13515,7 +13589,7 @@ var FormControl_default = FormControl2;
 // node_modules/@mui/material/FormHelperText/FormHelperText.js
 import _objectWithoutPropertiesLoose52 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends62 from "@babel/runtime/helpers/esm/extends";
-import * as React70 from "react";
+import * as React71 from "react";
 import PropTypes54 from "prop-types";
 import clsx42 from "clsx";
 
@@ -13573,7 +13647,7 @@ var _span2, _excluded54 = ["children", "className", "component", "disabled", "er
 }, ownerState.contained && {
   marginLeft: 14,
   marginRight: 14
-})), FormHelperText2 = /* @__PURE__ */ React70.forwardRef(function(inProps, ref) {
+})), FormHelperText2 = /* @__PURE__ */ React71.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFormHelperText"
@@ -13674,7 +13748,7 @@ var FormHelperText_default = FormHelperText2;
 // node_modules/@mui/material/Select/Select.js
 import _extends69 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose59 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React78 from "react";
+import * as React79 from "react";
 import PropTypes61 from "prop-types";
 import clsx47 from "clsx";
 import { deepmerge as deepmerge6 } from "@mui/utils";
@@ -13683,7 +13757,7 @@ import { deepmerge as deepmerge6 } from "@mui/utils";
 import _extends68 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose58 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import "@mui/utils";
-import * as React76 from "react";
+import * as React77 from "react";
 import { isFragment as isFragment3 } from "react-is";
 import PropTypes60 from "prop-types";
 import clsx46 from "clsx";
@@ -13692,7 +13766,7 @@ import { refType as refType8, unstable_useId as useId2 } from "@mui/utils";
 // node_modules/@mui/material/Menu/Menu.js
 import _extends66 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose56 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React74 from "react";
+import * as React75 from "react";
 import { isFragment as isFragment2 } from "react-is";
 import PropTypes58 from "prop-types";
 import clsx44 from "clsx";
@@ -13701,7 +13775,7 @@ import { HTMLElementType as HTMLElementType5 } from "@mui/utils";
 // node_modules/@mui/material/MenuList/MenuList.js
 import _extends63 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose53 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React71 from "react";
+import * as React72 from "react";
 import { isFragment } from "react-is";
 import PropTypes55 from "prop-types";
 
@@ -13740,7 +13814,7 @@ function moveFocus(list, currentFocus, disableListWrap, disabledItemsFocusable, 
   }
   return !1;
 }
-var MenuList = /* @__PURE__ */ React71.forwardRef(function(props, ref) {
+var MenuList = /* @__PURE__ */ React72.forwardRef(function(props, ref) {
   let {
     // private
     // eslint-disable-next-line react/prop-types
@@ -13753,7 +13827,7 @@ var MenuList = /* @__PURE__ */ React71.forwardRef(function(props, ref) {
     disableListWrap = !1,
     onKeyDown,
     variant = "selectedMenu"
-  } = props, other = _objectWithoutPropertiesLoose53(props, _excluded55), listRef = React71.useRef(null), textCriteriaRef = React71.useRef({
+  } = props, other = _objectWithoutPropertiesLoose53(props, _excluded55), listRef = React72.useRef(null), textCriteriaRef = React72.useRef({
     keys: [],
     repeating: !0,
     previousKeyMatched: !0,
@@ -13761,7 +13835,7 @@ var MenuList = /* @__PURE__ */ React71.forwardRef(function(props, ref) {
   });
   useEnhancedEffect_default(() => {
     autoFocus && listRef.current.focus();
-  }, [autoFocus]), React71.useImperativeHandle(actions, () => ({
+  }, [autoFocus]), React72.useImperativeHandle(actions, () => ({
     adjustStyleForScrollbar: (containerElement, theme) => {
       let noExplicitWidth = !listRef.current.style.width;
       if (containerElement.clientHeight < listRef.current.clientHeight && noExplicitWidth) {
@@ -13789,18 +13863,18 @@ var MenuList = /* @__PURE__ */ React71.forwardRef(function(props, ref) {
     }
     onKeyDown && onKeyDown(event);
   }, handleRef = useForkRef_default(listRef, ref), activeItemIndex = -1;
-  React71.Children.forEach(children, (child, index5) => {
-    if (!/* @__PURE__ */ React71.isValidElement(child)) {
+  React72.Children.forEach(children, (child, index5) => {
+    if (!/* @__PURE__ */ React72.isValidElement(child)) {
       activeItemIndex === index5 && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
       return;
     }
     isFragment(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
 `)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index5), activeItemIndex === index5 && (child.props.disabled || child.props.muiSkipListHighlight || child.type.muiSkipListHighlight) && (activeItemIndex += 1, activeItemIndex >= children.length && (activeItemIndex = -1));
   });
-  let items = React71.Children.map(children, (child, index5) => {
+  let items = React72.Children.map(children, (child, index5) => {
     if (index5 === activeItemIndex) {
       let newChildProps = {};
-      return autoFocusItem && (newChildProps.autoFocus = !0), child.props.tabIndex === void 0 && variant === "selectedMenu" && (newChildProps.tabIndex = 0), /* @__PURE__ */ React71.cloneElement(child, newChildProps);
+      return autoFocusItem && (newChildProps.autoFocus = !0), child.props.tabIndex === void 0 && variant === "selectedMenu" && (newChildProps.tabIndex = 0), /* @__PURE__ */ React72.cloneElement(child, newChildProps);
     }
     return child;
   });
@@ -13864,7 +13938,7 @@ var MenuList_default = MenuList;
 // node_modules/@mui/material/Popover/Popover.js
 import _extends65 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose55 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React73 from "react";
+import * as React74 from "react";
 import PropTypes57 from "prop-types";
 import clsx43 from "clsx";
 import { unstable_composeClasses as composeClasses3, useSlotProps as useSlotProps3, isHostComponent as isHostComponent4 } from "@mui/base";
@@ -13873,7 +13947,7 @@ import { chainPropTypes as chainPropTypes7, integerPropType as integerPropType4,
 // node_modules/@mui/material/Grow/Grow.js
 import _extends64 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose54 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React72 from "react";
+import * as React73 from "react";
 import PropTypes56 from "prop-types";
 import { elementAcceptingRef as elementAcceptingRef5 } from "@mui/utils";
 import { Transition as Transition3 } from "react-transition-group";
@@ -13891,7 +13965,7 @@ var styles3 = {
     opacity: 1,
     transform: "none"
   }
-}, isWebKit154 = typeof navigator < "u" && /^((?!chrome|android).)*(safari|mobile)/i.test(navigator.userAgent) && /(os |version\/)15(.|_)4/i.test(navigator.userAgent), Grow = /* @__PURE__ */ React72.forwardRef(function(props, ref) {
+}, isWebKit154 = typeof navigator < "u" && /^((?!chrome|android).)*(safari|mobile)/i.test(navigator.userAgent) && /(os |version\/)15(.|_)4/i.test(navigator.userAgent), Grow = /* @__PURE__ */ React73.forwardRef(function(props, ref) {
   let {
     addEndListener,
     appear = !0,
@@ -13908,7 +13982,7 @@ var styles3 = {
     timeout = "auto",
     // eslint-disable-next-line react/prop-types
     TransitionComponent = Transition3
-  } = props, other = _objectWithoutPropertiesLoose54(props, _excluded56), timer = React72.useRef(), autoTimeout = React72.useRef(), theme = useTheme(), nodeRef = React72.useRef(null), handleRef = useForkRef_default(nodeRef, children.ref, ref), normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
+  } = props, other = _objectWithoutPropertiesLoose54(props, _excluded56), timer = React73.useRef(), autoTimeout = React73.useRef(), theme = useTheme(), nodeRef = React73.useRef(null), handleRef = useForkRef_default(nodeRef, children.ref, ref), normalizedTransitionCallback = (callback) => (maybeIsAppearing) => {
     if (callback) {
       let node = nodeRef.current;
       maybeIsAppearing === void 0 ? callback(node) : callback(node, maybeIsAppearing);
@@ -13957,7 +14031,7 @@ var styles3 = {
   }), handleExited = normalizedTransitionCallback(onExited), handleAddEndListener = (next) => {
     timeout === "auto" && (timer.current = setTimeout(next, autoTimeout.current || 0)), addEndListener && addEndListener(nodeRef.current, next);
   };
-  return React72.useEffect(() => () => {
+  return React73.useEffect(() => () => {
     clearTimeout(timer.current);
   }, []), /* @__PURE__ */ _jsx58(TransitionComponent, _extends64({
     appear,
@@ -13972,7 +14046,7 @@ var styles3 = {
     addEndListener: handleAddEndListener,
     timeout: timeout === "auto" ? null : timeout
   }, other, {
-    children: (state, childProps) => /* @__PURE__ */ React72.cloneElement(children, _extends64({
+    children: (state, childProps) => /* @__PURE__ */ React73.cloneElement(children, _extends64({
       style: _extends64({
         opacity: 0,
         transform: getScale(0.75),
@@ -14111,7 +14185,7 @@ var useUtilityClasses43 = (ownerState) => {
   maxHeight: "calc(100% - 32px)",
   // We disable the focus ring for mouse, touch and keyboard users.
   outline: 0
-}), Popover = /* @__PURE__ */ React73.forwardRef(function(inProps, ref) {
+}), Popover = /* @__PURE__ */ React74.forwardRef(function(inProps, ref) {
   var _slotProps$paper, _slots$root, _slots$paper;
   let props = useThemeProps({
     props: inProps,
@@ -14144,7 +14218,7 @@ var useUtilityClasses43 = (ownerState) => {
       onEntering
     } = {},
     disableScrollLock = !1
-  } = props, TransitionProps = _objectWithoutPropertiesLoose55(props.TransitionProps, _excluded57), other = _objectWithoutPropertiesLoose55(props, _excluded210), externalPaperSlotProps = (_slotProps$paper = slotProps?.paper) != null ? _slotProps$paper : PaperPropsProp, paperRef = React73.useRef(), handlePaperRef = useForkRef_default(paperRef, externalPaperSlotProps.ref), ownerState = _extends65({}, props, {
+  } = props, TransitionProps = _objectWithoutPropertiesLoose55(props.TransitionProps, _excluded57), other = _objectWithoutPropertiesLoose55(props, _excluded210), externalPaperSlotProps = (_slotProps$paper = slotProps?.paper) != null ? _slotProps$paper : PaperPropsProp, paperRef = React74.useRef(), handlePaperRef = useForkRef_default(paperRef, externalPaperSlotProps.ref), ownerState = _extends65({}, props, {
     anchorOrigin,
     anchorReference,
     elevation,
@@ -14154,7 +14228,7 @@ var useUtilityClasses43 = (ownerState) => {
     TransitionComponent,
     transitionDuration: transitionDurationProp,
     TransitionProps
-  }), classes = useUtilityClasses43(ownerState), getAnchorOffset = React73.useCallback(() => {
+  }), classes = useUtilityClasses43(ownerState), getAnchorOffset = React74.useCallback(() => {
     if (anchorReference === "anchorPosition")
       return anchorPosition || console.error('MUI: You need to provide a `anchorPosition` prop when using <Popover anchorReference="anchorPosition" />.'), anchorPosition;
     let resolvedAnchorEl = resolveAnchorEl(anchorEl), anchorElement = resolvedAnchorEl && resolvedAnchorEl.nodeType === 1 ? resolvedAnchorEl : ownerDocument_default(paperRef.current).body, anchorRect = anchorElement.getBoundingClientRect();
@@ -14167,10 +14241,10 @@ var useUtilityClasses43 = (ownerState) => {
       top: anchorRect.top + getOffsetTop(anchorRect, anchorOrigin.vertical),
       left: anchorRect.left + getOffsetLeft(anchorRect, anchorOrigin.horizontal)
     };
-  }, [anchorEl, anchorOrigin.horizontal, anchorOrigin.vertical, anchorPosition, anchorReference]), getTransformOrigin = React73.useCallback((elemRect) => ({
+  }, [anchorEl, anchorOrigin.horizontal, anchorOrigin.vertical, anchorPosition, anchorReference]), getTransformOrigin = React74.useCallback((elemRect) => ({
     vertical: getOffsetTop(elemRect, transformOrigin.vertical),
     horizontal: getOffsetLeft(elemRect, transformOrigin.horizontal)
-  }), [transformOrigin.horizontal, transformOrigin.vertical]), getPositioningStyle = React73.useCallback((element) => {
+  }), [transformOrigin.horizontal, transformOrigin.vertical]), getPositioningStyle = React74.useCallback((element) => {
     let elemRect = {
       width: element.offsetWidth,
       height: element.offsetHeight
@@ -14202,26 +14276,26 @@ var useUtilityClasses43 = (ownerState) => {
       left: `${Math.round(left)}px`,
       transformOrigin: getTransformOriginValue(elemTransformOrigin)
     };
-  }, [anchorEl, anchorReference, getAnchorOffset, getTransformOrigin, marginThreshold]), [isPositioned, setIsPositioned] = React73.useState(open), setPositioningStyles = React73.useCallback(() => {
+  }, [anchorEl, anchorReference, getAnchorOffset, getTransformOrigin, marginThreshold]), [isPositioned, setIsPositioned] = React74.useState(open), setPositioningStyles = React74.useCallback(() => {
     let element = paperRef.current;
     if (!element)
       return;
     let positioning = getPositioningStyle(element);
     positioning.top !== null && (element.style.top = positioning.top), positioning.left !== null && (element.style.left = positioning.left), element.style.transformOrigin = positioning.transformOrigin, setIsPositioned(!0);
   }, [getPositioningStyle]);
-  React73.useEffect(() => (disableScrollLock && window.addEventListener("scroll", setPositioningStyles), () => window.removeEventListener("scroll", setPositioningStyles)), [anchorEl, disableScrollLock, setPositioningStyles]);
+  React74.useEffect(() => (disableScrollLock && window.addEventListener("scroll", setPositioningStyles), () => window.removeEventListener("scroll", setPositioningStyles)), [anchorEl, disableScrollLock, setPositioningStyles]);
   let handleEntering = (element, isAppearing) => {
     onEntering && onEntering(element, isAppearing), setPositioningStyles();
   }, handleExited = () => {
     setIsPositioned(!1);
   };
-  React73.useEffect(() => {
+  React74.useEffect(() => {
     open && setPositioningStyles();
-  }), React73.useImperativeHandle(action10, () => open ? {
+  }), React74.useImperativeHandle(action10, () => open ? {
     updatePosition: () => {
       setPositioningStyles();
     }
-  } : null, [open, setPositioningStyles]), React73.useEffect(() => {
+  } : null, [open, setPositioningStyles]), React74.useEffect(() => {
     if (!open)
       return;
     let handleResize = debounce_default(() => {
@@ -14508,7 +14582,7 @@ var _excluded58 = ["onEntering"], _excluded211 = ["autoFocus", "children", "clas
 })({
   // We disable the focus ring for mouse, touch and keyboard users.
   outline: 0
-}), Menu = /* @__PURE__ */ React74.forwardRef(function(inProps, ref) {
+}), Menu = /* @__PURE__ */ React75.forwardRef(function(inProps, ref) {
   var _slots$paper, _slotProps$paper;
   let props = useThemeProps({
     props: inProps,
@@ -14539,13 +14613,13 @@ var _excluded58 = ["onEntering"], _excluded211 = ["autoFocus", "children", "clas
     transitionDuration,
     TransitionProps,
     variant
-  }), classes = useUtilityClasses44(ownerState), autoFocusItem = autoFocus && !disableAutoFocusItem && open, menuListActionsRef = React74.useRef(null), handleEntering = (element, isAppearing) => {
+  }), classes = useUtilityClasses44(ownerState), autoFocusItem = autoFocus && !disableAutoFocusItem && open, menuListActionsRef = React75.useRef(null), handleEntering = (element, isAppearing) => {
     menuListActionsRef.current && menuListActionsRef.current.adjustStyleForScrollbar(element, theme), onEntering && onEntering(element, isAppearing);
   }, handleListKeyDown = (event) => {
     event.key === "Tab" && (event.preventDefault(), onClose && onClose(event, "tabKeyDown"));
   }, activeItemIndex = -1;
-  React74.Children.map(children, (child, index5) => {
-    /* @__PURE__ */ React74.isValidElement(child) && (isFragment2(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
+  React75.Children.map(children, (child, index5) => {
+    /* @__PURE__ */ React75.isValidElement(child) && (isFragment2(child) && console.error(["MUI: The Menu component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
 `)), child.props.disabled || (variant === "selectedMenu" && child.props.selected || activeItemIndex === -1) && (activeItemIndex = index5));
   });
   let PaperSlot = (_slots$paper = slots.paper) != null ? _slots$paper : MenuPaper, paperExternalSlotProps = (_slotProps$paper = slotProps.paper) != null ? _slotProps$paper : PaperProps, rootSlotProps = useSlotProps({
@@ -14706,7 +14780,7 @@ var Menu_default = Menu;
 // node_modules/@mui/material/NativeSelect/NativeSelectInput.js
 import _objectWithoutPropertiesLoose57 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends67 from "@babel/runtime/helpers/esm/extends";
-import * as React75 from "react";
+import * as React76 from "react";
 import PropTypes59 from "prop-types";
 import clsx45 from "clsx";
 import { refType as refType7 } from "@mui/utils";
@@ -14831,7 +14905,7 @@ var _excluded59 = ["className", "disabled", "error", "IconComponent", "inputRef"
     } = props;
     return [styles4.icon, ownerState.variant && styles4[`icon${capitalize_default(ownerState.variant)}`], ownerState.open && styles4.iconOpen];
   }
-})(nativeSelectIconStyles), NativeSelectInput = /* @__PURE__ */ React75.forwardRef(function(props, ref) {
+})(nativeSelectIconStyles), NativeSelectInput = /* @__PURE__ */ React76.forwardRef(function(props, ref) {
   let {
     className,
     disabled,
@@ -14844,7 +14918,7 @@ var _excluded59 = ["className", "disabled", "error", "IconComponent", "inputRef"
     variant,
     error
   }), classes = useUtilityClasses45(ownerState);
-  return /* @__PURE__ */ _jsxs15(React75.Fragment, {
+  return /* @__PURE__ */ _jsxs15(React76.Fragment, {
     children: [/* @__PURE__ */ _jsx61(NativeSelectSelect, _extends67({
       ownerState,
       className: clsx45(classes.select, className),
@@ -15002,7 +15076,7 @@ var useUtilityClasses46 = (ownerState) => {
     nativeInput: ["nativeInput"]
   };
   return unstable_composeClasses(slots, getSelectUtilityClasses, classes);
-}, SelectInput = /* @__PURE__ */ React76.forwardRef(function(props, ref) {
+}, SelectInput = /* @__PURE__ */ React77.forwardRef(function(props, ref) {
   var _MenuProps$slotProps;
   let {
     "aria-describedby": ariaDescribedby,
@@ -15042,22 +15116,22 @@ var useUtilityClasses46 = (ownerState) => {
     controlled: openProp,
     default: defaultOpen,
     name: "Select"
-  }), inputRef = React76.useRef(null), displayRef = React76.useRef(null), [displayNode, setDisplayNode] = React76.useState(null), {
+  }), inputRef = React77.useRef(null), displayRef = React77.useRef(null), [displayNode, setDisplayNode] = React77.useState(null), {
     current: isOpenControlled
-  } = React76.useRef(openProp != null), [menuMinWidthState, setMenuMinWidthState] = React76.useState(), handleRef = useForkRef_default(ref, inputRefProp), handleDisplayRef = React76.useCallback((node) => {
+  } = React77.useRef(openProp != null), [menuMinWidthState, setMenuMinWidthState] = React77.useState(), handleRef = useForkRef_default(ref, inputRefProp), handleDisplayRef = React77.useCallback((node) => {
     displayRef.current = node, node && setDisplayNode(node);
   }, []), anchorElement = displayNode?.parentNode;
-  React76.useImperativeHandle(handleRef, () => ({
+  React77.useImperativeHandle(handleRef, () => ({
     focus: () => {
       displayRef.current.focus();
     },
     node: inputRef.current,
     value
-  }), [value]), React76.useEffect(() => {
+  }), [value]), React77.useEffect(() => {
     defaultOpen && openState && displayNode && !isOpenControlled && (setMenuMinWidthState(autoWidth ? null : anchorElement.clientWidth), displayRef.current.focus());
-  }, [displayNode, autoWidth]), React76.useEffect(() => {
+  }, [displayNode, autoWidth]), React77.useEffect(() => {
     autoFocus && displayRef.current.focus();
-  }, [autoFocus]), React76.useEffect(() => {
+  }, [autoFocus]), React77.useEffect(() => {
     if (!labelId)
       return;
     let label = ownerDocument_default(displayRef.current).getElementById(labelId);
@@ -15076,7 +15150,7 @@ var useUtilityClasses46 = (ownerState) => {
     event.button === 0 && (event.preventDefault(), displayRef.current.focus(), update(!0, event));
   }, handleClose = (event) => {
     update(!1, event);
-  }, childrenArray = React76.Children.toArray(children), handleChange = (event) => {
+  }, childrenArray = React77.Children.toArray(children), handleChange = (event) => {
     let child = childrenArray.find((childItem) => childItem.props.value === event.target.value);
     child !== void 0 && (setValueState(child.props.value), onChange && onChange(event, child));
   }, handleItemClick = (child) => (event) => {
@@ -15124,7 +15198,7 @@ var useUtilityClasses46 = (ownerState) => {
     value
   }) || displayEmpty) && (renderValue ? display = renderValue(value) : computeDisplay = !0);
   let items = childrenArray.map((child) => {
-    if (!/* @__PURE__ */ React76.isValidElement(child))
+    if (!/* @__PURE__ */ React77.isValidElement(child))
       return null;
     isFragment3(child) && console.error(["MUI: The Select component doesn't accept a Fragment as a child.", "Consider providing an array instead."].join(`
 `));
@@ -15135,7 +15209,7 @@ var useUtilityClasses46 = (ownerState) => {
       selected = value.some((v) => areEqualValues(v, child.props.value)), selected && computeDisplay && displayMultiple.push(child.props.children);
     } else
       selected = areEqualValues(value, child.props.value), selected && computeDisplay && (displaySingle = child.props.children);
-    return selected && (foundMatch = !0), /* @__PURE__ */ React76.cloneElement(child, {
+    return selected && (foundMatch = !0), /* @__PURE__ */ React77.cloneElement(child, {
       "aria-selected": selected ? "true" : "false",
       onClick: handleItemClick(child),
       onKeyUp: (event) => {
@@ -15149,7 +15223,7 @@ var useUtilityClasses46 = (ownerState) => {
       // Instead, we provide it as a data attribute.
     });
   });
-  React76.useEffect(() => {
+  React77.useEffect(() => {
     if (!foundMatch && !multiple && value !== "") {
       let values = childrenArray.map((child) => child.props.value);
       console.warn([`MUI: You have provided an out-of-range value \`${value}\` for the select ${name ? `(name="${name}") ` : ""}component.`, "Consider providing a value that matches one of the available options or ''.", `The available values are ${values.filter((x) => x != null).map((x) => `\`${x}\``).join(", ") || '""'}.`].join(`
@@ -15166,7 +15240,7 @@ var useUtilityClasses46 = (ownerState) => {
     open,
     error
   }), classes = useUtilityClasses46(ownerState), paperProps = _extends68({}, MenuProps.PaperProps, (_MenuProps$slotProps = MenuProps.slotProps) == null ? void 0 : _MenuProps$slotProps.paper), listboxId = useId2(), hiddenInputId = useId2();
-  return /* @__PURE__ */ _jsxs16(React76.Fragment, {
+  return /* @__PURE__ */ _jsxs16(React77.Fragment, {
     children: [/* @__PURE__ */ _jsx62(SelectSelect, _extends68({
       ref: handleDisplayRef,
       tabIndex,
@@ -15407,7 +15481,7 @@ var _excluded61 = ["autoWidth", "children", "classes", "className", "defaultOpen
   overridesResolver: (props, styles4) => styles4.root,
   shouldForwardProp: (prop) => rootShouldForwardProp(prop) && prop !== "variant",
   slot: "Root"
-}, StyledInput = styled_default(Input_default, styledRootConfig)(""), StyledOutlinedInput = styled_default(OutlinedInput_default, styledRootConfig)(""), StyledFilledInput = styled_default(FilledInput_default, styledRootConfig)(""), Select2 = /* @__PURE__ */ React78.forwardRef(function(inProps, ref) {
+}, StyledInput = styled_default(Input_default, styledRootConfig)(""), StyledOutlinedInput = styled_default(OutlinedInput_default, styledRootConfig)(""), StyledFilledInput = styled_default(FilledInput_default, styledRootConfig)(""), Select2 = /* @__PURE__ */ React79.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     name: "MuiSelect",
     props: inProps
@@ -15452,8 +15526,8 @@ var _excluded61 = ["autoWidth", "children", "classes", "className", "defaultOpen
       ownerState
     })
   }[variant], inputComponentRef = useForkRef_default(ref, InputComponent.ref);
-  return /* @__PURE__ */ _jsx64(React78.Fragment, {
-    children: /* @__PURE__ */ React78.cloneElement(InputComponent, _extends69({
+  return /* @__PURE__ */ _jsx64(React79.Fragment, {
+    children: /* @__PURE__ */ React79.cloneElement(InputComponent, _extends69({
       // Most of the logic is implemented in `SelectInput`.
       // The `Select` component is a simple API wrapper to expose something better to play with.
       inputComponent,
@@ -15668,7 +15742,7 @@ var _excluded62 = ["autoComplete", "autoFocus", "children", "className", "color"
   name: "MuiTextField",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), TextField2 = /* @__PURE__ */ React79.forwardRef(function(inProps, ref) {
+})({}), TextField2 = /* @__PURE__ */ React80.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTextField"
@@ -15949,7 +16023,7 @@ var TextField_default = TextField2;
 // node_modules/@mui/material/Autocomplete/Autocomplete.js
 import _objectWithoutPropertiesLoose65 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends75 from "@babel/runtime/helpers/esm/extends";
-import * as React86 from "react";
+import * as React87 from "react";
 import PropTypes67 from "prop-types";
 import clsx51 from "clsx";
 import { chainPropTypes as chainPropTypes9, integerPropType as integerPropType5 } from "@mui/utils";
@@ -15963,7 +16037,7 @@ import _objectWithoutPropertiesLoose62 from "@babel/runtime/helpers/esm/objectWi
 // node_modules/@mui/base/Popper/Popper.js
 import _extends71 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose61 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React80 from "react";
+import * as React81 from "react";
 import { chainPropTypes as chainPropTypes8, HTMLElementType as HTMLElementType6, refType as refType10, unstable_ownerDocument as ownerDocument5, unstable_useEnhancedEffect as useEnhancedEffect3, unstable_useForkRef as useForkRef6 } from "@mui/utils";
 import { createPopper } from "@popperjs/core";
 import PropTypes63 from "prop-types";
@@ -16010,7 +16084,7 @@ function isVirtualElement(element) {
 }
 var useUtilityClasses49 = () => unstable_composeClasses({
   root: ["root"]
-}, useClassNamesOverride(getPopperUtilityClass)), defaultPopperOptions = {}, PopperTooltip = /* @__PURE__ */ React80.forwardRef(function(props, forwardedRef) {
+}, useClassNamesOverride(getPopperUtilityClass)), defaultPopperOptions = {}, PopperTooltip = /* @__PURE__ */ React81.forwardRef(function(props, forwardedRef) {
   var _slots$root;
   let {
     anchorEl,
@@ -16027,14 +16101,14 @@ var useUtilityClasses49 = () => unstable_composeClasses({
     TransitionProps
     // @ts-ignore internal logic
     // prevent from spreading to DOM, it can come from the parent component e.g. Select.
-  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded63), tooltipRef = React80.useRef(null), ownRef = useForkRef6(tooltipRef, forwardedRef), popperRef = React80.useRef(null), handlePopperRef = useForkRef6(popperRef, popperRefProp), handlePopperRefRef = React80.useRef(handlePopperRef);
+  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded63), tooltipRef = React81.useRef(null), ownRef = useForkRef6(tooltipRef, forwardedRef), popperRef = React81.useRef(null), handlePopperRef = useForkRef6(popperRef, popperRefProp), handlePopperRefRef = React81.useRef(handlePopperRef);
   useEnhancedEffect3(() => {
     handlePopperRefRef.current = handlePopperRef;
-  }, [handlePopperRef]), React80.useImperativeHandle(popperRefProp, () => popperRef.current, []);
-  let rtlPlacement = flipPlacement(initialPlacement, direction), [placement, setPlacement] = React80.useState(rtlPlacement), [resolvedAnchorElement, setResolvedAnchorElement] = React80.useState(resolveAnchorEl2(anchorEl));
-  React80.useEffect(() => {
+  }, [handlePopperRef]), React81.useImperativeHandle(popperRefProp, () => popperRef.current, []);
+  let rtlPlacement = flipPlacement(initialPlacement, direction), [placement, setPlacement] = React81.useState(rtlPlacement), [resolvedAnchorElement, setResolvedAnchorElement] = React81.useState(resolveAnchorEl2(anchorEl));
+  React81.useEffect(() => {
     popperRef.current && popperRef.current.forceUpdate();
-  }), React80.useEffect(() => {
+  }), React81.useEffect(() => {
     anchorEl && setResolvedAnchorElement(resolveAnchorEl2(anchorEl));
   }, [anchorEl]), useEnhancedEffect3(() => {
     if (!resolvedAnchorElement || !open)
@@ -16095,7 +16169,7 @@ var useUtilityClasses49 = () => unstable_composeClasses({
   return /* @__PURE__ */ _jsx66(Root, _extends71({}, rootProps, {
     children: typeof children == "function" ? children(childProps) : children
   }));
-}), Popper = /* @__PURE__ */ React80.forwardRef(function(props, forwardedRef) {
+}), Popper = /* @__PURE__ */ React81.forwardRef(function(props, forwardedRef) {
   let {
     anchorEl,
     children,
@@ -16112,7 +16186,7 @@ var useUtilityClasses49 = () => unstable_composeClasses({
     transition = !1,
     slotProps = {},
     slots = {}
-  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded213), [exited, setExited] = React80.useState(!0), handleEnter = () => {
+  } = props, other = _objectWithoutPropertiesLoose61(props, _excluded213), [exited, setExited] = React81.useState(!0), handleEnter = () => {
     setExited(!1);
   }, handleExited = () => {
     setExited(!0);
@@ -16286,13 +16360,13 @@ Popper.propTypes = {
 import { useThemeWithoutDefault as useTheme2 } from "@mui/system";
 import { HTMLElementType as HTMLElementType7, refType as refType11 } from "@mui/utils";
 import PropTypes64 from "prop-types";
-import * as React81 from "react";
+import * as React82 from "react";
 import { jsx as _jsx67 } from "react/jsx-runtime";
 var _excluded64 = ["anchorEl", "component", "components", "componentsProps", "container", "disablePortal", "keepMounted", "modifiers", "open", "placement", "popperOptions", "popperRef", "transition", "slots", "slotProps"], PopperRoot = styled_default(Popper, {
   name: "MuiPopper",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), Popper3 = /* @__PURE__ */ React81.forwardRef(function(inProps, ref) {
+})({}), Popper3 = /* @__PURE__ */ React82.forwardRef(function(inProps, ref) {
   var _slots$root;
   let theme = useTheme2(), props = useThemeProps({
     props: inProps,
@@ -16468,7 +16542,7 @@ var Popper_default = Popper3;
 // node_modules/@mui/material/ListSubheader/ListSubheader.js
 import _objectWithoutPropertiesLoose63 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends73 from "@babel/runtime/helpers/esm/extends";
-import * as React82 from "react";
+import * as React83 from "react";
 import PropTypes65 from "prop-types";
 import clsx49 from "clsx";
 
@@ -16569,7 +16643,7 @@ var _excluded65 = ["className", "color", "component", "disableGutters", "disable
   top: 0,
   zIndex: 1,
   backgroundColor: (theme.vars || theme).palette.background.paper
-})), ListSubheader = /* @__PURE__ */ React82.forwardRef(function(inProps, ref) {
+})), ListSubheader = /* @__PURE__ */ React83.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiListSubheader"
@@ -16647,7 +16721,7 @@ var ListSubheader_default = ListSubheader;
 // node_modules/@mui/material/Chip/Chip.js
 import _objectWithoutPropertiesLoose64 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends74 from "@babel/runtime/helpers/esm/extends";
-import * as React84 from "react";
+import * as React85 from "react";
 import PropTypes66 from "prop-types";
 import clsx50 from "clsx";
 import { alpha as alpha12 } from "@mui/system";
@@ -16921,7 +16995,7 @@ var _excluded66 = ["avatar", "className", "clickable", "color", "component", "de
 function isDeleteKeyboardEvent(keyboardEvent) {
   return keyboardEvent.key === "Backspace" || keyboardEvent.key === "Delete";
 }
-var Chip = /* @__PURE__ */ React84.forwardRef(function(inProps, ref) {
+var Chip = /* @__PURE__ */ React85.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiChip"
@@ -16944,7 +17018,7 @@ var Chip = /* @__PURE__ */ React84.forwardRef(function(inProps, ref) {
     tabIndex,
     skipFocusWhenDisabled = !1
     // TODO v6: Rename to `focusableWhenDisabled`.
-  } = props, other = _objectWithoutPropertiesLoose64(props, _excluded66), chipRef = React84.useRef(null), handleRef = useForkRef_default(chipRef, ref), handleDeleteIconClick = (event) => {
+  } = props, other = _objectWithoutPropertiesLoose64(props, _excluded66), chipRef = React85.useRef(null), handleRef = useForkRef_default(chipRef, ref), handleDeleteIconClick = (event) => {
     event.stopPropagation(), onDelete && onDelete(event);
   }, handleKeyDown = (event) => {
     event.currentTarget === event.target && isDeleteKeyboardEvent(event) && event.preventDefault(), onKeyDown && onKeyDown(event);
@@ -16955,7 +17029,7 @@ var Chip = /* @__PURE__ */ React84.forwardRef(function(inProps, ref) {
     disabled,
     size,
     color,
-    iconColor: /* @__PURE__ */ React84.isValidElement(iconProp) && iconProp.props.color || color,
+    iconColor: /* @__PURE__ */ React85.isValidElement(iconProp) && iconProp.props.color || color,
     onDelete: !!onDelete,
     clickable,
     variant
@@ -16965,7 +17039,7 @@ var Chip = /* @__PURE__ */ React84.forwardRef(function(inProps, ref) {
   }, onDelete && {
     disableRipple: !0
   }) : {}, deleteIcon = null;
-  onDelete && (deleteIcon = deleteIconProp && /* @__PURE__ */ React84.isValidElement(deleteIconProp) ? /* @__PURE__ */ React84.cloneElement(deleteIconProp, {
+  onDelete && (deleteIcon = deleteIconProp && /* @__PURE__ */ React85.isValidElement(deleteIconProp) ? /* @__PURE__ */ React85.cloneElement(deleteIconProp, {
     className: clsx50(deleteIconProp.props.className, classes.deleteIcon),
     onClick: handleDeleteIconClick
   }) : /* @__PURE__ */ _jsx70(Cancel_default, {
@@ -16973,11 +17047,11 @@ var Chip = /* @__PURE__ */ React84.forwardRef(function(inProps, ref) {
     onClick: handleDeleteIconClick
   }));
   let avatar = null;
-  avatarProp && /* @__PURE__ */ React84.isValidElement(avatarProp) && (avatar = /* @__PURE__ */ React84.cloneElement(avatarProp, {
+  avatarProp && /* @__PURE__ */ React85.isValidElement(avatarProp) && (avatar = /* @__PURE__ */ React85.cloneElement(avatarProp, {
     className: clsx50(classes.avatar, avatarProp.props.className)
   }));
   let icon = null;
-  return iconProp && /* @__PURE__ */ React84.isValidElement(iconProp) && (icon = /* @__PURE__ */ React84.cloneElement(iconProp, {
+  return iconProp && /* @__PURE__ */ React85.isValidElement(iconProp) && (icon = /* @__PURE__ */ React85.cloneElement(iconProp, {
     className: clsx50(classes.icon, iconProp.props.className)
   })), avatar && icon && console.error("MUI: The Chip component can not handle the avatar and the icon prop at the same time. Pick one."), /* @__PURE__ */ _jsxs18(ChipRoot, _extends74({
     as: component,
@@ -17442,7 +17516,7 @@ var _ClearIcon, _ArrowDropDownIcon, _excluded67 = ["autoComplete", "autoHighligh
     paddingLeft: 24
   }
 });
-var Autocomplete = /* @__PURE__ */ React86.forwardRef(function(inProps, ref) {
+var Autocomplete = /* @__PURE__ */ React87.forwardRef(function(inProps, ref) {
   var _slotProps$clearIndic, _slotProps$paper, _slotProps$popper, _slotProps$popupIndic;
   let props = useThemeProps({
     props: inProps,
@@ -17591,7 +17665,7 @@ var Autocomplete = /* @__PURE__ */ React86.forwardRef(function(inProps, ref) {
       inputValue
     }, ownerState);
   }, clearIndicatorSlotProps = (_slotProps$clearIndic = slotProps.clearIndicator) != null ? _slotProps$clearIndic : componentsProps.clearIndicator, paperSlotProps = (_slotProps$paper = slotProps.paper) != null ? _slotProps$paper : componentsProps.paper, popperSlotProps = (_slotProps$popper = slotProps.popper) != null ? _slotProps$popper : componentsProps.popper, popupIndicatorSlotProps = (_slotProps$popupIndic = slotProps.popupIndicator) != null ? _slotProps$popupIndic : componentsProps.popupIndicator;
-  return /* @__PURE__ */ _jsxs19(React86.Fragment, {
+  return /* @__PURE__ */ _jsxs19(React87.Fragment, {
     children: [/* @__PURE__ */ _jsx72(AutocompleteRoot, _extends75({
       ref,
       className: clsx51(classes.root, className),
@@ -18107,7 +18181,7 @@ var Autocomplete_default = Autocomplete;
 // node_modules/@mui/material/Fab/Fab.js
 import _objectWithoutPropertiesLoose66 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends76 from "@babel/runtime/helpers/esm/extends";
-import * as React87 from "react";
+import * as React88 from "react";
 import PropTypes68 from "prop-types";
 import clsx52 from "clsx";
 
@@ -18222,7 +18296,7 @@ var _excluded68 = ["children", "className", "color", "component", "disabled", "d
     boxShadow: (theme.vars || theme).shadows[0],
     backgroundColor: (theme.vars || theme).palette.action.disabledBackground
   }
-})), Fab2 = /* @__PURE__ */ React87.forwardRef(function(inProps, ref) {
+})), Fab2 = /* @__PURE__ */ React88.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiFab"
@@ -18329,17 +18403,17 @@ var Fab_default = Fab2;
 
 // app/routes/sales.tsx
 import { useSubmit as useSubmit2 } from "@remix-run/react";
-import { Dialog as Dialog2, DialogTitle as DialogTitle2, DialogContent as DialogContent2, DialogContentText as DialogContentText2, DialogActions as DialogActions2, Snackbar, Alert, Backdrop as Backdrop4, CircularProgress as CircularProgress2 } from "@mui/material";
+import { Dialog as Dialog2, DialogTitle as DialogTitle2, DialogContent as DialogContent2, DialogContentText as DialogContentText2, DialogActions as DialogActions2, Snackbar, Alert } from "@mui/material";
 import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
 async function loader9({ request }) {
   await requireUserSession(request);
-  let session = await getSession(request.headers.get("Cookie")), storageSessions = session.has("voucher") ? session.get("voucher") : {}, message = session.has("message") ? session.get("message") : null, alert2 = session.has("alert") ? session.get("alert") : null, object = session.has("object") ? session.get("object") : null, act = session.has("act") ? session.get("act") : null, secret = session.has("keySec") ? session.get("keySec") : null, users = await getUsers(secret?.toString()), payment = await getPayments(secret?.toString());
-  return json10({
+  let session = await getSession(request.headers.get("Cookie")), storageSessions = session.has("voucher") ? session.get("voucher") : {}, message = session.has("message") ? session.get("message") : null, alert = session.has("alert") ? session.get("alert") : null, object = session.has("object") ? session.get("object") : null, act = session.has("act") ? session.get("act") : null, secret = session.has("keySec") ? session.get("keySec") : null, users = await getUsers(secret?.toString()), payment = await getPayments(secret?.toString());
+  return json11({
     users: await users.json(),
     payment: await payment.json(),
     sessions: storageSessions,
     message,
-    alert: alert2,
+    alert,
     object,
     act
   }, {
@@ -18376,7 +18450,10 @@ async function action8({ request }) {
           }
         });
     }
-    type == "delete_voucher" && session.flash("act", "delete_voucher");
+    if (type == "delete_voucher" && session.flash("act", "delete_voucher"), type == "calling_alert") {
+      let type_alert = String(body2.get("type_alert")), message_alert = String(body2.get("message_alert"));
+      session.flash("message", message_alert), session.flash("alert", type_alert == "error" ? 0 : 1);
+    }
   }
   return redirect9("/sales", {
     headers: {
@@ -18397,8 +18474,8 @@ function numberWithCommas3(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 function index4(props = !1) {
-  let [cart, setCart] = React88.useState({}), [total, setTotal] = React88.useState(0), [discount, setDiscount] = React88.useState(0), [voucher, setVoucher] = React88.useState(""), [useVoucher, setuseVoucher] = React88.useState(!1), [backdrop, setBackdrop] = React88.useState(!1), [delCart, setDeleteCart] = React88.useState(0), [triggerUse, settriggerUse] = React88.useState(props), [snack, setSnack] = React88.useState(!1), [paymentList, setPaymentList] = React88.useState(), [keyPaymentList, setKeyPaymentList] = React88.useState(), myusers = useLoaderData6(), navigation = useNavigation2();
-  React88.useEffect(() => {
+  let [cart, setCart] = React89.useState({}), [total, setTotal] = React89.useState(0), [discount, setDiscount] = React89.useState(0), [voucher, setVoucher] = React89.useState(""), [useVoucher, setuseVoucher] = React89.useState(!1), [delCart, setDeleteCart] = React89.useState(0), [triggerUse, settriggerUse] = React89.useState(props), [snack, setSnack] = React89.useState(!1), [paymentList, setPaymentList] = React89.useState(), [keyPaymentList, setKeyPaymentList] = React89.useState(), myusers = useLoaderData6();
+  React89.useEffect(() => {
     myusers?.act && myusers?.act == "delete_voucher" && (setVoucher(""), setDiscount(0), setuseVoucher(!1), localStorage.removeItem("voucher"));
     let getData = JSON.parse(localStorage.getItem("cart") || "{}"), UpdateData = [];
     if (getData instanceof Array) {
@@ -18469,7 +18546,7 @@ function index4(props = !1) {
       };
       dtprod.push(opsdata);
     });
-    let [openAlert, setOpenAlert] = React88.useState(!1), [productTarget, setProductTarget] = React88.useState(0), handleClickOpenAlert = (e) => {
+    let [openAlert, setOpenAlert] = React89.useState(!1), [productTarget, setProductTarget] = React89.useState(0), handleClickOpenAlert = (e) => {
       setOpenAlert(!0);
     }, handleCloseAlert = (e) => {
       setOpenAlert(!1);
@@ -18481,12 +18558,12 @@ function index4(props = !1) {
         " ",
         /* @__PURE__ */ jsxDEV13(Typography_default, { gutterBottom: !0, variant: "h4", component: "h4", children: " Checkout" }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 343,
+          lineNumber: 348,
           columnNumber: 68
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 343,
+        lineNumber: 348,
         columnNumber: 17
       }, this),
       /* @__PURE__ */ jsxDEV13(Box_default, { children: [
@@ -18494,36 +18571,36 @@ function index4(props = !1) {
           /* @__PURE__ */ jsxDEV13(TableHead_default, { children: /* @__PURE__ */ jsxDEV13(TableRow_default, { children: [
             /* @__PURE__ */ jsxDEV13(TableCell_default, {}, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 349,
+              lineNumber: 354,
               columnNumber: 37
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { children: " List Item" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 350,
+              lineNumber: 355,
               columnNumber: 37
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Price" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 351,
+              lineNumber: 356,
               columnNumber: 37
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Quantity" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 352,
+              lineNumber: 357,
               columnNumber: 37
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: " Total" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 353,
+              lineNumber: 358,
               columnNumber: 37
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 348,
+            lineNumber: 353,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 347,
+            lineNumber: 352,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV13(TableBody_default, { children: dtprod.map((row) => /* @__PURE__ */ jsxDEV13(TableRow_default, { sx: { "&:last-child td, &:last-child th": { border: 0 } }, children: [
@@ -18543,7 +18620,7 @@ function index4(props = !1) {
                     " ",
                     /* @__PURE__ */ jsxDEV13(Icon_default, { children: " delete" }, void 0, !1, {
                       fileName: "app/routes/sales.tsx",
-                      lineNumber: 362,
+                      lineNumber: 367,
                       columnNumber: 88
                     }, this)
                   ]
@@ -18552,18 +18629,18 @@ function index4(props = !1) {
                 !0,
                 {
                   fileName: "app/routes/sales.tsx",
-                  lineNumber: 358,
+                  lineNumber: 363,
                   columnNumber: 33
                 },
                 this
               ) }, void 0, !1, {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 357,
+                lineNumber: 362,
                 columnNumber: 204
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 357,
+              lineNumber: 362,
               columnNumber: 160
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { component: "th", scope: "row", children: [
@@ -18571,7 +18648,7 @@ function index4(props = !1) {
               row.product_name + (row.attribute_name ? " - " + row.attribute_name : "")
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 370,
+              lineNumber: 375,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
@@ -18579,7 +18656,7 @@ function index4(props = !1) {
               row.price
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 371,
+              lineNumber: 376,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
@@ -18587,7 +18664,7 @@ function index4(props = !1) {
               row.qty
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 372,
+              lineNumber: 377,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(TableCell_default, { align: "right", children: [
@@ -18595,51 +18672,51 @@ function index4(props = !1) {
               numberWithCommas3(row.total)
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 373,
+              lineNumber: 378,
               columnNumber: 33
             }, this)
           ] }, row.product_name, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 357,
+            lineNumber: 362,
             columnNumber: 61
           }, this)) }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 356,
+            lineNumber: 361,
             columnNumber: 29
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 346,
+          lineNumber: 351,
           columnNumber: 25
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 345,
+          lineNumber: 350,
           columnNumber: 21
         }, this),
         /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", sx: { bgcolor: "#1976d2", color: "white" }, children: [
           /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
             /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: " Total Before Discount" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 381,
+              lineNumber: 386,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "caption", component: "h5", children: " Discount " }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 382,
+              lineNumber: 387,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: " Total" }, void 0, !1, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 383,
+              lineNumber: 388,
               columnNumber: 33
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 380,
+            lineNumber: 385,
             columnNumber: 29
           }, this) }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 379,
+            lineNumber: 384,
             columnNumber: 25
           }, this),
           /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: [
@@ -18648,7 +18725,7 @@ function index4(props = !1) {
               numberWithCommas3(parseInt(total2))
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 388,
+              lineNumber: 393,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "caption", component: "h5", children: [
@@ -18656,7 +18733,7 @@ function index4(props = !1) {
               numberWithCommas3(discount2 ? parseInt(discount2) : 0)
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 389,
+              lineNumber: 394,
               columnNumber: 33
             }, this),
             /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: [
@@ -18664,26 +18741,26 @@ function index4(props = !1) {
               numberWithCommas3(parseInt(total2) - (discount2 ? parseInt(discount2) : 0))
             ] }, void 0, !0, {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 390,
+              lineNumber: 395,
               columnNumber: 33
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 387,
+            lineNumber: 392,
             columnNumber: 29
           }, this) }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 386,
+            lineNumber: 391,
             columnNumber: 25
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 378,
+          lineNumber: 383,
           columnNumber: 21
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 344,
+        lineNumber: 349,
         columnNumber: 17
       }, this),
       /* @__PURE__ */ jsxDEV13(Dialog2, { open: openAlert, onClose: handleCloseAlert, "aria-labelledby": "alert-dialog-title", "aria-describedby": "alert-dialog-description", children: [
@@ -18692,52 +18769,52 @@ function index4(props = !1) {
           "Delete Product from cart"
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 397,
+          lineNumber: 402,
           columnNumber: 21
         }, this),
         /* @__PURE__ */ jsxDEV13(DialogContent2, { children: /* @__PURE__ */ jsxDEV13(DialogContentText2, { id: "alert-dialog-description", children: " Remove this product from your cart,are you agree ? " }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 399,
+          lineNumber: 404,
           columnNumber: 25
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 398,
+          lineNumber: 403,
           columnNumber: 22
         }, this),
         /* @__PURE__ */ jsxDEV13(DialogActions2, { children: [
           /* @__PURE__ */ jsxDEV13(Button_default, { onClick: handleCloseAlert, children: " Disagree" }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 402,
+            lineNumber: 407,
             columnNumber: 25
           }, this),
           /* @__PURE__ */ jsxDEV13(Form2, { onSubmit: (e) => {
             handleSubmitDelCart(e);
           }, children: /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", autoFocus: !0, children: " Agree" }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 404,
+            lineNumber: 409,
             columnNumber: 33
           }, this) }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 403,
+            lineNumber: 408,
             columnNumber: 29
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 401,
+          lineNumber: 406,
           columnNumber: 22
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 396,
+        lineNumber: 401,
         columnNumber: 17
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 341,
+      lineNumber: 346,
       columnNumber: 13
     }, this);
   }, TableTotalCheckout = (voucher2, paymentList2, keypaymentList) => {
-    let submit = useSubmit2(), [customer, setCustomer] = React88.useState(0), [preText, setPreText] = React88.useState(voucher2.toString()), [UsePayment, setUsePayment] = React88.useState(""), [UsePaymentName, setUsePaymentName] = React88.useState(""), users = useLoaderData6().users.result.map((record) => ({
+    let submit = useSubmit2(), [customer, setCustomer] = React89.useState(0), [preText, setPreText] = React89.useState(voucher2.toString()), [UsePayment, setUsePayment] = React89.useState(""), [UsePaymentName, setUsePaymentName] = React89.useState(""), users = useLoaderData6().users.result.map((record) => ({
       label: record.nama_lengkap != null ? record.nama_lengkap : "No name",
       id: record.id
     })), onTagsChange = (event, values, reason) => {
@@ -18748,10 +18825,23 @@ function index4(props = !1) {
       reason === "clear" ? (setUsePayment(""), setUsePaymentName("")) : (setUsePayment(values.id), setUsePaymentName(values.label));
     };
     async function handleSubmit(event, data, type, option) {
-      if (event.preventDefault(), (data.length ? data : !1) == !1)
-        return alert("cart is empty"), !1;
-      if (UsePayment == "")
-        return alert("Choose Payment!"), !1;
+      event.preventDefault();
+      let formData = new FormData();
+      (data.length ? data : !1) == !1 && (formData.append("type", "calling_alert"), formData.append("type_alert", "error"), formData.append("message_alert", "Cart is empty"), submit(formData, {
+        action: "/sales",
+        method: "post",
+        encType: "application/x-www-form-urlencoded",
+        preventScrollReset: !1,
+        replace: !1,
+        relative: "route"
+      })), UsePayment == "" && (formData.append("type", "calling_alert"), formData.append("type_alert", "error"), formData.append("message_alert", "Choose Payment!"), submit(formData, {
+        action: "/sales",
+        method: "post",
+        encType: "application/x-www-form-urlencoded",
+        preventScrollReset: !1,
+        replace: !1,
+        relative: "route"
+      }));
       let checkoutData = {
         customer_id: customer,
         payment_key: "",
@@ -18771,9 +18861,7 @@ function index4(props = !1) {
           attribute_note: ""
         };
         checkoutData.cart.push(ready);
-      }), type == "check_voucher" && Object.assign(checkoutData, { use_voucher: 1, voucher_code: preText }), useVoucher === !0 && Object.assign(checkoutData, { use_voucher: 1, voucher_code: voucher2 });
-      let formData = new FormData();
-      formData.append("checkout", JSON.stringify(checkoutData)), formData.append("type", type), submit(formData, {
+      }), type == "check_voucher" && Object.assign(checkoutData, { use_voucher: 1, voucher_code: preText }), useVoucher === !0 && Object.assign(checkoutData, { use_voucher: 1, voucher_code: voucher2 }), formData.append("checkout", JSON.stringify(checkoutData)), formData.append("type", type), submit(formData, {
         action: "/sales",
         method: "post",
         encType: "application/x-www-form-urlencoded",
@@ -18787,15 +18875,15 @@ function index4(props = !1) {
       /* @__PURE__ */ jsxDEV13(Box_default, { bgcolor: "#f7f7f7", children: /* @__PURE__ */ jsxDEV13(Stack_default, { useFlexGap: !0, flexWrap: "wrap", direction: "row", children: [
         /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "left", gutterBottom: !0, variant: "h5", component: "h5", children: " Total " }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 540,
+          lineNumber: 565,
           columnNumber: 33
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 539,
+          lineNumber: 564,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 538,
+          lineNumber: 563,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 6, md: 6, lg: 6, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(Typography_default, { margin: "0.5em", textAlign: "right", gutterBottom: !0, variant: "h5", component: "h5", children: [
@@ -18803,15 +18891,15 @@ function index4(props = !1) {
           numberWithCommas3(parseInt(total) - (discount ? parseInt(discount) : 0))
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 545,
+          lineNumber: 570,
           columnNumber: 33
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 544,
+          lineNumber: 569,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 543,
+          lineNumber: 568,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { children: /* @__PURE__ */ jsxDEV13(
@@ -18835,7 +18923,7 @@ function index4(props = !1) {
               !1,
               {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 552,
+                lineNumber: 577,
                 columnNumber: 49
               },
               this
@@ -18846,17 +18934,17 @@ function index4(props = !1) {
           !1,
           {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 550,
+            lineNumber: 575,
             columnNumber: 33
           },
           this
         ) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 549,
+          lineNumber: 574,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 548,
+          lineNumber: 573,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", onSubmit: (e) => {
@@ -18879,7 +18967,7 @@ function index4(props = !1) {
             !1,
             {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 568,
+              lineNumber: 593,
               columnNumber: 37
             },
             this
@@ -18899,27 +18987,27 @@ function index4(props = !1) {
             !1,
             {
               fileName: "app/routes/sales.tsx",
-              lineNumber: 573,
+              lineNumber: 598,
               columnNumber: 37
             },
             this
           ),
           /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", sx: { alignContent: "flex-start", marginTop: "1em" }, color: voucher2 == "" ? "primary" : "error", size: "large", children: voucher2 == "" ? "Use" : "Remove" }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 580,
+            lineNumber: 605,
             columnNumber: 37
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 566,
+          lineNumber: 591,
           columnNumber: 33
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 563,
+          lineNumber: 588,
           columnNumber: 29
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 562,
+          lineNumber: 587,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(
@@ -18943,7 +19031,7 @@ function index4(props = !1) {
               !1,
               {
                 fileName: "app/routes/sales.tsx",
-                lineNumber: 587,
+                lineNumber: 612,
                 columnNumber: 49
               },
               this
@@ -18954,18 +19042,18 @@ function index4(props = !1) {
           !1,
           {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 585,
+            lineNumber: 610,
             columnNumber: 29
           },
           this
         ) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 584,
+          lineNumber: 609,
           columnNumber: 25
         }, this),
         /* @__PURE__ */ jsxDEV13(Divider_default, { variant: "middle" }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 598,
+          lineNumber: 623,
           columnNumber: 17
         }, this),
         /* @__PURE__ */ jsxDEV13(Grid_default, { xs: 12, md: 12, lg: 12, children: /* @__PURE__ */ jsxDEV13(Box_default, { sx: { margin: "0em", marginTop: "0.5em" }, children: /* @__PURE__ */ jsxDEV13(Form2, { method: "POST", action: "checkout", onSubmit: (e) => {
@@ -18973,43 +19061,43 @@ function index4(props = !1) {
         }, children: [
           /* @__PURE__ */ jsxDEV13(Input_default, { type: "hidden", size: "small", name: "email", id: "email", defaultValue: "wasdas@asdas.com" }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 606,
+            lineNumber: 631,
             columnNumber: 29
           }, this),
           /* @__PURE__ */ jsxDEV13(Button_default, { type: "submit", size: "large", fullWidth: !0, variant: "contained", color: "success", children: " Pay" }, void 0, !1, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 607,
+            lineNumber: 632,
             columnNumber: 33
           }, this)
         ] }, void 0, !0, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 601,
+          lineNumber: 626,
           columnNumber: 25
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 600,
+          lineNumber: 625,
           columnNumber: 21
         }, this) }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 599,
+          lineNumber: 624,
           columnNumber: 17
         }, this)
       ] }, void 0, !0, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 537,
+        lineNumber: 562,
         columnNumber: 21
       }, this) }, void 0, !1, {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 536,
+        lineNumber: 561,
         columnNumber: 146
       }, this)
     ] }, void 0, !0, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 536,
+      lineNumber: 561,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 535,
+      lineNumber: 560,
       columnNumber: 13
     }, this);
   };
@@ -19027,7 +19115,7 @@ function index4(props = !1) {
             TableProductCheckout(cart, total, discount, deleteCart)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 622,
+            lineNumber: 647,
             columnNumber: 65
           }, this),
           " ",
@@ -19036,7 +19124,7 @@ function index4(props = !1) {
             TableTotalCheckout(voucher, paymentList, keyPaymentList)
           ] }, void 0, !0, {
             fileName: "app/routes/sales.tsx",
-            lineNumber: 624,
+            lineNumber: 649,
             columnNumber: 18
           }, this),
           " ",
@@ -19047,52 +19135,32 @@ function index4(props = !1) {
       !0,
       {
         fileName: "app/routes/sales.tsx",
-        lineNumber: 621,
+        lineNumber: 646,
         columnNumber: 9
       },
       this
     ),
     myusers.message != null ? /* @__PURE__ */ jsxDEV13(Stack_default, { spacing: 2, sx: { width: "100%" }, children: /* @__PURE__ */ jsxDEV13(Snackbar, { anchorOrigin: { vertical: "bottom", horizontal: "center" }, open: snack, autoHideDuration: 6e3, onClose: handleCloseSnack, children: /* @__PURE__ */ jsxDEV13(Alert, { variant: "filled", onClose: handleCloseSnack, severity: myusers.alert && myusers.alert == 1 ? "success" : "error", sx: { width: "100%" }, children: myusers.message && myusers.message != null ? myusers.message : "" }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 633,
+      lineNumber: 658,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 632,
+      lineNumber: 657,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 631,
+      lineNumber: 656,
       columnNumber: 13
-    }, this) : "",
-    /* @__PURE__ */ jsxDEV13(
-      Backdrop4,
-      {
-        sx: { color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 },
-        open: navigation.state === "loading",
-        children: /* @__PURE__ */ jsxDEV13(CircularProgress2, { color: "inherit" }, void 0, !1, {
-          fileName: "app/routes/sales.tsx",
-          lineNumber: 644,
-          columnNumber: 13
-        }, this)
-      },
-      void 0,
-      !1,
-      {
-        fileName: "app/routes/sales.tsx",
-        lineNumber: 640,
-        columnNumber: 9
-      },
-      this
-    )
+    }, this) : ""
   ] }, void 0, !0, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 620,
+    lineNumber: 645,
     columnNumber: 9
   }, this);
 }
 var AddProduct = () => {
-  let navigate = useNavigate2();
+  let navigate = useNavigate4();
   return /* @__PURE__ */ jsxDEV13("div", { children: /* @__PURE__ */ jsxDEV13(Box_default, { sx: { "& > :not(style)": { m: 1 } }, children: /* @__PURE__ */ jsxDEV13(
     Fab_default,
     {
@@ -19110,7 +19178,7 @@ var AddProduct = () => {
         " ",
         /* @__PURE__ */ jsxDEV13(Icon_default, { children: " add" }, void 0, !1, {
           fileName: "app/routes/sales.tsx",
-          lineNumber: 672,
+          lineNumber: 689,
           columnNumber: 14
         }, this)
       ]
@@ -19119,17 +19187,17 @@ var AddProduct = () => {
     !0,
     {
       fileName: "app/routes/sales.tsx",
-      lineNumber: 665,
+      lineNumber: 682,
       columnNumber: 15
     },
     this
   ) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 664,
+    lineNumber: 681,
     columnNumber: 11
   }, this) }, void 0, !1, {
     fileName: "app/routes/sales.tsx",
-    lineNumber: 663,
+    lineNumber: 680,
     columnNumber: 9
   }, this);
 };
@@ -19142,13 +19210,13 @@ __export(users_exports, {
   loader: () => loader10,
   meta: () => meta8
 });
-import * as React96 from "react";
+import * as React97 from "react";
 import { DataGrid as DataGrid3, GridToolbar as GridToolbar3 } from "@mui/x-data-grid";
 
 // node_modules/@mui/material/Tooltip/Tooltip.js
 import _objectWithoutPropertiesLoose67 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends77 from "@babel/runtime/helpers/esm/extends";
-import * as React89 from "react";
+import * as React90 from "react";
 import PropTypes69 from "prop-types";
 import clsx53 from "clsx";
 import { elementAcceptingRef as elementAcceptingRef6 } from "@mui/utils";
@@ -19340,7 +19408,7 @@ function composeEventHandler(handler, eventHandler) {
     eventHandler && eventHandler(event), handler(event);
   };
 }
-var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
+var Tooltip = /* @__PURE__ */ React90.forwardRef(function(inProps, ref) {
   var _ref, _slots$popper, _ref2, _ref3, _slots$transition, _ref4, _slots$tooltip, _ref5, _slots$arrow, _slotProps$popper, _ref6, _slotProps$popper2, _slotProps$transition, _slotProps$tooltip, _ref7, _slotProps$tooltip2, _slotProps$arrow, _ref8, _slotProps$arrow2;
   let props = useThemeProps({
     props: inProps,
@@ -19373,9 +19441,9 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
     title,
     TransitionComponent: TransitionComponentProp = Grow_default,
     TransitionProps
-  } = props, other = _objectWithoutPropertiesLoose67(props, _excluded69), children = /* @__PURE__ */ React89.isValidElement(childrenProp) ? childrenProp : /* @__PURE__ */ _jsx74("span", {
+  } = props, other = _objectWithoutPropertiesLoose67(props, _excluded69), children = /* @__PURE__ */ React90.isValidElement(childrenProp) ? childrenProp : /* @__PURE__ */ _jsx74("span", {
     children: childrenProp
-  }), theme = useTheme(), isRtl = theme.direction === "rtl", [childNode, setChildNode] = React89.useState(), [arrowRef, setArrowRef] = React89.useState(null), ignoreNonTouchEvents = React89.useRef(!1), disableInteractive = disableInteractiveProp || followCursor, closeTimer = React89.useRef(), enterTimer = React89.useRef(), leaveTimer = React89.useRef(), touchTimer = React89.useRef(), [openState, setOpenState] = useControlled_default({
+  }), theme = useTheme(), isRtl = theme.direction === "rtl", [childNode, setChildNode] = React90.useState(), [arrowRef, setArrowRef] = React90.useState(null), ignoreNonTouchEvents = React90.useRef(!1), disableInteractive = disableInteractiveProp || followCursor, closeTimer = React90.useRef(), enterTimer = React90.useRef(), leaveTimer = React90.useRef(), touchTimer = React90.useRef(), [openState, setOpenState] = useControlled_default({
     controlled: openProp,
     default: !1,
     name: "Tooltip",
@@ -19384,16 +19452,16 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
   {
     let {
       current: isControlled
-    } = React89.useRef(openProp !== void 0);
-    React89.useEffect(() => {
+    } = React90.useRef(openProp !== void 0);
+    React90.useEffect(() => {
       childNode && childNode.disabled && !isControlled && title !== "" && childNode.tagName.toLowerCase() === "button" && console.error(["MUI: You are providing a disabled `button` child to the Tooltip component.", "A disabled element does not fire events.", "Tooltip needs to listen to the child element's events to display the title.", "", "Add a simple wrapper element, such as a `span`."].join(`
 `));
     }, [title, childNode, isControlled]);
   }
-  let id = useId_default(idProp), prevUserSelect = React89.useRef(), stopTouchInteraction = React89.useCallback(() => {
+  let id = useId_default(idProp), prevUserSelect = React90.useRef(), stopTouchInteraction = React90.useCallback(() => {
     prevUserSelect.current !== void 0 && (document.body.style.WebkitUserSelect = prevUserSelect.current, prevUserSelect.current = void 0), clearTimeout(touchTimer.current);
   }, []);
-  React89.useEffect(() => () => {
+  React90.useEffect(() => () => {
     clearTimeout(closeTimer.current), clearTimeout(enterTimer.current), clearTimeout(leaveTimer.current), stopTouchInteraction();
   }, [stopTouchInteraction]);
   let handleOpen = (event) => {
@@ -19422,7 +19490,7 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
     onBlur: handleBlurVisible,
     onFocus: handleFocusVisible,
     ref: focusVisibleRef
-  } = useIsFocusVisible_default(), [, setChildIsFocusVisible] = React89.useState(!1), handleBlur = (event) => {
+  } = useIsFocusVisible_default(), [, setChildIsFocusVisible] = React90.useState(!1), handleBlur = (event) => {
     handleBlurVisible(event), isFocusVisibleRef.current === !1 && (setChildIsFocusVisible(!1), handleLeave(event));
   }, handleFocus = (event) => {
     childNode || setChildNode(event.currentTarget), handleFocusVisible(event), isFocusVisibleRef.current === !0 && (setChildIsFocusVisible(!0), handleEnter(event));
@@ -19439,7 +19507,7 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
       handleClose(event);
     }, leaveTouchDelay);
   };
-  React89.useEffect(() => {
+  React90.useEffect(() => {
     if (!open)
       return;
     function handleKeyDown(nativeEvent) {
@@ -19451,7 +19519,7 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
   }, [handleClose, open]);
   let handleRef = useForkRef_default(children.ref, focusVisibleRef, setChildNode, ref);
   !title && title !== 0 && (open = !1);
-  let popperRef = React89.useRef(), handleMouseMove = (event) => {
+  let popperRef = React90.useRef(), handleMouseMove = (event) => {
     let childrenProps2 = children.props;
     childrenProps2.onMouseMove && childrenProps2.onMouseMove(event), cursorPosition = {
       x: event.clientX,
@@ -19466,14 +19534,14 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
   }, followCursor ? {
     onMouseMove: handleMouseMove
   } : {});
-  childrenProps["data-mui-internal-clone-element"] = !0, React89.useEffect(() => {
+  childrenProps["data-mui-internal-clone-element"] = !0, React90.useEffect(() => {
     childNode && !childNode.getAttribute("data-mui-internal-clone-element") && console.error(["MUI: The `children` component of the Tooltip is not forwarding its props correctly.", "Please make sure that props are spread on the same element that the ref is applied to."].join(`
 `));
   }, [childNode]);
   let interactiveWrapperListeners = {};
   disableTouchListener || (childrenProps.onTouchStart = handleTouchStart, childrenProps.onTouchEnd = handleTouchEnd), disableHoverListener || (childrenProps.onMouseOver = composeEventHandler(handleMouseOver, childrenProps.onMouseOver), childrenProps.onMouseLeave = composeEventHandler(handleMouseLeave, childrenProps.onMouseLeave), disableInteractive || (interactiveWrapperListeners.onMouseOver = handleMouseOver, interactiveWrapperListeners.onMouseLeave = handleMouseLeave)), disableFocusListener || (childrenProps.onFocus = composeEventHandler(handleFocus, childrenProps.onFocus), childrenProps.onBlur = composeEventHandler(handleBlur, childrenProps.onBlur), disableInteractive || (interactiveWrapperListeners.onFocus = handleFocus, interactiveWrapperListeners.onBlur = handleBlur)), children.props.title && console.error(["MUI: You have provided a `title` prop to the child of <Tooltip />.", `Remove this title prop \`${children.props.title}\` or the Tooltip component.`].join(`
 `));
-  let popperOptions = React89.useMemo(() => {
+  let popperOptions = React90.useMemo(() => {
     var _PopperProps$popperOp;
     let tooltipModifiers = [{
       name: "arrow",
@@ -19500,8 +19568,8 @@ var Tooltip = /* @__PURE__ */ React89.forwardRef(function(inProps, ref) {
   }), ownerState), tooltipArrowProps = appendOwnerState2(ArrowComponent, _extends77({}, (_slotProps$arrow = slotProps.arrow) != null ? _slotProps$arrow : componentsProps.arrow, {
     className: clsx53(classes.arrow, (_ref8 = (_slotProps$arrow2 = slotProps.arrow) != null ? _slotProps$arrow2 : componentsProps.arrow) == null ? void 0 : _ref8.className)
   }), ownerState);
-  return /* @__PURE__ */ _jsxs20(React89.Fragment, {
-    children: [/* @__PURE__ */ React89.cloneElement(children, childrenProps), /* @__PURE__ */ _jsx74(PopperComponent, _extends77({
+  return /* @__PURE__ */ _jsxs20(React90.Fragment, {
+    children: [/* @__PURE__ */ React90.cloneElement(children, childrenProps), /* @__PURE__ */ _jsx74(PopperComponent, _extends77({
       as: PopperComponentProp ?? Popper_default,
       placement,
       anchorEl: followCursor ? {
@@ -19731,12 +19799,12 @@ var Tooltip_default = Tooltip;
 
 // app/routes/users.tsx
 import { useLoaderData as useLoaderData7 } from "@remix-run/react";
-import { json as json11 } from "@remix-run/node";
+import { json as json12 } from "@remix-run/node";
 
 // node_modules/@mui/material/Dialog/Dialog.js
 import _objectWithoutPropertiesLoose68 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends78 from "@babel/runtime/helpers/esm/extends";
-import * as React91 from "react";
+import * as React92 from "react";
 import PropTypes70 from "prop-types";
 import clsx54 from "clsx";
 import { unstable_useId as useId4 } from "@mui/utils";
@@ -19749,8 +19817,8 @@ function getDialogUtilityClass(slot) {
 var dialogClasses = generateUtilityClasses55("MuiDialog", ["root", "scrollPaper", "scrollBody", "container", "paper", "paperScrollPaper", "paperScrollBody", "paperWidthFalse", "paperWidthXs", "paperWidthSm", "paperWidthMd", "paperWidthLg", "paperWidthXl", "paperFullWidth", "paperFullScreen"]), dialogClasses_default = dialogClasses;
 
 // node_modules/@mui/material/Dialog/DialogContext.js
-import * as React90 from "react";
-var DialogContext = /* @__PURE__ */ React90.createContext({});
+import * as React91 from "react";
+var DialogContext = /* @__PURE__ */ React91.createContext({});
 DialogContext.displayName = "DialogContext";
 var DialogContext_default = DialogContext;
 
@@ -19877,7 +19945,7 @@ var _excluded70 = ["aria-describedby", "aria-labelledby", "BackdropComponent", "
     margin: 0,
     maxWidth: "100%"
   }
-})), Dialog3 = /* @__PURE__ */ React91.forwardRef(function(inProps, ref) {
+})), Dialog3 = /* @__PURE__ */ React92.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialog"
@@ -19910,11 +19978,11 @@ var _excluded70 = ["aria-describedby", "aria-labelledby", "BackdropComponent", "
     fullWidth,
     maxWidth,
     scroll
-  }), classes = useUtilityClasses55(ownerState), backdropClick = React91.useRef(), handleMouseDown = (event) => {
+  }), classes = useUtilityClasses55(ownerState), backdropClick = React92.useRef(), handleMouseDown = (event) => {
     backdropClick.current = event.target === event.currentTarget;
   }, handleBackdropClick = (event) => {
     backdropClick.current && (backdropClick.current = null, onBackdropClick && onBackdropClick(event), onClose && onClose(event, "backdropClick"));
-  }, ariaLabelledby = useId4(ariaLabelledbyProp), dialogContextValue = React91.useMemo(() => ({
+  }, ariaLabelledby = useId4(ariaLabelledbyProp), dialogContextValue = React92.useMemo(() => ({
     titleId: ariaLabelledby
   }), [ariaLabelledby]);
   return /* @__PURE__ */ _jsx75(DialogRoot, _extends78({
@@ -20097,7 +20165,7 @@ var Dialog_default = Dialog3;
 // node_modules/@mui/material/DialogActions/DialogActions.js
 import _objectWithoutPropertiesLoose69 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends79 from "@babel/runtime/helpers/esm/extends";
-import * as React92 from "react";
+import * as React93 from "react";
 import PropTypes71 from "prop-types";
 import clsx55 from "clsx";
 
@@ -20139,7 +20207,7 @@ var _excluded71 = ["className", "disableSpacing"], useUtilityClasses56 = (ownerS
   "& > :not(style) ~ :not(style)": {
     marginLeft: 8
   }
-})), DialogActions3 = /* @__PURE__ */ React92.forwardRef(function(inProps, ref) {
+})), DialogActions3 = /* @__PURE__ */ React93.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogActions"
@@ -20187,7 +20255,7 @@ var DialogActions_default = DialogActions3;
 // node_modules/@mui/material/DialogContent/DialogContent.js
 import _objectWithoutPropertiesLoose70 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends80 from "@babel/runtime/helpers/esm/extends";
-import * as React93 from "react";
+import * as React94 from "react";
 import PropTypes72 from "prop-types";
 import clsx56 from "clsx";
 
@@ -20241,7 +20309,7 @@ var _excluded72 = ["className", "dividers"], useUtilityClasses57 = (ownerState) 
   [`.${dialogTitleClasses_default.root} + &`]: {
     paddingTop: 0
   }
-})), DialogContent3 = /* @__PURE__ */ React93.forwardRef(function(inProps, ref) {
+})), DialogContent3 = /* @__PURE__ */ React94.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogContent"
@@ -20289,7 +20357,7 @@ var DialogContent_default = DialogContent3;
 // node_modules/@mui/material/DialogContentText/DialogContentText.js
 import _objectWithoutPropertiesLoose71 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
 import _extends81 from "@babel/runtime/helpers/esm/extends";
-import * as React94 from "react";
+import * as React95 from "react";
 import PropTypes73 from "prop-types";
 import clsx57 from "clsx";
 
@@ -20314,7 +20382,7 @@ var _excluded73 = ["children", "className"], useUtilityClasses58 = (ownerState) 
   name: "MuiDialogContentText",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), DialogContentText3 = /* @__PURE__ */ React94.forwardRef(function(inProps, ref) {
+})({}), DialogContentText3 = /* @__PURE__ */ React95.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogContentText"
@@ -20359,7 +20427,7 @@ var DialogContentText_default = DialogContentText3;
 // node_modules/@mui/material/DialogTitle/DialogTitle.js
 import _extends82 from "@babel/runtime/helpers/esm/extends";
 import _objectWithoutPropertiesLoose72 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
-import * as React95 from "react";
+import * as React96 from "react";
 import PropTypes74 from "prop-types";
 import clsx58 from "clsx";
 import { jsx as _jsx79 } from "react/jsx-runtime";
@@ -20377,7 +20445,7 @@ var _excluded74 = ["className", "id"], useUtilityClasses59 = (ownerState) => {
 })({
   padding: "16px 24px",
   flex: "0 0 auto"
-}), DialogTitle3 = /* @__PURE__ */ React95.forwardRef(function(inProps, ref) {
+}), DialogTitle3 = /* @__PURE__ */ React96.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiDialogTitle"
@@ -20386,7 +20454,7 @@ var _excluded74 = ["className", "id"], useUtilityClasses59 = (ownerState) => {
     id: idProp
   } = props, other = _objectWithoutPropertiesLoose72(props, _excluded74), ownerState = props, classes = useUtilityClasses59(ownerState), {
     titleId = idProp
-  } = React95.useContext(DialogContext_default);
+  } = React96.useContext(DialogContext_default);
   return /* @__PURE__ */ _jsx79(DialogTitleRoot, _extends82({
     component: "h2",
     className: clsx58(classes.root, className),
@@ -20443,11 +20511,11 @@ async function action9({ request }) {
     nama_belakang,
     phone,
     alamat
-  }, errors = {};
+  }, errors = {}, session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
   if (Object.keys(errors).length > 0)
-    return json11({ errors });
+    return json12({ errors });
   {
-    let response = await createUsers(data);
+    let response = await createUsers(secret, data);
     if (response.meta.code != 200)
       console.log(response.meta.message);
     else
@@ -20455,7 +20523,7 @@ async function action9({ request }) {
   }
 }
 function createUserComponent() {
-  let actionData = useActionData2(), [open, setOpen] = React96.useState(!1), handleClickOpen = () => {
+  let actionData = useActionData2(), [open, setOpen] = React97.useState(!1), handleClickOpen = () => {
     setOpen(!0);
   }, handleClose = () => {
     setTimeout(function() {
@@ -20476,7 +20544,7 @@ function createUserComponent() {
         onClick: handleClickOpen,
         children: /* @__PURE__ */ jsxDEV14(Icon_default, { children: "add" }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 120,
+          lineNumber: 122,
           columnNumber: 25
         }, this)
       },
@@ -20484,13 +20552,13 @@ function createUserComponent() {
       !1,
       {
         fileName: "app/routes/users.tsx",
-        lineNumber: 111,
+        lineNumber: 113,
         columnNumber: 21
       },
       this
     ) }, void 0, !1, {
       fileName: "app/routes/users.tsx",
-      lineNumber: 110,
+      lineNumber: 112,
       columnNumber: 13
     }, this),
     /* @__PURE__ */ jsxDEV14(
@@ -20501,7 +20569,7 @@ function createUserComponent() {
         children: [
           /* @__PURE__ */ jsxDEV14(DialogTitle_default, { id: "alert-dialog-title", children: "Create new user" }, void 0, !1, {
             fileName: "app/routes/users.tsx",
-            lineNumber: 128,
+            lineNumber: 130,
             columnNumber: 17
           }, this),
           /* @__PURE__ */ jsxDEV14(DialogContent_default, { children: /* @__PURE__ */ jsxDEV14(Form3, { method: "post", action: "create", onSubmit: () => {
@@ -20510,119 +20578,119 @@ function createUserComponent() {
             /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
               /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "nama_depan", children: "First Name" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 134,
+                lineNumber: 136,
                 columnNumber: 33
               }, this),
               /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "nama_depan", id: "nama_depan", defaultValue: "" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 135,
+                lineNumber: 137,
                 columnNumber: 33
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 133,
+              lineNumber: 135,
               columnNumber: 29
             }, this) }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 132,
+              lineNumber: 134,
               columnNumber: 25
             }, this),
             /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
               /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "nama_belakang", children: "Last Name" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 141,
+                lineNumber: 143,
                 columnNumber: 33
               }, this),
               /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "nama_belakang", id: "nama_belakang", defaultValue: "" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 142,
+                lineNumber: 144,
                 columnNumber: 33
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 140,
+              lineNumber: 142,
               columnNumber: 29
             }, this) }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 139,
+              lineNumber: 141,
               columnNumber: 25
             }, this),
             /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
               /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "email", children: "Email" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 148,
+                lineNumber: 150,
                 columnNumber: 33
               }, this),
               /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "email", id: "email", defaultValue: "" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 149,
+                lineNumber: 151,
                 columnNumber: 33
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 147,
+              lineNumber: 149,
               columnNumber: 29
             }, this) }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 146,
+              lineNumber: 148,
               columnNumber: 25
             }, this),
             /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
               /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "phone", children: "Phone" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 155,
+                lineNumber: 157,
                 columnNumber: 33
               }, this),
               /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "phone", id: "phone", defaultValue: "" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 156,
+                lineNumber: 158,
                 columnNumber: 33
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 154,
+              lineNumber: 156,
               columnNumber: 29
             }, this) }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 153,
+              lineNumber: 155,
               columnNumber: 25
             }, this),
             /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
               /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "alamat", children: "Address" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 162,
+                lineNumber: 164,
                 columnNumber: 33
               }, this),
               /* @__PURE__ */ jsxDEV14(Input_default, { size: "small", name: "alamat", id: "alamat", defaultValue: "" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 163,
+                lineNumber: 165,
                 columnNumber: 33
               }, this)
             ] }, void 0, !0, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 161,
+              lineNumber: 163,
               columnNumber: 29
             }, this) }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 160,
+              lineNumber: 162,
               columnNumber: 25
             }, this),
             /* @__PURE__ */ jsxDEV14(DialogActions_default, { children: /* @__PURE__ */ jsxDEV14(Button_default, { type: "submit", children: "Create" }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 168,
+              lineNumber: 170,
               columnNumber: 29
             }, this) }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 167,
+              lineNumber: 169,
               columnNumber: 25
             }, this)
           ] }, void 0, !0, {
             fileName: "app/routes/users.tsx",
-            lineNumber: 131,
+            lineNumber: 133,
             columnNumber: 17
           }, this) }, void 0, !1, {
             fileName: "app/routes/users.tsx",
-            lineNumber: 129,
+            lineNumber: 131,
             columnNumber: 17
           }, this)
         ]
@@ -20631,14 +20699,14 @@ function createUserComponent() {
       !0,
       {
         fileName: "app/routes/users.tsx",
-        lineNumber: 124,
+        lineNumber: 126,
         columnNumber: 13
       },
       this
     )
   ] }, void 0, !0, {
     fileName: "app/routes/users.tsx",
-    lineNumber: 107,
+    lineNumber: 109,
     columnNumber: 9
   }, this);
 }
@@ -20676,11 +20744,11 @@ var columns3 = [
     align: "center",
     headerAlign: "center",
     renderCell: (params) => {
-      let id = params.id, [openAlertDel, setAlertDel] = React96.useState(!1), handleClosedelete = () => {
+      let id = params.id, [openAlertDel, setAlertDel] = React97.useState(!1), handleClosedelete = () => {
         setAlertDel(!1);
       }, handleOpem = () => {
         setAlertDel(!0);
-      }, [openAlertUpd, setAlertUpd] = React96.useState(!1), handleCloseUpd = () => {
+      }, [openAlertUpd, setAlertUpd] = React97.useState(!1), handleCloseUpd = () => {
         setAlertUpd(!1);
       };
       return /* @__PURE__ */ jsxDEV14(Stack_default, { direction: "row", spacing: "1", children: [
@@ -20688,20 +20756,20 @@ var columns3 = [
           setAlertUpd(!0);
         }, size: "small", variant: "contained", color: "success", children: "Edit" }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 236,
+          lineNumber: 238,
           columnNumber: 25
         }, this) }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 235,
+          lineNumber: 237,
           columnNumber: 21
         }, this),
         /* @__PURE__ */ jsxDEV14(Tooltip_default, { title: "Delete this user", arrow: !0, placement: "bottom-start", children: /* @__PURE__ */ jsxDEV14(Button_default, { onClick: handleOpem, size: "small", variant: "contained", color: "error", children: "Delete" }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 241,
+          lineNumber: 243,
           columnNumber: 25
         }, this) }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 240,
+          lineNumber: 242,
           columnNumber: 21
         }, this),
         /* @__PURE__ */ jsxDEV14(
@@ -20714,22 +20782,22 @@ var columns3 = [
             children: [
               /* @__PURE__ */ jsxDEV14(DialogTitle_default, { id: "alert-dialog-title", children: "Are you sure want delete this user ?" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 253,
+                lineNumber: 255,
                 columnNumber: 25
               }, this),
               /* @__PURE__ */ jsxDEV14(DialogContent_default, { children: /* @__PURE__ */ jsxDEV14(DialogContentText_default, { id: "alert-dialog-description", children: "This action can't rollback after you agree to delete." }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 257,
+                lineNumber: 259,
                 columnNumber: 25
               }, this) }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 256,
+                lineNumber: 258,
                 columnNumber: 25
               }, this),
               /* @__PURE__ */ jsxDEV14(DialogActions_default, { children: [
                 /* @__PURE__ */ jsxDEV14(Button_default, { onClick: handleClosedelete, children: "Cancel" }, void 0, !1, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 262,
+                  lineNumber: 264,
                   columnNumber: 25
                 }, this),
                 /* @__PURE__ */ jsxDEV14(
@@ -20740,12 +20808,12 @@ var columns3 = [
                     children: [
                       /* @__PURE__ */ jsxDEV14("input", { name: "id", type: "hidden", value: id }, void 0, !1, {
                         fileName: "app/routes/users.tsx",
-                        lineNumber: 267,
+                        lineNumber: 269,
                         columnNumber: 25
                       }, this),
                       /* @__PURE__ */ jsxDEV14(Button_default, { type: "submit", onClick: handleClosedelete, children: "Delete" }, void 0, !1, {
                         fileName: "app/routes/users.tsx",
-                        lineNumber: 268,
+                        lineNumber: 270,
                         columnNumber: 25
                       }, this)
                     ]
@@ -20754,14 +20822,14 @@ var columns3 = [
                   !0,
                   {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 263,
+                    lineNumber: 265,
                     columnNumber: 25
                   },
                   this
                 )
               ] }, void 0, !0, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 261,
+                lineNumber: 263,
                 columnNumber: 25
               }, this)
             ]
@@ -20770,7 +20838,7 @@ var columns3 = [
           !0,
           {
             fileName: "app/routes/users.tsx",
-            lineNumber: 247,
+            lineNumber: 249,
             columnNumber: 21
           },
           this
@@ -20785,113 +20853,113 @@ var columns3 = [
             children: [
               /* @__PURE__ */ jsxDEV14(DialogTitle_default, { id: "alert-dialog-title", children: "Update Data Customer" }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 282,
+                lineNumber: 284,
                 columnNumber: 25
               }, this),
               /* @__PURE__ */ jsxDEV14(DialogContent_default, { children: /* @__PURE__ */ jsxDEV14(Form3, { action: "update", method: "post", onSubmit: handleCloseUpd, children: [
                 /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: [
                   /* @__PURE__ */ jsxDEV14("input", { name: "id", type: "hidden", value: params.id }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 288,
+                    lineNumber: 290,
                     columnNumber: 33
                   }, this),
                   /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
                     /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "nama_depan", children: "First Name" }, void 0, !1, {
                       fileName: "app/routes/users.tsx",
-                      lineNumber: 290,
+                      lineNumber: 292,
                       columnNumber: 37
                     }, this),
                     /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "nama_depan", id: "nama_depan", defaultValue: params.row.nama_depan }, void 0, !1, {
                       fileName: "app/routes/users.tsx",
-                      lineNumber: 291,
+                      lineNumber: 293,
                       columnNumber: 37
                     }, this)
                   ] }, void 0, !0, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 289,
+                    lineNumber: 291,
                     columnNumber: 33
                   }, this)
                 ] }, void 0, !0, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 287,
+                  lineNumber: 289,
                   columnNumber: 29
                 }, this),
                 /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
                   /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "nama_depan", children: "Last Name" }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 297,
+                    lineNumber: 299,
                     columnNumber: 37
                   }, this),
                   /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "nama_belakang", id: "nama_belakang", defaultValue: params.row.nama_belakang }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 298,
+                    lineNumber: 300,
                     columnNumber: 37
                   }, this)
                 ] }, void 0, !0, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 296,
+                  lineNumber: 298,
                   columnNumber: 33
                 }, this) }, void 0, !1, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 295,
+                  lineNumber: 297,
                   columnNumber: 29
                 }, this),
                 /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
                   /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "phone", children: "Phone" }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 304,
+                    lineNumber: 306,
                     columnNumber: 37
                   }, this),
                   /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "phone", id: "phone", defaultValue: params.row.phone }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 305,
+                    lineNumber: 307,
                     columnNumber: 37
                   }, this)
                 ] }, void 0, !0, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 303,
+                  lineNumber: 305,
                   columnNumber: 33
                 }, this) }, void 0, !1, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 302,
+                  lineNumber: 304,
                   columnNumber: 29
                 }, this),
                 /* @__PURE__ */ jsxDEV14(Grid_default, { item: !0, xs: 12, md: 12, style: { marginBottom: "0.3em" }, children: /* @__PURE__ */ jsxDEV14(FormControl_default, { variant: "standard", children: [
                   /* @__PURE__ */ jsxDEV14(InputLabel_default, { htmlFor: "alamat", children: "Address" }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 311,
+                    lineNumber: 313,
                     columnNumber: 37
                   }, this),
                   /* @__PURE__ */ jsxDEV14(Input_default, { required: !0, size: "small", name: "alamat", id: "alamat", defaultValue: params.row.alamat }, void 0, !1, {
                     fileName: "app/routes/users.tsx",
-                    lineNumber: 312,
+                    lineNumber: 314,
                     columnNumber: 37
                   }, this)
                 ] }, void 0, !0, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 310,
+                  lineNumber: 312,
                   columnNumber: 33
                 }, this) }, void 0, !1, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 309,
+                  lineNumber: 311,
                   columnNumber: 29
                 }, this),
                 /* @__PURE__ */ jsxDEV14(DialogActions_default, { children: /* @__PURE__ */ jsxDEV14(Button_default, { type: "submit", children: "Update" }, void 0, !1, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 317,
+                  lineNumber: 319,
                   columnNumber: 33
                 }, this) }, void 0, !1, {
                   fileName: "app/routes/users.tsx",
-                  lineNumber: 316,
+                  lineNumber: 318,
                   columnNumber: 29
                 }, this)
               ] }, void 0, !0, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 286,
+                lineNumber: 288,
                 columnNumber: 25
               }, this) }, void 0, !1, {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 285,
+                lineNumber: 287,
                 columnNumber: 25
               }, this)
             ]
@@ -20900,14 +20968,14 @@ var columns3 = [
           !0,
           {
             fileName: "app/routes/users.tsx",
-            lineNumber: 276,
+            lineNumber: 278,
             columnNumber: 21
           },
           this
         )
       ] }, void 0, !0, {
         fileName: "app/routes/users.tsx",
-        lineNumber: 234,
+        lineNumber: 236,
         columnNumber: 17
       }, this);
     }
@@ -20936,7 +21004,7 @@ function Index5() {
             },
             children: /* @__PURE__ */ jsxDEV14(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Users" }, void 0, !1, {
               fileName: "app/routes/users.tsx",
-              lineNumber: 361,
+              lineNumber: 363,
               columnNumber: 17
             }, this)
           },
@@ -20944,7 +21012,7 @@ function Index5() {
           !1,
           {
             fileName: "app/routes/users.tsx",
-            lineNumber: 356,
+            lineNumber: 358,
             columnNumber: 13
           },
           this
@@ -20987,7 +21055,7 @@ function Index5() {
               !1,
               {
                 fileName: "app/routes/users.tsx",
-                lineNumber: 376,
+                lineNumber: 378,
                 columnNumber: 21
               },
               this
@@ -20997,13 +21065,13 @@ function Index5() {
           !1,
           {
             fileName: "app/routes/users.tsx",
-            lineNumber: 369,
+            lineNumber: 371,
             columnNumber: 17
           },
           this
         ) }, void 0, !1, {
           fileName: "app/routes/users.tsx",
-          lineNumber: 366,
+          lineNumber: 368,
           columnNumber: 13
         }, this),
         createUserComponent()
@@ -21013,7 +21081,7 @@ function Index5() {
     !0,
     {
       fileName: "app/routes/users.tsx",
-      lineNumber: 349,
+      lineNumber: 351,
       columnNumber: 9
     },
     this
@@ -21021,7 +21089,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-H3LJKPAW.js", imports: ["/build/_shared/chunk-UQJ2BGYX.js", "/build/_shared/chunk-ZAET77QH.js", "/build/_shared/chunk-HYYYIF4J.js", "/build/_shared/chunk-HYACEHLG.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-X6NWE7IV.js", imports: ["/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-DJTPBTWE.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-H35F2SX3.js", imports: ["/build/_shared/chunk-4DD4BRWR.js", "/build/_shared/chunk-AXLLO45R.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-O7CNLJ5V.js", imports: ["/build/_shared/chunk-LURJ5KJO.js", "/build/_shared/chunk-Y3EUTOFE.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-AXLLO45R.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-AVY6EK6I.js", imports: ["/build/_shared/chunk-4DD4BRWR.js", "/build/_shared/chunk-AXLLO45R.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-R6ARQ5B4.js", imports: ["/build/_shared/chunk-LURJ5KJO.js", "/build/_shared/chunk-Y3EUTOFE.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-AXLLO45R.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-OGMGT37S.js", imports: ["/build/_shared/chunk-LURJ5KJO.js", "/build/_shared/chunk-Y3EUTOFE.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-AXLLO45R.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-3DLBWN2Q.js", imports: ["/build/_shared/chunk-4DD4BRWR.js", "/build/_shared/chunk-Y3EUTOFE.js", "/build/_shared/chunk-IJYGWGF6.js", "/build/_shared/chunk-G7CHZRZX.js", "/build/_shared/chunk-AXLLO45R.js", "/build/_shared/chunk-VKEUJD6L.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "c9f2f255", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1704187079775 }, url: "/build/manifest-C9F2F255.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-E52NFI5V.js", imports: ["/build/_shared/chunk-7CMOVDJT.js", "/build/_shared/chunk-DJKNX455.js", "/build/_shared/chunk-WH7SXFCH.js", "/build/_shared/chunk-JEGBS5OK.js", "/build/_shared/chunk-C767XJDP.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-FLVHO4NM.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-U3DXFOXG.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-UZCB5L7K.js", imports: ["/build/_shared/chunk-S2TCWDHO.js", "/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-P5DUC6AB.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-LFMMB7S2.js", imports: ["/build/_shared/chunk-S2TCWDHO.js", "/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-IYZJAGBD.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-Z7HCTNKV.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-JH2IQ3OD.js", imports: ["/build/_shared/chunk-S2TCWDHO.js", "/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "9f081192", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1704278506454 }, url: "/build/manifest-9F081192.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

@@ -154,8 +154,8 @@ export async function deleteUsers(secret: any,id : number) {
     return data;
 }
 
-export async function getTransaction(secret: any,id : number = 0) {
-    const path = 'order' + (id == 0 ? '?page=1&limit=200':'/'+id);
+export async function getTransaction(secret: any,search="",page:any,limit:any,id : number = 0) {
+    const path = 'order' + (id == 0 ? '?page='+page+'&limit='+limit+'&search='+search+'':'/'+id);
     const res = await fetch(apiUrl + path, {
         headers: {"x-api-key":secret},
         method: "GET"

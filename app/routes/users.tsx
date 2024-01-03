@@ -61,13 +61,15 @@ export async function action({ request }: ActionFunctionArgs) {
     const errors = {
         
     };
+    const session = await getSession(request.headers.get("Cookie"));
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
 
     if (Object.keys(errors).length > 0) {
         return json({ errors });
     }else{
 
         // save data (create new users)
-        const response = await createUsers(data);
+        const response = await createUsers(secret,data);
 
         if (response.meta.code != 200) {
 

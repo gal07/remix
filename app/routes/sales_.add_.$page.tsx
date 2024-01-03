@@ -125,7 +125,6 @@ export default function Productadd() {
   const [attributes, setAttributes] = React.useState({});
   const [attributesID, setAttributID] = React.useState(0);
   const [attributesDetail, setAttributesDetails] = React.useState(0);
-  const navigation = useNavigation();
 
   const AddToCart = async (item :any) => {
     
@@ -439,13 +438,6 @@ export default function Productadd() {
         </Stack>
 
         {AddProduct(attributes)}
-
-        <Backdrop
-            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-            open={(navigation.state === 'loading' ? true:false)}
-        >
-            <CircularProgress color="inherit" />
-        </Backdrop>
 
     </div>
     
