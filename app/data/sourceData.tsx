@@ -175,6 +175,30 @@ export async function createTransaction(body : any,secret: any) {
     return data;
 }
 
+export async function changePayment(body : any,secret: any) {
+    const path = 'order/change_payment';
+    const res = await fetch(apiUrl + path, {
+        headers: {"x-api-key":secret},
+        body: body,
+        method: "POST"
+    });
+    const data = await res.json();    
+    return data;
+}
+
+export async function simulatePay(body : any,secret: any) {    
+    const path = 'order/simulate_payment';
+    const res = await fetch(apiUrl + path, {
+        headers: {"x-api-key":secret,"Content-Type":"application/json"},
+        body: body,
+        method: "POST"
+    });
+    console.log(body);
+
+    const data = await res.json();    
+    return data;
+}
+
 export async function authLogin(body : any) {
 
     const path = 'auth/login';
