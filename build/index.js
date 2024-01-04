@@ -117,7 +117,8 @@ var root_exports = {};
 __export(root_exports, {
   ErrorBoundary: () => ErrorBoundary,
   default: () => App,
-  links: () => links
+  links: () => links,
+  loader: () => loader
 });
 
 // app/layout/Appbar.tsx
@@ -5473,10 +5474,46 @@ ListItemText.propTypes = {
 var ListItemText_default = ListItemText;
 
 // app/layout/Appbar.tsx
-import { NavLink } from "@remix-run/react";
+import { NavLink, useLoaderData } from "@remix-run/react";
+
+// app/sessions.ts
+import { createCookieSessionStorage, redirect } from "@remix-run/node";
+var { getSession, commitSession, destroySession } = createCookieSessionStorage(
+  {
+    // a Cookie from `createCookie` or the CookieOptions to create one
+    cookie: {
+      name: "_p_c_k",
+      // all of these are optional
+      // domain: "remix.run",
+      // Expires can also be set (although maxAge overrides it when used in combination).
+      // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
+      //
+      // expires: new Date(Date.now() + 60_000),
+      // httpOnly: true,
+      maxAge: 3600 * 24,
+      // path: "/",
+      // sameSite: "lax",
+      secrets: ["Sjjasd888q18ejhasJAJasu@*8asdjjasjd"]
+      // secure: false,
+    }
+  }
+);
+async function requireUserSession(request) {
+  let cookie = request.headers.get("cookie"), session = await getSession(cookie);
+  if (!session.has("userId") || !session.has("keySec"))
+    throw session.flash("error", "Session time out, Please re-login"), redirect("/login", {
+      headers: {
+        "Set-Cookie": await commitSession(session)
+      }
+    });
+  return session;
+}
+
+// app/layout/Appbar.tsx
+import { json } from "@remix-run/node";
 import { jsxDEV as jsxDEV2 } from "react/jsx-dev-runtime";
 function Appbar() {
-  let [state, setState] = React29.useState({
+  let data = useLoaderData(), [state, setState] = React29.useState({
     top: !1,
     left: !1,
     bottom: !1,
@@ -5489,55 +5526,64 @@ function Appbar() {
     "logout"
   ], toggleDrawer = (anchor, open) => (event) => {
     event.type === "keydown" && (event.key === "Tab" || event.key === "Shift") || setState({ ...state, [anchor]: open });
-  }, list = (anchor) => /* @__PURE__ */ jsxDEV2(
+  }, menu = [
+    "Dashboard",
+    "Sales",
+    "Order",
+    "Users",
+    "Logout"
+  ], list = (anchor) => /* @__PURE__ */ jsxDEV2(
     Box_default,
     {
       sx: { width: anchor === "top" || anchor === "bottom" ? "auto" : 250 },
       role: "presentation",
       onClick: toggleDrawer(anchor, !1),
       onKeyDown: toggleDrawer(anchor, !1),
-      children: /* @__PURE__ */ jsxDEV2(List_default, { children: ["Dashboard", "Sales", "Order", "Users", "Logout"].map((text, index5) => /* @__PURE__ */ jsxDEV2(NavLink, { to: urls[index5], children: /* @__PURE__ */ jsxDEV2(ListItem_default, { disablePadding: !0, children: /* @__PURE__ */ jsxDEV2(ListItemButton_default, { children: [
-        /* @__PURE__ */ jsxDEV2(ListItemIcon_default, { children: index5 % 2 === 0 ? /* @__PURE__ */ jsxDEV2(Icon_default, { children: "dashboard" }, void 0, !1, {
+      children: [
+        /* @__PURE__ */ jsxDEV2(List_default, { children: menu.map((text, index5) => /* @__PURE__ */ jsxDEV2(NavLink, { to: urls[index5], children: /* @__PURE__ */ jsxDEV2(ListItem_default, { disablePadding: !0, children: /* @__PURE__ */ jsxDEV2(ListItemButton_default, { children: [
+          /* @__PURE__ */ jsxDEV2(ListItemIcon_default, { children: index5 % 2 === 0 ? /* @__PURE__ */ jsxDEV2(Icon_default, { children: "dashboard" }, void 0, !1, {
+            fileName: "app/layout/Appbar.tsx",
+            lineNumber: 99,
+            columnNumber: 38
+          }, this) : /* @__PURE__ */ jsxDEV2(Icon_default, { children: "star" }, void 0, !1, {
+            fileName: "app/layout/Appbar.tsx",
+            lineNumber: 99,
+            columnNumber: 63
+          }, this) }, void 0, !1, {
+            fileName: "app/layout/Appbar.tsx",
+            lineNumber: 98,
+            columnNumber: 17
+          }, this),
+          /* @__PURE__ */ jsxDEV2(ListItemText_default, { primary: text }, void 0, !1, {
+            fileName: "app/layout/Appbar.tsx",
+            lineNumber: 101,
+            columnNumber: 17
+          }, this)
+        ] }, void 0, !0, {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 68,
-          columnNumber: 38
-        }, this) : /* @__PURE__ */ jsxDEV2(Icon_default, { children: "star" }, void 0, !1, {
+          lineNumber: 97,
+          columnNumber: 15
+        }, this) }, text, !1, {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 68,
-          columnNumber: 63
+          lineNumber: 96,
+          columnNumber: 13
         }, this) }, void 0, !1, {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 67,
-          columnNumber: 17
-        }, this),
-        /* @__PURE__ */ jsxDEV2(ListItemText_default, { primary: text }, void 0, !1, {
+          lineNumber: 95,
+          columnNumber: 11
+        }, this)) }, void 0, !1, {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 70,
-          columnNumber: 17
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/layout/Appbar.tsx",
-        lineNumber: 66,
-        columnNumber: 15
-      }, this) }, text, !1, {
-        fileName: "app/layout/Appbar.tsx",
-        lineNumber: 65,
-        columnNumber: 13
-      }, this) }, void 0, !1, {
-        fileName: "app/layout/Appbar.tsx",
-        lineNumber: 64,
-        columnNumber: 11
-      }, this)) }, void 0, !1, {
-        fileName: "app/layout/Appbar.tsx",
-        lineNumber: 62,
-        columnNumber: 7
-      }, this)
+          lineNumber: 93,
+          columnNumber: 7
+        }, this),
+        (data.error, data.error)
+      ]
     },
     void 0,
-    !1,
+    !0,
     {
       fileName: "app/layout/Appbar.tsx",
-      lineNumber: 56,
+      lineNumber: 87,
       columnNumber: 5
     },
     this
@@ -5554,7 +5600,7 @@ function Appbar() {
           sx: { mr: 2 },
           children: /* @__PURE__ */ jsxDEV2(Icon_default, { children: "menu" }, void 0, !1, {
             fileName: "app/layout/Appbar.tsx",
-            lineNumber: 86,
+            lineNumber: 118,
             columnNumber: 17
           }, this)
         },
@@ -5562,23 +5608,23 @@ function Appbar() {
         !1,
         {
           fileName: "app/layout/Appbar.tsx",
-          lineNumber: 83,
+          lineNumber: 115,
           columnNumber: 15
         },
         this
       ),
-      /* @__PURE__ */ jsxDEV2(Typography_default, { variant: "h6", color: "inherit", component: "div", children: "ECCS-POS" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV2(Typography_default, { variant: "h6", color: "inherit", component: "div", children: "ECCS POS APPS" }, void 0, !1, {
         fileName: "app/layout/Appbar.tsx",
-        lineNumber: 88,
+        lineNumber: 120,
         columnNumber: 15
       }, this)
     ] }, void 0, !0, {
       fileName: "app/layout/Appbar.tsx",
-      lineNumber: 82,
+      lineNumber: 114,
       columnNumber: 13
     }, this) }, void 0, !1, {
       fileName: "app/layout/Appbar.tsx",
-      lineNumber: 81,
+      lineNumber: 113,
       columnNumber: 11
     }, this),
     /* @__PURE__ */ jsxDEV2(
@@ -5593,14 +5639,14 @@ function Appbar() {
       !1,
       {
         fileName: "app/layout/Appbar.tsx",
-        lineNumber: 94,
+        lineNumber: 126,
         columnNumber: 11
       },
       this
     )
   ] }, void 0, !0, {
     fileName: "app/layout/Appbar.tsx",
-    lineNumber: 80,
+    lineNumber: 112,
     columnNumber: 9
   }, this);
 }
@@ -5613,6 +5659,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useNavigation,
   useRouteError
 } from "@remix-run/react";
@@ -5796,72 +5843,203 @@ Container.propTypes = {
 var Container_default = Container;
 
 // app/root.tsx
-import { Backdrop as Backdrop3, CircularProgress } from "@mui/material";
+import { Backdrop as Backdrop3, CircularProgress, Typography as Typography3 } from "@mui/material";
 import { jsxDEV as jsxDEV3 } from "react/jsx-dev-runtime";
 var links = () => [
   ...void 0 ? [{ rel: "stylesheet", href: void 0 }] : []
 ];
 function ErrorBoundary() {
   let error = useRouteError();
-  return console.error(error), /* @__PURE__ */ jsxDEV3("html", { children: [
+  return isRouteErrorResponse(error) ? /* @__PURE__ */ jsxDEV3("html", { children: [
     /* @__PURE__ */ jsxDEV3("head", { children: [
-      /* @__PURE__ */ jsxDEV3("title", { children: "Oh no!" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV3("title", { children: error.status + " " + error.statusText }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 29,
+        lineNumber: 32,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 30,
+        lineNumber: 33,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 31,
+        lineNumber: 34,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 28,
+      lineNumber: 31,
       columnNumber: 7
     }, this),
-    /* @__PURE__ */ jsxDEV3("body", { children: /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
+    /* @__PURE__ */ jsxDEV3("body", { children: [
+      /* @__PURE__ */ jsxDEV3(Typography3, { variant: "h3", sx: {
+        color: "red",
+        textAlign: "center",
+        marginTop: "2em"
+      }, children: error.status + " " + error.statusText }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 38,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Typography3, { variant: "h6", sx: {
+        color: "red",
+        textAlign: "center"
+      }, children: error.data }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 44,
+        columnNumber: 22
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 50,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 35,
-      columnNumber: 9
-    }, this) }, void 0, !1, {
-      fileName: "app/root.tsx",
-      lineNumber: 33,
+      lineNumber: 36,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/root.tsx",
-    lineNumber: 27,
-    columnNumber: 5
+    lineNumber: 30,
+    columnNumber: 7
+  }, this) : error instanceof Error ? /* @__PURE__ */ jsxDEV3("div", { children: /* @__PURE__ */ jsxDEV3("html", { children: [
+    /* @__PURE__ */ jsxDEV3("head", { children: [
+      /* @__PURE__ */ jsxDEV3("title", { children: error.message }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 59,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 60,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 61,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/root.tsx",
+      lineNumber: 58,
+      columnNumber: 11
+    }, this),
+    /* @__PURE__ */ jsxDEV3("body", { children: [
+      /* @__PURE__ */ jsxDEV3(Typography3, { variant: "h3", sx: {
+        color: "red",
+        textAlign: "center",
+        marginTop: "2em"
+      }, children: error.message }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 65,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Typography3, { variant: "h6", sx: {
+        color: "red",
+        textAlign: "center"
+      }, children: error.stack }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 71,
+        columnNumber: 26
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 77,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/root.tsx",
+      lineNumber: 63,
+      columnNumber: 11
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/root.tsx",
+    lineNumber: 57,
+    columnNumber: 9
+  }, this) }, void 0, !1, {
+    fileName: "app/root.tsx",
+    lineNumber: 56,
+    columnNumber: 7
+  }, this) : /* @__PURE__ */ jsxDEV3("div", { children: /* @__PURE__ */ jsxDEV3("html", { children: [
+    /* @__PURE__ */ jsxDEV3("head", { children: [
+      /* @__PURE__ */ jsxDEV3("title", { children: "Error" }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 87,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 88,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 89,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/root.tsx",
+      lineNumber: 86,
+      columnNumber: 11
+    }, this),
+    /* @__PURE__ */ jsxDEV3("body", { children: [
+      /* @__PURE__ */ jsxDEV3(Typography3, { variant: "h3", sx: {
+        color: "red",
+        textAlign: "center",
+        marginTop: "2em"
+      }, children: "Unknown Error" }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 93,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 100,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, !0, {
+      fileName: "app/root.tsx",
+      lineNumber: 91,
+      columnNumber: 11
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/root.tsx",
+    lineNumber: 85,
+    columnNumber: 9
+  }, this) }, void 0, !1, {
+    fileName: "app/root.tsx",
+    lineNumber: 84,
+    columnNumber: 7
   }, this);
 }
+var loader = async ({ request }) => {
+  let session = await getSession(request.headers.get("Cookie"));
+  return !0;
+};
 function App() {
   let navigation = useNavigation();
   return /* @__PURE__ */ jsxDEV3("html", { lang: "en", children: [
     /* @__PURE__ */ jsxDEV3("head", { children: [
       /* @__PURE__ */ jsxDEV3("meta", { charSet: "utf-8" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 48,
+        lineNumber: 123,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 49,
+        lineNumber: 124,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 50,
+        lineNumber: 125,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.googleapis.com" }, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 51,
+        lineNumber: 126,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(
@@ -5874,7 +6052,7 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 53,
+          lineNumber: 128,
           columnNumber: 9
         },
         this
@@ -5889,56 +6067,56 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 57,
+          lineNumber: 132,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 61,
+        lineNumber: 136,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 47,
+      lineNumber: 122,
       columnNumber: 7
     }, this),
     /* @__PURE__ */ jsxDEV3("body", { children: [
       /* @__PURE__ */ jsxDEV3(Appbar, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 65,
+        lineNumber: 140,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(Container_default, { maxWidth: "xl", children: [
         /* @__PURE__ */ jsxDEV3(CssBaseline_default, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 67,
+          lineNumber: 142,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Outlet, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 68,
+          lineNumber: 143,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(ScrollRestoration, { getKey: (location, matches) => location.key }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 69,
+          lineNumber: 144,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(LiveReload, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 73,
+          lineNumber: 148,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 74,
+          lineNumber: 149,
           columnNumber: 11
         }, this)
       ] }, void 0, !0, {
         fileName: "app/root.tsx",
-        lineNumber: 66,
+        lineNumber: 141,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(
@@ -5948,7 +6126,7 @@ function App() {
           open: navigation.state === "loading",
           children: /* @__PURE__ */ jsxDEV3(CircularProgress, { color: "inherit" }, void 0, !1, {
             fileName: "app/root.tsx",
-            lineNumber: 81,
+            lineNumber: 156,
             columnNumber: 13
           }, this)
         },
@@ -5956,19 +6134,19 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 77,
+          lineNumber: 152,
           columnNumber: 9
         },
         this
       )
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 63,
+      lineNumber: 138,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
     fileName: "app/root.tsx",
-    lineNumber: 46,
+    lineNumber: 121,
     columnNumber: 5
   }, this);
 }
@@ -5978,7 +6156,7 @@ var sales_add_page_exports = {};
 __export(sales_add_page_exports, {
   action: () => action,
   default: () => Productadd,
-  loader: () => loader,
+  loader: () => loader2,
   meta: () => meta
 });
 import * as React45 from "react";
@@ -6534,10 +6712,10 @@ CardActions.propTypes = {
 var CardActions_default = CardActions;
 
 // app/routes/sales_.add_.$page.tsx
-import { json as json2, redirect as redirect2 } from "@remix-run/node";
+import { json as json3, redirect as redirect2 } from "@remix-run/node";
 
 // app/data/sourceData.tsx
-import { json } from "@remix-run/node";
+import { json as json2 } from "@remix-run/node";
 var apiUrl = "http://104.248.159.190:4001/api/", key = {
   "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTM2LCJuYW1hX2RlcGFuIjoiUFQgQmFuZGFyIEJlbmlrIiwibmFtYV9iZWxha2FuZyI6IlN1a3NlcyBNYWttdXIiLCJlbWFpbCI6ImFkbWluLmJlbmlrQGVjY3MuY2VudGVyIiwicGhvbmUiOiIxMTExMTExMSIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X2lkIjoxODcsImlhdCI6MTcwMzgyMDQxMX0.uF59QNOyAIu79c_JMeRxhpLGthH13WJTraSlxVcYBAHGVPsRp53eDWoht3lS5GI1LkFZsTiBUBFz5K_X-jZSBRMtMEhLW-kB2oOkurlDb9OGOzZ_lTUE8h_xzswEmyA3_OrTS1GsczA1zQJjWc4o-CKqhMl3-PCYWcwR8lW8esjW4TIt95oqVW4bFVRemZnZueKauMueIVboTa_5j2XwgPnRS1uYqJH6Mk6mth9aiVIhHMGPalL-vGenNngPuJVcHDe1bDaxmEtxYlT2TSanhk_8LrURziIc8n8V__qdbsispvvyr-DOwUueHhGfQLxnwo7ug4_RgtbpXXckrFxgwEL-ntHMTjMQ7T79VmnUv1EUuQ6jJvwo12Am7ARJaYXXuj29LkI_5EwgfaIPNhNJeyJ5ImHXLSfq3B_kf5217oIBBxrH8Dn2xwoonha7dA-SJF96IQTSKtm7gBEJxGAVNs4KxZYv44VTvodNKrYf1H9mQp4vvEGL5kS_vIW9j29CVi2yleV0iwqqWw2wOFLVQ1RGNla-D8G_oonrBXIEtUngTB9Pb2yJQjQoGlRT4bstz6ytE2ryxnNMdDZN0o86AgTOeRSosd8R6qGhBHdepWKFa6NGWesKx3m5aGSRAJv2JseOuWqGTP0GnJKSQ4g8jOCBT_j73JL1sTVSuoyTtF4"
 };
@@ -6551,7 +6729,7 @@ async function getUsers(secret) {
     phone: record.phone,
     email: record.email
   }));
-  return json({ result });
+  return json2({ result });
 }
 async function getProduct(secret) {
   let result = (await (await fetch(apiUrl + "product?page=1&limit=200", { headers: { "x-api-key": secret } })).json()).data.map((record) => ({
@@ -6564,15 +6742,15 @@ async function getProduct(secret) {
     stock: record.qty,
     weight: record.berat
   }));
-  return json({ result });
+  return json2({ result });
 }
 async function getProducts(search = "", page = 1) {
   let path = "product?page=" + page + (search != "" ? "&search=" + search : "") + "&limit=8", data = await (await fetch(apiUrl + path, { headers: key })).json(), result = data.data ? data : {};
-  return console.log(path), json({ result });
+  return console.log(path), json2({ result });
 }
 async function getPayments(secret) {
   let data = await (await fetch(apiUrl + "order/list_payment", { headers: { "x-api-key": secret } })).json(), result = data.data ? data : {};
-  return json({ result });
+  return json2({ result });
 }
 async function createUsers(secret, body2) {
   return await (await fetch(apiUrl + "customer/", {
@@ -6625,7 +6803,7 @@ async function authLogin(body2) {
 }
 
 // app/routes/sales_.add_.$page.tsx
-import { useLoaderData, useNavigate, useSubmit } from "@remix-run/react";
+import { useLoaderData as useLoaderData2, useNavigate, useSubmit } from "@remix-run/react";
 
 // node_modules/@mui/material/Grid/Grid.js
 import _objectWithoutPropertiesLoose31 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -7867,46 +8045,13 @@ Stack.propTypes = {
 };
 var Stack_default = Stack;
 
-// app/sessions.ts
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
-var { getSession, commitSession, destroySession } = createCookieSessionStorage(
-  {
-    // a Cookie from `createCookie` or the CookieOptions to create one
-    cookie: {
-      name: "_p_c_k",
-      // all of these are optional
-      // domain: "remix.run",
-      // Expires can also be set (although maxAge overrides it when used in combination).
-      // Note that this method is NOT recommended as `new Date` creates only one date on each server deployment, not a dynamic date in the future!
-      //
-      // expires: new Date(Date.now() + 60_000),
-      // httpOnly: true,
-      maxAge: 3600 * 24,
-      // path: "/",
-      // sameSite: "lax",
-      secrets: ["Sjjasd888q18ejhasJAJasu@*8asdjjasjd"]
-      // secure: false,
-    }
-  }
-);
-async function requireUserSession(request) {
-  let cookie = request.headers.get("cookie"), session = await getSession(cookie);
-  if (!session.has("userId") || !session.has("keySec"))
-    throw session.flash("error", "Session time out, Please re-login"), redirect("/login", {
-      headers: {
-        "Set-Cookie": await commitSession(session)
-      }
-    });
-  return session;
-}
-
 // app/routes/sales_.add_.$page.tsx
 import { jsxDEV as jsxDEV4 } from "react/jsx-dev-runtime";
 var meta = () => [
   { title: "ECCS POS - Choose Product" },
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
-async function loader({
+async function loader2({
   params,
   request
 }) {
@@ -7914,13 +8059,13 @@ async function loader({
     request.headers.get("Cookie")
   )).set("userId", "90000");
   let search = new URL(request.url).searchParams.get("search"), page = params.page, product = await getProducts(search?.toString(), parseInt(page));
-  return json2({
+  return json3({
     product: await product.json(),
     params: search
   });
 }
 function Productadd() {
-  let loadData = useLoaderData(), [pagination, setPagination] = React45.useState(loadData.product.result.pagination), navigate = useNavigate(), navigates = () => {
+  let loadData = useLoaderData2(), [pagination, setPagination] = React45.useState(loadData.product.result.pagination), navigate = useNavigate(), navigates = () => {
     navigate("/sales");
   };
   console.log(loadData);
@@ -8446,12 +8591,12 @@ var order_Idorder_exports = {};
 __export(order_Idorder_exports, {
   action: () => action2,
   default: () => index,
-  loader: () => loader2,
+  loader: () => loader3,
   meta: () => meta2
 });
-import { TableContainer, Paper as Paper3, Table, TableHead, TableRow, TableCell, TableBody, Typography as Typography3, Grid as Grid3, Stack as Stack2, Breadcrumbs } from "@mui/material";
-import { json as json3 } from "@remix-run/node";
-import { useLoaderData as useLoaderData2, useNavigate as useNavigate2, NavLink as NavLink2 } from "@remix-run/react";
+import { TableContainer, Paper as Paper3, Table, TableHead, TableRow, TableCell, TableBody, Typography as Typography4, Grid as Grid3, Stack as Stack2, Breadcrumbs } from "@mui/material";
+import { json as json4 } from "@remix-run/node";
+import { useLoaderData as useLoaderData3, useNavigate as useNavigate2, NavLink as NavLink2 } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import React46 from "react";
 import { Fragment as Fragment5, jsxDEV as jsxDEV5 } from "react/jsx-dev-runtime";
@@ -8459,7 +8604,7 @@ var meta2 = () => [
   { title: "ECCS POS - Order " },
   { name: "description", content: "Welcome to eccs-pos!" }
 ];
-async function loader2({
+async function loader3({
   params,
   request
 }) {
@@ -8469,7 +8614,7 @@ async function loader2({
   let flash = session.has("act") ? session.get("act") : null, secret = session.has("keySec") ? session.get("keySec") : null;
   invariant(params.Idorder, "Missing Idorder param");
   let idorder = parseInt(params.Idorder), getOrder = await getTransaction(secret, "", 1, 10, idorder);
-  return json3({
+  return json4({
     getOrder: await getOrder,
     flash
   }, {
@@ -8481,7 +8626,7 @@ async function loader2({
 async function action2({ request }) {
 }
 function index() {
-  let order = useLoaderData2(), date = new Date(order.getOrder.data?.tanggal), navigate = useNavigate2();
+  let order = useLoaderData3(), date = new Date(order.getOrder.data?.tanggal), navigate = useNavigate2();
   console.log(order.getOrder), React46.useEffect(() => {
     order?.flash && order.flash == "delete_cart" && (localStorage.removeItem("cart"), localStorage.removeItem("voucher"));
   });
@@ -8503,7 +8648,7 @@ function index() {
           lineNumber: 94,
           columnNumber: 25
         }, this),
-        /* @__PURE__ */ jsxDEV5(Typography3, { color: "text.primary", children: order.getOrder.data.id }, void 0, !1, {
+        /* @__PURE__ */ jsxDEV5(Typography4, { color: "text.primary", children: order.getOrder.data.id }, void 0, !1, {
           fileName: "app/routes/order_.$Idorder.tsx",
           lineNumber: 97,
           columnNumber: 25
@@ -8650,7 +8795,7 @@ function index() {
             lineNumber: 158,
             columnNumber: 44
           }, this),
-          /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h5", sx: { marginLeft: "1em" }, children: order.getOrder.data.payment.payment_channel }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(Typography4, { variant: "h5", sx: { marginLeft: "1em" }, children: order.getOrder.data.payment.payment_channel }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
             lineNumber: 159,
             columnNumber: 37
@@ -8690,7 +8835,7 @@ function index() {
             lineNumber: 165,
             columnNumber: 33
           }, this),
-          /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h6", children: "Please transfer amount of total to ref number." }, void 0, !1, {
+          /* @__PURE__ */ jsxDEV5(TableRow, { children: /* @__PURE__ */ jsxDEV5(TableCell, { children: /* @__PURE__ */ jsxDEV5(Typography4, { variant: "h6", children: "Please transfer amount of total to ref number." }, void 0, !1, {
             fileName: "app/routes/order_.$Idorder.tsx",
             lineNumber: 169,
             columnNumber: 48
@@ -8768,12 +8913,12 @@ function index() {
       /* @__PURE__ */ jsxDEV5(TableBody, { children: [
         dtprod.map((row) => /* @__PURE__ */ jsxDEV5(TableRow, { children: [
           /* @__PURE__ */ jsxDEV5(TableCell, { children: /* @__PURE__ */ jsxDEV5(Stack2, { direction: "column", children: [
-            /* @__PURE__ */ jsxDEV5(Typography3, { variant: "caption", children: row.product_name }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV5(Typography4, { variant: "caption", children: row.product_name }, void 0, !1, {
               fileName: "app/routes/order_.$Idorder.tsx",
               lineNumber: 202,
               columnNumber: 37
             }, this),
-            /* @__PURE__ */ jsxDEV5(Typography3, { variant: "caption", children: row.attribute[0].nama_attribute }, void 0, !1, {
+            /* @__PURE__ */ jsxDEV5(Typography4, { variant: "caption", children: row.attribute[0].nama_attribute }, void 0, !1, {
               fileName: "app/routes/order_.$Idorder.tsx",
               lineNumber: 203,
               columnNumber: 37
@@ -8889,7 +9034,7 @@ function index() {
       lineNumber: 186,
       columnNumber: 13
     }, this),
-    /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code == 200, children: /* @__PURE__ */ jsxDEV5(Typography3, { variant: "h3", sx: { textAlign: "center", marginTop: "3em" }, children: order.getOrder.meta.message }, void 0, !1, {
+    /* @__PURE__ */ jsxDEV5("div", { hidden: order.getOrder.meta.code == 200, children: /* @__PURE__ */ jsxDEV5(Typography4, { variant: "h3", sx: { textAlign: "center", marginTop: "3em" }, children: order.getOrder.meta.message }, void 0, !1, {
       fileName: "app/routes/order_.$Idorder.tsx",
       lineNumber: 237,
       columnNumber: 17
@@ -8912,9 +9057,9 @@ function numberWithCommas2(x) {
 var sales_checkout_exports = {};
 __export(sales_checkout_exports, {
   action: () => action3,
-  loader: () => loader3
+  loader: () => loader4
 });
-async function loader3({
+async function loader4({
   request
 }) {
   return !0;
@@ -9023,13 +9168,13 @@ async function action6({ request }) {
 var products_exports = {};
 __export(products_exports, {
   default: () => Index,
-  loader: () => loader4,
+  loader: () => loader5,
   meta: () => meta3
 });
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { useLoaderData as useLoaderData3 } from "@remix-run/react";
+import { useLoaderData as useLoaderData4 } from "@remix-run/react";
 import { jsxDEV as jsxDEV8 } from "react/jsx-dev-runtime";
-var loader4 = async ({ request }) => {
+var loader5 = async ({ request }) => {
   await requireUserSession(request);
   let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
   return await getProduct(secret);
@@ -9101,7 +9246,7 @@ var loader4 = async ({ request }) => {
   }
 ];
 function Index() {
-  let myusers = useLoaderData3();
+  let myusers = useLoaderData4();
   return /* @__PURE__ */ jsxDEV8(
     "div",
     {
@@ -9204,10 +9349,10 @@ function Index() {
 // app/routes/logout.tsx
 var logout_exports = {};
 __export(logout_exports, {
-  loader: () => loader5
+  loader: () => loader6
 });
 import { redirect as redirect6 } from "@remix-run/node";
-var loader5 = async ({ request }) => {
+var loader6 = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
   return session.unset("keySec"), session.unset("userId"), session.unset("voucher"), redirect6("/login", {
     headers: {
@@ -9243,10 +9388,10 @@ function Index2() {
 var index_exports = {};
 __export(index_exports, {
   default: () => Index3,
-  loader: () => loader6,
+  loader: () => loader7,
   meta: () => meta5
 });
-import { json as json8 } from "@remix-run/node";
+import { json as json9 } from "@remix-run/node";
 
 // node_modules/@mui/material/Skeleton/Skeleton.js
 import _objectWithoutPropertiesLoose35 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -9460,12 +9605,12 @@ var Skeleton_default = Skeleton;
 
 // app/routes/_index.tsx
 import { jsxDEV as jsxDEV10 } from "react/jsx-dev-runtime";
-var loader6 = async ({ request }) => {
+var loader7 = async ({ request }) => {
   await requireUserSession(request);
   let session = await getSession(request.headers.get("Cookie")), data = {
     error: session.get("error")
   };
-  return json8(data, {
+  return json9(data, {
     headers: {
       "Set-Cookie": await commitSession(session)
     }
@@ -9528,27 +9673,32 @@ var login_exports = {};
 __export(login_exports, {
   action: () => action7,
   default: () => Login,
-  loader: () => loader7
+  loader: () => loader8,
+  meta: () => meta6
 });
-import { json as json9, redirect as redirect8 } from "@remix-run/node";
-import { useActionData, useLoaderData as useLoaderData4 } from "@remix-run/react";
+import { json as json10, redirect as redirect8 } from "@remix-run/node";
+import { useActionData, useLoaderData as useLoaderData5 } from "@remix-run/react";
+import { Box as Box3, Button as Button2, Grid as Grid4, Stack as Stack3, TextField as TextField2, Typography as Typography5 } from "@mui/material";
 import { jsxDEV as jsxDEV11 } from "react/jsx-dev-runtime";
-var loader7 = async ({ request }) => {
+var meta6 = () => [
+  { title: "ECCS POS - Login " },
+  { name: "description", content: "Welcome to eccs-pos!" }
+], loader8 = async ({ request }) => {
   let session = await getSession(request.headers.get("Cookie"));
   if (session.has("userId"))
     return redirect8("/");
   let data = {
     error: session.get("error")
   };
-  return json9(data, {
+  return json10(data, {
     headers: {
       "Set-Cookie": await commitSession(session)
     }
   });
 };
 async function action7({ request }) {
-  let session = await getSession(request.headers.get("Cookie")), form = await request.formData(), username = form.get("username"), password = form.get("password"), login = await authLogin({
-    email: username,
+  let session = await getSession(request.headers.get("Cookie")), form = await request.formData(), email = form.get("email"), password = form.get("password"), login = await authLogin({
+    email,
     password
   });
   return login.meta.code != 200 ? (session.flash("error", login.meta.message), redirect8("/login", {
@@ -9562,61 +9712,106 @@ async function action7({ request }) {
   }));
 }
 function Login() {
-  let { error } = useLoaderData4(), actionData = useActionData();
-  return /* @__PURE__ */ jsxDEV11("div", { children: [
-    error ? /* @__PURE__ */ jsxDEV11("div", { className: "error", children: error }, void 0, !1, {
-      fileName: "app/routes/login.tsx",
-      lineNumber: 74,
-      columnNumber: 23
-    }, this) : null,
-    /* @__PURE__ */ jsxDEV11("form", { method: "POST", children: [
-      /* @__PURE__ */ jsxDEV11("div", { children: /* @__PURE__ */ jsxDEV11("p", { children: "Please sign in" }, void 0, !1, {
-        fileName: "app/routes/login.tsx",
-        lineNumber: 79,
-        columnNumber: 21
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/login.tsx",
-        lineNumber: 78,
-        columnNumber: 17
-      }, this),
-      /* @__PURE__ */ jsxDEV11("label", { children: [
-        "Username:",
-        /* @__PURE__ */ jsxDEV11("input", { type: "text", name: "username" }, void 0, !1, {
+  let { error } = useLoaderData5(), actionData = useActionData();
+  return /* @__PURE__ */ jsxDEV11("div", { children: /* @__PURE__ */ jsxDEV11(
+    Grid4,
+    {
+      container: !0,
+      spacing: 0,
+      direction: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      sx: {
+        minHeight: "80vh",
+        // backgroundColor:"orange",
+        marginTop: "2em"
+      },
+      children: /* @__PURE__ */ jsxDEV11(Grid4, { item: !0, xs: 12, children: /* @__PURE__ */ jsxDEV11(
+        Box3,
+        {
+          component: "form",
+          sx: {
+            "& > :not(style)": { m: 1, width: "38ch" }
+          },
+          noValidate: !0,
+          autoComplete: "off",
+          method: "post",
+          action: "/login",
+          children: /* @__PURE__ */ jsxDEV11(
+            Stack3,
+            {
+              direction: "column",
+              spacing: "1",
+              useFlexGap: !0,
+              sx: {
+                // backgroundColor:"orangered",
+                margin: "2em"
+              },
+              children: [
+                /* @__PURE__ */ jsxDEV11(Typography5, { variant: "h6", sx: {
+                  textAlign: "center"
+                }, children: "ECCS POS LOGIN" }, void 0, !1, {
+                  fileName: "app/routes/login.tsx",
+                  lineNumber: 135,
+                  columnNumber: 29
+                }, this),
+                error ? /* @__PURE__ */ jsxDEV11(Typography5, { variant: "body1", sx: { textAlign: "center", color: "red", marginTop: "1em", marginBottom: "1em" }, children: error }, void 0, !1, {
+                  fileName: "app/routes/login.tsx",
+                  lineNumber: 141,
+                  columnNumber: 39
+                }, this) : null,
+                /* @__PURE__ */ jsxDEV11(TextField2, { required: !0, name: "email", type: "email", margin: "normal", id: "email", label: "Email", variant: "outlined" }, void 0, !1, {
+                  fileName: "app/routes/login.tsx",
+                  lineNumber: 145,
+                  columnNumber: 29
+                }, this),
+                /* @__PURE__ */ jsxDEV11(TextField2, { required: !0, name: "password", type: "password", margin: "normal", id: "password", label: "Password", variant: "outlined" }, void 0, !1, {
+                  fileName: "app/routes/login.tsx",
+                  lineNumber: 146,
+                  columnNumber: 29
+                }, this),
+                /* @__PURE__ */ jsxDEV11(Button2, { type: "submit", variant: "contained", color: "primary", children: "Login" }, void 0, !1, {
+                  fileName: "app/routes/login.tsx",
+                  lineNumber: 147,
+                  columnNumber: 29
+                }, this)
+              ]
+            },
+            void 0,
+            !0,
+            {
+              fileName: "app/routes/login.tsx",
+              lineNumber: 125,
+              columnNumber: 25
+            },
+            this
+          )
+        },
+        void 0,
+        !1,
+        {
           fileName: "app/routes/login.tsx",
-          lineNumber: 83,
+          lineNumber: 115,
           columnNumber: 21
-        }, this)
-      ] }, void 0, !0, {
+        },
+        this
+      ) }, void 0, !1, {
         fileName: "app/routes/login.tsx",
-        lineNumber: 81,
-        columnNumber: 17
-      }, this),
-      /* @__PURE__ */ jsxDEV11("label", { children: [
-        "Password:",
-        " ",
-        /* @__PURE__ */ jsxDEV11("input", { type: "password", name: "password" }, void 0, !1, {
-          fileName: "app/routes/login.tsx",
-          lineNumber: 87,
-          columnNumber: 21
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/routes/login.tsx",
-        lineNumber: 85,
-        columnNumber: 17
-      }, this),
-      /* @__PURE__ */ jsxDEV11("button", { type: "submit", children: "Login" }, void 0, !1, {
-        fileName: "app/routes/login.tsx",
-        lineNumber: 89,
-        columnNumber: 17
+        lineNumber: 96,
+        columnNumber: 13
       }, this)
-    ] }, void 0, !0, {
+    },
+    void 0,
+    !1,
+    {
       fileName: "app/routes/login.tsx",
-      lineNumber: 77,
+      lineNumber: 84,
       columnNumber: 13
-    }, this)
-  ] }, void 0, !0, {
+    },
+    this
+  ) }, void 0, !1, {
     fileName: "app/routes/login.tsx",
-    lineNumber: 71,
+    lineNumber: 82,
     columnNumber: 9
   }, this);
 }
@@ -9625,26 +9820,26 @@ function Login() {
 var order_exports = {};
 __export(order_exports, {
   default: () => Index4,
-  loader: () => loader8,
-  meta: () => meta6
+  loader: () => loader9,
+  meta: () => meta7
 });
 import { DataGrid as DataGrid2, GridToolbar as GridToolbar2 } from "@mui/x-data-grid";
-import { json as json10 } from "@remix-run/node";
-import { useLoaderData as useLoaderData5, useNavigate as useNavigate3 } from "@remix-run/react";
-import { Button as Button2, Divider, Icon as Icon3 } from "@mui/material";
+import { json as json11 } from "@remix-run/node";
+import { useLoaderData as useLoaderData6, useNavigate as useNavigate3 } from "@remix-run/react";
+import { Button as Button3, Divider, Icon as Icon3 } from "@mui/material";
 import React48 from "react";
 import { jsxDEV as jsxDEV12 } from "react/jsx-dev-runtime";
-var loader8 = async ({ request }) => {
+var loader9 = async ({ request }) => {
   await requireUserSession(request);
   let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
-  return json10({
+  return json11({
     flash: secret
   }, {
     headers: {
       "Set-Cookie": await commitSession(session)
     }
   });
-}, meta6 = () => [
+}, meta7 = () => [
   {
     title: "ECCS POS - Order"
   },
@@ -9713,7 +9908,7 @@ var loader8 = async ({ request }) => {
             columnNumber: 26
           }, this),
           spacing: 2,
-          children: /* @__PURE__ */ jsxDEV12(Button2, { onClick: () => {
+          children: /* @__PURE__ */ jsxDEV12(Button3, { onClick: () => {
             navigate("/order/" + params.id);
           }, children: /* @__PURE__ */ jsxDEV12(Icon3, { children: "rate_review" }, void 0, !1, {
             fileName: "app/routes/order.tsx",
@@ -9738,7 +9933,7 @@ var loader8 = async ({ request }) => {
   }
 ];
 function Index4() {
-  let order = useLoaderData5(), [paginationModel, setPaginationModel] = React48.useState({
+  let order = useLoaderData6(), [paginationModel, setPaginationModel] = React48.useState({
     page: 0,
     pageSize: 5
   }), [rows, setRows] = React48.useState([]), [loading, setLoading] = React48.useState(!1), [rowSelectionModel, setRowSelectionModel] = React48.useState([]), [dataOrder, setDataorder] = React48.useState(), [rowCount, setRowCount] = React48.useState(0), [search, setSearch] = React48.useState("");
@@ -9861,12 +10056,12 @@ var sales_exports = {};
 __export(sales_exports, {
   action: () => action8,
   default: () => index4,
-  loader: () => loader9,
-  meta: () => meta7
+  loader: () => loader10,
+  meta: () => meta8
 });
 import * as React89 from "react";
-import { redirect as redirect9, json as json11 } from "@remix-run/node";
-import { useLoaderData as useLoaderData6, useNavigate as useNavigate4, Form as Form2 } from "@remix-run/react";
+import { redirect as redirect9, json as json12 } from "@remix-run/node";
+import { useLoaderData as useLoaderData7, useNavigate as useNavigate4, Form as Form2 } from "@remix-run/react";
 
 // node_modules/@mui/material/Table/Table.js
 import _objectWithoutPropertiesLoose36 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -11012,7 +11207,7 @@ var _excluded45 = ["children", "color", "component", "className", "disabled", "d
   marginLeft: 8
 }, ownerState.size === "small" && {
   marginRight: -2
-}, commonIconStyles(ownerState))), Button3 = /* @__PURE__ */ React60.forwardRef(function(inProps, ref) {
+}, commonIconStyles(ownerState))), Button4 = /* @__PURE__ */ React60.forwardRef(function(inProps, ref) {
   let contextProps = React60.useContext(ButtonGroupContext_default), buttonGroupButtonContextPositionClassName = React60.useContext(ButtonGroupButtonContext_default), resolvedProps = resolveProps(contextProps, inProps), props = useThemeProps({
     props: resolvedProps,
     name: "MuiButton"
@@ -11064,7 +11259,7 @@ var _excluded45 = ["children", "color", "component", "className", "disabled", "d
     children: [startIcon, children, endIcon]
   }));
 });
-Button3.propTypes = {
+Button4.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -11158,7 +11353,7 @@ Button3.propTypes = {
    */
   variant: PropTypes45.oneOfType([PropTypes45.oneOf(["contained", "outlined", "text"]), PropTypes45.string])
 };
-var Button_default = Button3;
+var Button_default = Button4;
 
 // node_modules/@mui/material/TextField/TextField.js
 import _extends70 from "@babel/runtime/helpers/esm/extends";
@@ -15742,7 +15937,7 @@ var _excluded62 = ["autoComplete", "autoFocus", "children", "className", "color"
   name: "MuiTextField",
   slot: "Root",
   overridesResolver: (props, styles4) => styles4.root
-})({}), TextField2 = /* @__PURE__ */ React80.forwardRef(function(inProps, ref) {
+})({}), TextField3 = /* @__PURE__ */ React80.forwardRef(function(inProps, ref) {
   let props = useThemeProps({
     props: inProps,
     name: "MuiTextField"
@@ -15845,7 +16040,7 @@ var _excluded62 = ["autoComplete", "autoFocus", "children", "className", "color"
     }))]
   }));
 });
-TextField2.propTypes = {
+TextField3.propTypes = {
   // ----------------------------- Warning --------------------------------
   // | These PropTypes are generated from the TypeScript type definitions |
   // |     To update them edit the d.ts file and run "yarn proptypes"     |
@@ -16018,7 +16213,7 @@ TextField2.propTypes = {
    */
   variant: PropTypes62.oneOf(["filled", "outlined", "standard"])
 };
-var TextField_default = TextField2;
+var TextField_default = TextField3;
 
 // node_modules/@mui/material/Autocomplete/Autocomplete.js
 import _objectWithoutPropertiesLoose65 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -18405,10 +18600,10 @@ var Fab_default = Fab2;
 import { useSubmit as useSubmit2 } from "@remix-run/react";
 import { Dialog as Dialog2, DialogTitle as DialogTitle2, DialogContent as DialogContent2, DialogContentText as DialogContentText2, DialogActions as DialogActions2, Snackbar, Alert } from "@mui/material";
 import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
-async function loader9({ request }) {
+async function loader10({ request }) {
   await requireUserSession(request);
   let session = await getSession(request.headers.get("Cookie")), storageSessions = session.has("voucher") ? session.get("voucher") : {}, message = session.has("message") ? session.get("message") : null, alert = session.has("alert") ? session.get("alert") : null, object = session.has("object") ? session.get("object") : null, act = session.has("act") ? session.get("act") : null, secret = session.has("keySec") ? session.get("keySec") : null, users = await getUsers(secret?.toString()), payment = await getPayments(secret?.toString());
-  return json11({
+  return json12({
     users: await users.json(),
     payment: await payment.json(),
     sessions: storageSessions,
@@ -18461,7 +18656,7 @@ async function action8({ request }) {
     }
   });
 }
-var meta7 = () => [
+var meta8 = () => [
   {
     title: "ECCS POS - Sales"
   },
@@ -18474,7 +18669,7 @@ function numberWithCommas3(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 function index4(props = !1) {
-  let [cart, setCart] = React89.useState({}), [total, setTotal] = React89.useState(0), [discount, setDiscount] = React89.useState(0), [voucher, setVoucher] = React89.useState(""), [useVoucher, setuseVoucher] = React89.useState(!1), [delCart, setDeleteCart] = React89.useState(0), [triggerUse, settriggerUse] = React89.useState(props), [snack, setSnack] = React89.useState(!1), [paymentList, setPaymentList] = React89.useState(), [keyPaymentList, setKeyPaymentList] = React89.useState(), myusers = useLoaderData6();
+  let [cart, setCart] = React89.useState({}), [total, setTotal] = React89.useState(0), [discount, setDiscount] = React89.useState(0), [voucher, setVoucher] = React89.useState(""), [useVoucher, setuseVoucher] = React89.useState(!1), [delCart, setDeleteCart] = React89.useState(0), [triggerUse, settriggerUse] = React89.useState(props), [snack, setSnack] = React89.useState(!1), [paymentList, setPaymentList] = React89.useState(), [keyPaymentList, setKeyPaymentList] = React89.useState(), myusers = useLoaderData7();
   React89.useEffect(() => {
     myusers?.act && myusers?.act == "delete_voucher" && (setVoucher(""), setDiscount(0), setuseVoucher(!1), localStorage.removeItem("voucher"));
     let getData = JSON.parse(localStorage.getItem("cart") || "{}"), UpdateData = [];
@@ -18814,7 +19009,7 @@ function index4(props = !1) {
       columnNumber: 13
     }, this);
   }, TableTotalCheckout = (voucher2, paymentList2, keypaymentList) => {
-    let submit = useSubmit2(), [customer, setCustomer] = React89.useState(0), [preText, setPreText] = React89.useState(voucher2.toString()), [UsePayment, setUsePayment] = React89.useState(""), [UsePaymentName, setUsePaymentName] = React89.useState(""), users = useLoaderData6().users.result.map((record) => ({
+    let submit = useSubmit2(), [customer, setCustomer] = React89.useState(0), [preText, setPreText] = React89.useState(voucher2.toString()), [UsePayment, setUsePayment] = React89.useState(""), [UsePaymentName, setUsePaymentName] = React89.useState(""), users = useLoaderData7().users.result.map((record) => ({
       label: record.nama_lengkap != null ? record.nama_lengkap : "No name",
       id: record.id
     })), onTagsChange = (event, values, reason) => {
@@ -19207,8 +19402,8 @@ var users_exports = {};
 __export(users_exports, {
   action: () => action9,
   default: () => Index5,
-  loader: () => loader10,
-  meta: () => meta8
+  loader: () => loader11,
+  meta: () => meta9
 });
 import * as React97 from "react";
 import { DataGrid as DataGrid3, GridToolbar as GridToolbar3 } from "@mui/x-data-grid";
@@ -19798,8 +19993,8 @@ Tooltip.propTypes = {
 var Tooltip_default = Tooltip;
 
 // app/routes/users.tsx
-import { useLoaderData as useLoaderData7 } from "@remix-run/react";
-import { json as json12 } from "@remix-run/node";
+import { useLoaderData as useLoaderData8 } from "@remix-run/react";
+import { json as json13 } from "@remix-run/node";
 
 // node_modules/@mui/material/Dialog/Dialog.js
 import _objectWithoutPropertiesLoose68 from "@babel/runtime/helpers/esm/objectWithoutPropertiesLoose";
@@ -20495,7 +20690,7 @@ var DialogTitle_default = DialogTitle3;
 // app/routes/users.tsx
 import { Form as Form3, useActionData as useActionData2 } from "@remix-run/react";
 import { jsxDEV as jsxDEV14 } from "react/jsx-dev-runtime";
-var meta8 = () => [
+var meta9 = () => [
   {
     title: "ECCS POS - Users"
   },
@@ -20513,7 +20708,7 @@ async function action9({ request }) {
     alamat
   }, errors = {}, session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
   if (Object.keys(errors).length > 0)
-    return json12({ errors });
+    return json13({ errors });
   {
     let response = await createUsers(secret, data);
     if (response.meta.code != 200)
@@ -20980,13 +21175,13 @@ var columns3 = [
       }, this);
     }
   }
-], loader10 = async ({ request }) => {
+], loader11 = async ({ request }) => {
   await requireUserSession(request);
   let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
   return await getUsers(secret);
 };
 function Index5() {
-  let myusers = useLoaderData7();
+  let myusers = useLoaderData8();
   return /* @__PURE__ */ jsxDEV14(
     "div",
     {
@@ -21089,7 +21284,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-NUJ6GEQV.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-E52NFI5V.js", imports: ["/build/_shared/chunk-7CMOVDJT.js", "/build/_shared/chunk-DJKNX455.js", "/build/_shared/chunk-WH7SXFCH.js", "/build/_shared/chunk-JEGBS5OK.js", "/build/_shared/chunk-C767XJDP.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !1, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-FLVHO4NM.js", imports: ["/build/_shared/chunk-G7CHZRZX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-U3DXFOXG.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-UZCB5L7K.js", imports: ["/build/_shared/chunk-S2TCWDHO.js", "/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-P5DUC6AB.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-LFMMB7S2.js", imports: ["/build/_shared/chunk-S2TCWDHO.js", "/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-IYZJAGBD.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-Z7HCTNKV.js", imports: ["/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-JH2IQ3OD.js", imports: ["/build/_shared/chunk-S2TCWDHO.js", "/build/_shared/chunk-2TE5ERM4.js", "/build/_shared/chunk-G7CHZRZX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "9f081192", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1704278506454 }, url: "/build/manifest-9F081192.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-NSR366JL.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-HOA2IK3O.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-6577ETNV.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-SNNQCI54.js", imports: ["/build/_shared/chunk-I77U6ZAO.js", "/build/_shared/chunk-XXDWBN7O.js", "/build/_shared/chunk-7OURMMHY.js", "/build/_shared/chunk-2MEOJFIC.js", "/build/_shared/chunk-EB225CPI.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-HBXFI7XJ.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-TFK4BB5X.js", imports: ["/build/_shared/chunk-QYJW2XEP.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-PQRTYPAR.js", imports: ["/build/_shared/chunk-5HIYSH2E.js", "/build/_shared/chunk-QYJW2XEP.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-PE2QRZPO.js", imports: ["/build/_shared/chunk-QYJW2XEP.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-Q4USQT4P.js", imports: ["/build/_shared/chunk-5HIYSH2E.js", "/build/_shared/chunk-QYJW2XEP.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-5Q4QXURU.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-Q2H27Z5O.js", imports: ["/build/_shared/chunk-QYJW2XEP.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-VJEHHXCL.js", imports: ["/build/_shared/chunk-QYJW2XEP.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-TALJ7FI4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-B6X7BQSN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-RCACBHZN.js", imports: ["/build/_shared/chunk-5HIYSH2E.js", "/build/_shared/chunk-QYJW2XEP.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "efe96ce0", hmr: { runtime: "/build/_shared\\chunk-6577ETNV.js", timestamp: 1704346804968 }, url: "/build/manifest-EFE96CE0.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

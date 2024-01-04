@@ -13,12 +13,33 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { NavLink } from "@remix-run/react";
+import { NavLink, useLoaderData } from "@remix-run/react";
+import { commitSession, getSession } from '~/sessions';
+import { json } from '@remix-run/node';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
+export const loader = async ({ request }: { request: Request }) => {
+
+  const session = await getSession(request.headers.get("Cookie"));
+  
+    session.flash("error", "nologin");       
+
+  const data = {
+    error: "asdasdasdad"
+  };
+  
+  return json(data, {
+    headers: {
+        "Set-Cookie": await commitSession(session)
+    }
+});
+
+}
 
 export default function Appbar() {
+  
+  const data = useLoaderData < typeof loader > ();
 
   // state for button apbar
   const [state, setState] = React.useState({
@@ -51,6 +72,16 @@ export default function Appbar() {
     setState({ ...state, [anchor]: open });
   };
 
+  // menu
+  const menu = [
+    'Dashboard', 
+    'Sales', 
+    'Order', 
+    'Users', 
+    'Logout'
+  ];
+  
+
   // UI Drawer
   const list = (anchor: Anchor) => (
     <Box
@@ -60,7 +91,7 @@ export default function Appbar() {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {['Dashboard', 'Sales', 'Order', 'Users', 'Logout'].map((text, index) => (
+        {menu.map((text, index) => (
           <NavLink to={urls[index]}>
             <ListItem key={text} disablePadding>
               <ListItemButton>
@@ -73,6 +104,7 @@ export default function Appbar() {
           </NavLink>
         ))}
       </List>
+      {data.error ? data.error:data.error}
     </Box>
   );
 
@@ -86,7 +118,7 @@ export default function Appbar() {
                 <Icon>menu</Icon>
               </IconButton>
               <Typography variant="h6" color="inherit" component="div">
-                ECCS-POS
+                ECCS POS APPS
               </Typography>
             </Toolbar>
           </AppBar>
