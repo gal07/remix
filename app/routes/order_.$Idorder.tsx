@@ -86,11 +86,11 @@ export async function action({ request }: ActionFunctionArgs) {
                 console.log(simulate);
             }
 
-            return redirect('/order/'+id,{
-                headers: {
-                    "Set-Cookie": await commitSession(session)
-                }
-            });
+            setTimeout(() => {
+                return redirect('/order/'+id);
+            }, 2000);
+
+            
         }
 
     }
