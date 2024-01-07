@@ -1855,7 +1855,7 @@ var _excluded10 = ["action", "centerRipple", "children", "className", "component
     props: inProps,
     name: "MuiButtonBase"
   }), {
-    action: action10,
+    action: action11,
     centerRipple = !1,
     children,
     className,
@@ -1889,7 +1889,7 @@ var _excluded10 = ["action", "centerRipple", "children", "className", "component
     onBlur: handleBlurVisible,
     ref: focusVisibleRef
   } = useIsFocusVisible_default(), [focusVisible, setFocusVisible] = React8.useState(!1);
-  disabled && focusVisible && setFocusVisible(!1), React8.useImperativeHandle(action10, () => ({
+  disabled && focusVisible && setFocusVisible(!1), React8.useImperativeHandle(action11, () => ({
     focusVisible: () => {
       setFocusVisible(!0), buttonRef.current.focus();
     }
@@ -6306,7 +6306,7 @@ var _excluded29 = ["action", "avatar", "className", "component", "disableTypogra
     props: inProps,
     name: "MuiCardHeader"
   }), {
-    action: action10,
+    action: action11,
     avatar,
     className,
     component = "div",
@@ -6350,10 +6350,10 @@ var _excluded29 = ["action", "avatar", "className", "component", "disableTypogra
       className: classes.content,
       ownerState,
       children: [title, subheader]
-    }), action10 && /* @__PURE__ */ _jsx29(CardHeaderAction, {
+    }), action11 && /* @__PURE__ */ _jsx29(CardHeaderAction, {
       className: classes.action,
       ownerState,
-      children: action10
+      children: action11
     })]
   }));
 });
@@ -10014,27 +10014,55 @@ function Login() {
 // app/routes/order.tsx
 var order_exports = {};
 __export(order_exports, {
+  action: () => action8,
   default: () => Index4,
   loader: () => loader9,
   meta: () => meta7
 });
 import { DataGrid as DataGrid2, GridToolbar as GridToolbar2 } from "@mui/x-data-grid";
 import { json as json11 } from "@remix-run/node";
-import { useLoaderData as useLoaderData6, useNavigate as useNavigate3 } from "@remix-run/react";
+import { useLoaderData as useLoaderData6, useNavigate as useNavigate3, useSubmit as useSubmit3 } from "@remix-run/react";
 import { Button as Button4, Divider, Icon as Icon3 } from "@mui/material";
 import React48 from "react";
 import { jsxDEV as jsxDEV12 } from "react/jsx-dev-runtime";
 var loader9 = async ({ request }) => {
   await requireUserSession(request);
-  let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null;
+  let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null, page = 1, pagesize = 20, search = "";
+  session.has("nextpage") && (page = session.get("nextpage")), session.has("search") && (search = session.get("search"));
+  let order = await getTransaction(secret, search, page, pagesize, 0), total = order.pagination.total_page * pagesize;
   return json11({
-    flash: secret
+    flash: secret,
+    order,
+    total
   }, {
     headers: {
       "Set-Cookie": await commitSession(session)
     }
   });
-}, meta7 = () => [
+};
+async function action8({ request }) {
+  let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null, body2 = await request.formData(), type = String(body2.get("type"));
+  if (request.method == "POST") {
+    if (type == "changepage") {
+      let nextpage = body2.get("next"), pagesize = body2.get("pagesize");
+      return session.flash("nextpage", nextpage), session.flash("pagesize", pagesize), json11({}, {
+        headers: {
+          "Set-Cookie": await commitSession(session)
+        }
+      });
+    }
+    if (type == "searchorder") {
+      let search = body2.get("search");
+      return session.flash("search", search), json11({}, {
+        headers: {
+          "Set-Cookie": await commitSession(session)
+        }
+      });
+    }
+  }
+  return !0;
+}
+var meta7 = () => [
   {
     title: "ECCS POS - Order"
   },
@@ -10070,7 +10098,7 @@ var loader9 = async ({ request }) => {
     renderCell(params) {
       return /* @__PURE__ */ jsxDEV12("p", { children: params.value }, void 0, !1, {
         fileName: "app/routes/order.tsx",
-        lineNumber: 70,
+        lineNumber: 137,
         columnNumber: 17
       }, this);
     }
@@ -10082,7 +10110,7 @@ var loader9 = async ({ request }) => {
     renderCell(params) {
       return /* @__PURE__ */ jsxDEV12(Typography_default, { variant: "button", color: params.value == 33 ? "lightcoral" : params.value == 6 ? "red" : "green", children: params.value == 33 ? "Waiting Payment" : params.value == 6 ? "Cancelled" : "Completed" }, void 0, !1, {
         fileName: "app/routes/order.tsx",
-        lineNumber: 79,
+        lineNumber: 146,
         columnNumber: 17
       }, this);
     }
@@ -10099,7 +10127,7 @@ var loader9 = async ({ request }) => {
           direction: "row",
           divider: /* @__PURE__ */ jsxDEV12(Divider, { orientation: "vertical", flexItem: !0 }, void 0, !1, {
             fileName: "app/routes/order.tsx",
-            lineNumber: 95,
+            lineNumber: 162,
             columnNumber: 26
           }, this),
           spacing: 2,
@@ -10107,11 +10135,11 @@ var loader9 = async ({ request }) => {
             navigate("/order/" + params.id);
           }, children: /* @__PURE__ */ jsxDEV12(Icon3, { children: "rate_review" }, void 0, !1, {
             fileName: "app/routes/order.tsx",
-            lineNumber: 101,
+            lineNumber: 168,
             columnNumber: 25
           }, this) }, void 0, !1, {
             fileName: "app/routes/order.tsx",
-            lineNumber: 98,
+            lineNumber: 165,
             columnNumber: 21
           }, this)
         },
@@ -10119,7 +10147,7 @@ var loader9 = async ({ request }) => {
         !1,
         {
           fileName: "app/routes/order.tsx",
-          lineNumber: 93,
+          lineNumber: 160,
           columnNumber: 17
         },
         this
@@ -10128,17 +10156,31 @@ var loader9 = async ({ request }) => {
   }
 ];
 function Index4() {
-  let order = useLoaderData6(), [paginationModel, setPaginationModel] = React48.useState({
+  let order = useLoaderData6(), submit = useSubmit3(), [paginationModel, setPaginationModel] = React48.useState({
     page: 0,
     pageSize: 5
-  }), [rows, setRows] = React48.useState([]), [loading, setLoading] = React48.useState(!1), [rowSelectionModel, setRowSelectionModel] = React48.useState([]), [dataOrder, setDataorder] = React48.useState(), [rowCount, setRowCount] = React48.useState(0), [search, setSearch] = React48.useState("");
-  return React48.useEffect(() => {
-    (async () => {
-      setLoading(!0);
-      let pageNext = paginationModel.page + 1, result = await getTransaction(order.flash, search, pageNext, 10, 0);
-      setRowCount(result.pagination.total_page * 10), setDataorder(result.data), setLoading(!1);
-    })();
-  }, [paginationModel, search]), /* @__PURE__ */ jsxDEV12(
+  }), [rows, setRows] = React48.useState([]), [loading, setLoading] = React48.useState(!1), [rowSelectionModel, setRowSelectionModel] = React48.useState([]), [dataOrder, setDataorder] = React48.useState(), [rowCount, setRowCount] = React48.useState(order.total), [search, setSearch] = React48.useState(""), handleSearchOrder = (query) => {
+    let formData = new FormData();
+    formData.append("search", query.toString()), formData.append("type", "searchorder"), console.log(query), submit(formData, {
+      action: "/order",
+      method: "POST",
+      preventScrollReset: !1,
+      replace: !1,
+      relative: "route"
+    });
+  }, handleChangePage = (nextp) => {
+    let formData = new FormData();
+    setPaginationModel(nextp);
+    let pageNext = paginationModel.page + 1;
+    formData.append("next", pageNext.toString()), formData.append("pagesize", nextp.pageSize.toString()), formData.append("type", "changepage"), submit(formData, {
+      action: "/order",
+      method: "POST",
+      preventScrollReset: !1,
+      replace: !1,
+      relative: "route"
+    });
+  };
+  return /* @__PURE__ */ jsxDEV12(
     "div",
     {
       style: {
@@ -10155,7 +10197,7 @@ function Index4() {
             },
             children: /* @__PURE__ */ jsxDEV12(Typography_default, { gutterBottom: !0, variant: "h5", component: "h5", children: "List Order" }, void 0, !1, {
               fileName: "app/routes/order.tsx",
-              lineNumber: 155,
+              lineNumber: 255,
               columnNumber: 17
             }, this)
           },
@@ -10163,7 +10205,7 @@ function Index4() {
           !1,
           {
             fileName: "app/routes/order.tsx",
-            lineNumber: 150,
+            lineNumber: 250,
             columnNumber: 13
           },
           this
@@ -10182,13 +10224,13 @@ function Index4() {
               {
                 paginationMode: "server",
                 rowCount,
-                rows: dataOrder || [],
+                rows: order.order ? order.order.data : [],
                 columns: columns2,
                 initialState: {
                   pagination: {
                     paginationModel: {
                       page: 0,
-                      pageSize: 10
+                      pageSize: 20
                     }
                   },
                   filter: {}
@@ -10201,20 +10243,20 @@ function Index4() {
                     showQuickFilter: !0
                   }
                 },
-                pageSizeOptions: [10],
-                onPaginationModelChange: (p, m) => {
-                  setPaginationModel(p);
+                pageSizeOptions: [20, 50, 100],
+                onPaginationModelChange: (p) => {
+                  handleChangePage(p);
                 },
                 loading,
                 onFilterModelChange: (e) => {
-                  setSearch(e.quickFilterValues[0]);
+                  handleSearchOrder(e.quickFilterValues[0]);
                 }
               },
               void 0,
               !1,
               {
                 fileName: "app/routes/order.tsx",
-                lineNumber: 168,
+                lineNumber: 268,
                 columnNumber: 21
               },
               this
@@ -10224,13 +10266,13 @@ function Index4() {
           !1,
           {
             fileName: "app/routes/order.tsx",
-            lineNumber: 163,
+            lineNumber: 263,
             columnNumber: 17
           },
           this
         ) }, void 0, !1, {
           fileName: "app/routes/order.tsx",
-          lineNumber: 160,
+          lineNumber: 260,
           columnNumber: 13
         }, this)
       ]
@@ -10239,7 +10281,7 @@ function Index4() {
     !0,
     {
       fileName: "app/routes/order.tsx",
-      lineNumber: 144,
+      lineNumber: 244,
       columnNumber: 9
     },
     this
@@ -10249,7 +10291,7 @@ function Index4() {
 // app/routes/sales.tsx
 var sales_exports = {};
 __export(sales_exports, {
-  action: () => action8,
+  action: () => action9,
   default: () => index4,
   loader: () => loader10,
   meta: () => meta8
@@ -14581,7 +14623,7 @@ var useUtilityClasses43 = (ownerState) => {
     props: inProps,
     name: "MuiPopover"
   }), {
-    action: action10,
+    action: action11,
     anchorEl,
     anchorOrigin = {
       vertical: "top",
@@ -14681,7 +14723,7 @@ var useUtilityClasses43 = (ownerState) => {
   };
   React74.useEffect(() => {
     open && setPositioningStyles();
-  }), React74.useImperativeHandle(action10, () => open ? {
+  }), React74.useImperativeHandle(action11, () => open ? {
     updatePosition: () => {
       setPositioningStyles();
     }
@@ -18792,7 +18834,7 @@ Fab2.propTypes = {
 var Fab_default = Fab2;
 
 // app/routes/sales.tsx
-import { useSubmit as useSubmit3 } from "@remix-run/react";
+import { useSubmit as useSubmit4 } from "@remix-run/react";
 import { Dialog as Dialog3, DialogTitle as DialogTitle3, DialogContent as DialogContent3, DialogContentText as DialogContentText3, DialogActions as DialogActions3, Snackbar, Alert } from "@mui/material";
 import { jsxDEV as jsxDEV13 } from "react/jsx-dev-runtime";
 async function loader10({ request }) {
@@ -18812,7 +18854,7 @@ async function loader10({ request }) {
     }
   });
 }
-async function action8({ request }) {
+async function action9({ request }) {
   let session = await getSession(request.headers.get("Cookie")), secret = session.has("keySec") ? session.get("keySec") : null, body2 = await request.formData(), type = String(body2.get("type"));
   if (request.method == "POST") {
     if (type == "checkout") {
@@ -19204,7 +19246,7 @@ function index4(props = !1) {
       columnNumber: 13
     }, this);
   }, TableTotalCheckout = (voucher2, paymentList2, keypaymentList) => {
-    let submit = useSubmit3(), [customer, setCustomer] = React89.useState(0), [preText, setPreText] = React89.useState(voucher2.toString()), [UsePayment, setUsePayment] = React89.useState(""), [UsePaymentName, setUsePaymentName] = React89.useState(""), users = useLoaderData7().users.result.map((record) => ({
+    let submit = useSubmit4(), [customer, setCustomer] = React89.useState(0), [preText, setPreText] = React89.useState(voucher2.toString()), [UsePayment, setUsePayment] = React89.useState(""), [UsePaymentName, setUsePaymentName] = React89.useState(""), users = useLoaderData7().users.result.map((record) => ({
       label: record.nama_lengkap != null ? record.nama_lengkap : "No name",
       id: record.id
     })), onTagsChange = (event, values, reason) => {
@@ -19595,7 +19637,7 @@ var AddProduct = () => {
 // app/routes/users.tsx
 var users_exports = {};
 __export(users_exports, {
-  action: () => action9,
+  action: () => action10,
   default: () => Index5,
   loader: () => loader11,
   meta: () => meta9
@@ -20894,7 +20936,7 @@ var meta9 = () => [
     content: "Welcome to eccs-pos!"
   }
 ];
-async function action9({ request }) {
+async function action10({ request }) {
   let formData = await request.formData(), email = String(formData.get("email")), nama_depan = String(formData.get("nama_depan")), nama_belakang = String(formData.get("nama_belakang")), phone = String(formData.get("phone")), alamat = String(formData.get("alamat")), mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, onlychar = /^[a-zA-Z]+$/, onlynumber = /^\d+$/, data = {
     email,
     nama_depan,
@@ -21479,7 +21521,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-4ETGYKGH.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-XVYXQTN5.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-YAKEP2ZL.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-H24SHFGN.js", imports: ["/build/_shared/chunk-I77U6ZAO.js", "/build/_shared/chunk-XXDWBN7O.js", "/build/_shared/chunk-7OURMMHY.js", "/build/_shared/chunk-2MEOJFIC.js", "/build/_shared/chunk-EB225CPI.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-FDFBARTA.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-4BAKDDGW.js", imports: ["/build/_shared/chunk-COYP2UKX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-CVTUOXKQ.js", imports: ["/build/_shared/chunk-5HIYSH2E.js", "/build/_shared/chunk-COYP2UKX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-N4M4XNGI.js", imports: ["/build/_shared/chunk-COYP2UKX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-VFACFSLQ.js", imports: ["/build/_shared/chunk-5HIYSH2E.js", "/build/_shared/chunk-COYP2UKX.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-YOKJVTP4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-MKWS3IWN.js", imports: ["/build/_shared/chunk-COYP2UKX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-LYSFBXYF.js", imports: ["/build/_shared/chunk-COYP2UKX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-UIUF42JX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-NFHFDJWR.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-C54AZA3E.js", imports: ["/build/_shared/chunk-5HIYSH2E.js", "/build/_shared/chunk-COYP2UKX.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "3f395c33", hmr: { runtime: "/build/_shared\\chunk-YAKEP2ZL.js", timestamp: 1704441877500 }, url: "/build/manifest-3F395C33.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-RWCYP2WP.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-XVYXQTN5.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-YAKEP2ZL.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-45GZ67MH.js", imports: ["/build/_shared/chunk-7CMOVDJT.js", "/build/_shared/chunk-DJKNX455.js", "/build/_shared/chunk-WH7SXFCH.js", "/build/_shared/chunk-TSBUSX6Z.js", "/build/_shared/chunk-C767XJDP.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-T3T6BDAK.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-BI6NVS27.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-P4RIDD5W.js", imports: ["/build/_shared/chunk-S2TCWDHO.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-ZNNF2MD3.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-3LBXITYB.js", imports: ["/build/_shared/chunk-S2TCWDHO.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-YOKJVTP4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-BCNRPP62.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-FZYAKHNX.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-UIUF42JX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-NFHFDJWR.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-4EZRLAV5.js", imports: ["/build/_shared/chunk-S2TCWDHO.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "5e4b92f8", hmr: { runtime: "/build/_shared\\chunk-YAKEP2ZL.js", timestamp: 1704645792464 }, url: "/build/manifest-5E4B92F8.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

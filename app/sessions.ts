@@ -14,6 +14,9 @@ type SessionFlashData = {
   message:string;
   alert:number;
   object:any;
+  nextpage:any;
+  pagesize:any;
+  search:any;
 };
 
 const { getSession, commitSession, destroySession } =

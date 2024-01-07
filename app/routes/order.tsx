@@ -1,4 +1,4 @@
-import type {MetaFunction}
+import type {ActionFunctionArgs, MetaFunction}
 from "@remix-run/node";
 import Box from '@mui/material/Box';
 import {DataGrid, GridColDef, GridRowSelectionModel, GridRowsProp, GridToolbar} from '@mui/x-data-grid';
@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import {json} from "@remix-run/node"; // or cloudflare/deno
 import type {LoaderFunctionArgs}
 from "@remix-run/node";
-import {useLoaderData, useNavigate} from "@remix-run/react";
+import {useLoaderData, useNavigate, useSubmit} from "@remix-run/react";
 import { getTransaction } from '../data/sourceData'
 import { commitSession, getSession, requireUserSession } from "~/sessions";
 import { Badge, Button, Divider, Icon } from "@mui/material";
@@ -20,9 +20,32 @@ export const loader = async ({request} : LoaderFunctionArgs) => {
     
     const session = await getSession(request.headers.get("Cookie"));
     const secret = (session.has('keySec') ? session.get("keySec"):null);
+    let page = 1;
+    let pagesize = 20;
+    let search = "";
 
+    if (session.has('nextpage')) {
+        let v = session.get('nextpage');
+        page = v;
+    }
+
+    // if (session.has('pagesize')) {
+    //     let v = session.get('pagesize');
+    //     pagesize = v;
+    // }
+
+    if (session.has('search')) {
+        let getsearch = session.get('search');
+        search = getsearch;
+    }
+
+    const order = await getTransaction(secret,search,page,pagesize,0);
+    const total = order.pagination.total_page*pagesize;
+    
     return json({
         flash: secret,
+        order: order,
+        total: total
     }, {
         headers: {
             "Set-Cookie": await commitSession(session)
@@ -30,6 +53,50 @@ export const loader = async ({request} : LoaderFunctionArgs) => {
     });
 
 };
+
+// Action to handle form submission
+export async function action({ request }: ActionFunctionArgs) {
+  
+
+    const session = await getSession(request.headers.get("Cookie"));
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
+    const body = await request.formData();
+    const type = String(body.get("type"));
+    
+    if (request.method == "POST") {
+
+        if (type == "changepage") {
+            let nextpage = body.get("next");
+            let pagesize = body.get("pagesize");
+
+            session.flash("nextpage",nextpage)
+            session.flash("pagesize",pagesize)
+
+            return json({}, {
+                headers: {
+                    "Set-Cookie": await commitSession(session)
+                }
+            });
+        }
+
+        if (type == "searchorder") {
+            let search = body.get("search");
+            session.flash("search",search)
+            return json({}, {
+                headers: {
+                    "Set-Cookie": await commitSession(session)
+                }
+            });
+        }
+        
+
+    }
+
+    return true;
+
+}
+
+
 
 export const meta: MetaFunction = () => {
     return [
@@ -112,6 +179,7 @@ const columns: GridColDef[] = [
 export default function Index() {
 
     const order = useLoaderData < typeof loader > ();
+    const submit = useSubmit();
     const [paginationModel, setPaginationModel] = React.useState({
         page: 0,
         pageSize: 5,
@@ -120,24 +188,56 @@ export default function Index() {
     const [loading, setLoading] = React.useState(false);
     const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
     const [dataOrder, setDataorder] = React.useState<any | any>();
-    const [rowCount, setRowCount] = React.useState<any | any>(0);
+    const [rowCount, setRowCount] = React.useState<any | any>(order.total);
     const [search, setSearch] = React.useState<any | any>("");
+    
+    // React.useEffect(()=>{
+        
+    //     (async () => {
+    //         setLoading(true);
+
+    //         let pageNext = paginationModel.page + 1;
+    //         const result = await getTransaction(order.flash,search,pageNext,20,0);
+    //         setRowCount(result.pagination.total_page*20)
+
+    //         setLoading(false);
+    //     })();
+
+    // },[])
+
+    const handleSearchOrder = (query :any) => {
+        const formData = new FormData();
+        formData.append("search",query.toString());
+        formData.append("type","searchorder");
+        console.log(query);
+        
+        submit(formData, {
+            action: "/order",
+            method: "POST",
+            preventScrollReset: false,
+            replace: false,
+            relative: "route",
+        });
+    }
+
+    const handleChangePage = (nextp :any) => {
+        
+        const formData = new FormData();
+        setPaginationModel(nextp)
+        let pageNext = paginationModel.page + 1;
+        formData.append("next",pageNext.toString());        
+        formData.append("pagesize",nextp.pageSize.toString());
+        formData.append("type","changepage");
+        submit(formData, {
+            action: "/order",
+            method: "POST",
+            preventScrollReset: false,
+            replace: false,
+            relative: "route",
+        });
 
 
-    React.useEffect(()=>{
-
-        (async () => {
-            setLoading(true);
-
-            let pageNext = paginationModel.page + 1;
-            const result = await getTransaction(order.flash,search,pageNext,10,0);
-            setRowCount(result.pagination.total_page*10)
-            setDataorder(result.data)
-
-            setLoading(false);
-        })();
-
-    },[paginationModel,search])
+    }
 
     return (
 
@@ -168,13 +268,13 @@ export default function Index() {
                     <DataGrid               
                         paginationMode='server' 
                         rowCount={rowCount}
-                        rows={(dataOrder ? dataOrder: [])}
+                        rows={(order.order ? order.order.data: [])}
                         columns={columns}
                         initialState={{
                              pagination: {
                                 paginationModel: {
                                     page: 0,
-                                    pageSize: 10
+                                    pageSize: 20
                                 }
                             },
                             filter: {}
@@ -187,13 +287,14 @@ export default function Index() {
                                 showQuickFilter: true
                             }
                         }}
-                        pageSizeOptions={[10]}
-                        onPaginationModelChange={(p,m)=>{
-                            setPaginationModel(p)
+                        pageSizeOptions={[20,50,100]}
+                        onPaginationModelChange={(p,)=>{                            
+                            handleChangePage(p)
                         }}
                         loading={loading}
                         onFilterModelChange={(e :any)=>{
-                            setSearch(e.quickFilterValues[0]);
+                            // setSearch(e.quickFilterValues[0]);
+                            handleSearchOrder(e.quickFilterValues[0])
                         }}
 
                         />
