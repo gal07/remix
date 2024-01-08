@@ -5,6 +5,7 @@ type SessionData = {
   userId: string;
   keySec: string;
   voucher: string;
+  companyid: any;
 };
 
 type SessionFlashData = {
@@ -58,6 +59,18 @@ const { getSession, commitSession, destroySession } =
     }
   
     return session;
+  }
+
+  export async function getCompanyID(request :any) {
+    // get the session
+    const cookie = request.headers.get("cookie");
+    const session = await getSession(cookie);
+    let companyid = 0;
+
+    if (session.has("companyid") ) {      
+      companyid = session.get("companyid")
+    }
+    return companyid;      
   }
 
 export { getSession, commitSession, destroySession };

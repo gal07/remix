@@ -42,10 +42,11 @@ export async function loader({
     session.set("userId", "90000");
 
     const url = new URL(request.url);
+    const secret = (session.has('keySec') ? session.get("keySec"):null);
     const search = url.searchParams.get("search");
 
     let page = params.page as string;
-    const product = await getProducts(search?.toString(),parseInt(page));    
+    const product = await getProducts(secret,search?.toString(),parseInt(page));    
     return json({
       product: await product.json(),
       params: search,
@@ -366,6 +367,11 @@ export default function Productadd() {
                             component="img"
                             height="194"
                             image={item.imageList}
+                            onLoad={(e)=>{
+                              
+                              return(<p>POP</p>);
+                              
+                            }}
                             alt={item.nama_produk}
                         />
                         <CardContent>

@@ -177,19 +177,17 @@ const columns: GridColDef[] = [
 
 
 export default function Index() {
-
+    
     const order = useLoaderData < typeof loader > ();
     const submit = useSubmit();
     const [paginationModel, setPaginationModel] = React.useState({
         page: 0,
         pageSize: 5,
       });
-    const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [loading, setLoading] = React.useState(false);
-    const [rowSelectionModel, setRowSelectionModel] = React.useState<GridRowSelectionModel>([]);
-    const [dataOrder, setDataorder] = React.useState<any | any>();
     const [rowCount, setRowCount] = React.useState<any | any>(order.total);
     const [search, setSearch] = React.useState<any | any>("");
+    console.log(order);
     
     // React.useEffect(()=>{
         

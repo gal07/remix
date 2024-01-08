@@ -308,7 +308,7 @@ export default function index(){
                 </Grid>:"")}
                 
 
-                <Grid item xs={12} lg={8}>
+                <Grid item xs={12} lg={(order.getOrder.data.status != 33 ? 12:8)}>
                     <TableContainer sx={{
                     marginTop:"0em"
                 }} component={Paper}>
@@ -347,6 +347,7 @@ export default function index(){
                     </TableContainer>
                 </Grid>
 
+                {order.getOrder.data.status == 33 ? 
                 <Grid item xs={12} lg={4}>
                     <TableContainer sx={{
                     marginTop:"0em"
@@ -391,7 +392,8 @@ export default function index(){
                     </Stack>:""}
                     
 
-                </Grid>
+                </Grid>:""}
+                
 
               </Grid>
 

@@ -65,6 +65,7 @@ export async function action({request} : ActionFunctionArgs) {
 
     session.set("userId", login.data[0].id);
     session.set("keySec", login.data[0].token);
+    session.set("companyid", login.data[0].pcompany_id);
 
     // Login succeeded, send them to the home page.
     return redirect("/", {
@@ -115,7 +116,9 @@ export default function Login() {
                     <Box
                     component="form"
                     sx={{
-                        '& > :not(style)': { m: 1, width: '38ch' },
+                        '& > :not(style)': { m: 1, width: '30ch' },
+                        padding:"2em",
+                        boxShadow: 2
                     }}
                     noValidate
                     autoComplete="off"
@@ -127,7 +130,6 @@ export default function Login() {
                          spacing={"1"}
                          useFlexGap={true}
                          sx={{
-                            // backgroundColor:"orangered",
                             margin: "2em"
                          }}
                         >
