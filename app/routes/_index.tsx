@@ -5,17 +5,23 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { getSession, commitSession, requireUserSession } from '~/sessions';
-
+import { Typography } from '@mui/material';
+import { getDataDashboard } from '~/data/sourceData';
+import { useLoaderData } from '@remix-run/react';
+import DisplayPanel from '../components/dashboard/displayPanel';
+import activeOrder from '../components/dashboard/activeOrder';
 
 export const loader = async ({ request }: { request: Request }) => {
   
   await requireUserSession(request);
     
   const session = await getSession(request.headers.get("Cookie"));
-  const data = {
-      error: session.get("error")
-  };
-  return json(data, {
+  const secret = (session.has('keySec') ? session.get("keySec"):null);
+  const dashboard = await getDataDashboard(secret,1);
+
+  return json({
+    dashboard: await dashboard.json(),
+  }, {
       headers: {
           "Set-Cookie": await commitSession(session)
       }
@@ -32,35 +38,14 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
 
-  const ar = [0,1,2,3,4,5,6];
-
+  const data = useLoaderData < typeof loader > ();  
+  const data_dashboard = data.dashboard.result.data;
   return (
     
     <div>
       <Box sx={{flexGrow:1,marginTop:"1em"}}>
-        <Grid container spacing={2}>
-          {
-
-              ar.map((ar) => (
-                <Grid item xs={12} md={6} lg={6}>
-                  <Box sx={{bgcolor:"skyblue"}}>
-                      <Stack sx={{margin:"0.6em"}}>
-                        {/* For variant="text", adjust the height via font-size */}
-                        <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-          
-                        {/* For other variants, adjust the size with `width` and `height` */}
-                        <Skeleton variant="circular" width={40} height={40} />
-                        <Skeleton variant="rectangular" width={210} height={60} />
-                        <Skeleton variant="rounded" width={500} height={400} />
-                      </Stack>
-                  </Box>
-                </Grid>        
-              ))
-
-          }
-                  
-
-        </Grid>
+        {DisplayPanel(data_dashboard)}
+        {activeOrder(data_dashboard.active_order.data)}
       </Box>
     </div>
 

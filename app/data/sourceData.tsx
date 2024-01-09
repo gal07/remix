@@ -103,15 +103,23 @@ export async function getProducts(secret:any,search = "",page = 1) {
     const data = await res.json();
     const result = data.data
         ? data
-        : {}
-    console.log(path);
-    
+        : {}    
+    return json({result})
+}
+
+export async function getDataDashboard(secret:any,page = 1) {
+    const path = 'dashboard?page=' + page + '&limit=10';
+    const res = await fetch(apiUrl + path, {headers: {"x-api-key":secret},method: "GET"});
+    const data = await res.json();
+    const result = data
+        ? data
+        : {}    
     return json({result})
 }
 
 export async function getPayments(secret: any) {
     const path = 'order/list_payment';
-    const res = await fetch(apiUrl + path, {headers: {"x-api-key":secret}});
+    const res = await fetch(apiUrl + path, {headers: {"x-api-key":secret},method: "GET"});
     const data = await res.json();
     const result = data.data
         ? data
@@ -133,7 +141,6 @@ export async function createUsers(secret: any,body : any) {
 }
 
 export async function updateUsers(secret: any,id : number, body : any) {
-    console.log(JSON.stringify(body));
     const path = 'customer/update/' + id;
     const res = await fetch(apiUrl + path, {
         headers: {"x-api-key":secret},
@@ -193,8 +200,6 @@ export async function simulatePay(body : any,secret: any) {
         body: body,
         method: "POST"
     });
-    console.log(body);
-
     const data = await res.json();    
     return data;
 }
