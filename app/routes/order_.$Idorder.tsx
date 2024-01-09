@@ -103,7 +103,6 @@ export default function index(){
 
     const order = useLoaderData < typeof loader > ();
     const submit = useSubmit();
-    const date = new Date(order.getOrder.data?.tanggal);
     const [paymentList, setPaymentList] = React.useState<[] | any>();
     const [keyPaymentList, setKeyPaymentList] = React.useState<[] | any>();
     const [open, setOpen] = React.useState(false);
@@ -329,7 +328,7 @@ export default function index(){
                                 <TableCell>No Invoice : {order.getOrder.data.invoice_no}</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell>Date : {date.getDate()+" - "+date.getMonth()+" - "+date.getFullYear()}</TableCell>
+                                <TableCell>Date : {order.getOrder.data?.tanggal}</TableCell>
                             </TableRow>
                             <TableRow>
                                 <TableCell>Name : {order.getOrder.data.nama_pelanggan}</TableCell>

@@ -24,7 +24,7 @@ import Swal from 'sweetalert2'
 import styles from "./styles/util.css";
 
 export const links: LinksFunction = () => [
-  ...(styles ? [{ rel: "stylesheet", href: styles }] : []),
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
 

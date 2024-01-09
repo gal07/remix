@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {redirect, type LoaderFunctionArgs, json} from "@remix-run/node";
 import {useLoaderData, Outlet, useNavigate, Form, useNavigation} from "@remix-run/react";
-import {getUsers, getProduct, createTransaction, getPayments} from '~/data/sourceData';
+import {getUsers, getProduct, createTransaction, getPayments, getProducts} from '~/data/sourceData';
 import type {ActionFunctionArgs, LinksFunction, MetaFunction, SessionData}
 from "@remix-run/node";
 import Stack from '@mui/material/Stack'
@@ -27,6 +27,7 @@ import {FormEvent} from 'react';
 import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, Alert, Backdrop, CircularProgress} from '@mui/material';
 import {commitSession, getSession, requireUserSession} from '~/sessions';
 import { styled, lighten, darken } from '@mui/system';
+import addProduct from '../components/product/addProduct';
 
 export async function loader({request} : LoaderFunctionArgs) {
 
@@ -41,10 +42,12 @@ export async function loader({request} : LoaderFunctionArgs) {
     const secret = (session.has('keySec') ? session.get("keySec"):null);
     const users = await getUsers(secret?.toString());
     const payment = await getPayments(secret?.toString());
+    const product = await getProducts(secret,"",1);    
     
     return json({
         users: await users.json(),
         payment: await payment.json(),
+        product: await product.json(),
         sessions: storageSessions,
         message: message,
         alert: alert,
@@ -148,7 +151,7 @@ function numberWithCommas(x: any) {
 }
 
 export default function index(props :boolean = false) {
-
+    const myusers = useLoaderData < typeof loader > ();
     const [cart, setCart] = React.useState({});
     const [total, setTotal] = React.useState<any | any>(0);
     const [discount, setDiscount] = React.useState<any | any>(0);
@@ -159,7 +162,7 @@ export default function index(props :boolean = false) {
     const [snack, setSnack] = React.useState(false);
     const [paymentList, setPaymentList] = React.useState<any | any>();
     const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
-    const myusers = useLoaderData < typeof loader > ();
+    const [product, setProduct] = React.useState<any | any>(myusers.product?.result.data);
     
     React.useEffect(() => {
 
@@ -350,30 +353,33 @@ export default function index(props :boolean = false) {
                         <Table sx = {{ minWidth: 650,width:"100%" }} aria-label = "simple table" > 
                             <TableHead>
                                 <TableRow>
-                                    <TableCell></TableCell>
+                                    <TableCell width={"4ch"}></TableCell>
                                     <TableCell> List Item</TableCell>
-                                    < TableCell align = "right" > Price</TableCell>
-                                    < TableCell align = "right" > Quantity</TableCell>
+                                    {/* < TableCell align = "right" > Price</TableCell>
+                                    < TableCell align = "right" > Quantity</TableCell> */}
                                     < TableCell align = "right" > Total</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody> 
-                                {dtprod.map((row : any) => (< TableRow key = {row.product_name} sx = {{ '&:last-child td, &:last-child th': { border: 0 } }} > <TableCell component = "th" scope = "row" > <Stack spacing = {1} direction = {"row"} > 
-                                <Button onClick = {() => {
-                                    handleClickOpenAlert("delete")
-                                    setProductTarget(row.idproduk)
-                                }}
-                                color = 'error' size = 'small' variant = "contained" > <Icon> delete</Icon></Button> 
-                                {/* < Button onClick = {
-                                    () => {
-                                        handleClickOpenAlert("edit")
-                                    }
-                                }
-                                size = 'small' variant = "contained" > <Icon> edit</Icon></Button> */}
-                                </Stack></TableCell>
-                                < TableCell component = "th" scope = "row" > {row.product_name+ (row.attribute_name ? " - "+row.attribute_name:"")}</TableCell>
-                                < TableCell align = "right" > {row.price}</TableCell>
-                                < TableCell align = "right" > {row.qty}</TableCell>
+                                {dtprod.map((row : any) => (
+                                < TableRow key = {row.product_name} sx = {{ '&:last-child td, &:last-child th': { border: 0 } }} > 
+                                <TableCell component = "th" scope = "row" >
+                                  <Stack spacing = {1} direction = {"row"} > 
+                                    <Button style={{minWidth:"4ch"}} onClick = {() => {
+                                        handleClickOpenAlert("delete")
+                                        setProductTarget(row.idproduk)
+                                    }}
+                                    color = 'error' size = 'small' variant = "contained" > X
+                                    </Button> 
+                                  </Stack>
+                                </TableCell>
+                                < TableCell component = "th" scope = "row" > 
+                                    <Typography variant='body2'>{row.product_name}</Typography>
+                                    <Typography variant='caption'>{(row.attribute_name ? " - "+row.attribute_name:"")}</Typography>
+                                    <Typography variant='body2'>{row.price} x {row.qty} Pcs</Typography>
+                                </TableCell>
+                                {/* < TableCell align = "right" > {row.price}</TableCell>
+                                < TableCell align = "right" > {row.qty}</TableCell> */}
                                 < TableCell align = "right" > Rp.{numberWithCommas(row.total)}</TableCell></TableRow>))}
                             </TableBody>
                         </Table>
@@ -557,18 +563,8 @@ export default function index(props :boolean = false) {
         
         return (
             <div> 
-                < Stack direction = "column" justifyContent = "space-around" alignItems = "stretch" spacing = {0.5} sx = {{marginTop:"4.5em"}} > <Box bgcolor = {"#f7f7f7"} > 
+                < Stack direction = "column" justifyContent = "space-around" alignItems = "stretch" spacing = {0.5}> <Box bgcolor = {"#f5f5f5"} > 
                     <Stack useFlexGap flexWrap = "wrap" direction = {"row"} > 
-                        <Grid xs = {6} md = {6} lg = {6} > 
-                            <Box> 
-                                < Typography margin = {"0.5em"} textAlign = {"left"} gutterBottom = {true} variant = "h5" component = "h5" > Total </Typography>
-                            </Box>
-                        </Grid>
-                        < Grid xs = {6} md = {6} lg = {6} >
-                            <Box>
-                                < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "h5" component = "h5" > Rp.{ numberWithCommas(parseInt(total) - (discount? parseInt(discount):0))}</Typography>
-                            </Box>
-                        </Grid> 
                         < Grid xs = {12} md = {12} lg = {12} > 
                             <Box> 
                                 < Autocomplete size="small" freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {users} sx = {{ width: 300}}
@@ -642,14 +638,22 @@ export default function index(props :boolean = false) {
 
     return (
         < div style = {{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }} > 
-        <Grid container spacing = {2}
-        sx = {{marginTop:"0.5em",width:"100%",height:"100%"}} > <Grid item xs = { 12} md = {8}lg = {8} > {
-            TableProductCheckout(cart, total, discount, deleteCart)
-        }</Grid> < Grid item xs = {12} md = {4}lg = {4} > {
-            TableTotalCheckout(voucher,paymentList,keyPaymentList)
-        }</Grid> {
-            AddProduct()
-        }</Grid>
+        <Grid container spacing = {2} sx = {{marginTop:"0.5em",width:"100%",height:"100%"}} > 
+            <Grid container xs = {12} md = {6}lg = {5} > 
+                <Grid item xs = {12} md = {12}lg = {12} >
+                    {TableProductCheckout(cart, total, discount, deleteCart)}
+                    {TableTotalCheckout(voucher,paymentList,keyPaymentList)}
+                </Grid> 
+            </Grid> 
+
+            < Grid container xs = {12} md = {4}lg = {7} >
+                <Grid item xs = {12} md = {12}lg = {12} >
+                    {addProduct(myusers.product?.result.data)}
+                </Grid>
+            </Grid>
+
+            {AddProduct()}
+        </Grid>
 
         {( myusers.message != null ? 
             <Stack spacing={2} sx={{ width: '100%' }}>

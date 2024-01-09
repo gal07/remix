@@ -118,6 +118,7 @@ export default function Productadd() {
     setBadges(cart.length)
 
   })
+  
   const submit = useSubmit();
   const [open, setOpen] = React.useState(false);
   const [openProduct, setOpenProduct] = React.useState({});
