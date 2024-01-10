@@ -38,8 +38,8 @@ type createUser = {
     alamat?: any;
 };
 
-// const apiUrl = "http://104.248.159.190:4001/api/";
-const apiUrl = "https://pos.jahesiiyuy.store/api/";
+const apiUrl = "http://104.248.159.190:4001/api/";
+// const apiUrl = "https://pos.jahesiiyuy.store/api/";
 
 
 const key = {

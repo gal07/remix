@@ -24,7 +24,7 @@ export const loader = async ({request} : LoaderFunctionArgs) => {
 
 };
 
-export default function addProduct (product: any,totalpage: any) {
+export default function addProduct () {
 
     const loadata = useLoaderData < typeof loader > ();
     const revalidator = useRevalidator();
@@ -68,6 +68,7 @@ export default function addProduct (product: any,totalpage: any) {
     },
     }));
     const [myproduct, setMyProduct] = React.useState<any | any>([]);
+    const [totalPage, setTotalPage] = React.useState<any | any>();
     const [page, setpage] = React.useState<any | any>(1);
     const [loading, setLoading] = React.useState<any | any>(true);
     const [open, setOpen] = React.useState(false);
@@ -77,6 +78,7 @@ export default function addProduct (product: any,totalpage: any) {
     const [attributes, setAttributes] = React.useState({});
     const [attributesID, setAttributID] = React.useState(0);
     const [attributesDetail, setAttributesDetails] = React.useState(0);
+    const [search, setSearch] = React.useState("");
 
     const AddToCart = async (item :any) => {
     
@@ -214,11 +216,10 @@ export default function addProduct (product: any,totalpage: any) {
     
       }
 
-      const searchProduct = (v: any) => {
+      const searchProduct = async (v: any) => {
 
         console.log("search "+v);
-        const formData = new FormData();
-        formData.append("search",v);
+        setSearch(v)
     
       }
     
@@ -226,15 +227,18 @@ export default function addProduct (product: any,totalpage: any) {
         
         (async () => {
             console.log("use efect call");
-            let jk = await getProducts(loadata.secret,"",page,12)
+            let jk = await getProducts(loadata.secret,search,page,12)
             let dataprod :any[] = [];
             jk.data.map((el :any)=>{
                 dataprod.push(el)                
             })
+            setTotalPage(jk.pagination.total_page);
             setMyProduct(dataprod)
             setLoading(false)
+            
         })();
-      },[badges,page])
+        
+      },[search,badges,page])
     
 
     return(
@@ -260,9 +264,11 @@ export default function addProduct (product: any,totalpage: any) {
                                     placeholder="Search…"
                                     inputProps={{ 'aria-label': 'search' }}
                                     onKeyUp={(e :any) => {
-                                    if (e.key === "Enter") {
-                                        e.preventDefault();
-                                    }
+                                        if (e.key === "Enter") {
+                                            searchProduct((e.target as HTMLInputElement).value)
+                                            e.preventDefault();
+                                        }
+                                    
                                     }}
                                     // defaultValue={}
                                 />
@@ -316,19 +322,22 @@ export default function addProduct (product: any,totalpage: any) {
                             ))
                         }
 
-                        <Stack spacing={3} sx={{alignItems:"center",margin:"2em"}}>
-                            <Pagination 
-                                count={totalpage} 
-                                showFirstButton 
-                                showLastButton
-                                onChange={(e,value)=>{
-                                    setpage(value);
-                                    setLoading(true)
-                                }}
-                                variant="outlined" 
-                                shape="rounded"
-                            />
-                        </Stack>
+                        <Grid item xs={12} md={12}>
+                            <Stack spacing={3} sx={{alignItems:"center",margin:"2em"}}>
+                                <Pagination 
+                                    count={totalPage} 
+                                    showFirstButton 
+                                    showLastButton
+                                    onChange={(e,value)=>{
+                                        setpage(value)
+                                        setSearch("")
+                                        setLoading(true)
+                                    }}
+                                    variant="outlined" 
+                                    shape="rounded"
+                                />
+                            </Stack>
+                        </Grid>
 
                     </Grid>
 

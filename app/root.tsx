@@ -170,7 +170,7 @@ export default function App() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+        {/* <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" /> */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
