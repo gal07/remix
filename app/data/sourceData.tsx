@@ -38,7 +38,10 @@ type createUser = {
     alamat?: any;
 };
 
-const apiUrl = "http://104.248.159.190:4001/api/";
+// const apiUrl = "http://104.248.159.190:4001/api/";
+const apiUrl = "https://pos.jahesiiyuy.store/api/";
+
+
 const key = {
     "x-api-key": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTM2LCJuYW1hX2RlcGFuIjoiUFQgQmFuZGFyIEJlbmlrIiwibmFtYV9iZWxha2FuZyI6IlN1a3NlcyBNYWttdXIiLCJlbWFpbCI6ImFkbWluLmJlbmlrQGVjY3MuY2VudGVyIiwicGhvbmUiOiIxMTExMTExMSIsInN0YXR1cyI6MSwicmVnX3NvdXJjZSI6ImVjY3MtaWQiLCJjb21wYW55X2lkIjoxODcsImlhdCI6MTcwMzgyMDQxMX0.uF59QNOyAIu79c_JMeRxhpLGthH13WJTraSlxVcYBAHGVPsRp53eDWoht3lS5GI1LkFZsTiBUBFz5K_X-jZSBRMtMEhLW-kB2oOkurlDb9OGOzZ_lTUE8h_xzswEmyA3_OrTS1GsczA1zQJjWc4o-CKqhMl3-PCYWcwR8lW8esjW4TIt95oqVW4bFVRemZnZueKauMueIVboTa_5j2XwgPnRS1uYqJH6Mk6mth9aiVIhHMGPalL-vGenNngPuJVcHDe1bDaxmEtxYlT2TSanhk_8LrURziIc8n8V__qdbsispvvyr-DOwUueHhGfQLxnwo7ug4_RgtbpXXckrFxgwEL-ntHMTjMQ7T79VmnUv1EUuQ6jJvwo12Am7ARJaYXXuj29LkI_5EwgfaIPNhNJeyJ5ImHXLSfq3B_kf5217oIBBxrH8Dn2xwoonha7dA-SJF96IQTSKtm7gBEJxGAVNs4KxZYv44VTvodNKrYf1H9mQp4vvEGL5kS_vIW9j29CVi2yleV0iwqqWw2wOFLVQ1RGNla-D8G_oonrBXIEtUngTB9Pb2yJQjQoGlRT4bstz6ytE2ryxnNMdDZN0o86AgTOeRSosd8R6qGhBHdepWKFa6NGWesKx3m5aGSRAJv2JseOuWqGTP0GnJKSQ4g8jOCBT_j73JL1sTVSuoyTtF4"
 }
