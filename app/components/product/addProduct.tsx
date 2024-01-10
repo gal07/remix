@@ -213,8 +213,16 @@ export default function addProduct (product: any,totalpage: any) {
         );
     
       }
+
+      const searchProduct = (v: any) => {
+
+        console.log("search "+v);
+        const formData = new FormData();
+        formData.append("search",v);
     
-    React.useEffect(()=>{
+      }
+    
+      React.useEffect(()=>{
         
         (async () => {
             console.log("use efect call");
@@ -226,7 +234,7 @@ export default function addProduct (product: any,totalpage: any) {
             setMyProduct(dataprod)
             setLoading(false)
         })();
-    },[badges,page])
+      },[badges,page])
     
 
     return(

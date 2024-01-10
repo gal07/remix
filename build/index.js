@@ -6038,17 +6038,17 @@ function App() {
         lineNumber: 172,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV3("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV3("meta", { "http-equiv": "Content-Security-Policy", content: "upgrade-insecure-requests" }, void 0, !1, {
         fileName: "app/root.tsx",
         lineNumber: 173,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
+      /* @__PURE__ */ jsxDEV3("meta", { name: "viewport", content: "width=device-width, initial-scale=1" }, void 0, !1, {
         fileName: "app/root.tsx",
         lineNumber: 174,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.googleapis.com" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV3(Meta, {}, void 0, !1, {
         fileName: "app/root.tsx",
         lineNumber: 175,
         columnNumber: 9
@@ -6058,14 +6058,19 @@ function App() {
         lineNumber: 176,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.gstatic.com" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.googleapis.com" }, void 0, !1, {
         fileName: "app/root.tsx",
         lineNumber: 177,
         columnNumber: 9
       }, this),
-      /* @__PURE__ */ jsxDEV3("link", { href: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap", rel: "stylesheet" }, void 0, !1, {
+      /* @__PURE__ */ jsxDEV3("link", { rel: "preconnect", href: "https://fonts.gstatic.com" }, void 0, !1, {
         fileName: "app/root.tsx",
         lineNumber: 178,
+        columnNumber: 9
+      }, this),
+      /* @__PURE__ */ jsxDEV3("link", { href: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&display=swap", rel: "stylesheet" }, void 0, !1, {
+        fileName: "app/root.tsx",
+        lineNumber: 179,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(
@@ -6078,7 +6083,7 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 180,
+          lineNumber: 181,
           columnNumber: 9
         },
         this
@@ -6093,14 +6098,14 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 184,
+          lineNumber: 185,
           columnNumber: 9
         },
         this
       ),
       /* @__PURE__ */ jsxDEV3(Links, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 188,
+        lineNumber: 189,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
@@ -6111,38 +6116,38 @@ function App() {
     /* @__PURE__ */ jsxDEV3("body", { children: [
       companyid > 0 ? /* @__PURE__ */ jsxDEV3(Appbar, {}, void 0, !1, {
         fileName: "app/root.tsx",
-        lineNumber: 192,
+        lineNumber: 193,
         columnNumber: 26
       }, this) : "",
       /* @__PURE__ */ jsxDEV3(Container_default, { maxWidth: "xl", children: [
         /* @__PURE__ */ jsxDEV3(CssBaseline_default, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 195,
+          lineNumber: 196,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Outlet, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 196,
+          lineNumber: 197,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(ScrollRestoration, { getKey: (location, matches) => location.key }, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 197,
+          lineNumber: 198,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(LiveReload, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 202,
+          lineNumber: 203,
           columnNumber: 11
         }, this),
         /* @__PURE__ */ jsxDEV3(Scripts, {}, void 0, !1, {
           fileName: "app/root.tsx",
-          lineNumber: 203,
+          lineNumber: 204,
           columnNumber: 11
         }, this)
       ] }, void 0, !0, {
         fileName: "app/root.tsx",
-        lineNumber: 194,
+        lineNumber: 195,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ jsxDEV3(
@@ -6152,7 +6157,7 @@ function App() {
           open: navigation.state === "loading" ? !0 : navigation.state === "submitting",
           children: /* @__PURE__ */ jsxDEV3(Typography3, { variant: "body1", children: navigation.state === "submitting" ? "Processing action" : "Please Wait" }, void 0, !1, {
             fileName: "app/root.tsx",
-            lineNumber: 211,
+            lineNumber: 212,
             columnNumber: 13
           }, this)
         },
@@ -6160,14 +6165,14 @@ function App() {
         !1,
         {
           fileName: "app/root.tsx",
-          lineNumber: 206,
+          lineNumber: 207,
           columnNumber: 9
         },
         this
       )
     ] }, void 0, !0, {
       fileName: "app/root.tsx",
-      lineNumber: 190,
+      lineNumber: 191,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
@@ -18092,7 +18097,9 @@ function addProduct(product, totalpage) {
     fileName: "app/components/product/addProduct.tsx",
     lineNumber: 147,
     columnNumber: 11
-  }, this);
+  }, this), searchProduct = (v) => {
+    console.log("search " + v), new FormData().append("search", v);
+  };
   return React87.useEffect(() => {
     (async () => {
       console.log("use efect call");
@@ -18106,12 +18113,12 @@ function addProduct(product, totalpage) {
       " ",
       /* @__PURE__ */ jsxDEV9(Typography5, { gutterBottom: !0, variant: "h4", component: "h4", children: "\xA0" }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 234,
+        lineNumber: 242,
         columnNumber: 64
       }, this)
     ] }, void 0, !0, {
       fileName: "app/components/product/addProduct.tsx",
-      lineNumber: 234,
+      lineNumber: 242,
       columnNumber: 13
     }, this),
     /* @__PURE__ */ jsxDEV9("div", { style: { marginLeft: "1em" }, children: /* @__PURE__ */ jsxDEV9(Box4, { boxShadow: 2, children: /* @__PURE__ */ jsxDEV9(Grid4, { container: !0, sx: { margin: "0.5em" }, xs: 12, md: 12, lg: 12, children: [
@@ -18122,11 +18129,11 @@ function addProduct(product, totalpage) {
       }, children: /* @__PURE__ */ jsxDEV9(Search, { children: [
         /* @__PURE__ */ jsxDEV9(SearchIconWrapper, { children: /* @__PURE__ */ jsxDEV9(Icon3, { children: "search" }, void 0, !1, {
           fileName: "app/components/product/addProduct.tsx",
-          lineNumber: 249,
+          lineNumber: 257,
           columnNumber: 37
         }, this) }, void 0, !1, {
           fileName: "app/components/product/addProduct.tsx",
-          lineNumber: 248,
+          lineNumber: 256,
           columnNumber: 33
         }, this),
         /* @__PURE__ */ jsxDEV9(
@@ -18142,31 +18149,31 @@ function addProduct(product, totalpage) {
           !1,
           {
             fileName: "app/components/product/addProduct.tsx",
-            lineNumber: 251,
+            lineNumber: 259,
             columnNumber: 33
           },
           this
         )
       ] }, void 0, !0, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 247,
+        lineNumber: 255,
         columnNumber: 29
       }, this) }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 242,
+        lineNumber: 250,
         columnNumber: 25
       }, this),
       loading == !0 ? /* @__PURE__ */ jsxDEV9(Grid4, { item: !0, xs: 12, md: 12, children: /* @__PURE__ */ jsxDEV9(Stack3, { alignItems: "center", children: /* @__PURE__ */ jsxDEV9(CircularProgress3, {}, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 268,
+        lineNumber: 276,
         columnNumber: 37
       }, this) }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 267,
+        lineNumber: 275,
         columnNumber: 33
       }, this) }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 266,
+        lineNumber: 274,
         columnNumber: 29
       }, this) : myproduct.map((item) => /* @__PURE__ */ jsxDEV9(Grid4, { item: !0, xs: 6, md: 2, lg: 2, sx: {
         textAlign: "center"
@@ -18200,19 +18207,19 @@ function addProduct(product, totalpage) {
               !1,
               {
                 fileName: "app/components/product/addProduct.tsx",
-                lineNumber: 287,
+                lineNumber: 295,
                 columnNumber: 45
               },
               this
             ),
             /* @__PURE__ */ jsxDEV9(Typography5, { noWrap: !0, variant: "body2", fontSize: 10, children: item.nama_produk }, void 0, !1, {
               fileName: "app/components/product/addProduct.tsx",
-              lineNumber: 298,
+              lineNumber: 306,
               columnNumber: 45
             }, this),
             /* @__PURE__ */ jsxDEV9(Typography5, { variant: "caption", children: item.pidr_string }, void 0, !1, {
               fileName: "app/components/product/addProduct.tsx",
-              lineNumber: 301,
+              lineNumber: 309,
               columnNumber: 45
             }, this)
           ]
@@ -18221,17 +18228,17 @@ function addProduct(product, totalpage) {
         !0,
         {
           fileName: "app/components/product/addProduct.tsx",
-          lineNumber: 278,
+          lineNumber: 286,
           columnNumber: 41
         },
         this
       ) }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 275,
+        lineNumber: 283,
         columnNumber: 37
       }, this) }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 272,
+        lineNumber: 280,
         columnNumber: 33
       }, this)),
       /* @__PURE__ */ jsxDEV9(Stack3, { spacing: 3, sx: { alignItems: "center", margin: "2em" }, children: /* @__PURE__ */ jsxDEV9(
@@ -18250,32 +18257,32 @@ function addProduct(product, totalpage) {
         !1,
         {
           fileName: "app/components/product/addProduct.tsx",
-          lineNumber: 312,
+          lineNumber: 320,
           columnNumber: 29
         },
         this
       ) }, void 0, !1, {
         fileName: "app/components/product/addProduct.tsx",
-        lineNumber: 311,
+        lineNumber: 319,
         columnNumber: 25
       }, this)
     ] }, void 0, !0, {
       fileName: "app/components/product/addProduct.tsx",
-      lineNumber: 239,
+      lineNumber: 247,
       columnNumber: 21
     }, this) }, void 0, !1, {
       fileName: "app/components/product/addProduct.tsx",
-      lineNumber: 236,
+      lineNumber: 244,
       columnNumber: 17
     }, this) }, void 0, !1, {
       fileName: "app/components/product/addProduct.tsx",
-      lineNumber: 235,
+      lineNumber: 243,
       columnNumber: 13
     }, this),
     AddProduct2(attributes)
   ] }, void 0, !0, {
     fileName: "app/components/product/addProduct.tsx",
-    lineNumber: 233,
+    lineNumber: 241,
     columnNumber: 9
   }, this);
 }
@@ -22955,7 +22962,7 @@ function Index5() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-HUGNBCBE.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-6I57Z7XO.js", imports: ["/build/_shared/chunk-42I6LQGI.js", "/build/_shared/chunk-VI6OLG7S.js", "/build/_shared/chunk-QVKQS54O.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-HDGJ3J3M.js", imports: ["/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-JARPBHP6.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-OTHSJH7E.js", imports: ["/build/_shared/chunk-I2ZBDVXW.js", "/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-JYKAVMGV.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-327QE4EE.js", imports: ["/build/_shared/chunk-I2ZBDVXW.js", "/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-DC22DIEW.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-6W2SBSHS.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/salesalt": { id: "routes/salesalt", parentId: "root", path: "salesalt", index: void 0, caseSensitive: void 0, module: "/build/routes/salesalt-TTWBNR55.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-ADYSN2YC.js", imports: ["/build/_shared/chunk-I2ZBDVXW.js", "/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "dd94e14f", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1704876804883 }, url: "/build/manifest-DD94E14F.js" };
+var assets_manifest_default = { entry: { module: "/build/entry.client-HUGNBCBE.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-FDLQP7LX.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-VEKSHEMC.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-PNK4PI3R.js", imports: ["/build/_shared/chunk-42I6LQGI.js", "/build/_shared/chunk-VI6OLG7S.js", "/build/_shared/chunk-QVKQS54O.js", "/build/_shared/chunk-NMZL6IDN.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !0 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-HDGJ3J3M.js", imports: ["/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/login": { id: "routes/login", parentId: "root", path: "login", index: void 0, caseSensitive: void 0, module: "/build/routes/login-JARPBHP6.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/logout": { id: "routes/logout", parentId: "root", path: "logout", index: void 0, caseSensitive: void 0, module: "/build/routes/logout-GGSXPJWV.js", imports: void 0, hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order": { id: "routes/order", parentId: "root", path: "order", index: void 0, caseSensitive: void 0, module: "/build/routes/order-OTHSJH7E.js", imports: ["/build/_shared/chunk-I2ZBDVXW.js", "/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/order_.$Idorder": { id: "routes/order_.$Idorder", parentId: "root", path: "order/:Idorder", index: void 0, caseSensitive: void 0, module: "/build/routes/order_.$Idorder-JYKAVMGV.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/products": { id: "routes/products", parentId: "root", path: "products", index: void 0, caseSensitive: void 0, module: "/build/routes/products-327QE4EE.js", imports: ["/build/_shared/chunk-I2ZBDVXW.js", "/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !1, hasLoader: !0, hasErrorBoundary: !1 }, "routes/report": { id: "routes/report", parentId: "root", path: "report", index: void 0, caseSensitive: void 0, module: "/build/routes/report-7PGS3RB2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales": { id: "routes/sales", parentId: "root", path: "sales", index: void 0, caseSensitive: void 0, module: "/build/routes/sales-DC22DIEW.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.add_.$page": { id: "routes/sales_.add_.$page", parentId: "root", path: "sales/add/:page", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.add_.$page-6W2SBSHS.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.checkout": { id: "routes/sales_.checkout", parentId: "root", path: "sales/checkout", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.checkout-BONFQN3S.js", imports: void 0, hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/sales_.create": { id: "routes/sales_.create", parentId: "root", path: "sales/create", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.create-V3GUYGYN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/sales_.response": { id: "routes/sales_.response", parentId: "root", path: "sales/response", index: void 0, caseSensitive: void 0, module: "/build/routes/sales_.response-TB6LHDTH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasErrorBoundary: !1 }, "routes/salesalt": { id: "routes/salesalt", parentId: "root", path: "salesalt", index: void 0, caseSensitive: void 0, module: "/build/routes/salesalt-2OTDUKDS.js", imports: ["/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users": { id: "routes/users", parentId: "root", path: "users", index: void 0, caseSensitive: void 0, module: "/build/routes/users-ADYSN2YC.js", imports: ["/build/_shared/chunk-I2ZBDVXW.js", "/build/_shared/chunk-H7NGHTMW.js", "/build/_shared/chunk-AWIA6QDQ.js"], hasAction: !0, hasLoader: !0, hasErrorBoundary: !1 }, "routes/users_.create": { id: "routes/users_.create", parentId: "root", path: "users/create", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.create-PD2GJO4W.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.delete": { id: "routes/users_.delete", parentId: "root", path: "users/delete", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.delete-HY7BYTYZ.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 }, "routes/users_.update": { id: "routes/users_.update", parentId: "root", path: "users/update", index: void 0, caseSensitive: void 0, module: "/build/routes/users_.update-J3C76CCL.js", imports: void 0, hasAction: !0, hasLoader: !1, hasErrorBoundary: !1 } }, version: "94fc06b6", hmr: { runtime: "/build/_shared\\chunk-VEKSHEMC.js", timestamp: 1704877624268 }, url: "/build/manifest-94FC06B6.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var mode = "development", assetsBuildDirectory = "public/build", future = { v3_fetcherPersist: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
