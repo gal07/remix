@@ -97,14 +97,11 @@ export async function getProduct(secret : any) {
     return json({result})
 }
 
-export async function getProducts(secret:any,search = "",page = 1) {
-    const path = 'product?page=' + page +(search != "" ? '&search='+search:'') + '&limit=8';
+export async function getProducts(secret:any,search = "",page = 1,limit = 8) {
+    const path = 'product?page=' + page +(search != "" ? '&search='+search:'') + '&limit='+limit;
     const res = await fetch(apiUrl + path, {headers: {"x-api-key":secret}});
     const data = await res.json();
-    const result = data.data
-        ? data
-        : {}    
-    return json({result})
+    return data
 }
 
 export async function getDataDashboard(secret:any,page = 1) {

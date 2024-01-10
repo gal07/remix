@@ -137,19 +137,19 @@ export default function App() {
   
   React.useEffect(()=>{
 
-    const socket = io('http://104.248.159.190:4001');
+    // const socket = io('http://104.248.159.190:4001');
     
-    socket.on("transaction-"+companyid,(msg :any ) =>{
-      setOpen(true);
-      Swal.fire('Payment Completed', 'Payment complete with ID '+msg.data_order.id_order, 'success');
-      setTimeout(() => {
-        revalidator.revalidate();
-      }, 1000);
-    })
+    // socket.on("transaction-"+companyid,(msg :any ) =>{
+    //   setOpen(true);
+    //   Swal.fire('Payment Completed', 'Payment complete with ID '+msg.data_order.id_order, 'success');
+    //   setTimeout(() => {
+    //     revalidator.revalidate();
+    //   }, 1000);
+    // })
 
-    socket.on("connect", () => {
-       // x8WIv7-mJelg7on_ALbx
-    });
+    // socket.on("connect", () => {
+    //    // x8WIv7-mJelg7on_ALbx
+    // });
 
   },[loaddata])
 

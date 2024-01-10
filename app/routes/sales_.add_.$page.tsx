@@ -48,7 +48,7 @@ export async function loader({
     let page = params.page as string;
     const product = await getProducts(secret,search?.toString(),parseInt(page));    
     return json({
-      product: await product.json(),
+      product: product,
       params: search,
     });
   
@@ -57,7 +57,7 @@ export async function loader({
 export default function Productadd() {
 
   const loadData = useLoaderData < typeof loader > ();  
-  const [pagination, setPagination] = React.useState(loadData.product.result.pagination);
+  const [pagination, setPagination] = React.useState(loadData.product.pagination);
   const navigate = useNavigate();
   const navigates = () => {
     navigate("/sales");
@@ -350,10 +350,10 @@ export default function Productadd() {
             </Grid>
         </Grid>
                     
-          {loadData.product.result.data.length && alignment == 'grid'? (
+          {loadData.product.data.length && alignment == 'grid'? (
               <Grid container xs={12} spacing={2}>
-                {loadData.product.result.data.map((item: any) => (
-                  <Grid item xs={12} md={3} lg={3}>
+                {loadData.product.data.map((item: any) => (
+                  <Grid item xs={6} md={3} lg={3}>
                     <Card sx={{ maxWidth: 345 }}>
                         <CardHeader
                             action={
@@ -399,10 +399,10 @@ export default function Productadd() {
               </p>
             :"")}
 
-          {loadData.product.result.data.length && alignment == 'list'?(
+          {loadData.product.data.length && alignment == 'list'?(
               <Grid container xs={12} lg={12} spacing={2}>
                 <List sx={{ width: '100%', maxWidth: 1500 }}>
-                  {loadData.product.result.data.map((item: any) => (
+                  {loadData.product.data.map((item: any) => (
                       <ListItem
                       sx={{margin:"1em"}}
                       key={item.nama_produk}

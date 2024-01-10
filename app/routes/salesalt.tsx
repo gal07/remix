@@ -42,17 +42,18 @@ export async function loader({request} : LoaderFunctionArgs) {
     const secret = (session.has('keySec') ? session.get("keySec"):null);
     const users = await getUsers(secret?.toString());
     const payment = await getPayments(secret?.toString());
-    const product = await getProducts(secret,"",1);    
+    const product = await getProducts(secret,"",1,12);    
     
     return json({
         users: await users.json(),
         payment: await payment.json(),
-        product: await product.json(),
+        product: product,
         sessions: storageSessions,
         message: message,
         alert: alert,
         object: object,
         act: act,
+        secret: secret
     }, {
         headers: {
             "Set-Cookie": await commitSession(session)
@@ -105,7 +106,7 @@ export async function action({request} : ActionFunctionArgs) {
               session.flash("message","Voucher apllied.");
               session.flash("alert",1);
 
-              return redirect('/sales',{
+              return redirect('/salesalt',{
                 headers: {
                     "Set-Cookie": await commitSession(session)
                 }
@@ -126,7 +127,7 @@ export async function action({request} : ActionFunctionArgs) {
 
     }
 
-    return redirect('/sales',{
+    return redirect('/salesalt',{
       headers: {
           "Set-Cookie": await commitSession(session)
       }
@@ -162,8 +163,9 @@ export default function index(props :boolean = false) {
     const [snack, setSnack] = React.useState(false);
     const [paymentList, setPaymentList] = React.useState<any | any>();
     const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
-    const [product, setProduct] = React.useState<any | any>(myusers.product?.result.data);
-    
+    const [product, setProduct] = React.useState<any | any>(myusers.product);
+    const [addProd, setAddProd] = React.useState(false);
+
     React.useEffect(() => {
 
         // remove voucher
@@ -283,7 +285,7 @@ export default function index(props :boolean = false) {
             handleOpenSnack();
         }
 
-    }, [triggerUse,myusers])
+    }, [addProd,triggerUse,myusers])
 
     const handleCloseSnack = () => {
       setSnack(false);
@@ -481,7 +483,7 @@ export default function index(props :boolean = false) {
                 formData.append("type_alert","error");
                 formData.append("message_alert","Cart is empty");
                 submit(formData, {
-                    action: "/sales",
+                    action: "/salesalt",
                     method: "post",
                     encType: "application/x-www-form-urlencoded",
                     preventScrollReset: false,
@@ -496,7 +498,7 @@ export default function index(props :boolean = false) {
                  formData.append("type_alert","error");
                  formData.append("message_alert","Choose Payment!");
                  submit(formData, {
-                     action: "/sales",
+                     action: "/salesalt",
                      method: "post",
                      encType: "application/x-www-form-urlencoded",
                      preventScrollReset: false,
@@ -551,7 +553,7 @@ export default function index(props :boolean = false) {
 
             // return false;
             submit(formData, {
-                action: "/sales",
+                action: "/salesalt",
                 method: "post",
                 encType: "application/x-www-form-urlencoded",
                 preventScrollReset: false,
@@ -648,11 +650,10 @@ export default function index(props :boolean = false) {
 
             < Grid container xs = {12} md = {4}lg = {7} >
                 <Grid item xs = {12} md = {12}lg = {12} >
-                    {addProduct(myusers.product?.result.data)}
+                    {addProduct(myusers.product?.data,myusers.product?.pagination.total_page)}
                 </Grid>
             </Grid>
 
-            {AddProduct()}
         </Grid>
 
         {( myusers.message != null ? 
@@ -666,33 +667,6 @@ export default function index(props :boolean = false) {
         )}
 
         </div>
-    );
-
-}
-
-
-
-const AddProduct = () => {
-    const navigate = useNavigate();
-    const handleClickOpen = () => {
-        navigate("add/1");
-    };
-
-    return (
-
-        <div> 
-          < Box sx = {{ '& > :not(style)': { m: 1 } }} > 
-              <Fab sx = {{
-                position: "fixed",
-                bottom: (theme) => theme.spacing(2),
-                right: (theme) => theme.spacing(2)
-              }}
-          color = "primary" aria-label = "add" onClick = {
-              handleClickOpen
-          }> <Icon> add</Icon></Fab>
-          </Box>
-        </div>
-
     );
 
 }

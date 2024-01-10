@@ -10,20 +10,20 @@ export default function DisplayPanel(data_dashboard: any){
 
           <Grid item xs={12} lg={3}>
             <Box sx={{
-              '& > :not(style)': { m: 1, width: '15ch' },
+              '& > :not(style)': { m: 1, width: '24ch' },
               padding:"0.5em",
               boxShadow: 2
             }}>
               <Typography variant='subtitle1'>Today Transaction</Typography>
               <Stack direction={"row"} spacing={3}>
-              <Typography variant='h6'>{data_dashboard.today_transaction.today}</Typography>
-              <Typography variant='h6' color={(parseInt(data_dashboard.today_transaction.percentage.replace('%','')) > 1 ? "green":"red")}> 
-                 {data_dashboard.today_transaction.percentage}
-                 <Icon>{(parseInt(data_dashboard.today_transaction.percentage.replace('%','')) > 1 ? "trending_up":"trending_down")}</Icon> 
+              <Typography variant='h6'>{data_dashboard.today_transaction?.today}</Typography>
+              <Typography variant='h6' color={(parseInt(data_dashboard.today_transaction?.percentage.replace('%','')) > 1 ? "green":"red")}> 
+                 {data_dashboard.today_transaction?.percentage}
+                 <Icon>{(parseInt(data_dashboard.today_transaction?.percentage.replace('%','')) > 1 ? "trending_up":"trending_down")}</Icon> 
 
               </Typography>
               </Stack>
-              <Typography variant='body2'>Yesterday : {data_dashboard.today_transaction.yesterday}</Typography>
+              <Typography variant='body2'>Yesterday : {data_dashboard.today_transaction?.yesterday}</Typography>
             </Box>
           </Grid>
 
@@ -38,6 +38,7 @@ export default function DisplayPanel(data_dashboard: any){
                 <Typography variant='h6'>{data_dashboard.today_repeat_customers}</Typography>
               </Stack>
               <Typography variant="body2">&nbsp;</Typography>
+              
             </Box>
           </Grid>
 
@@ -87,7 +88,7 @@ export default function DisplayPanel(data_dashboard: any){
 
           <Grid item xs={12} lg={3}>
             <Box sx={{
-              '& > :not(style)': { m: 1, width: '24ch' },
+              '& > :not(style)': { m: 1, width: '28ch' },
               padding:"0.5em",
               boxShadow: 2
             }}>
