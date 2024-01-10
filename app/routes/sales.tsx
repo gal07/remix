@@ -106,7 +106,7 @@ export async function action({request} : ActionFunctionArgs) {
               session.flash("message","Voucher apllied.");
               session.flash("alert",1);
 
-              return redirect('/salesalt',{
+              return redirect('/sales',{
                 headers: {
                     "Set-Cookie": await commitSession(session)
                 }
@@ -127,7 +127,7 @@ export async function action({request} : ActionFunctionArgs) {
 
     }
 
-    return redirect('/salesalt',{
+    return redirect('/sales',{
       headers: {
           "Set-Cookie": await commitSession(session)
       }
@@ -483,7 +483,7 @@ export default function index(props :boolean = false) {
                 formData.append("type_alert","error");
                 formData.append("message_alert","Cart is empty");
                 submit(formData, {
-                    action: "/salesalt",
+                    action: "/sales",
                     method: "post",
                     encType: "application/x-www-form-urlencoded",
                     preventScrollReset: false,
@@ -498,7 +498,7 @@ export default function index(props :boolean = false) {
                  formData.append("type_alert","error");
                  formData.append("message_alert","Choose Payment!");
                  submit(formData, {
-                     action: "/salesalt",
+                     action: "/sales",
                      method: "post",
                      encType: "application/x-www-form-urlencoded",
                      preventScrollReset: false,
@@ -553,7 +553,7 @@ export default function index(props :boolean = false) {
 
             // return false;
             submit(formData, {
-                action: "/salesalt",
+                action: "/sales",
                 method: "post",
                 encType: "application/x-www-form-urlencoded",
                 preventScrollReset: false,
