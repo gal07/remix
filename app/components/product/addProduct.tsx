@@ -81,9 +81,13 @@ export default function addProduct () {
     const [search, setSearch] = React.useState("");
 
     const AddToCart = async (item :any) => {
-    
+      
         let oldcart = JSON.parse(localStorage.getItem('cart') || '{}');
         let cart = [];
+
+        // assign qty total
+        Object.assign(item, { qty_checkout: qty });
+
     
         // fill attributes if select attributes
         if (setAttributes.length > 0 && attributesID > 0 && attributesDetail > 0) {
@@ -104,26 +108,75 @@ export default function addProduct () {
         if (oldcart?.length > 0) {
     
             // Update cart
+            let skip = false;
+            let new_prod = false;
+
             oldcart.map((e:any)=>{
-              cart.push(e);
+
+              skip = false;
+
+              // check if same produk ID
+              if (item.idproduk === e.idproduk) {
+                console.log("same ID produk");
+                
+                // check if same attribute ID & value
+                if (parseInt(item.attribute[0]?.attribute_id) === parseInt(e.attribute[0]?.attribute_id) &&
+                 parseInt(item.attribute[0]?.value) === parseInt(e.attribute[0]?.value)) {
+
+                 // then update qty
+                 let final_checkout_qty = parseInt(e.qty_checkout) + parseInt(item.qty_checkout);
+                 Object.assign(e, { qty_checkout: final_checkout_qty });
+
+                 // push to cart
+                 cart.push(e);
+                 skip = true;
+                 console.log("log push to cart");
+
+
+                }else{
+
+                  if (skip == false) {
+                    console.log("same id produk but different attr");
+                    cart.push(item);
+                  }
+                  
+                }
+
+              }else{
+                if (skip == false) {
+                  console.log("not same");
+                  cart.push(item);
+                }
+                  
+              }
+
+              // push to cart
+              if (skip == false && new_prod == false) {
+                console.log("push cart outside");
+                cart.push(e);
+              }
+
             })
+
+            
     
-            Object.assign(item, { qty_checkout: qty });
-            cart.push(item);
     
         }else{
     
             // Add new cart
+            console.log("new cart");
             Object.assign(item, { qty_checkout: qty });
             cart.push(item);
     
         }
-    
+        
+        console.log("END");
         setBadges(cart.length); // update badges cart
         localStorage.setItem("cart",JSON.stringify(cart)); // set cart
         setAttributID(0); // reset value
         setAttributes({}); // reset value
         setAttributesDetails(0); // reset value
+        setQty(1) // reset value
         revalidator.revalidate();
         handleClose();
       }

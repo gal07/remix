@@ -285,7 +285,7 @@ export default function index(props :boolean = false) {
             handleOpenSnack();
         }
 
-    }, [addProd,triggerUse,myusers])
+    }, [addProd,triggerUse,myusers,delCart])
 
     const handleCloseSnack = () => {
       setSnack(false);
@@ -350,9 +350,9 @@ export default function index(props :boolean = false) {
             <div> 
                 {/* Checkout item list section */}
                 <Box sx = {{marginTop:"1em",textAlign:"center"}} > <Typography gutterBottom = {true} variant = "h4" component = "h4" > Checkout</Typography></Box>
-                <Box> 
-                    < TableContainer component = {Paper} > 
-                        <Table sx = {{ minWidth: 650,width:"100%" }} aria-label = "simple table" > 
+                <Box sx={{height: "50ch"}}> 
+                    < TableContainer component = {Paper} sx={{maxHeight:"76%"}}> 
+                        <Table sx = {{ minWidth: "auto",width:"100%",height:"38ch"}} stickyHeader aria-label="sticky table"> 
                             <TableHead>
                                 <TableRow>
                                     <TableCell width={"4ch"}></TableCell>
