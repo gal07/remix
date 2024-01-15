@@ -152,139 +152,146 @@ function numberWithCommas(x: any) {
 }
 
 export default function index(props :boolean = false) {
+
     const myusers = useLoaderData < typeof loader > ();
+    console.log("load");
+    
     const [cart, setCart] = React.useState({});
     const [total, setTotal] = React.useState<any | any>(0);
     const [discount, setDiscount] = React.useState<any | any>(0);
     const [voucher, setVoucher] = React.useState("");
     const [useVoucher, setuseVoucher] = React.useState(false);
+    const [triggerDelete, setTriggerDelete] = React.useState(false);
     const [delCart, setDeleteCart] = React.useState(0);
     const [triggerUse, settriggerUse] = React.useState(props);
     const [snack, setSnack] = React.useState(false);
     const [paymentList, setPaymentList] = React.useState<any | any>();
     const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
-    const [product, setProduct] = React.useState<any | any>(myusers.product);
     const [addProd, setAddProd] = React.useState(false);
 
     React.useEffect(() => {
 
-        // remove voucher
-        if (myusers?.act && myusers?.act == "delete_voucher") {            
-            setVoucher("");
-            setDiscount(0);
-            setuseVoucher(false);
-            localStorage.removeItem("voucher");
-        }
+            // remove voucher
+            if (myusers?.act && myusers?.act == "delete_voucher") {            
+                setVoucher("");
+                setDiscount(0);
+                setuseVoucher(false);
+                localStorage.removeItem("voucher");
+            }
 
-        // collect cart product
-        let getData = JSON.parse(localStorage.getItem("cart") || '{}');
-        let UpdateData: any[] = [];
+            // collect cart product
+            let getData = JSON.parse(localStorage.getItem("cart") || '{}');
+            let UpdateData: any[] = [];
 
-        // Update Cart
-        if (getData instanceof Array) {
+            // Update Cart
+            if (getData instanceof Array) {
 
-            getData.map((val, idx, []) => {
-
-                if (val.idproduk != delCart) {
+            
+                // Delete product from cart
+                if (triggerDelete == true) {
+                    delete getData[delCart];
+                }
+                
+                getData.map((val, idx, []) => {
                     UpdateData.push(val);
+                });
+
+
+                // collect voucher value
+                if (myusers.object != null) {
+                    let obj = myusers.object;
+                    (obj.voucher ? 
+                        localStorage.setItem("voucher",JSON.stringify(obj.voucher))
+                    :"")
                 }
 
-            });
+                localStorage.removeItem("cart");
+                localStorage.setItem("cart", JSON.stringify(UpdateData));
 
-            // collect voucher value
-            if (myusers.object != null) {
-                let obj = myusers.object;
-                (obj.voucher ? 
-                    localStorage.setItem("voucher",JSON.stringify(obj.voucher))
-                :"")
             }
 
-            localStorage.removeItem("cart");
-            localStorage.setItem("cart", JSON.stringify(UpdateData));
-
-        }
-
-        // Retrieve Cart
-        let data = JSON.parse(localStorage.getItem("cart") || '{}');
-        if (data instanceof Array) {
-
+            // Retrieve Cart
             let data = JSON.parse(localStorage.getItem("cart") || '{}');
-            
-            let dtprod: {
-                product_name: any;
-                price: any;
-                qty: any;
-                total: any;
-            }[] = [];
-            let getTotal = 0;
+            if (data instanceof Array) {
 
-            data.map((val : any, idx : any, []) => {
+                let data = JSON.parse(localStorage.getItem("cart") || '{}');
+                
+                let dtprod: {
+                    product_name: any;
+                    price: any;
+                    qty: any;
+                    total: any;
+                }[] = [];
+                let getTotal = 0;
 
-                let opsdata = {
-                    "product_name": val.nama_produk,
-                    "price": val.pidr_string,
-                    "qty": val.qty_checkout,
-                    "total": parseInt(val.pidr) * parseInt(val.qty_checkout)
-                };
+                data.map((val : any, idx : any, []) => {
 
-                getTotal += parseInt(val.pidr) * parseInt(val.qty_checkout);
-                dtprod.push(opsdata);
+                    let opsdata = {
+                        "product_name": val.nama_produk,
+                        "price": val.pidr_string,
+                        "qty": val.qty_checkout,
+                        "total": parseInt(val.pidr) * parseInt(val.qty_checkout)
+                    };
 
-            });
+                    getTotal += parseInt(val.pidr) * parseInt(val.qty_checkout);
+                    dtprod.push(opsdata);
 
-            let finalGetdiscount = 0
-            let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
-            
-            if (getVoucher?.voucher_type) {
+                });
 
-                // set state voucher code
-                setVoucher(getVoucher.voucher_code)
-                setuseVoucher(true)
-                switch (getVoucher.voucher_type) {
-                    case "percent":
-                        let find = getTotal * parseInt(getVoucher.value_total) / 100;
-                        finalGetdiscount = (getVoucher.max_voucher_total > 0 ? (find > getVoucher.max_voucher_total ? getVoucher.max_voucher_total:find):find);
-                        break;
-                    case "value":
-                        finalGetdiscount = parseInt(getVoucher.value_total);                        
-                        break;
-                    default:
-                        break;
+                let finalGetdiscount = 0
+                let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
+                
+                if (getVoucher?.voucher_type) {
+
+                    // set state voucher code
+                    setVoucher(getVoucher.voucher_code)
+                    setuseVoucher(true)
+                    switch (getVoucher.voucher_type) {
+                        case "percent":
+                            let find = getTotal * parseInt(getVoucher.value_total) / 100;
+                            finalGetdiscount = (getVoucher.max_voucher_total > 0 ? (find > getVoucher.max_voucher_total ? getVoucher.max_voucher_total:find):find);
+                            break;
+                        case "value":
+                            finalGetdiscount = parseInt(getVoucher.value_total);                        
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                
+                setCart(data);
+                setTotal(getTotal);            
+                setDiscount(finalGetdiscount);
+
             }
-            
-            setCart(data);
-            setTotal(getTotal);            
-            setDiscount(finalGetdiscount);
 
-        }
+            // retrieve Payment List
+            let key_temp: { id: any;key: any;label:any;}[] = [];
+            let val_temp: { label: any;id: any;}[] = [];
 
-        // retrieve Payment List
-        let key_temp: { id: any;key: any;label:any;}[] = [];
-        let val_temp: { label: any;id: any;}[] = [];
-        if (myusers.payment.result?.data) {
-            let pylist = myusers.payment.result.data;
-            pylist.map((payment: any)=>{
-                payment.value.map((code: any) => {
-                    val_temp.push({
-                        label:code.name,
-                        id:code.code,
-                    })
-                    key_temp.push({
-                        id:code.code,
-                        key: payment.key,
-                        label: code.name,
+            if (myusers.payment.result?.data) {
+                let pylist = myusers.payment.result.data;
+                pylist.map((payment: any)=>{
+                    payment.value.map((code: any) => {
+                        val_temp.push({
+                            label:code.name,
+                            id:code.code,
+                        })
+                        key_temp.push({
+                            id:code.code,
+                            key: payment.key,
+                            label: code.name,
+                        })
                     })
                 })
-            })
-            setPaymentList(val_temp);
-            setKeyPaymentList(key_temp);
-        }
+                setPaymentList(val_temp);
+                setKeyPaymentList(key_temp);
+            }
 
-        if (cart) {
-            handleOpenSnack();
-        }
-
+            if (cart) {
+                handleOpenSnack();
+            }
+            
     }, [addProd,triggerUse,myusers,delCart])
 
     const handleCloseSnack = () => {
@@ -297,6 +304,8 @@ export default function index(props :boolean = false) {
 
     const deleteCart = (e : any) => {
         setDeleteCart(e);
+        setTriggerDelete(true);
+
         (
             triggerUse ? settriggerUse(false): settriggerUse(true)
         )
@@ -363,13 +372,13 @@ export default function index(props :boolean = false) {
                                 </TableRow>
                             </TableHead>
                             <TableBody> 
-                                {dtprod.map((row : any) => (
+                                {dtprod.map((row : any,index :any) => (
                                 < TableRow key = {row.product_name} sx = {{ '&:last-child td, &:last-child th': { border: 0 } }} > 
                                 <TableCell component = "th" scope = "row" >
                                   <Stack spacing = {1} direction = {"row"} > 
                                     <Button style={{minWidth:"4ch"}} onClick = {() => {
                                         handleClickOpenAlert("delete")
-                                        setProductTarget(row.idproduk)
+                                        setProductTarget(index)
                                     }}
                                     color = 'error' size = 'small' variant = "contained" > X
                                     </Button> 

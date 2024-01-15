@@ -27,6 +27,7 @@ export const loader = async ({request} : LoaderFunctionArgs) => {
 export default function addProduct () {
 
     const loadata = useLoaderData < typeof loader > ();
+    
     const revalidator = useRevalidator();
     const Search = styled('div')(({ theme }) => ({
         position: 'relative',
@@ -79,6 +80,8 @@ export default function addProduct () {
     const [attributesID, setAttributID] = React.useState(0);
     const [attributesDetail, setAttributesDetails] = React.useState(0);
     const [search, setSearch] = React.useState("");
+    const [modeScan, setModescan] = React.useState(true);
+    const [targetProduct, setTargetproduct] = React.useState(0);
 
     const AddToCart = async (item :any) => {
       
@@ -105,61 +108,60 @@ export default function addProduct () {
         }
     
         // update cart
+        console.log(oldcart?.length)
+        let skip = false;
         if (oldcart?.length > 0) {
-    
-            // Update cart
-            let skip = false;
-            let new_prod = false;
+  
+            // find data
+            // let obj = oldcart.find((o: { idproduk: any; } , idx: any) => o.idproduk === item.idproduk);
+            let obj = oldcart.find((p: any , idx: any) => {
 
-            oldcart.map((e:any)=>{
-
-              skip = false;
-
-              // check if same produk ID
-              if (item.idproduk === e.idproduk) {
-                console.log("same ID produk");
-                
-                // check if same attribute ID & value
-                if (parseInt(item.attribute[0]?.attribute_id) === parseInt(e.attribute[0]?.attribute_id) &&
-                 parseInt(item.attribute[0]?.value) === parseInt(e.attribute[0]?.value)) {
-
-                 // then update qty
-                 let final_checkout_qty = parseInt(e.qty_checkout) + parseInt(item.qty_checkout);
-                 Object.assign(e, { qty_checkout: final_checkout_qty });
-
-                 // push to cart
-                 cart.push(e);
-                 skip = true;
-                 console.log("log push to cart");
-
-
-                }else{
-
-                  if (skip == false) {
-                    console.log("same id produk but different attr");
-                    cart.push(item);
-                  }
-                  
+              if (p.idproduk == item.idproduk) {
+                if (p.attribute[0].attribute_id == item.attribute[0].attribute_id && p.attribute[0].value == item.attribute[0].value) {
+                    return p;
                 }
-
-              }else{
-                if (skip == false) {
-                  console.log("not same");
-                  cart.push(item);
-                }
-                  
-              }
-
-              // push to cart
-              if (skip == false && new_prod == false) {
-                console.log("push cart outside");
-                cart.push(e);
               }
 
             })
 
-            
-    
+            if (obj?.idproduk) {
+              console.log("Data found");
+              
+              
+              // check if same produk ID, Update QTY
+              if (item.idproduk === obj.idproduk) {
+
+                // if same attribute, update QTY
+                if (parseInt(item.attribute[0]?.attribute_id) === parseInt(obj.attribute[0]?.attribute_id) && parseInt(item.attribute[0]?.value) === parseInt(obj.attribute[0]?.value)) {
+
+                  // then update qty
+                  console.log("Just Update QTY");
+                  let final_checkout_qty = parseInt(obj.qty_checkout) + parseInt(item.qty_checkout);
+                  Object.assign(item, { qty_checkout: final_checkout_qty });
+                  skip = true;
+
+                }else{
+
+                  // New Product
+                  console.log(obj);
+                  console.log(item);
+                  
+                  console.log("add new product in");
+                  Object.assign(item, { qty_checkout: qty });
+
+                }
+
+              }
+
+            }else{
+
+              // New Product
+              console.log("add new product");
+              Object.assign(item, { qty_checkout: qty });
+
+            }
+
+            cart.push(item);
     
         }else{
     
@@ -167,17 +169,39 @@ export default function addProduct () {
             console.log("new cart");
             Object.assign(item, { qty_checkout: qty });
             cart.push(item);
-    
         }
+        
+         // final retrieve
+         if (oldcart?.length > 0) {
+          oldcart.map((p:any) =>{
+            
+            // fill new data if the product id is not the same
+            if(p.idproduk != item.idproduk){
+              cart.push(p);
+            }
+
+            // fill data if the product id same and filter again the attribute
+            if (p.idproduk === item.idproduk ) {
+              if (parseInt(p.attribute[0]?.attribute_id) == parseInt(item.attribute[0]?.attribute_id)) {    
+                if (parseInt(p.attribute[0]?.value) != parseInt(item.attribute[0]?.value)) {
+                  console.log("fill data if the product id same and filter again the attribute");
+                  cart.push(p);
+                }            
+              }
+            }
+
+          })
+        }
+
         
         console.log("END");
         setBadges(cart.length); // update badges cart
-        localStorage.setItem("cart",JSON.stringify(cart)); // set cart
         setAttributID(0); // reset value
         setAttributes({}); // reset value
         setAttributesDetails(0); // reset value
         setQty(1) // reset value
         revalidator.revalidate();
+        localStorage.setItem("cart",JSON.stringify(cart)); // set cart
         handleClose();
       }
     
@@ -279,6 +303,7 @@ export default function addProduct () {
       React.useEffect(()=>{
         
         (async () => {
+
             console.log("use efect call");
             let jk = await getProducts(loadata.secret,search,page,12)
             let dataprod :any[] = [];
@@ -287,7 +312,23 @@ export default function addProduct () {
             })
             setTotalPage(jk.pagination.total_page);
             setMyProduct(dataprod)
-            setLoading(false)
+
+            if (modeScan) {
+              console.log(jk.data);
+              jk.data?.find((p: any , idx: any) => {
+
+                if (p.nama_produk == search) {
+                  handleClickOpen(p)
+                  // AddToCart(p)
+                }
+  
+              })
+            }
+
+            setTimeout(() => {
+              setLoading(false)
+            }, 800);
+            
             
         })();
         
@@ -314,6 +355,7 @@ export default function addProduct () {
                                     <Icon>search</Icon>
                                 </SearchIconWrapper>
                                 <StyledInputBase
+                                    autoFocus
                                     placeholder="Search…"
                                     inputProps={{ 'aria-label': 'search' }}
                                     onKeyUp={(e :any) => {
@@ -340,6 +382,7 @@ export default function addProduct () {
                                     textAlign:"center",
                                 }}>
                                     <div onClick={()=>{
+                                        // AddToCart(item)
                                         handleClickOpen(item)
                                     }}>
                                         <Box 
