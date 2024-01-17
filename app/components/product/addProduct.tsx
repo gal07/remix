@@ -1,5 +1,5 @@
 import { Search } from "@mui/icons-material";
-import { Backdrop, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormHelperText, Grid, Icon, IconButton, InputBase, InputLabel, MenuItem, Pagination, Select, Stack, TextField, Typography, alpha, styled } from "@mui/material";
+import { Backdrop, Badge, Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Fab, FormControl, FormHelperText, Grid, Icon, IconButton, InputBase, InputLabel, MenuItem, Pagination, Select, Stack, TextField, Typography, alpha, styled } from "@mui/material";
 import { LoaderFunctionArgs, json } from "@remix-run/node";
 import { useLoaderData, useRevalidator } from "@remix-run/react";
 import React from "react";
@@ -80,11 +80,14 @@ export default function addProduct () {
     const [attributesID, setAttributID] = React.useState(0);
     const [attributesDetail, setAttributesDetails] = React.useState(0);
     const [search, setSearch] = React.useState("");
-    const [modeScan, setModescan] = React.useState(true);
+    const [modeScan, setModescan] = React.useState(false);
     const [targetProduct, setTargetproduct] = React.useState(0);
+    
 
     const AddToCart = async (item :any) => {
-      
+        console.log("masuk add to cart");
+        console.log(item);
+        
         let oldcart = JSON.parse(localStorage.getItem('cart') || '{}');
         let cart = [];
 
@@ -117,13 +120,18 @@ export default function addProduct () {
             let obj = oldcart.find((p: any , idx: any) => {
 
               if (p.idproduk == item.idproduk) {
-                if (p.attribute[0].attribute_id == item.attribute[0].attribute_id && p.attribute[0].value == item.attribute[0].value) {
+                if (p.attribute?.length > 0) {
+                  if (p.attribute[0]?.attribute_id == item.attribute[0]?.attribute_id && p.attribute[0]?.value == item.attribute[0]?.value) {
+                    return p;
+                  }
+                }else{
                     return p;
                 }
               }
 
             })
-
+            console.log(obj);
+            
             if (obj?.idproduk) {
               console.log("Data found");
               
@@ -132,14 +140,18 @@ export default function addProduct () {
               if (item.idproduk === obj.idproduk) {
 
                 // if same attribute, update QTY
-                if (parseInt(item.attribute[0]?.attribute_id) === parseInt(obj.attribute[0]?.attribute_id) && parseInt(item.attribute[0]?.value) === parseInt(obj.attribute[0]?.value)) {
+                if (obj.attribute?.length > 0){
+                  if (parseInt(item.attribute[0]?.attribute_id) === parseInt(obj.attribute[0]?.attribute_id) && parseInt(item.attribute[0]?.value) === parseInt(obj.attribute[0]?.value)) {
 
-                  // then update qty
-                  console.log("Just Update QTY");
-                  let final_checkout_qty = parseInt(obj.qty_checkout) + parseInt(item.qty_checkout);
-                  Object.assign(item, { qty_checkout: final_checkout_qty });
-                  skip = true;
+                    // then update qty
+                    console.log(item.attribute[0]?.value);
+                    console.log(obj.attribute[0]?.value);
+                    
+                    console.log("Just Update QTY");
+                    let final_checkout_qty = parseInt(obj.qty_checkout) + parseInt(item.qty_checkout);
+                    Object.assign(item, { qty_checkout: final_checkout_qty });
 
+                  }
                 }else{
 
                   // New Product
@@ -147,7 +159,8 @@ export default function addProduct () {
                   console.log(item);
                   
                   console.log("add new product in");
-                  Object.assign(item, { qty_checkout: qty });
+                  let final_checkout_qty = parseInt(obj.qty_checkout) + parseInt(item.qty_checkout);
+                  Object.assign(item, { qty_checkout: final_checkout_qty });
 
                 }
 
@@ -167,7 +180,7 @@ export default function addProduct () {
     
             // Add new cart
             console.log("new cart");
-            Object.assign(item, { qty_checkout: qty });
+            Object.assign(item, { qty_checkout: qty});
             cart.push(item);
         }
         
@@ -182,11 +195,13 @@ export default function addProduct () {
 
             // fill data if the product id same and filter again the attribute
             if (p.idproduk === item.idproduk ) {
+              if(p.attribute?.length > 0){
               if (parseInt(p.attribute[0]?.attribute_id) == parseInt(item.attribute[0]?.attribute_id)) {    
                 if (parseInt(p.attribute[0]?.value) != parseInt(item.attribute[0]?.value)) {
                   console.log("fill data if the product id same and filter again the attribute");
                   cart.push(p);
                 }            
+              }
               }
             }
 
@@ -199,9 +214,10 @@ export default function addProduct () {
         setAttributID(0); // reset value
         setAttributes({}); // reset value
         setAttributesDetails(0); // reset value
+        setOpenProduct({}); // reset value
         setQty(1) // reset value
-        revalidator.revalidate();
         localStorage.setItem("cart",JSON.stringify(cart)); // set cart
+        revalidator.revalidate();
         handleClose();
       }
     
@@ -299,37 +315,58 @@ export default function addProduct () {
         setSearch(v)
     
       }
+
+      const [preventLoop, setPreventLoop] = React.useState(0);
+      
     
       React.useEffect(()=>{
-        
-        (async () => {
 
-            console.log("use efect call");
-            let jk = await getProducts(loadata.secret,search,page,12)
+        if (preventLoop == 2) {
+          setPreventLoop(1)
+        }
+
+        (async () => {
+            
+          if(preventLoop <= 1){
+            let jk = await getProducts(loadata.secret,search,page,12,(modeScan == true ? 1:0))
             let dataprod :any[] = [];
             jk.data.map((el :any)=>{
                 dataprod.push(el)                
             })
             setTotalPage(jk.pagination.total_page);
             setMyProduct(dataprod)
-
-            if (modeScan) {
+            
+            if (modeScan == true) {
+              setPreventLoop(2);
               console.log(jk.data);
               jk.data?.find((p: any , idx: any) => {
 
-                if (p.nama_produk == search) {
-                  handleClickOpen(p)
-                  // AddToCart(p)
+                if (p.barcode_attribute == search) {
+                  // If found attributes, show pop up to select attributes, if without attributes not show popup and go to cart.
+                  console.log("add to cart from scan barcode");
+                  AddToCart(p)        
+                }
+                // if scan with primary barcode
+                else if (p.barcode == search) {
+                  console.log("add to cart from scan barcode 2");
+                  // If found attributes, show pop up to select attributes, if without attributes not show popup and go to cart.
+                  if(p.attributes.length > 0){
+                    handleClickOpen(p)                 
+                  }else{
+                    AddToCart(p)
+                  }
+
                 }
   
               })
             }
 
             setTimeout(() => {
+              // (2)
               setLoading(false)
             }, 800);
             
-            
+          }
         })();
         
       },[search,badges,page])
@@ -342,104 +379,132 @@ export default function addProduct () {
                 <Box boxShadow={2}>
                     
                     {/* content product */}
-                    <Grid container sx={{margin:"0.5em"}} xs={12} md={12} lg={12}>
+                    <Grid>
+                      <Grid container sx={{margin:"0.5em"}} xs={12} md={12} lg={12}>
 
+                          <Grid item xs={12} md={12} sx={{
+                              marginBottom:"1em",
+                              marginLeft:"-1em",
+                              minWidth:{sx: "34ch",md: "97ch"}
+                          }}>
+                              <Search>
+                                  <SearchIconWrapper>
+                                      <Icon>search</Icon>
+                                  </SearchIconWrapper>
+                                  <StyledInputBase
+                                      autoFocus={(modeScan == true ? true:false)}
+                                      onBlur={()=>{
+                                        setModescan(false)
+                                      }}
+                                      onFocus={()=>{
+                                        setModescan(true)
+                                      }}
+                                      placeholder="Search…"
+                                      inputProps={{ 'aria-label': 'search' }}
+                                      onKeyUp={(e :any) => {
+                                          if (e.key === "Enter") {
+                                              searchProduct((e.target as HTMLInputElement).value)
+                                              e.preventDefault();
+                                          }
+                                      
+                                      }}
+                                      // defaultValue={}
+                                  />
+                              </Search>
+                          </Grid>
 
-                        <Grid item xs={12} md={12} sx={{
-                            marginBottom:"1em",
-                            marginLeft:"-1em",
-                            minWidth:{sx: "34ch",md: "97ch"}
-                        }}>
-                            <Search>
-                                <SearchIconWrapper>
-                                    <Icon>search</Icon>
-                                </SearchIconWrapper>
-                                <StyledInputBase
-                                    autoFocus
-                                    placeholder="Search…"
-                                    inputProps={{ 'aria-label': 'search' }}
-                                    onKeyUp={(e :any) => {
-                                        if (e.key === "Enter") {
-                                            searchProduct((e.target as HTMLInputElement).value)
-                                            e.preventDefault();
-                                        }
-                                    
-                                    }}
-                                    // defaultValue={}
-                                />
-                            </Search>
-                        </Grid>
+                          {
+                              loading == true ? 
+                              <Grid item xs={12} md={12}>
+                                  <Stack alignItems="center">
+                                      <CircularProgress />
+                                  </Stack>
+                              </Grid>:
+                              myproduct.map((item: any) => (
+                                  <Grid key={item.nama_produk+(item.attributes[0] ? item.attributes[0].name:item.pidr_string)} item xs={6} md={2} lg={2} sx={{
+                                      textAlign:"center",
+                                  }}>
+                                      <div onClick={()=>{
+                                          // If found attributes, show pop up to select attributes, if without attributes not show popup and go to cart.
+                                          if(item.attributes[0]?.name){
+                                            handleClickOpen(item)                 
+                                          }else{
+                                            AddToCart(item)
+                                          }
+                                      }}>
+                                          <Box 
+                                          boxShadow={1} 
+                                          sx={{
+                                              // margin:"0.2em",
+                                              // width:"10ch",
+                                              // backgroundColor:"orangered"
+                                              alignItems:"center",
+                                              padding:"1em"
+                                          }}>
+                                              <Box
+                                              component="img"
+                                              sx={{
+                                                  maxHeight: { xs: 60, md: 100 },
+                                                  maxWidth: { xs: 350, md: 250 },
+                                                  // backgroundColor:"yellow"
+                                              }}
+                                              alt={item.nama_produk}
+                                              src={item.imageList[0]}
+                                              />
 
-                        {
-                            loading == true ? 
-                            <Grid item xs={12} md={12}>
-                                <Stack alignItems="center">
-                                    <CircularProgress />
-                                </Stack>
-                            </Grid>:
-                            myproduct.map((item: any) => (
-                                <Grid item xs={6} md={2} lg={2} sx={{
-                                    textAlign:"center",
-                                }}>
-                                    <div onClick={()=>{
-                                        // AddToCart(item)
-                                        handleClickOpen(item)
-                                    }}>
-                                        <Box 
-                                        boxShadow={1} 
-                                        sx={{
-                                            // margin:"0.2em",
-                                            // width:"10ch",
-                                            // backgroundColor:"orangered"
-                                            alignItems:"center",
-                                            padding:"1em"
-                                        }}>
-                                            <Box
-                                            component="img"
-                                            sx={{
-                                                maxHeight: { xs: 60, md: 100 },
-                                                maxWidth: { xs: 350, md: 250 },
-                                                // backgroundColor:"yellow"
-                                            }}
-                                            alt={item.nama_produk}
-                                            src={item.imageList}
-                                            />
+                                              <Typography noWrap variant="body2" fontSize={10}>
+                                                  {item.nama_produk}
+                                              </Typography>
+                                              <Typography variant="caption">
+                                                  {item.pidr_string}
+                                              </Typography>
 
-                                            <Typography noWrap variant="body2" fontSize={10}>
-                                                {item.nama_produk}
-                                            </Typography>
-                                            <Typography variant="caption">
-                                                {item.pidr_string}
-                                            </Typography>
+                                          </Box> 
+                                      </div>      
+                                  </Grid>
+                              ))
+                          }
 
-                                        </Box> 
-                                    </div>      
-                                </Grid>
-                            ))
-                        }
+                          <Grid item xs={12} md={12}>
+                              <Stack spacing={3} sx={{alignItems:"center",margin:"2em"}}>
+                                  <Pagination 
+                                      count={totalPage} 
+                                      showFirstButton 
+                                      showLastButton
+                                      onChange={(e,value)=>{
+                                          setpage(value)
+                                          setSearch("")
+                                          setLoading(true)
+                                      }}
+                                      variant="outlined" 
+                                      shape="rounded"
+                                  />
+                              </Stack>
+                          </Grid>
 
-                        <Grid item xs={12} md={12}>
-                            <Stack spacing={3} sx={{alignItems:"center",margin:"2em"}}>
-                                <Pagination 
-                                    count={totalPage} 
-                                    showFirstButton 
-                                    showLastButton
-                                    onChange={(e,value)=>{
-                                        setpage(value)
-                                        setSearch("")
-                                        setLoading(true)
-                                    }}
-                                    variant="outlined" 
-                                    shape="rounded"
-                                />
-                            </Stack>
-                        </Grid>
-
+                      </Grid>
                     </Grid>
 
                 </Box>
             </div>
             {AddProduct(attributes)}
+            <Box sx={{ '& > :not(style)': { m: 1 } }}>
+                <Badge sx={{
+                    position: "fixed",
+                    bottom: (theme) => theme.spacing(2),
+                    right: (theme) => theme.spacing(2)
+                    }}>
+                <Fab 
+                    color={(modeScan == true ? "primary":"error")}
+                    aria-label="add"
+                    onClick={()=>{
+                        setModescan((modeScan == true ? false:true))
+                    }}
+                    >
+                <Icon>barcode_reader</Icon>
+                </Fab>
+                </Badge>
+            </Box>
         </div>
     );
 }
