@@ -92,7 +92,7 @@ export default function Appbar() {
     >
       <List>
         {menu.map((text, index) => (
-          <NavLink to={urls[index]}>
+          <NavLink key={urls[index]+index} to={urls[index]}>
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>

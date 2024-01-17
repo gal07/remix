@@ -11,6 +11,7 @@ import {
   ScrollRestoration,
   isRouteErrorResponse,
   useLoaderData,
+  useLocation,
   useNavigation,
   useRevalidator,
   useRouteError,
@@ -133,7 +134,9 @@ export default function App() {
   const loaddata = useLoaderData < typeof loader > ();
   const [companyid, setCompanyid] = React.useState(loaddata.companyid);
   const [open, setOpen] = React.useState(false);
-  console.log(companyid);
+  const location = useLocation();
+
+  console.log(location);
   
   React.useEffect(()=>{
 
@@ -190,7 +193,7 @@ export default function App() {
       </head>
       <body>
         
-        {(companyid > 0 ? <Appbar />:"")}
+        {(location.pathname == "/login" ? "":<Appbar />)}
         
         <Container maxWidth="xl">
           <CssBaseline />

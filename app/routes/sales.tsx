@@ -24,7 +24,7 @@ import Icon from '@mui/material/Icon';
 import {useSubmit} from "@remix-run/react";
 import Input from '@mui/material/Input';
 import {FormEvent} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, Alert, Backdrop, CircularProgress} from '@mui/material';
+import {Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Snackbar, Alert, Backdrop, CircularProgress, Badge, FormControl} from '@mui/material';
 import {commitSession, getSession, requireUserSession} from '~/sessions';
 import { styled, lighten, darken } from '@mui/system';
 import addProduct from '../components/product/addProduct';
@@ -152,140 +152,177 @@ function numberWithCommas(x: any) {
 }
 
 export default function index(props :boolean = false) {
-    const myusers = useLoaderData < typeof loader > ();
+
+    const myusers = useLoaderData < typeof loader > ();    
     const [cart, setCart] = React.useState({});
     const [total, setTotal] = React.useState<any | any>(0);
     const [discount, setDiscount] = React.useState<any | any>(0);
     const [voucher, setVoucher] = React.useState("");
     const [useVoucher, setuseVoucher] = React.useState(false);
+    const [triggerDelete, setTriggerDelete] = React.useState(false);
     const [delCart, setDeleteCart] = React.useState(0);
     const [triggerUse, settriggerUse] = React.useState(props);
     const [snack, setSnack] = React.useState(false);
     const [paymentList, setPaymentList] = React.useState<any | any>();
     const [keyPaymentList, setKeyPaymentList] = React.useState<any | any>();
-    const [product, setProduct] = React.useState<any | any>(myusers.product);
     const [addProd, setAddProd] = React.useState(false);
+    const [qtyUpdate, setqtyUpdate] = React.useState(0);
+    const [qtyUpdateModal, setqtyUpdateModal] = React.useState(false);
+    const [indexProd, setIndexProd] = React.useState<any | any>(0);
+    const [nameProd, setnameProd] = React.useState<any | any>(0);
+    const [currentQty, setcurrentQty] = React.useState<any | any>(1);
 
     React.useEffect(() => {
 
-        // remove voucher
-        if (myusers?.act && myusers?.act == "delete_voucher") {            
-            setVoucher("");
-            setDiscount(0);
-            setuseVoucher(false);
-            localStorage.removeItem("voucher");
-        }
+            // Update QTY in localstorage
+            console.log("update QTY");
+            if (nameProd != 0 && currentQty != 0) {
+                
+                let getproduct = JSON.parse(localStorage.getItem("cart") || '{}');
+                let update: any[] = [];
+                if (getproduct instanceof Array) {
+                    // update
+                    getproduct.map((val, idx, []) => {
+                        
+                        if (idx == indexProd) {
+                            val.qty_checkout = qtyUpdate
+                        }
 
-        // collect cart product
-        let getData = JSON.parse(localStorage.getItem("cart") || '{}');
-        let UpdateData: any[] = [];
+                        update.push(val);
+                    });
+                    localStorage.setItem("cart",JSON.stringify(update))
+                    setcurrentQty(0)
+                    setnameProd(0)
+                    setIndexProd(0)
+                    settriggerUse(false)
+                }
+            }
 
-        // Update Cart
-        if (getData instanceof Array) {
+            // remove voucher
+            if (myusers?.act && myusers?.act == "delete_voucher") {            
+                setVoucher("");
+                setDiscount(0);
+                setuseVoucher(false);
+                localStorage.removeItem("voucher");
+            }
 
-            getData.map((val, idx, []) => {
+            // collect cart product
+            let getData = JSON.parse(localStorage.getItem("cart") || '{}');
+            let UpdateData: any[] = [];
 
-                if (val.idproduk != delCart) {
+            // Update Cart
+            if (getData instanceof Array) {
+
+            
+                // Delete product from cart
+                if (triggerDelete == true) {
+                    delete getData[delCart];
+                }
+                
+                getData.map((val, idx, []) => {
                     UpdateData.push(val);
+                });
+
+
+                // collect voucher value
+                if (myusers.object != null) {
+                    let obj = myusers.object;
+                    (obj.voucher ? 
+                        localStorage.setItem("voucher",JSON.stringify(obj.voucher))
+                    :"")
                 }
 
-            });
+                localStorage.removeItem("cart");
+                localStorage.setItem("cart", JSON.stringify(UpdateData));
 
-            // collect voucher value
-            if (myusers.object != null) {
-                let obj = myusers.object;
-                (obj.voucher ? 
-                    localStorage.setItem("voucher",JSON.stringify(obj.voucher))
-                :"")
             }
 
-            localStorage.removeItem("cart");
-            localStorage.setItem("cart", JSON.stringify(UpdateData));
-
-        }
-
-        // Retrieve Cart
-        let data = JSON.parse(localStorage.getItem("cart") || '{}');
-        if (data instanceof Array) {
-
+            // Retrieve Cart
             let data = JSON.parse(localStorage.getItem("cart") || '{}');
-            
-            let dtprod: {
-                product_name: any;
-                price: any;
-                qty: any;
-                total: any;
-            }[] = [];
-            let getTotal = 0;
+            if (data instanceof Array) {
 
-            data.map((val : any, idx : any, []) => {
+                let data = JSON.parse(localStorage.getItem("cart") || '{}');
+                
+                let dtprod: {
+                    product_name: any;
+                    price: any;
+                    qty: any;
+                    total: any;
+                }[] = [];
+                let getTotal = 0;
 
-                let opsdata = {
-                    "product_name": val.nama_produk,
-                    "price": val.pidr_string,
-                    "qty": val.qty_checkout,
-                    "total": parseInt(val.pidr) * parseInt(val.qty_checkout)
-                };
+                data.map((val : any, idx : any, []) => {
 
-                getTotal += parseInt(val.pidr) * parseInt(val.qty_checkout);
-                dtprod.push(opsdata);
+                    let opsdata = {
+                        "product_name": val.nama_produk,
+                        "price": val.pidr_string,
+                        "qty": val.qty_checkout,
+                        "total": parseInt(val.pidr) * parseInt(val.qty_checkout)
+                    };
 
-            });
+                    getTotal += parseInt(val.pidr) * parseInt(val.qty_checkout);
+                    dtprod.push(opsdata);
 
-            let finalGetdiscount = 0
-            let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
-            
-            if (getVoucher?.voucher_type) {
+                });
 
-                // set state voucher code
-                setVoucher(getVoucher.voucher_code)
-                setuseVoucher(true)
-                switch (getVoucher.voucher_type) {
-                    case "percent":
-                        let find = getTotal * parseInt(getVoucher.value_total) / 100;
-                        finalGetdiscount = (getVoucher.max_voucher_total > 0 ? (find > getVoucher.max_voucher_total ? getVoucher.max_voucher_total:find):find);
-                        break;
-                    case "value":
-                        finalGetdiscount = parseInt(getVoucher.value_total);                        
-                        break;
-                    default:
-                        break;
+                let finalGetdiscount = 0
+                let getVoucher = JSON.parse(localStorage.getItem("voucher") || '0');
+                
+                if (getVoucher?.voucher_type) {
+
+                    // set state voucher code
+                    setVoucher(getVoucher.voucher_code)
+                    setuseVoucher(true)
+                    switch (getVoucher.voucher_type) {
+                        case "percent":
+                            let find = getTotal * parseInt(getVoucher.value_total) / 100;
+                            finalGetdiscount = (getVoucher.max_voucher_total > 0 ? (find > getVoucher.max_voucher_total ? getVoucher.max_voucher_total:find):find);
+                            break;
+                        case "value":
+                            finalGetdiscount = parseInt(getVoucher.value_total);                        
+                            break;
+                        default:
+                            break;
+                    }
                 }
+                
+                setCart(data);
+                setTotal(getTotal);            
+                setDiscount(finalGetdiscount);
+
             }
-            
-            setCart(data);
-            setTotal(getTotal);            
-            setDiscount(finalGetdiscount);
 
-        }
+            // retrieve Payment List
+            let key_temp: { id: any;key: any;label:any;}[] = [];
+            let val_temp: { label: any;id: any;}[] = [];
 
-        // retrieve Payment List
-        let key_temp: { id: any;key: any;label:any;}[] = [];
-        let val_temp: { label: any;id: any;}[] = [];
-        if (myusers.payment.result?.data) {
-            let pylist = myusers.payment.result.data;
-            pylist.map((payment: any)=>{
-                payment.value.map((code: any) => {
-                    val_temp.push({
-                        label:code.name,
-                        id:code.code,
-                    })
-                    key_temp.push({
-                        id:code.code,
-                        key: payment.key,
-                        label: code.name,
+            if (myusers.payment.result?.data) {
+                let pylist = myusers.payment.result.data;
+                pylist.map((payment: any)=>{
+                    payment.value.map((code: any) => {
+                        val_temp.push({
+                            label:code.name,
+                            id:code.code,
+                        })
+                        key_temp.push({
+                            id:code.code,
+                            key: payment.key,
+                            label: code.name,
+                        })
                     })
                 })
-            })
-            setPaymentList(val_temp);
-            setKeyPaymentList(key_temp);
-        }
+                setPaymentList(val_temp);
+                setKeyPaymentList(key_temp);
+            }
 
-        if (cart) {
-            handleOpenSnack();
-        }
+            if (cart) {
+                handleOpenSnack();
+            }
 
-    }, [addProd,triggerUse,myusers])
+            setTriggerDelete(false)
+            settriggerUse(false)
+            
+    }, [addProd,triggerUse,myusers,delCart])
 
     const handleCloseSnack = () => {
       setSnack(false);
@@ -297,9 +334,70 @@ export default function index(props :boolean = false) {
 
     const deleteCart = (e : any) => {
         setDeleteCart(e);
+        setTriggerDelete(true);
+
         (
             triggerUse ? settriggerUse(false): settriggerUse(true)
         )
+    }
+
+    const updateQty = (product: any,index: any) => {
+
+        setIndexProd(index)
+        setnameProd(product.product_name)
+        setcurrentQty(product.qty)
+        setqtyUpdateModal(true);
+        
+    }
+
+    const updateQtyModal = (dataproduct :any) => {
+        return(
+    
+            <React.Fragment>
+              <Dialog
+                open={qtyUpdateModal}
+                onClose={()=>{
+                    setqtyUpdateModal(false)
+                }}
+              >
+                <DialogTitle>Update QTY {nameProd}</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Please insert Quantity.
+                  </DialogContentText>
+                  <Box
+                    noValidate
+                    component="form"
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      m: 'auto',
+                      width: 'fit-content',
+                      float:'left'
+                    }}
+                  >
+
+                    <FormControl sx={{ mt: 2, minWidth: 120 }}>
+                      <TextField InputProps={{ inputProps: { min: 1 } }} label="Qty" id="outlined-size-normal" defaultValue={currentQty} type="number" onChange={(event: any) =>{
+                        setqtyUpdate(event.target.value);
+                      }} />
+                    </FormControl>
+                    
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={()=>{
+                        settriggerUse(true)
+                        setqtyUpdateModal(false)
+                  }}>Update</Button>
+                  <Button onClick={()=>{
+                        setqtyUpdateModal(false)
+                  }}>Close</Button>
+                </DialogActions>
+              </Dialog>
+            </React.Fragment>
+      
+        );
     }
 
     const TableProductCheckout = (
@@ -344,58 +442,60 @@ export default function index(props :boolean = false) {
             deleteCart(productTarget);
             handleCloseAlert(e);
         }
-    
+
         return (
     
             <div> 
                 {/* Checkout item list section */}
                 <Box sx = {{marginTop:"1em",textAlign:"center"}} > <Typography gutterBottom = {true} variant = "h4" component = "h4" > Checkout</Typography></Box>
-                <Box> 
-                    < TableContainer component = {Paper} > 
-                        <Table sx = {{ minWidth: 650,width:"100%" }} aria-label = "simple table" > 
+                <Box sx={{height: "50ch"}}> 
+                    < TableContainer component = {Paper} sx={{maxHeight:"76%"}}> 
+                        <Table sx = {{ minWidth: "auto",width:"100%",height:"38ch"}} stickyHeader aria-label="sticky table"> 
                             <TableHead>
                                 <TableRow>
                                     <TableCell width={"4ch"}></TableCell>
-                                    <TableCell> List Item</TableCell>
+                                    <TableCell align = "left"> List Item</TableCell>
                                     {/* < TableCell align = "right" > Price</TableCell>
                                     < TableCell align = "right" > Quantity</TableCell> */}
                                     < TableCell align = "right" > Total</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody> 
-                                {dtprod.map((row : any) => (
-                                < TableRow key = {row.product_name} sx = {{ '&:last-child td, &:last-child th': { border: 0 } }} > 
-                                <TableCell component = "th" scope = "row" >
-                                  <Stack spacing = {1} direction = {"row"} > 
-                                    <Button style={{minWidth:"4ch"}} onClick = {() => {
-                                        handleClickOpenAlert("delete")
-                                        setProductTarget(row.idproduk)
-                                    }}
-                                    color = 'error' size = 'small' variant = "contained" > X
-                                    </Button> 
-                                  </Stack>
-                                </TableCell>
-                                < TableCell component = "th" scope = "row" > 
-                                    <Typography variant='body2'>{row.product_name}</Typography>
-                                    <Typography variant='caption'>{(row.attribute_name ? " - "+row.attribute_name:"")}</Typography>
-                                    <Typography variant='body2'>{row.price} x {row.qty} Pcs</Typography>
-                                </TableCell>
-                                {/* < TableCell align = "right" > {row.price}</TableCell>
-                                < TableCell align = "right" > {row.qty}</TableCell> */}
-                                < TableCell align = "right" > Rp.{numberWithCommas(row.total)}</TableCell></TableRow>))}
+                                {dtprod.map((row : any,index :any) => (
+                                    <TableRow key = {row.product_name+(row.attribute_name ? row.attribute_name:row.price)} sx = {{ '&:last-child td, &:last-child th': { border: 0 } }} > 
+                                        <TableCell component = "th" scope = "row" >
+                                        <Stack spacing = {1} direction = {"row"} > 
+                                            <Button style={{minWidth:"4ch"}} onClick = {() => {
+                                                handleClickOpenAlert("delete")
+                                                setProductTarget(index)
+                                            }}
+                                            color = 'error' size = 'small' variant = "contained" > X
+                                            </Button> 
+                                        </Stack>
+                                        </TableCell>
+                                        < TableCell onClick={() => updateQty(row,index)} component = "th" scope = "row" > 
+                                            <Typography variant='body2'>{row.product_name}</Typography>
+                                            <Typography variant='caption'>{(row.attribute_name ? " - "+row.attribute_name:"")}</Typography>
+                                            <Typography variant='body2'>{row.price} x {row.qty} Pcs</Typography>
+                                        </TableCell>
+                                        {/* < TableCell align = "right" > {row.price}</TableCell>
+                                        < TableCell align = "right" > {row.qty}</TableCell> */}
+                                        < TableCell align = "right" > Rp.{numberWithCommas(row.total)}</TableCell>
+                                    </TableRow>
+                                ))}
                             </TableBody>
                         </Table>
                     </TableContainer> 
                     
                     < Stack useFlexGap flexWrap = "wrap" direction = {"row"} sx = {{bgcolor:"#1976d2",color:"white"}} >
-                        <Grid xs = {6} md = {6} lg = {6} > 
+                        <Grid item xs = {6} md = {6} lg = {6} > 
                             <Box>
                                 < Typography margin = {"0.5em"} textAlign = {"left"} gutterBottom = {true} variant = "caption" component = "h5" > Total Before Discount</Typography>
                                 < Typography margin = {"0.5em"} textAlign = {"left"} gutterBottom = {true} variant = "caption" component = "h5" > Discount </Typography>
                                 < Typography margin = {"0.5em"} textAlign = {"left"} gutterBottom = {true} variant = "h5" component = "h5" > Total</Typography>
                             </Box>
                         </Grid> 
-                        < Grid xs = {6} md = {6} lg = {6} > 
+                        < Grid item xs = {6} md = {6} lg = {6} > 
                             <Box>
                                 < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "caption" component = "h5" > Rp.{numberWithCommas(parseInt(total))}</Typography>
                                 < Typography margin = {"0.5em"} textAlign = {"right"} gutterBottom = {true} variant = "caption" component = "h5" > Rp.{numberWithCommas((discount? parseInt(discount):0))}</Typography>
@@ -567,7 +667,7 @@ export default function index(props :boolean = false) {
             <div> 
                 < Stack direction = "column" justifyContent = "space-around" alignItems = "stretch" spacing = {0.5}> <Box bgcolor = {"#f5f5f5"} > 
                     <Stack useFlexGap flexWrap = "wrap" direction = {"row"} > 
-                        < Grid xs = {12} md = {12} lg = {12} > 
+                        < Grid item xs = {12} md = {12} lg = {12} > 
                             <Box> 
                                 < Autocomplete size="small" freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {users} sx = {{ width: 300}}
                                 renderInput = {
@@ -581,7 +681,7 @@ export default function index(props :boolean = false) {
                                 } />
                             </Box>
                         </Grid>
-                        < Grid xs = {12} md = {12} lg = {12} > 
+                        < Grid item xs = {12} md = {12} lg = {12} > 
                             <Form method = "POST" onSubmit={(e) => {
                                 handleSubmit(e, cart, (voucher == "" ? "check_voucher":"delete_voucher"),false)
                             }}>
@@ -603,7 +703,7 @@ export default function index(props :boolean = false) {
                                 </Box >
                             </Form>
                         </Grid>
-                        < Grid xs = {12} md = {12} lg = {12} > 
+                        < Grid item xs = {12} md = {12} lg = {12} > 
                             < Autocomplete size="small" freeSolo = {true} disablePortal id = "combo-box-demo" filterOptions = {filterOptions} options = {paymentList} sx = {{ width: 300}}
                                 renderInput = {
                                     (params) => <TextField sx = {{margin:"0.5em" }}{
@@ -618,7 +718,7 @@ export default function index(props :boolean = false) {
                             
                         </Grid> 
                 < Divider variant = "middle" /> 
-                <Grid xs = {12} md = {12} lg = {12} >
+                <Grid item xs = {12} md = {12} lg = {12} >
                     <Box sx = {{margin:"0em",marginTop:"0.5em"}} > 
                         <Form method = "POST" action = 'checkout' onSubmit = {
                         (e) => {
@@ -641,20 +741,23 @@ export default function index(props :boolean = false) {
     return (
         < div style = {{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }} > 
         <Grid container spacing = {2} sx = {{marginTop:"0.5em",width:"100%",height:"100%"}} > 
-            <Grid container xs = {12} md = {6}lg = {5} > 
+
+            <Grid item xs = {12} md = {6}lg = {5} > 
                 <Grid item xs = {12} md = {12}lg = {12} >
                     {TableProductCheckout(cart, total, discount, deleteCart)}
                     {TableTotalCheckout(voucher,paymentList,keyPaymentList)}
                 </Grid> 
             </Grid> 
 
-            < Grid container xs = {12} md = {4}lg = {7} >
+            < Grid item xs = {12} md = {4}lg = {7} >
                 <Grid item xs = {12} md = {12}lg = {12} >
                     {addProduct()}
                 </Grid>
             </Grid>
 
         </Grid>
+
+        {updateQtyModal([])}
 
         {( myusers.message != null ? 
             <Stack spacing={2} sx={{ width: '100%' }}>
